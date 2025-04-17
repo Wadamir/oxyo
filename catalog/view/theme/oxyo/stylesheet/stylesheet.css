@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 @font-face {
     font-family: 'simple-line-icons';
     src:
@@ -22,7 +24,7 @@ body,
 .gridlist .single-product .product-name,
 .gridlist .single-blog .blog-title,
 #title-holder #page-title {
-    font-family: 'Karla', sans-serif;
+    font-family: "Golos Text", sans-serif;
 }
 
 /* Primary color */
@@ -82,6 +84,7 @@ body,
 .contrast-heading,
 .contrast-font {
     font-family: 'Lora', serif;
+    font-family: "Nunito", sans-serif;
 }
 
 body.boxed-layout {
@@ -108,6 +111,7 @@ h6 {
     margin-top: 0;
     line-height: 1.4;
     font-weight: 400;
+    font-family: "Nunito", sans-serif;
 }
 
 h1 {
