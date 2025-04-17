@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <name>Oxyo template</name>
+    <code>oxyo_template100</code>
+    <version>1.0.0</version>
+    <author><![CDATA[<span style="color:#0066cc"><b>XDomus.ru</b></span>]]></author>
+    <link>//oxyo.ru/</link>
+    <file path="admin/controller/marketplace/install.php">
+		<operation error="skip">
+			<search><![CDATA['image/catalog/']]></search>
+			<add position="replace"><![CDATA[
+                'image/catalog/',
+                'catalog/controller/checkout/',
+                'catalog/controller/information/',
+                'catalog/controller/product/',
+			]]></add>
+		</operation>
+	</file>
+	<file path="system/library/db/mysqli.php">
+		<operation error="skip">
+			<search><![CDATA[$this->connection->query("SET SESSION sql_mode = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION'");]]></search>
+			<add position="replace"><![CDATA[$this->connection->query("SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION'");]]></add>
+		</operation>
+	</file>
+	<file path="system/library/template/twig.php">
+		<operation error="skip">
+			<search><![CDATA[$loader = new \Twig\Loader\ArrayLoader(array($filename . '.twig' => $code));]]></search>
+			<add position="replace"><![CDATA[
+                $l1 = new \Twig\Loader\ArrayLoader(array($filename . '.twig' => $code));
+                $l2 = new \Twig\Loader\FilesystemLoader([DIR_TEMPLATE]);
+                $loader = new \Twig\Loader\ChainLoader([$l1, $l2]);
+			]]></add>
+		</operation>
+	</file>
+</modification>
