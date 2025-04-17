@@ -32,4 +32,60 @@
 			]]></add>
 		</operation>
 	</file>
+    <file path="admin/controller/common/filemanager.php">
+		<operation error="log">
+			<search><![CDATA[jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF]]></search>
+			<add position="replace"><![CDATA[
+                jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF,svg,SVG,webp,WEBP
+            ]]></add>
+		</operation>
+		<operation error="log">
+			<search><![CDATA['jpg',]]></search>
+			<add position="after">
+				<![CDATA[						'svg','webp',]]>
+			</add>
+		</operation>
+		<operation error="log">
+			<search>
+				<![CDATA['image/jpeg',]]>
+			</search>
+			<add position="after">
+				<![CDATA[						'image/svg+xml','image/webp',]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/model/tool/image.php">
+		<operation error="log">
+			<search>
+				<![CDATA[$extension = pathinfo($filename, PATHINFO_EXTENSION);]]>
+			</search>
+			<add position="after">
+				<![CDATA[
+                    if('svg' == $extension || 'webp' == $extension) {
+                        if ($this->request->server['HTTPS']) {
+                            return HTTPS_CATALOG . 'image/' . $filename;
+                        } else {
+                            return HTTP_CATALOG . 'image/' . $filename;
+                        }
+                    }
+                ]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/model/tool/image.php">
+		<operation error="log">
+			<search><![CDATA[$extension = pathinfo($filename, PATHINFO_EXTENSION);]]></search>
+			<add position="after">
+				<![CDATA[
+                    if('svg' == $extension || 'webp' == $extension) {
+                        if ($this->request->server['HTTPS']) {
+                            return HTTPS_SERVER . 'image/' . $filename;
+                        } else {
+                            return HTTP_SERVER . 'image/' . $filename;
+                        }
+                    }
+                ]]>
+			</add>
+		</operation>
+	</file>
 </modification>
