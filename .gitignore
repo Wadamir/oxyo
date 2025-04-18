@@ -242,6 +242,8 @@
 !/catalog/view/javascript/
 !/catalog/view/javascript/digitalElephantFilter/
 
+!/catalog/view/javascript/bootstrap/
+
 /catalog/view/javascript/jquery/*
 !/catalog/view/javascript/jquery/
 /catalog/view/javascript/jquery/ui/*
@@ -276,3 +278,5 @@
 /system/*
 !/system/
 !/system/oxyo_template.ocmod.xml
+
+/storage/*

@@ -452,7 +452,7 @@
   
   <div class="tab-content">
     
-    <div class="tab-pane active" id="tab-description">
+    <div class="tab-pane show" id="tab-description">
     <?php echo $description; ?>
     </div>
     

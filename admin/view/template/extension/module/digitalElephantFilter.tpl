@@ -83,7 +83,7 @@
                         </ul>
 
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tab-setting-filter-panel-advanced">
+                            <div class="tab-pane show" id="tab-setting-filter-panel-advanced">
                                 <?php require_once 'digitalElephantFilter/filter_panel_advanced.tpl' ?>
                                 <?php require_once __DIR__ . '/digitalElephantFilter/other.tpl' ?>
                             </div>

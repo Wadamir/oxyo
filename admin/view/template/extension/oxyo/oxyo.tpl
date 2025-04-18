@@ -84,7 +84,7 @@
    
    <div class="tab-content">
    
-       <div class="tab-pane active" id="tab-status">
+       <div class="tab-pane show" id="tab-status">
        <?php require_once('panel_tabs/status.tpl'); ?>
        </div>
        

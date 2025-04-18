@@ -386,7 +386,7 @@ html.no-scroll body {
     }
 
     .wide_container.boxed-layout .outer-container {
-        max-width: 1320px;
+        max-width: 1420px;
     }
 }
 
@@ -7927,7 +7927,7 @@ div.ui-slider-range.ui-widget-header,
     height: 0;
 }
 
-.tab-content.has-carousel>.active {
+.tab-content.has-carousel>.show {
     height: auto;
 }
 
@@ -7936,7 +7936,7 @@ div.ui-slider-range.ui-widget-header,
     height: 0;
 }
 
-.document_ready .tab-content.has-carousel>.tab-pane.active .carousel {
+.document_ready .tab-content.has-carousel>.tab-pane.show .carousel {
     height: auto;
     overflow: visible;
 }
