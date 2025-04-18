@@ -134,7 +134,6 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
                 $images = false;
 
             if (isset($content['product']['id'])) {
-
                 $product = $model->getProduct($content['product']['id']);
                 if (is_array($product)) {
                     $product_link = $this->url->link('product/product', 'product_id=' . $content['product']['id']);
@@ -167,7 +166,7 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
                 $date_end = false;
             }
 
-            if (isset($product['image'])) {
+            if ($product && isset($product['image'])) {
                 $product_image = $model_image->resize($product['image'], $content['product']['img_w'], $content['product']['img_h']);
             } else {
                 $product_image = false;
@@ -180,12 +179,12 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
                 $image2 = false;
             }
 
-            if ((float)$product['special']) {
+            if ($product && isset($product['special']) && (float)$product['special']) {
                 $date_end = $this->model_extension_oxyo_oxyo->getSpecialEndDate($content['product']['id']);
             } else {
                 $date_end = false;
             }
-            if (strtotime($product['date_available']) > strtotime('-' . $this->config->get('newlabel_status') . ' day')) {
+            if ($product && isset($product['date_available']) && strtotime($product['date_available']) > strtotime('-' . $this->config->get('newlabel_status') . ' day')) {
                 $is_new = true;
             } else {
                 $is_new = false;
@@ -211,13 +210,13 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
                 'content_type' => $row['content_type'],
                 'html' => $html,
                 'product' => array(
-                    'name' => $product['name'],
-                    'id' => $product['product_id'],
-                    'minimum' => $product['minimum'] > 0 ? $product['minimum'] : 1,
+                    'name' => ($product && isset($product['name'])) ? $product['name'] : '',
+                    'id' => ($product && isset($product['product_id'])) ? $product['product_id'] : false,
+                    'minimum' => ($product && isset($product['minimum']) && $product['minimum'] > 0) ? $product['minimum'] : 1,
                     'link' => $product_link,
                     'image' => $product_image,
                     'image2' => $image2,
-                    'rating' => $product['rating'],
+                    'rating' => ($product && isset($product['rating'])) ? $product['rating'] : false,
                     'sale_end_date' => $date_end['date_end'],
                     'price' => $price,
                     'new_label' => $is_new,

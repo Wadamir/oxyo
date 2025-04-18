@@ -31,7 +31,7 @@ body,
 .primary-color,
 .cm_item .primary-color,
 .nav-tabs.text-center.nav-tabs-sm>li.active {
-    color: #179a94;
+    color: #f70082;
 }
 
 .primary-bg-color,
@@ -41,16 +41,16 @@ body,
 .nav-tabs>li.active>a,
 .nav-tabs>li.active>a:hover,
 .nav-tabs>li.active>a:focus {
-    background-color: #179a94;
+    background-color: #f70082;
 }
 
 .primary-color-border,
 .nav-tabs {
-    border-color: #179a94 !important;
+    border-color: #f70082 !important;
 }
 
 .link-hover-color:hover {
-    color: #179a94;
+    color: #f70082;
 }
 
 .menu-style {
@@ -75,7 +75,7 @@ body,
 }
 
 .price {
-    color: #179a94;
+    color: #f70082;
 }
 
 .product-name,
@@ -192,7 +192,7 @@ a:hover,
 a:focus,
 .menu-cell a:hover {
     text-decoration: none;
-    color: #179a94;
+    color: #f70082;
 }
 
 a.hover_uline:hover {
@@ -1733,7 +1733,7 @@ div.required .control-label:after {
 }
 
 #cart-content .totals tbody>tr:last-child>td:last-child {
-    color: #179a94;
+    color: #f70082;
 }
 
 #cart-content .btn-block {
@@ -2449,11 +2449,11 @@ div.required .control-label:after {
 }
 
 .menu-tag.new {
-    background: #179a94;
+    background: #f70082;
 }
 
 .menu-tag.new:before {
-    color: #179a94;
+    color: #f70082;
 }
 
 .menu-tag.hot {
@@ -5118,7 +5118,7 @@ a.btn-primary:active:focus,
 .btn-contrast,
 a.btn-contrast,
 .btn-contrast-outline:hover {
-    background-color: #179a94;
+    background-color: #f70082;
     border-color: transparent;
     color: #ffffff;
     opacity: 1;
@@ -5132,8 +5132,8 @@ a.btn-contrast:hover {
 
 .btn-contrast-outline {
     background-color: transparent;
-    border-color: #179a94;
-    color: #179a94;
+    border-color: #f70082;
+    color: #f70082;
 }
 
 .btn-light,
@@ -5794,7 +5794,7 @@ a.button-circle {
 }
 
 .sale_badge {
-    background: #179a94;
+    background: #f70082;
     color: #ffffff;
 }
 
@@ -6974,7 +6974,7 @@ a.button-circle {
 }
 
 .rating-stars input[type="radio"]:checked+label i:before {
-    color: #179a94;
+    color: #f70082;
     content: "\f005";
 }
 
@@ -7034,7 +7034,7 @@ a.button-circle {
 
 #review p.author .rating {
     display: block;
-    color: #179a94;
+    color: #f70082;
     margin-top: 2px;
 }
 
@@ -7392,7 +7392,7 @@ a.label-link:not(:hover) {
     height: 2px;
     width: 28px;
     margin: 5px 0;
-    background-color: #179a94;
+    background-color: #f70082;
 }
 
 /* Widgets Title Style 3 */
@@ -7913,7 +7913,7 @@ a.label-link:not(:hover) {
 div.ui-slider-range.ui-widget-header,
 .ui-state-default,
 .ui-widget-content .ui-state-default {
-    background: #179a94 !important;
+    background: #f70082 !important;
     outline: none;
 }
 

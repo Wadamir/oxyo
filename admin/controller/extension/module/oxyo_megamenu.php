@@ -112,9 +112,9 @@ class ControllerExtensionModuleOxyoMegamenu extends Controller
                     if ($error == true) {
                         $this->session->data['error_warning'] = $this->language->get('text_warning');
                     } else {
-
-                        if (isset($this->request->post['content']['subcategory']['category']) && ($this->request->post['content']['subcategory']['category']))
+                        if (isset($this->request->post['content']['subcategory']['category']) && ($this->request->post['content']['subcategory']['category'])) {
                             $this->request->post['content']['subcategory']['category'] = json_encode($this->request->post['content']['subcategory']['category'], true);
+                        }
                         $this->model_extension_oxyo_oxyo_megamenu->addMenu($this->request->post);
                         $this->session->data['success'] = $this->language->get('text_success');
                         $this->remove_cache();

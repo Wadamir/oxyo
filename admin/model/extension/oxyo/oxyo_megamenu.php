@@ -110,8 +110,10 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
         else
             $module_id = (isset($this->request->get['module_id']) && $this->request->get['module_id']) ? $this->request->get['module_id'] : 0;
         //$data['content']['categories']['categories'] = @json_decode(html_entity_decode($data['content']['categories']['categories']), true);
-
-        $this->db->query("INSERT INTO " . DB_PREFIX . "mega_menu SET name = '" . $this->db->escape(serialize($data['name'])) . "', description = '" . $this->db->escape(serialize($data['description'])) . "', icon = '" . $data['icon'] . "', parent_id = '" . $data['parent_id'] . "', module_id = '" . $module_id . "', item_type = '" . $data['item_type'] . "', show_title = '" . $data['show_title'] . "', disp_mobile_item = '" . $data['disp_mobile_item'] . "', link = '" . $data['link'] . "', new_window = '" . $data['new_window'] . "', status = '" . $data['status'] . "', position = '" . $data['position'] . "', submenu_width = '" . $data['submenu_width'] . "', rang='1000', content_width='" . $data['content_width'] . "', content_type='" . $data['content_type'] . "', content='" . $this->db->escape(json_encode($data['content'], true)) . "'");
+        // var_dump($data);
+        // exit;
+        $data_type = (isset($data['item_type']) && $data['item_type']) ? $data['item_type'] : 0;
+        $this->db->query("INSERT INTO " . DB_PREFIX . "mega_menu SET name = '" . $this->db->escape(serialize($data['name'])) . "', description = '" . $this->db->escape(serialize($data['description'])) . "', icon = '" . $data['icon'] . "', parent_id = '" . $data['parent_id'] . "', module_id = '" . $module_id . "', item_type = '" . $data_type . "', show_title = '" . $data['show_title'] . "', disp_mobile_item = '" . $data['disp_mobile_item'] . "', link = '" . $data['link'] . "', new_window = '" . $data['new_window'] . "', status = '" . $data['status'] . "', position = '" . $data['position'] . "', submenu_width = '" . $data['submenu_width'] . "', rang='1000', content_width='" . $data['content_width'] . "', content_type='" . $data['content_type'] . "', content='" . $this->db->escape(json_encode($data['content'], true)) . "'");
         return $this->db->getLastId();
     }
 
@@ -120,7 +122,8 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
     {
         $module_id = (isset($this->request->get['module_id']) && $this->request->get['module_id']) ? $this->request->get['module_id'] : 0;
         $data['content']['categories']['categories'] = json_decode(html_entity_decode($data['content']['categories']['categories']), true);
-        $this->db->query("UPDATE " . DB_PREFIX . "mega_menu SET name = '" . $this->db->escape(serialize($data['name'])) . "', icon_font = '" . $data['icon_font'] . "',class_menu = '" . $data['class_menu'] . "', disp_mobile_item = '" . $data['disp_mobile_item'] . "', item_type = '" . $data['item_type'] . "', show_title = '" . $data['show_title'] . "', description = '" . $this->db->escape(serialize($data['description'])) . "', icon = '" . $data['icon'] . "',module_id = '" . $module_id . "', link = '" . $data['link'] . "', new_window = '" . $data['new_window'] . "', status = '" . $data['status'] . "', position = '" . $data['position'] . "', submenu_width = '" . $data['submenu_width'] . "', content_width = '" . $data['content_width'] . "', content_type = '" . $data['content_type'] . "', content = '" . $this->db->escape(json_encode($data['content'], true)) . "' WHERE id = '" . $data['id'] . "'");
+        $data_type = (isset($data['item_type']) && $data['item_type']) ? $data['item_type'] : 0;
+        $this->db->query("UPDATE " . DB_PREFIX . "mega_menu SET name = '" . $this->db->escape(serialize($data['name'])) . "', icon_font = '" . $data['icon_font'] . "',class_menu = '" . $data['class_menu'] . "', disp_mobile_item = '" . $data['disp_mobile_item'] . "', item_type = '" . $data_type . "', show_title = '" . $data['show_title'] . "', description = '" . $this->db->escape(serialize($data['description'])) . "', icon = '" . $data['icon'] . "',module_id = '" . $module_id . "', link = '" . $data['link'] . "', new_window = '" . $data['new_window'] . "', status = '" . $data['status'] . "', position = '" . $data['position'] . "', submenu_width = '" . $data['submenu_width'] . "', content_width = '" . $data['content_width'] . "', content_type = '" . $data['content_type'] . "', content = '" . $this->db->escape(json_encode($data['content'], true)) . "' WHERE id = '" . $data['id'] . "'");
     }
     public function UpdatePosition($data)
     {
@@ -160,7 +163,7 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
                     'new_window' => $result['new_window'],
                     'status' => $result['status'],
                     'disp_mobile_item' => $result['disp_mobile_item'],
-                    'item_type' => $result['item_type'],
+                    'item_type' => ($result['item_type']) ? $result['item_type'] : 0,
                     'show_title' => $result['show_title'],
                     'position' => $result['position'],
                     'submenu_width' => $result['submenu_width'],
@@ -277,7 +280,7 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
     public function skrut($c, $d)
     {
         if (strlen($c) > $d) {
-            $ciag = substr($c, 0, $d);
+            $ciag = mb_substr($c, 0, $d);
             $ciag .= "...";
             return $ciag;
         } else {
