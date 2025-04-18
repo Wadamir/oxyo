@@ -105,7 +105,7 @@
                     {% endif %}
                     </td>
                     <td class="text-left">{{ column_info }}</td>
-                  <td class="text-right">{{ column_action }}</td>
+                  <td class="text-end">{{ column_action }}</td>
                 </tr>
               </thead>
               <tbody>
@@ -137,7 +137,7 @@
                   <span class="label label-danger" style="font-size:100%;">{{ text_not_answered }}</span>
                   {% endif %}
                   </td>
-                  <td class="text-right"><a href="{{ question.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                  <td class="text-end"><a href="{{ question.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 {% endfor %}
                 {% else %}
@@ -151,7 +151,7 @@
         </form>
         <div class="row">
           <div class="col-sm-6 text-left">{{ pagination }}</div>
-          <div class="col-sm-6 text-right">{{ results }}</div>
+          <div class="col-sm-6 text-end">{{ results }}</div>
         </div>
       </div>
     </div>

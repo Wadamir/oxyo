@@ -24,8 +24,8 @@
               <td>{{ column_customer }}</td>
               <td class="hidden-xs hidden-sm">{{ column_product }}</td>
               <td class="hidden-xs hidden-sm">{{ column_status }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ column_total }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ column_date_added }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ column_total }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ column_date_added }}</td>
               <td></td>
             </tr>
           </thead>
@@ -36,9 +36,9 @@
               <td>{{ order.name }}</td>
               <td class="hidden-xs hidden-sm">{{ order.products }}</td>
               <td class="hidden-xs hidden-sm">{{ order.status }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ order.total }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ order.date_added }}</td>
-              <td class="text-right">
+              <td class="text-end hidden-xs hidden-sm">{{ order.total }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ order.date_added }}</td>
+              <td class="text-end">
               <a href="{{ order.view }}" class="btn btn-primary btn-sm">{{ button_view }}</a>
               </td>
             </tr>
@@ -46,7 +46,7 @@
           </tbody>
         </table>
       </div>
-      <div class="text-right">{{ pagination }}</div>
+      <div class="text-end">{{ pagination }}</div>
       {% else %}
       <p>{{ text_empty }}</p>
       {% endif %}

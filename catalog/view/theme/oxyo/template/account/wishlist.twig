@@ -29,8 +29,8 @@
               <td></td>
               <td>{{ column_name }}</td>
               <td class="hidden-xs hidden-sm">{{ column_model }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ column_stock }}</td>
-              <td class="text-right price-cell hidden-xs hidden-sm">{{ column_price }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ column_stock }}</td>
+              <td class="text-end price-cell hidden-xs hidden-sm">{{ column_price }}</td>
               <td></td>
             </tr>
           </thead>
@@ -56,8 +56,8 @@
                 </span>
                 </td>
               <td class="hidden-xs hidden-sm">{{ product.model }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ product.stock }}</td>
-              <td class="text-right price-cell hidden-xs hidden-sm">
+              <td class="text-end hidden-xs hidden-sm">{{ product.stock }}</td>
+              <td class="text-end price-cell hidden-xs hidden-sm">
               {% if product.price %}
                   {% if not product.special %}
                   {{ product.price }}
@@ -65,7 +65,7 @@
                   <span class="price">{{ product.special }}</span><span class="price-old">{{ product.price }}</span>
                   {% endif %}
               {% endif %}</td>
-              <td class="text-right"><button type="button" onclick="cart.add('{{ product.product_id }}');" class="btn btn-sm btn-primary">{{ button_cart }}</button>
+              <td class="text-end"><button type="button" onclick="cart.add('{{ product.product_id }}');" class="btn btn-sm btn-primary">{{ button_cart }}</button>
                 </td>
             </tr>
             {% endfor %}

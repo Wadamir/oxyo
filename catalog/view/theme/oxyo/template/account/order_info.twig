@@ -73,9 +73,9 @@
             <tr>
               <td class="text-left">{{ column_name }}</td>
               <td class="text-left hidden-xs hidden-sm">{{ column_model }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ column_quantity }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ column_price }}</td>
-              <td class="text-right">{{ column_total }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ column_quantity }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ column_price }}</td>
+              <td class="text-end">{{ column_total }}</td>
               {% if products %}
               <td style="width: 20px;"></td>
               {% endif %}
@@ -90,10 +90,10 @@
                 &nbsp;<small> - {{ option.name }}: {{ option.value }}</small>
                 {% endfor %}</td>
               <td class="text-left hidden-xs hidden-sm">{{ product.model }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ product.quantity }}</td>
-              <td class="text-right hidden-xs hidden-sm">{{ product.price }}</td>
-              <td class="text-right">{{ product.total }}</td>
-              <td class="text-right" style="white-space: nowrap;">&nbsp;
+              <td class="text-end hidden-xs hidden-sm">{{ product.quantity }}</td>
+              <td class="text-end hidden-xs hidden-sm">{{ product.price }}</td>
+              <td class="text-end">{{ product.total }}</td>
+              <td class="text-end" style="white-space: nowrap;">&nbsp;
               {% if product.reorder %}
                 <a href="{{ product.reorder }}" data-toggle="tooltip" title="{{ button_reorder }}" class="button-circle"><i class="icon-refresh"></i></a>
                 {% endif %}
@@ -105,9 +105,9 @@
             <tr>
               <td class="text-left">{{ voucher.description }}</td>
               <td class="text-left hidden-xs hidden-sm"></td>
-              <td class="text-right hidden-xs hidden-sm">1</td>
-              <td class="text-right hidden-xs hidden-sm">{{ voucher.amount }}</td>
-              <td class="text-right">{{ voucher.amount }}</td>
+              <td class="text-end hidden-xs hidden-sm">1</td>
+              <td class="text-end hidden-xs hidden-sm">{{ voucher.amount }}</td>
+              <td class="text-end">{{ voucher.amount }}</td>
               {% if products %}
               <td></td>
               {% endif %}
@@ -121,7 +121,7 @@
             {% for total in totals %}
             <tr>
               <td><b>{{ total.title }}</b></td>
-              <td class="text-right">{{ total.text }}</td>
+              <td class="text-end">{{ total.text }}</td>
             </tr>
             {% endfor %}
          </tbody>

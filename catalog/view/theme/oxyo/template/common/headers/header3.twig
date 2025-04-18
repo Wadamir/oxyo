@@ -6,7 +6,7 @@
 					<div class="table-cell left sm-text-center xs-text-center">
 						<div class="promo-message">{{ promo_message }}</div>
 					</div>
-					<div class="table-cell text-right hidden-xs hidden-sm">
+					<div class="table-cell text-end hidden-xs hidden-sm">
 						<div class="links">
 							<ul>
 								{% include 'oxyo/template/common/static_links.twig' %}
@@ -37,18 +37,25 @@
 	<div class="outer-container sticky-header">
 		<div class="header-style">
 			<div class="container {{ main_header_width }}">
-				<div class="table header-main">
-					<div class="table-cell w40 menu-cell hidden-xs hidden-sm">
+				<div class="row header-main">
+					<div class="col-5 menu-cell hidden-xs hidden-sm">
+                        <div class="font-zero">
+                            <div class="icon-element">
+								<a class="shortcut-wrapper menu-trigger d-xxl-none d-xl-none">
+									<i class="icon-line-menu icon"></i>
+								</a>
+							</div>
+                        </div>
 						{{ promo_message2 }}
 					</div>
-					<div class="table-cell w20 logo text-center">
+					<div class="col-2 logo text-center">
 						{% if logo %}
 							<div id="logo">
 								<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}"/></a>
 							</div>
 						{% endif %}
 					</div>
-					<div class="table-cell w40 shortcuts text-right">
+					<div class="col-5 shortcuts text-end">
 						<div class="font-zero">
 							{% if header_search %}
 								<div class="icon-element">
@@ -93,22 +100,15 @@
 									<div class="dropdown-content dropdown-right hidden-sm hidden-xs">{{ cart }}</div>
 								</div>
 							</div>
-							<div class="icon-element">
-								<a class="shortcut-wrapper menu-trigger hidden-md hidden-lg">
-									<i class="icon-line-menu icon"></i>
-								</a>
-							</div>
-
 						</div>
 					</div>
-
 				</div>
 				<!-- .table.header_main ends -->
 			</div>
 			<!-- .container ends -->
 		</div>
 		{% if primary_menu %}
-			<div class="outer-container menu-style menu-style-contrast hidden-xs hidden-sm">
+			<div class="outer-container menu-style menu-style-contrast d-none d-xl-block">
 				<div class="container">
 					<div class="main-menu text-center">
 						<ul class="categories">

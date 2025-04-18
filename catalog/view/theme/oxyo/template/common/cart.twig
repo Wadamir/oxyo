@@ -41,7 +41,7 @@
 							1 x
 							<span class="price">{{ voucher.amount }}</span>
 						</td>
-						<td class="text-right">
+						<td class="text-end">
 							<a onclick="voucher.remove('{{ voucher.key }}');" title="{{ button_remove }}" class="remove">&times;</a>
 						</td>
 					</tr>
@@ -54,7 +54,7 @@
 					{% for total in totals %}
 						<tr>
 							<td class="text-left">{{ total.title }}</td>
-							<td class="text-right">{{ total.text }}</td>
+							<td class="text-end">{{ total.text }}</td>
 						</tr>
 					{% endfor %}
 				</table>

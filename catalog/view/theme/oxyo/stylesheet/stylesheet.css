@@ -55,7 +55,7 @@ body,
 
 .menu-style {
     background: #ffffff;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    /* border-top: 1px solid rgba(0, 0, 0, 0.07); */
     transition: background 400ms;
 }
 
@@ -186,6 +186,7 @@ a:focus {
     cursor: pointer;
     transition: color 400ms, background-color 400ms, border-color 400ms, opacity 400ms;
     outline: none;
+    text-decoration: none;
 }
 
 a:hover,
@@ -1293,7 +1294,8 @@ div.required .control-label:after {
     .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .header-style,
     .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .menu-style,
     .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .menu-style {
-        background: transparent !important;
+        /* background: transparent !important; */
+        background-color: rgba(7,7,9, 0.5);
         border-color: transparent !important;
         transition: background 400ms;
     }
@@ -1442,7 +1444,7 @@ div.required .control-label:after {
 .menu-style a:not(:hover),
 .header-main,
 .header-main a {
-    color: #000000;
+    color: #070709;
 }
 
 .header-main .table-cell.menu-cell,
@@ -1452,6 +1454,13 @@ div.required .control-label:after {
 
 .header-main>.table-cell.shortcuts {
     white-space: nowrap;
+}
+
+.header-main.table .table-cell.logo > #logo > a {
+    margin: 0;
+    padding: 0;
+
+    /* display: block; */
 }
 
 @media (min-width: 992px) {
@@ -1498,7 +1507,7 @@ div.required .control-label:after {
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: #000000;
+    background-color: #070709;
     width: 2px;
     opacity: 0.04;
 }
@@ -1513,7 +1522,7 @@ div.required .control-label:after {
 }
 
 .header-main .sign-in .anim-underline:after {
-    background-color: #000000;
+    background-color: #070709;
 }
 
 /* Header icons */
@@ -2072,8 +2081,9 @@ div.required .control-label:after {
 
 .sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main,
 .sticky-enabled.offset250 .sticky-header.slidedown .header-main,
-.sticky-enabled.sticky-active .sticky-header .header-main .sign-in {
-    transition: line-height 300ms, height 300ms;
+.sticky-enabled.sticky-active .sticky-header .header-main .sign-in,
+.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main #logo {
+    transition: line-height 900ms, height 900ms;
 }
 
 /* Header 2&6 */
@@ -2214,9 +2224,10 @@ div.required .control-label:after {
 
 .main-menu>ul>li>a,
 .main-menu-wrapper>ul>li>a {
+    margin: 0;
+    padding: 0 12px 12px 12px;
+
     display: block;
-    padding-right: 12px;
-    padding-left: 12px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
@@ -2914,7 +2925,7 @@ div.required .control-label:after {
 }
 
 .title_in_bc .breadcrumb-holder {
-    background-color: #000000;
+    background-color: #070709;
     text-align: center;
     padding: 23px 0 6px;
 }
@@ -3981,7 +3992,7 @@ div.required .control-label:after {
 
 .cm_item .simple-caption {
     padding: 12px 25px;
-    color: #000000;
+    color: #070709;
     font-size: 16px;
     letter-spacing: 1.3px;
     background: #ffffff;
@@ -4787,7 +4798,7 @@ h4.follow-title {
 #footer {
     margin-top: 50px;
     padding-top: 50px;
-    background-color: #000000;
+    background-color: #070709;
     color: #999999;
 }
 
@@ -4898,7 +4909,7 @@ a.scroll-to-top {
 
 a.scroll-to-top:not(:hover) {
     color: #000 !important;
-    border-color: #000000;
+    border-color: #070709;
     background-color: #fff;
 }
 
@@ -4997,7 +5008,7 @@ a.scroll-to-top:not(:hover) {
 .pagination>.active>span:hover,
 .pagination>.active>a:focus,
 .pagination>.active>span:focus {
-    background-color: #000000;
+    background-color: #070709;
     border-color: transparent;
 }
 
@@ -5086,7 +5097,7 @@ a.btn-default:active:focus {
 .btn-primary,
 a.btn-primary,
 .btn-neutral {
-    background-color: #000000;
+    background-color: #070709;
     border-color: transparent;
     color: #ffffff;
 }
@@ -5168,8 +5179,8 @@ a.btn-light-outline:hover {
 .btn-outline,
 a.btn-outline {
     background-color: transparent;
-    border-color: #000000;
-    color: #000000;
+    border-color: #070709;
+    color: #070709;
 }
 
 .btn-outline:hover,
@@ -5250,7 +5261,7 @@ a.btn-outline-light:hover {
     background-color: #363636;
     background-image: linear-gradient(to bottom, #444444, #222222);
     background-repeat: repeat-x;
-    border-color: #222222 #222222 #000000;
+    border-color: #222222 #222222 #070709;
 }
 
 .btn-inverse:hover,
@@ -5628,7 +5639,7 @@ a.button-circle {
 /* carousel */
 .carousel-caption {
     color: #FFFFFF;
-    text-shadow: 0 1px 0 #000000;
+    text-shadow: 0 1px 0 #070709;
 }
 
 .carousel-control .icon-prev:before {
@@ -5740,11 +5751,13 @@ a.button-circle {
 
 .single-product .image .thumb2 {
     position: absolute;
-    left: 0;
+    left: 50%;
     top: 0;
     opacity: 0;
     visibility: hidden;
     transition: all 750ms;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
 }
 
 .single-product .image:hover .thumb2,
@@ -5752,6 +5765,12 @@ a.button-circle {
     opacity: 1;
     visibility: visible;
     transition: all 750ms;
+}
+
+.single-product .image > a {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 .single-product .image .badge,
@@ -6274,7 +6293,7 @@ a.button-circle {
 }
 
 .sale-counter div {
-    background: #000000;
+    background: #070709;
     color: #ffffff;
     display: inline-block;
     margin: 0 2px;
@@ -6549,7 +6568,7 @@ a.button-circle {
     line-height: 34px;
     font-size: 10px;
     background: #ffffff;
-    color: #000000;
+    color: #070709;
     display: block;
     bottom: 20px;
     position: absolute;
@@ -6780,7 +6799,7 @@ a.button-circle {
 
 #product .options .has-image input[type="radio"]:checked+img,
 #product .options .has-image input[type="checkbox"]:checked+img {
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #070709;
 }
 
 #product .options .table-cell .radio:last-child {
@@ -8336,6 +8355,14 @@ div.ui-slider-range.ui-widget-header,
 .ms-wk .ms-slide {
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.ms-slide .kukuk {
+    visibility: hidden;
 }
 
 .ms-slide .ms-slide-bgcont,
@@ -8907,7 +8934,7 @@ html.fl-anim .featherlight .featherlight-content {
 }
 
 .oxyo_cookie_bar {
-    background: #000000;
+    background: #070709;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -8952,7 +8979,7 @@ html.fl-anim .featherlight .featherlight-content {
 
 /* Top promo message */
 .top_notificaiton {
-    background: #000000;
+    background: #070709;
 }
 
 .top_notificaiton,

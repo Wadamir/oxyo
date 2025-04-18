@@ -5,9 +5,9 @@
       <tr>
         <td class="text-left">{{ column_name }}</td>
         <td class="text-left hidden-xs hidden-sm">{{ column_model }}</td>
-        <td class="text-right hidden-xs hidden-sm">{{ column_quantity }}</td>
-        <td class="text-right hidden-xs hidden-sm">{{ column_price }}</td>
-        <td class="text-right">{{ column_total }}</td>
+        <td class="text-end hidden-xs hidden-sm">{{ column_quantity }}</td>
+        <td class="text-end hidden-xs hidden-sm">{{ column_price }}</td>
+        <td class="text-end">{{ column_total }}</td>
    
       </tr>
     </thead>
@@ -24,18 +24,18 @@
           <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product.recurring }}</small>
           {% endif %}</td>
         <td class="text-left hidden-xs hidden-sm">{{ product.model }}</td>
-        <td class="text-right hidden-xs hidden-sm">{{ product.quantity }}</td>
-        <td class="text-right hidden-xs hidden-sm">{{ product.price }}</td>
-        <td class="text-right">{{ product.total }}</td>
+        <td class="text-end hidden-xs hidden-sm">{{ product.quantity }}</td>
+        <td class="text-end hidden-xs hidden-sm">{{ product.price }}</td>
+        <td class="text-end">{{ product.total }}</td>
       </tr>
       {% endfor %}
       {% for voucher in vouchers %}
       <tr>
         <td class="text-left">{{ voucher.description }}</td>
         <td class="text-left"></td>
-        <td class="text-right">1</td>
-        <td class="text-right">{{ voucher.amount }}</td>
-        <td class="text-right">{{ voucher.amount }}</td>
+        <td class="text-end">1</td>
+        <td class="text-end">{{ voucher.amount }}</td>
+        <td class="text-end">{{ voucher.amount }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -46,7 +46,7 @@
       {% for total in totals %}
       <tr>
         <td><b>{{ total.title }}</b></td>
-        <td class="text-right">{{ total.text }}</td>
+        <td class="text-end">{{ total.text }}</td>
       </tr>
       {% endfor %}
       </tbody>

@@ -34,7 +34,7 @@
             <td>{{ download.name }}</td>
             <td>{{ download.size }}</td>
             <td>{{ download.date_added }}</td>
-            <td class="text-right"><a href="{{ download.href }}" class="btn btn-primary btn-sm">{{ button_download }}</a></td>
+            <td class="text-end"><a href="{{ download.href }}" class="btn btn-primary btn-sm">{{ button_download }}</a></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -43,7 +43,7 @@
           {% if pagination %}
           <div class="row pagination-holder">
             <div class="col-sm-6 xs-text-center">{{ pagination }}</div>
-            <div class="col-sm-6 text-right xs-text-center"><span class="pagination-text">{{ results }}</span></div>
+            <div class="col-sm-6 text-end xs-text-center"><span class="pagination-text">{{ results }}</span></div>
           </div>
           {% endif %}
       {% else %}

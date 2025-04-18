@@ -22,7 +22,7 @@
             <tr>
               <td class="text-left">{{ column_date_added }}</td>
               <td class="text-left">{{ column_description }}</td>
-              <td class="text-right">{{ column_points }}</td>
+              <td class="text-end">{{ column_points }}</td>
             </tr>
           </thead>
           <tbody>
@@ -36,7 +36,7 @@
                 {% else %}
                 {{ reward.description }}
               {% endif %}</td>
-              <td class="text-right">{{ reward.points }}</td>
+              <td class="text-end">{{ reward.points }}</td>
             </tr>
             {% endfor %}
             {% else %}
@@ -50,7 +50,7 @@
         {% if pagination %}
         <div class="row pagination-holder">
         <div class="col-sm-6 xs-text-center">{{ pagination }}</div>
-        <div class="col-sm-6 text-right xs-text-center"><span class="pagination-text">{{ results }}</span></div>
+        <div class="col-sm-6 text-end xs-text-center"><span class="pagination-text">{{ results }}</span></div>
         </div>
         {% endif %}
       

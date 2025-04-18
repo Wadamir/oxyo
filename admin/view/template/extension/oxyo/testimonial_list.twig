@@ -40,8 +40,8 @@
 
             
             <td>{{ column_name }}</td>
-            <td class="text-right">{{ column_status }}</td>
-            <td class="text-right">{{ column_action }}</td>
+            <td class="text-end">{{ column_status }}</td>
+            <td class="text-end">{{ column_action }}</td>
           </tr>
         </thead>
         <tbody>
@@ -56,8 +56,8 @@
             {% endif %}
             </td>
             <td>{{ testimonial.name }}</td>
-            <td class="text-right">{{ testimonial.status }}</td>
-            <td class="text-right">
+            <td class="text-end">{{ testimonial.status }}</td>
+            <td class="text-end">
                 {% for action in testimonial.action %}
                 <a href="{{ action.href }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                 {% endfor %}

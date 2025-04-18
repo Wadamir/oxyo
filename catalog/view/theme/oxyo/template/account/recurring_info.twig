@@ -53,7 +53,7 @@
           <tr>
             <td class="text-left">{{ column_date_added }}</td>
             <td class="text-left">{{ column_type }}</td>
-            <td class="text-right">{{ column_amount }}</td>
+            <td class="text-end">{{ column_amount }}</td>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@
           <tr>
             <td class="text-left">{{ transaction.date_added }}</td>
             <td class="text-left">{{ transaction.type }}</td>
-            <td class="text-right">{{ transaction.amount }}</td>
+            <td class="text-end">{{ transaction.amount }}</td>
           </tr>
           {% endfor %}
           {% else %}

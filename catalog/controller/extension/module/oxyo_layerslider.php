@@ -241,12 +241,21 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
                 //$section_row++;
 
                 //$data['sections'][$section['sort_order']] = array(
+                $slide_style_array = array();
+                if ($section['bg_color']) {
+                    $slide_style_array[] = 'background-color:' . $section['bg_color'] . ';';
+                }
+                if ($section['thumb_image']) {
+                    $slide_style_array[] = 'background-image:url(' . $base_url . 'image/' . $section['thumb_image'] . ');';
+                }
+                $slide_style = implode('; ', $slide_style_array);
                 $data['sections'][] = array(
                     'link'   => $section['link'],
                     'link_new_window'   => $section['link_new_window'],
                     'duration'   => $section['duration'],
                     'slide_kenburn'   => $section['slide_kenburn'],
                     'bg_color' => $section['bg_color'],
+                    'style' => $slide_style,
                     'is_bg' => $section['thumb_image'],
                     'thumb_image'   => $base_url . 'image/' . $section['thumb_image'],
                     'sort_order'   => $section['sort_order'],

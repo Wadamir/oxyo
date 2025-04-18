@@ -65,7 +65,7 @@
     </div>
     {% endfor %}
     </td>
-    <td class="text-right">
+    <td class="text-end">
     <input type="text" class="form-control" style="width:60px" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][sort]" value="{{ oxyo_footer_column.sort ? oxyo_footer_column.sort : '99' }}" />
     </td>
   </tr>
@@ -99,7 +99,7 @@
     <td class="first">
     <input type="text" class="form-control" style="width:60px" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][sort]" value="{{ link.sort ? link.sort : '1' }}" />
     </td>
-    <td class="text-right">
+    <td class="text-end">
     <button type="button" onclick="$('#footer-link-row-{{ footer_column_row }}-{{ footer_link_row }}').remove();" class="btn btn-danger">Remove</button>
     </td>
     </tr>
@@ -110,7 +110,7 @@
     <tfoot>
       <tr>
         <td colspan="3"></td>
-        <td class="text-right"><button type="button" onclick="addFooterLink({{ footer_column_row }});" class="btn btn-primary">Add Link</button></td>
+        <td class="text-end"><button type="button" onclick="addFooterLink({{ footer_column_row }});" class="btn btn-primary">Add Link</button></td>
       </tr>
     </tfoot>
   </table>
@@ -207,7 +207,7 @@ function addFooterColumn() {
 	html += '</div>';
 	{% endfor %}
 	html += '</td>';
-	html += '<td class="text-right">';
+	html += '<td class="text-end">';
 	html += '<input type="text" class="form-control" style="width:60px" value="' + footer_column_row + '" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][sort]" />';
 	html += '</td>';
 	html += '</tr>';
@@ -225,7 +225,7 @@ function addFooterColumn() {
 	html += '<tfoot>';
 	html += '<tr>';
 	html += '<td colspan="3"></td>';
-	html += '<td class="text-right"><button type="button" onclick="addFooterLink(' + footer_column_row  + ');" class="btn btn-primary">Add Link</button></td>';
+	html += '<td class="text-end"><button type="button" onclick="addFooterLink(' + footer_column_row  + ');" class="btn btn-primary">Add Link</button></td>';
 	html += '</tr>';
 	html += '</tfoot>';
 	html += '</table>';
@@ -257,7 +257,7 @@ function addFooterLink(footer_column_row) {
 	html += '<td class="first">';
 	html += '<input type="text" style="width:60px" class="form-control" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][links][' + link_row + '][sort]" value="' + link_row + '" />';
 	html += '</td>';
-	html += '<td class="text-right">';
+	html += '<td class="text-end">';
 	html += '<button type="button" onclick="$(\'#footer-link-row-' + footer_column_row  + '-' + link_row + '\').remove();" class="btn btn-danger">Remove</button>';
 	html += '</td>';
    	html += '</tr>';

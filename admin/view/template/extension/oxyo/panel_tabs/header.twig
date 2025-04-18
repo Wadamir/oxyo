@@ -284,7 +284,7 @@ Mega Menu Module = <i>Menus created from the module Oxyo Megamenu under Extensio
         <td class="first">
         <input type="text" class="form-control" style="width:60px" name="settings[oxyo][oxyo_links][{{ link_row }}][sort]" value="{{ oxyo_link.sort ? oxyo_link.sort : '0' }}" />
         </td>
-        <td class="text-right">
+        <td class="text-end">
         <button type="button" onclick="$('#link-row{{ link_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
         </td>
       </tr>
@@ -295,7 +295,7 @@ Mega Menu Module = <i>Menus created from the module Oxyo Megamenu under Extensio
     <tfoot>
       <tr>
         <td colspan="3"></td>
-        <td class="text-right"><button type="button" onclick="addLinkRow();" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+        <td class="text-end"><button type="button" onclick="addLinkRow();" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
       </tr>
     </tfoot>
   </table>
@@ -321,7 +321,7 @@ function addLinkRow() {
 	html += '<td class="first">';
 	html += '<input type="text" class="form-control" style="width:60px" value="0" name="settings[oxyo][oxyo_links][' + link_row + '][sort]" />';
 	html += '</td>';
-	html += '<td class="text-right"><button type="button" onclick="$(\'#link-row' + link_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '<td class="text-end"><button type="button" onclick="$(\'#link-row' + link_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 	html += '</tr>';
 	$('#links tbody').append(html);
 	link_row++;

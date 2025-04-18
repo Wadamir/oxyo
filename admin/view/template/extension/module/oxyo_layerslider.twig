@@ -323,7 +323,7 @@
                 <input type="text" class="form-control" name="g_fonts[{{ g_font_row }}][name]" value="{{ g_font.name ? g_font.name }}" />
                 </td>
 
-                <td class="text-right action"><button type="button" onclick="$('#g_font-row{{ g_font_row }}').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                <td class="text-end action"><button type="button" onclick="$('#g_font-row{{ g_font_row }}').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
               </tr>
             {% set g_font_row = g_font_row + 1 %}
 			{% endfor %}
@@ -504,7 +504,7 @@
           </div>
           </div>
           
-          <div class="col-sm-6 text-right">
+          <div class="col-sm-6 text-end">
           <a class="btn btn-default" onclick="addLayer({{ section_row }}, 'text');"><i class="fa fa-font"></i> {{ text_add_text_layer }}</a>
           <a class="btn btn-default" onclick="addLayer({{ section_row }}, 'button');"><i class="fa fa-hand-o-up"></i> {{ text_add_button_layer }}</a>
           <a class="btn btn-default" onclick="addLayer({{ section_row }}, 'image');"><i class="fa fa-image"></i> {{ text_add_image_layer }}</a>
@@ -987,7 +987,7 @@ function addSlide() {
 	html += '<input type="hidden" id="input-image' + section_row + '" name="sections[' + section_row + '][thumb_image]" />';
 	html += '</div>';
 	html += '</div>';
-	html += '<div class="col-sm-6 text-right">';
+	html += '<div class="col-sm-6 text-end">';
 	html += '<a class="btn btn-default" onclick="addLayer(' + section_row + ', \'text\''+');"><i class="fa fa-font"></i> {{ text_add_text_layer }}</a> ';
 	html += '<a class="btn btn-default" onclick="addLayer(' + section_row + ', \'button\''+');"><i class="fa fa-hand-o-up"></i> {{ text_add_button_layer }}</a> ';
 	html += '<a class="btn btn-default" onclick="addLayer(' + section_row + ', \'image\''+');"><i class="fa fa-image"></i> {{ text_add_image_layer }}</a>';
