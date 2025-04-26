@@ -190,7 +190,15 @@ if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_s
     $madatory_css = '.top_line {line-height:' . $this->config->get('top_line_height') . 'px;}';
     $madatory_css .= '.header-main,.header-main .sign-in,#logo {line-height:' . $this->config->get('main_header_height') . 'px;height:' . $this->config->get('main_header_height') . 'px;}';
     $madatory_css .= '.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main,.sticky-enabled.offset250 .sticky-header.slidedown .header-main,.sticky-enabled.sticky-active .sticky-header.short .header-main .sign-in,.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main #logo,.sticky-enabled.sticky-active .header6 .sticky-header.short .header-main #logo {line-height:' . $this->config->get('main_header_height_sticky') . 'px;height:' . $this->config->get('main_header_height_sticky') . 'px;}';
-    $madatory_css .= '@media (max-width: 991px) {.header-main,.sticky-enabled.offset250 .sticky-header.slidedown .header-main,#logo,.sticky-enabled.sticky-active .sticky-header.short .header-main #logo {line-height:' . $this->config->get('main_header_height_mobile') . 'px;height:' . $this->config->get('main_header_height_mobile') . 'px;}}';
+    $madatory_css .= '@media (max-width: 1200px) {
+        .header-main,
+        .sticky-enabled.offset250 .sticky-header.slidedown .header-main,
+        #logo,
+        .sticky-enabled.sticky-active .sticky-header.short .header-main #logo, 
+        .sticky-holder {
+            line-height:' . $this->config->get('main_header_height_mobile') . 'px;height:' . $this->config->get('main_header_height_mobile') . 'px;
+        }
+    }';
     if ($menu_height_normal !== '' && $menu_height_normal !== 'auto') {
         $madatory_css .= '.table-cell.menu-cell,.main-menu:not(.vertical) > ul,.main-menu:not(.vertical) > ul > li,.main-menu:not(.vertical) > ul > li > a,.main-menu:not(.vertical) > ul > li.dropdown-wrapper > a .fa-angle-down,.main-menu.vertical .menu-heading {line-height:' . $this->config->get('menu_height_normal') . 'px;height:' . $this->config->get('menu_height_normal') . 'px;}';
     }
@@ -225,7 +233,7 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '.top_line {background-color:' . $this->config->get('oxyo_top_line_bg') . ';}';
         $styles .= '.top_line, .top_line a {color:' . $this->config->get('oxyo_top_line_color') . ';}';
         $styles .= '.top_line .anim-underline:after, .top_line .links ul > li + li:before, .top_line .links .setting-ul > .setting-li:before {background-color:' . $this->config->get('oxyo_top_line_color') . ';}';
-        $styles .= '.header-style {background-color:' . $this->config->get('oxyo_header_bg') . ';}';
+        $styles .= '.teswt, .header-style, .sticky-holder {background-color:' . $this->config->get('oxyo_header_bg') . ';}';
         $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ';}';
         $styles .= '.header-main .sign-in:after, .header-main .anim-underline:after, .header-main .sign-in .anim-underline:after {background-color:' . $this->config->get('oxyo_header_color') . ';}';
         $styles .= '.main-menu:not(.vertical) > ul > li:hover > a > .top, .header-main .shortcut-wrapper:hover .icon-magnifier, .header-main #cart:hover .shortcut-wrapper {opacity:0.8;}';

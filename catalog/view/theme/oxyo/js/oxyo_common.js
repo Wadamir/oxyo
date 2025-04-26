@@ -69,8 +69,8 @@ $(document).ready(function () {
 
     // Mobile menu open
     $(".menu-trigger").click(function () {
-        $('html').addClass('no-scroll mobile-menu-open');
-        $('.body-cover').addClass('active');
+        $('html').toggleClass('no-scroll mobile-menu-open');
+        // $('.body-cover').addClass('active');
     });
 
     // Mobile menu close

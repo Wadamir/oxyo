@@ -33,32 +33,37 @@
 		</div>
 		<!-- .top_line ends -->
 	{% endif %}
-	<span class="table header-main sticky-header-placeholder">&nbsp;</span>
 	<div class="outer-container sticky-header">
 		<div class="header-style">
 			<div class="container {{ main_header_width }}">
 				<div class="row header-main">
-					<div class="col-5 menu-cell hidden-xs hidden-sm">
+					<div class="col-4 menu-cell">
                         <div class="font-zero">
                             <div class="icon-element">
 								<a class="shortcut-wrapper menu-trigger d-xxl-none d-xl-none">
-									<i class="icon-line-menu icon"></i>
+                                    <svg class="ham hamRotate ham1" viewBox="0 0 100 100" width="40px" height="40px">
+                                        <path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
+                                        <path class="line middle" d="m 30,50 h 40" />
+                                        <path class="line bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
+                                    </svg>
 								</a>
 							</div>
+                            <div class="icon-element">
+                                {{ promo_message2 }}
+                            </div>
                         </div>
-						{{ promo_message2 }}
 					</div>
-					<div class="col-2 logo text-center">
+					<div class="col-4 logo text-center">
 						{% if logo %}
 							<div id="logo">
 								<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}"/></a>
 							</div>
 						{% endif %}
 					</div>
-					<div class="col-5 shortcuts text-end">
-						<div class="font-zero">
+					<div class="col-4 shortcuts text-end">
+						<div class="font-zero justify-content-end">
 							{% if header_search %}
-								<div class="icon-element">
+								<div class="icon-element d-none d-xl-block">
 									<div class="dropdown-wrapper-click from-top hidden-sx hidden-sm hidden-xs">
 										<a class="shortcut-wrapper search-trigger from-top clicker">
 											<i class="icon-magnifier icon"></i>
@@ -94,7 +99,8 @@
 										<i id="cart-icon" class="global-cart icon"></i>
 										<span id="cart-total" class="nowrap">
 											<span class="counter cart-total-items">{{ cart_items }}</span>
-											<span class="slash hidden-md hidden-sm hidden-xs">/</span>&nbsp;<b class="cart-total-amount hidden-sm hidden-xs">{{ cart_amount }}</b>
+											<span class="slash d-none d-xl-block">/</span>
+                                            <span class="cart-total-amount d-none d-xl-block">{{ cart_amount }}</span>
 										</span>
 									</a>
 									<div class="dropdown-content dropdown-right hidden-sm hidden-xs">{{ cart }}</div>
@@ -127,5 +133,6 @@
 			</div>
 		{% endif %}
 	</div>
+    <div class="outer-container sticky-holder"></div>
 </div>
 <!-- .header_wrapper ends -->
