@@ -1864,6 +1864,7 @@ div.required .control-label:after {
 .shortcut-wrapper > i {
     font-size: 20px;
     line-height: 42px;
+    line-height: 1;
 }
 
 .top_line .shortcut-wrapper {
@@ -5364,9 +5365,9 @@ h4.follow-title {
 }
 
 a.scroll-to-top {
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
     text-align: center;
     color: var(--primary-white-100, #fcfcfc) !important;
     z-index: 80;
@@ -5380,6 +5381,13 @@ a.scroll-to-top {
     bottom: 60px;
     right: 30px;
     transition: all 400ms;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 a.scroll-to-top:not(:hover) {
