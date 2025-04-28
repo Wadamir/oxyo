@@ -3224,7 +3224,7 @@ div.required .control-label:after {
     flex-wrap: nowrap;
     align-content: center;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.5em;
 
     font-size: 16px;
@@ -5304,7 +5304,7 @@ h4.follow-title {
     flex-wrap: nowrap;
     align-content: center;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.5em;
 
     font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
