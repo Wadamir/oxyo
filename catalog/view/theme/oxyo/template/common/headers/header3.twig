@@ -38,20 +38,41 @@
 			<div class="container {{ main_header_width }}">
 				<div class="row header-main">
 					<div class="col-4 menu-cell">
-                        <div class="font-zero">
-                            <div class="icon-element">
-								<a class="shortcut-wrapper menu-trigger d-xxl-none d-xl-none">
-                                    <svg class="ham hamRotate ham1" viewBox="0 0 100 100" width="40px" height="40px">
-                                        <path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
-                                        <path class="line middle" d="m 30,50 h 40" />
-                                        <path class="line bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
-                                    </svg>
+						<div class="font-zero">
+							<div class="icon-element d-xxl-none d-xl-none">
+								<a class="shortcut-wrapper menu-trigger">
+									<svg class="ham hamRotate ham1" viewbox="0 0 100 100" width="40px" height="40px">
+										<path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40"/>
+										<path class="line middle" d="m 30,50 h 40"/>
+										<path class="line bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40"/>
+									</svg>
 								</a>
 							</div>
-                            <div class="icon-element">
-                                {{ promo_message2 }}
-                            </div>
-                        </div>
+							{% if main_phone %}
+								<div class="icon-element">
+									<a class="shortcut-wrapper" href="{{ main_phone_link }}" target="_blank">
+										<i class="bi bi-telephone"></i>
+										<span class="nowrap d-none d-xl-block">{{ main_phone }}</span>
+									</a>
+								</div>
+							{% endif %}
+                            {% if whatsapp_phone %}
+                                <div class="icon-element d-none d-sm-block">
+                                    <a class="shortcut-wrapper" href="https://wa.me/{{ whatsapp_phone_link }}" target="_blank">
+                                        <i class="bi bi-whatsapp"></i>
+                                        <span class="nowrap d-none">{{ whatsapp_phone }}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if telegram %}
+                                <div class="icon-element d-none d-sm-block">
+                                    <a class="shortcut-wrapper" href="https://t.me/{{ telegram_link }}" target="_blank">
+                                        <i class="bi bi-telegram"></i>
+                                        <span class="nowrap d-none">{{ telegram }}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+						</div>
 					</div>
 					<div class="col-4 logo text-center">
 						{% if logo %}
@@ -100,7 +121,7 @@
 										<span id="cart-total" class="nowrap">
 											<span class="counter cart-total-items">{{ cart_items }}</span>
 											<span class="slash d-none d-xl-block">/</span>
-                                            <span class="cart-total-amount d-none d-xl-block">{{ cart_amount }}</span>
+											<span class="cart-total-amount d-none d-xl-block">{{ cart_amount }}</span>
 										</span>
 									</a>
 									<div class="dropdown-content dropdown-right hidden-sm hidden-xs">{{ cart }}</div>
@@ -133,6 +154,6 @@
 			</div>
 		{% endif %}
 	</div>
-    <div class="outer-container sticky-holder"></div>
+	<div class="outer-container sticky-holder"></div>
 </div>
 <!-- .header_wrapper ends -->

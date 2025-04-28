@@ -15,18 +15,90 @@
 		{% endif %}
 
 		<div class="row links-holder">
-			<div class="col-xs-12 col-sm-8">
+			<div class="col-12 col-md-6 col-lg-5 order-md-last">
+				<div class="footer-column">
+					<h5>{{ text_contact }}</h5>
+					{% if contact_array is defined %}
+						<ul class="info-lines">
+							{% for contact in contact_array %}
+								{% if (contact['name'] == 'main_address') %}
+									<li>
+										<a href="{{contact['link']}}" class="contact-item info-line" target="_blank">
+											{{ contact['value'] }}
+											<i class="bi bi-sign-turn-slight-right"></i>
+										</a>
+									</li>
+								{% endif %}
+								{% if (contact['name'] == 'working_hours') %}
+									<li>
+										<p class="contact-item info-line">
+											{% if contact['icon'] != '' %}
+												{{ contact['icon'] }}
+											{% elseif contact['icon_svg'] != '' %}
+												{{ contact['icon_svg'] }}
+											{% endif %}
+											{{ contact['value'] }}
+										</p>
+									</li>
+								{% endif %}
+							{% endfor %}
+							{% for contact in contact_array %}
+								{% if (contact['name'] == 'main_phone') %}
+									<li>
+										<a href="{{contact['link']}}" class="contact-item info-line" target="_blank">
+											{% if contact['icon'] != '' %}
+												{{ contact['icon'] }}
+											{% elseif contact['icon_svg'] != '' %}
+												{{ contact['icon_svg'] }}
+											{% endif %}
+											{{ contact['value'] }}
+										</a>
+									</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					{% endif %}
+					{% if contact_array is defined %}
+						<ul class="info-icons">
+							{% for contact in contact_array %}
+								{% if (contact['name'] == 'whatsapp_phone' or contact['name'] == 'telegram' or contact['name'] == 'vkontakte' or contact['name'] == 'avito' or contact['name'] == 'instagram' or contact['name'] == 'tiktok' ) %}
+									<li>
+										<a href="{{contact['link']}}" class="contact-item info-icon" target="_blank">
+											{% if contact['icon'] != '' %}
+												{{ contact['icon'] }}
+											{% elseif contact['icon_svg'] != '' %}
+												{{ contact['icon_svg'] }}
+											{% endif %}
+										</a>
+									</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					{% endif %}
+					{% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '' and footer_block_2 != '<p><br></p>' %}
+						{% if footer_block_title is defined %}
+							<h5>{{ footer_block_title }}</h5>
+						{% endif %}
+						{% if footer_block_2 and footer_block_2 != '<p><br></p>' %}
+							<div class="custom_block">{{ footer_block_2 }}</div>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-7 order-md-first">
 				<div class="row">
 					{% if custom_links %}
 						{% for column in oxyo_footer_columns %}
-							<div class="footer-column col-xs-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
+							<div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
 								{% if column.title %}
 									<h5>{{ column.title }}</h5>
 								{% endif %}
 								{% if column.links is defined %}
 									<ul class="list-unstyled">
 										{% for link in column.links %}
-											<li><a href="{{ link.target }}">{{ link.title }}</a></li>
+											<li>
+												<a href="{{ link.target }}">{{ link.title }}</a>
+											</li>
 										{% endfor %}
 									</ul>
 								{% endif %}
@@ -34,63 +106,65 @@
 						{% endfor %}
 					{% else %}
 						{% if informations %}
-							<div class="footer-column col-xs-12 col-sm-4 eq_height">
+							<div class="footer-column col-12 col-xl-6 eq_height">
 								<h5>{{ text_information }}</h5>
 								<ul class="list-unstyled">
 									{% for information in informations %}
-										<li><a href="{{ information.href }}">{{ information.title }}</a></li>
+										<li>
+											<a href="{{ information.href }}">{{ information.title }}</a>
+										</li>
 									{% endfor %}
-									<li><a href="{{ contact }}">{{ text_contact }}</a></li>
+									<li>
+										<a href="{{ contact }}">{{ text_contact }}</a>
+									</li>
 								</ul>
 							</div>
 						{% endif %}
-						<div class="footer-column col-xs-12 col-sm-4 eq_height">
+						<div class="footer-column col-12 col-xl-6 eq_height">
 							<h5>{{ text_extra }}</h5>
 							<ul class="list-unstyled">
-								<li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-								<li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
-								<li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-								<li><a href="{{ special }}">{{ text_special }}</a></li>
-								<li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+								<li class="d-none">
+									<a href="{{ manufacturer }}">{{ text_manufacturer }}</a>
+								</li>
+								<li>
+									<a href="{{ voucher }}">{{ text_voucher }}</a>
+								</li>
+								<li class="d-none">
+									<a href="{{ affiliate }}">{{ text_affiliate }}</a>
+								</li>
+								<li>
+									<a href="{{ special }}">{{ text_special }}</a>
+								</li>
+								<li class="d-none">
+									<a href="{{ sitemap }}">{{ text_sitemap }}</a>
+								</li>
 							</ul>
-						</div>
-						<div class="footer-column col-xs-12 col-sm-4 eq_height">
+							<br/>
 							<h5>{{ text_account }}</h5>
 							<ul class="list-unstyled">
-								<li><a href="{{ account }}">{{ text_account }}</a></li>
-								<li><a href="{{ order }}">{{ text_order }}</a></li>
-								<li><a href="{{ return }}">{{ text_return }}</a></li>
-								<li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-								<li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+								<li>
+									<a href="{{ account }}">{{ text_account }}</a>
+								</li>
+								<li>
+									<a href="{{ order }}">{{ text_order }}</a>
+								</li>
+								<li class="d-none">
+									<a href="{{ return }}">{{ text_return }}</a>
+								</li>
+								<li class="is_wishlist">
+									<a href="{{ wishlist }}">{{ text_wishlist }}</a>
+								</li>
+								<li class="d-none">
+									<a href="{{ newsletter }}">{{ text_newsletter }}</a>
+								</li>
 							</ul>
 						</div>
 					{% endif %}
-				</div> <!-- .row ends -->
-			</div> <!-- .col-md-8 ends -->
-
-			<div class="footer-column col-xs-12 col-sm-4">
-				<div class="footer-custom-wrapper">
-					{% if footer_block_title is defined %}
-						<h5>{{ footer_block_title }}</h5>
-					{% endif %}
-					{% if footer_block_2 and footer_block_2 != '<p><br></p>' %}
-						<div class="custom_block">{{ footer_block_2 }}</div>
-					{% endif %}
-					{% if footer_infoline_1 is defined %}
-						<p class="infoline">{{ footer_infoline_1 }}</p>
-					{% endif %}
-					{% if footer_infoline_2 is defined %}
-						<p class="infoline">{{ footer_infoline_2 }}</p>
-					{% endif %}
-					{% if footer_infoline_3 is defined %}
-						<p class="infoline">{{ footer_infoline_3 }}</p>
-					{% endif %}
-					{% if payment_img %}
-						<img class="payment_img" src="{{ payment_img }}" alt="" />
-					{% endif %}
 				</div>
+				<!-- .row ends -->
 			</div>
-		</div> <!-- .row ends -->
+		</div>
+		<!-- .row ends -->
 
 		{% if oxyo_copyright %}
 			<div class="footer-copyright">{{ oxyo_copyright }}</div>
@@ -98,69 +172,53 @@
 	</div>
 </div>
 
-<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-<link href="catalog/view/theme/oxyo/js/lightgallery/css/lightgallery.css" rel="stylesheet" />
+<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="catalog/view/theme/oxyo/js/lightgallery/css/lightgallery.css" rel="stylesheet"/>
 <script src="catalog/view/theme/oxyo/js/jquery.matchHeight.min.js"></script>
 <script src="catalog/view/theme/oxyo/js/countdown.js"></script>
 <script src="catalog/view/theme/oxyo/js/live_search.js"></script>
 <script src="catalog/view/theme/oxyo/js/featherlight.js"></script>
 
 {% if view_popup %}
-<!-- Popup -->
-<script>
-$(document).ready(function() {
-	if ($(window).width() > {{ popup_width_limit }}) {
-		setTimeout(function() {
-			$.featherlight({
-				ajax: 'index.php?route=extension/oxyo/oxyo_features/oxyo_popup',
-				variant: 'popup-wrapper'
-			});
-		}, {{ popup_delay }});
-	}
+	<!-- Popup -->
+	<script>
+		$(document).ready(function () {
+if ($(window).width() > {{ popup_width_limit }}) {
+setTimeout(function () {
+$.featherlight({ajax: 'index.php?route=extension/oxyo/oxyo_features/oxyo_popup', variant: 'popup-wrapper'});
+}, {{ popup_delay }});
+}
 });
-</script>
+	</script>
 {% endif %}
 
 {% if sticky_columns %}
-<!-- Sticky columns -->
-<script>
-if ($(window).width() > 767) {
-	$('#column-left, #column-right').theiaStickySidebar({
-		containerSelector: $(this).closest('.row'),
-		additionalMarginTop: {{ sticky_columns_offset }}
-	});
+	<!-- Sticky columns -->
+	<script>
+		if ($(window).width() > 767) {
+$('#column-left, #column-right').theiaStickySidebar({containerSelector: $(this).closest('.row'), additionalMarginTop: {{ sticky_columns_offset }}});
 }
-</script>
+	</script>
 {% endif %}
 
 {% if view_cookie_bar %}
-<!-- Cookie bar -->
-<div class="oxyo_cookie_bar">
-	<div class="table">
-		<div class="table-cell w100">{{ oxyo_cookie_info }}</div>
-		<div class="table-cell button-cell">
-			<a class="btn btn-tiny btn-light-outline" onclick="$(this).parent().parent().parent().fadeOut(400);">{{ oxyo_cookie_btn_close }}</a>
-			{% if href_more_info is defined %}
-				<a class="more-info anim-underline light" href="{{ href_more_info }}">{{ oxyo_cookie_btn_more_info }}</a>
-			{% endif %}
+	<!-- Cookie bar -->
+	<div class="oxyo_cookie_bar">
+		<div class="table">
+			<div class="table-cell w100">{{ oxyo_cookie_info }}</div>
+			<div class="table-cell button-cell">
+				<a class="btn btn-tiny btn-light-outline" onclick="$(this).parent().parent().parent().fadeOut(400);">{{ oxyo_cookie_btn_close }}</a>
+				{% if href_more_info is defined %}
+					<a class="more-info anim-underline light" href="{{ href_more_info }}">{{ oxyo_cookie_btn_more_info }}</a>
+				{% endif %}
+			</div>
 		</div>
 	</div>
-</div>
 {% endif %}
 
 <!--
 OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but it's generally accepted practice to make a small donation.
 Please donate via PayPal to donate@opencart.com
 OXYO VERSION {{ oxyo_version }} - OPENCART VERSION 3 ({{ VERSION }})
--->
-
-</div> <!-- .outer-container ends -->
-
-<a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop:0});">
-	<i class="icon-arrow-right"></i>
-</a>
-
-<div id="featherlight-holder"></div>
-
-</body>
-</html>
+--></div><!-- .outer-container ends --><a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop:0});">
+<i class="icon-arrow-right"></i></a><div id="featherlight-holder"></div></body></html>

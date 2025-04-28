@@ -1,10 +1,18 @@
 <legend>Status</legend>
-<div class="form-group">
-<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Main setting to Enable/Disable Oxyo theme.">Theme Status</span></label>
-    <div class="col-sm-10 toggle-btn">
-    <label><input type="radio" name="settings[theme_default][theme_default_directory]" value="default" {% if theme_default_directory == 'default' %}checked="checked"{% endif %} /><span>Disabled</span></label>
-    <label><input type="radio" name="settings[theme_default][theme_default_directory]" value="oxyo" {% if theme_default_directory == 'oxyo' %}checked="checked"{% endif %} /><span>Enabled</span></label>
-    </div>                   
+
+<div class="form-field radio-switcher">
+	<p class="radio-switcher-title">
+        <span class="title">Theme Status</span>
+        <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Main setting to Enable/Disable Oxyo theme."></i>
+    </p>
+	<div class="form-radio-switcher-wrapper">
+		<label class="label-switcher label-switcher-pre" for="theme_default_directory_0">Disable</label>
+		<div class="form-radio form-radio-inline form-radio-switcher">
+            <input type="radio" name="settings[theme_default][theme_default_directory]" value="default" {% if theme_default_directory == 'default' %} checked="checked" {% endif %} id="theme_default_directory_0" />
+            <input type="radio" name="settings[theme_default][theme_default_directory]" value="oxyo" {% if theme_default_directory == 'oxyo' %} checked="checked" {% endif %} id="theme_default_directory_1" />
+		</div>
+		<label class="label-switcher label-switcher-post" for="theme_default_directory_1">Enable</label>
+	</div>
+</div>
 <input type="hidden" name="settings[config][config_theme]" value="default" />
 <input type="hidden" name="settings[oxyo_version][oxyo_theme_version]" value="1.2.8.0" />
-</div>

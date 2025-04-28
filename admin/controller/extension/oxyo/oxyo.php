@@ -110,6 +110,22 @@ class ControllerExtensionOxyoOxyo extends Controller
                 $this->request->post['settings']['oxyo']['oxyo_links'] = array();
             }
 
+            if (isset($this->request->post['settings']['oxyo']['main_phone']) && !empty($this->request->post['settings']['oxyo']['main_phone']) && $this->request->post['settings']['oxyo']['main_phone'] != '') {
+                $this->model_setting_setting->editSettingValue('config', 'config_telephone', $this->request->post['settings']['oxyo']['main_phone'], $data['store_id']);
+            }
+
+            if (isset($this->request->post['settings']['oxyo']['main_email']) && !empty($this->request->post['settings']['oxyo']['main_email']) && $this->request->post['settings']['oxyo']['main_email'] != '') {
+                $this->model_setting_setting->editSettingValue('config', 'config_email', $this->request->post['settings']['oxyo']['main_email'], $data['store_id']);
+            }
+
+            if (isset($this->request->post['settings']['oxyo']['main_address']) && !empty($this->request->post['settings']['oxyo']['main_address']) && $this->request->post['settings']['oxyo']['main_address'] != '') {
+                $this->model_setting_setting->editSettingValue('config', 'config_address', $this->request->post['settings']['oxyo']['main_address'], $data['store_id']);
+            }
+
+            if (isset($this->request->post['settings']['oxyo']['working_hours']) && !empty($this->request->post['settings']['oxyo']['working_hours']) && $this->request->post['settings']['oxyo']['working_hours'] != '') {
+                $this->model_setting_setting->editSettingValue('config', 'config_open', $this->request->post['settings']['oxyo']['working_hours'], $data['store_id']);
+            }
+
             foreach ($this->request->post['settings'] as $code => $setting_data) {
                 foreach ($setting_data as $key => $value) {
                     $setting_value = $this->model_extension_oxyo_oxyo->getSettingValue($key, $data['store_id']);
@@ -263,6 +279,16 @@ class ControllerExtensionOxyoOxyo extends Controller
         );
 
         $codes['oxyo'] = array(
+            'main_phone',
+            'main_email',
+            'main_address',
+            'working_hours',
+            'whatsapp_phone',
+            'telegram',
+            'vkontakte',
+            'avito',
+            'instagram',
+            'tiktok',
             'oxyo_header',
             'use_custom_links',
             'oxyo_list_style',
@@ -466,6 +492,13 @@ class ControllerExtensionOxyoOxyo extends Controller
                 }
             }
         }
+
+        // var_dump($this->request->post['main_phone']);
+        // exit;
+
+        // if (isset($this->request->post['main_phone'])) {
+        //     $this->model_setting_setting->editSetting('config', array('config_telephone' => $this->request->post['oxyo']['main_phone']), $data['store_id']);
+        // }
 
         // Footer links
         $oxyo_footer_columns = $data['oxyo_footer_columns'];

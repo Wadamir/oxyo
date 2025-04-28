@@ -1,42 +1,89 @@
 <div class="main-menu-wrapper hidden-md hidden-lg">
-<ul class="mobile-top">
-    <li class="mobile-lang-curr"></li>
-    {% if header_search %}
-    <li class="search">
-        <div class="search-holder-mobile">
-        <input type="text" name="search-mobile" value="" placeholder="" class="form-control" /><a class="fa fa-search"></a>
-        </div>
-    </li>
-    {% endif %}
-</ul>
-{% if primary_menu %}
-<ul class="categories">
-{% if primary_menu == 'oc' %}
-<!-- Default menu -->
-{{ default_menu }}
-{% elseif primary_menu is defined %}
-<!-- Mega menu -->
-{% for key, row in primary_menu_mobile %}
-{% include 'oxyo/template/common/menus/mega_menu.twig' %}
-{% endfor %}
-{% endif %}
-</ul>
-{% endif %}
-{% if secondary_menu %}
-<ul class="categories">
-    {% if secondary_menu == 'oc' %}
-        <!-- Default menu -->
-        {{ default_menu }}
-    {% elseif secondary_menu is defined %}
-        <!-- Mega menu -->
-        {% for key, row in secondary_menu_mobile %}
-        	{% include 'oxyo/template/common/menus/mega_menu.twig' %}
-        {% endfor %}
-    {% endif %}
-</ul>
-{% endif %}
-<ul class="categories">
-    {% include 'oxyo/template/common/static_links.twig' %}
-</ul>
+	<div class="menu-wrapper-top">
+		<ul class="mobile-top">
+			<li class="mobile-lang-curr d-none"></li>
+			{% if header_search %}
+				<li class="search">
+					<div class="search-holder-mobile">
+						<input type="text" name="search-mobile" value="" placeholder="" class="form-control"/><a class="bi bi-search"></a>
+					</div>
+				</li>
+			{% endif %}
+		</ul>
+		{% if primary_menu %}
+			<ul class="categories">
+				{% if primary_menu == 'oc' %}
+					<!-- Default menu -->
+					{{ default_menu }}
+				{% elseif primary_menu is defined %}
+					<!-- Mega menu -->
+					{% for key, row in primary_menu_mobile %}
+						{% include 'oxyo/template/common/menus/mega_menu.twig' %}
+					{% endfor %}
+				{% endif %}
+			</ul>
+		{% endif %}
+		{% if secondary_menu %}
+			<ul class="categories">
+				{% if secondary_menu == 'oc' %}
+					<!-- Default menu -->
+					{{ default_menu }}
+				{% elseif secondary_menu is defined %}
+					<!-- Mega menu -->
+					{% for key, row in secondary_menu_mobile %}
+						{% include 'oxyo/template/common/menus/mega_menu.twig' %}
+					{% endfor %}
+				{% endif %}
+			</ul>
+		{% endif %}
+		<ul class="categories">
+			{% include 'oxyo/template/common/static_links.twig' %}
+		</ul>
+	</div>
+	<div class="menu-wrapper-bottom">
+		{% if contact_array is defined %}
+			<ul class="categories">
+				{% for contact in contact_array %}
+					{% if (contact['name'] == 'main_address') %}
+						<li>
+							<a href="{{contact.link}}" class="contact-item" target="_blank">
+								{{ contact.value }}
+                                <i class="bi bi-sign-turn-slight-right"></i>
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		{% endif %}    
+		{% if contact_array is defined %}
+			<ul class="categories">
+				{% for contact in contact_array %}
+					{% if (contact['name'] == 'main_phone') %}
+						<li>
+							<a href="{{contact.link}}" class="contact-item" target="_blank">
+								{% if contact.icon != '' %}
+									{{ contact.icon }}
+								{% elseif contact.icon_svg != '' %}
+									{{ contact.icon_svg }}
+								{% endif %}
+								{{ contact.value }}
+							</a>
+						</li>
+					{% endif %}
+					{% if (contact['name'] == 'whatsapp_phone' or contact['name'] == 'telegram' or contact['name'] == 'vkontakte' or contact['name'] == 'avito' or contact['name'] == 'instagram' or contact['name'] == 'tiktok' ) %}
+						<li>
+							<a href="{{contact.link}}" class="contact-item" target="_blank">
+								{% if contact.icon != '' %}
+									{{ contact.icon }}
+								{% elseif contact.icon_svg != '' %}
+									{{ contact.icon_svg }}
+								{% endif %}
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
 </div>
 <span class="body-cover menu-closer"></span>
