@@ -97,6 +97,7 @@ class ControllerExtensionModuleOxyoContent extends Controller
             'text_background_parallax',
             'text_background_position',
             'text_background_repeat',
+            'text_background_size',
             'text_use_background_video',
             'text_background_video',
             'text_use_css',
@@ -256,6 +257,8 @@ class ControllerExtensionModuleOxyoContent extends Controller
             $data['b_setting'] = array();
         }
 
+        // var_dump($data['b_setting']);
+
         if (isset($this->request->post['c_setting'])) {
             $data['c_setting'] = $this->request->post['c_setting'];
         } elseif (!empty($module_info)) {
@@ -267,18 +270,18 @@ class ControllerExtensionModuleOxyoContent extends Controller
         // Column widths //
         $data['column_widths'][] = array();
         $data['column_widths'] = array(
-            "col-sm-1" => "1/12",
-            "col-sm-2" => "2/12",
-            "col-sm-3" => "3/12",
-            "col-sm-4" => "4/12",
-            "col-sm-5" => "5/12",
-            "col-sm-6" => "6/12",
-            "col-sm-7" => "7/12",
-            "col-sm-8" => "8/12",
-            "col-sm-9" => "9/12",
-            "col-sm-10" => "10/12",
-            "col-sm-11" => "11/12",
-            "col-sm-12" => "12/12",
+            "col-1" => "1/12",
+            "col-2" => "2/12",
+            "col-3" => "3/12",
+            "col-4" => "4/12",
+            "col-5" => "5/12",
+            "col-6" => "6/12",
+            "col-7" => "7/12",
+            "col-8" => "8/12",
+            "col-9" => "9/12",
+            "col-10" => "10/12",
+            "col-11" => "11/12",
+            "col-12" => "12/12",
             "custom" => $this->language->get('text_set_width_per_device')
         );
 

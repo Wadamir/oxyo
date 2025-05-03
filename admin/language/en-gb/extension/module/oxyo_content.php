@@ -30,6 +30,7 @@ $_['text_background_image']          = 'Image';
 $_['text_background_parallax']      = '<span data-toggle="tooltip" title="If enabled, background will move at a different speed than foreground while scrolling. Higher value means higher difference">Parallax scrolling</span>';
 $_['text_background_position']      = '<span data-toggle="tooltip" title="If Parallax scrolling is enabled, background position will always be top center">Background position</span>';
 $_['text_background_repeat']          = 'Background repeat';
+$_['text_background_size']          = 'Background size';
 $_['text_use_background_video']      = 'Background video';
 $_['text_background_video']          = '<span data-toggle="tooltip" title="For example, if the video is youtube.com/watch?v=VH7__ZLzUGw, the ID is VH7__ZLzUGw">Youtube video ID</span>';
 $_['text_use_css']                  = 'Custom CSS';

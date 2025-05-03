@@ -39,6 +39,15 @@ class ControllerExtensionModuleOxyoContent extends Controller
             $this->document->addScript('catalog/view/theme/oxyo/js/jquery.matchHeight.min.js');
         }
 
+        // var_dump($setting['c_setting']);
+
+        // Carousel
+        if (isset($setting['c_setting']['carousel'])) {
+            $data['carousel'] = $setting['c_setting']['carousel'];
+        } else {
+            $data['carousel'] = false;
+        }
+
         // RTL support
         $data['direction'] = $this->language->get('direction');
 
@@ -81,6 +90,11 @@ class ControllerExtensionModuleOxyoContent extends Controller
             $data['block_style'] .= "background-image: url(" . $server . 'image/' . $setting['bg_image'] . ");";
             $data['block_style'] .= "background-position:" . $setting['b_setting']['bg_pos'] . ";";
             $data['block_style'] .= "background-repeat:" . $setting['b_setting']['bg_repeat'] . ";";
+            if (isset($setting['b_setting']['bg_size'])) {
+                $data['block_style'] .= "background-size:" . $setting['b_setting']['bg_size'] . ";";
+            } else {
+                $data['block_style'] .= "background-size:auto;";
+            }
             if ($setting['b_setting']['bg_par']) {
                 $data['block_style'] .= "background-attachment:fixed;";
                 $this->document->addScript('catalog/view/theme/oxyo/js/parallax.min.js');
