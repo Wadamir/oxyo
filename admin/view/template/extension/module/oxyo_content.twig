@@ -1047,6 +1047,54 @@
                         </div>
                     </div>
 
+                    <div class="form-group" id="custom-width-${column_row}" style="display:none">
+                        <p class="col-sm-12 hidden d-none">{{ text_width_per_device }}</p>
+                        <div class="col-sm-12">
+                            <div class="d-flex">
+                                <div>
+                                    ≥576px&nbsp;
+                                    <select name="columns[${column_row}][w_sm]" class="form-control inline">
+                                        {% for key, sm_width in sm_widths %}
+                                            <option value="{{ key }}">{{ sm_width }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    ≥768px&nbsp;
+                                    <select name="columns[${column_row}][w_md]" class="form-control inline">
+                                        {% for key, md_width in md_widths %}
+                                            <option value="{{ key }}">{{ md_width }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    ≥992px&nbsp;
+                                    <select name="columns[${column_row}][w_lg]" class="form-control inline">
+                                        {% for key, lg_width in lg_widths %}
+                                            <option value="{{ key }}">{{ lg_width }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    ≥1200px&nbsp;
+                                    <select name="columns[${column_row}][w_xl]" class="form-control inline">
+                                        {% for key, xl_width in xl_widths %}
+                                            <option value="{{ key }}">{{ xl_width }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    ≥1400px&nbsp;
+                                    <select name="columns[${column_row}][w_xxl]" class="form-control inline">
+                                        {% for key, xxl_width in xxl_widths %}
+                                            <option value="{{ key }}">{{ xxl_width }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+
                     <div class="form-group" id="custom-width-${column_row}" style="display:none;">
                         <label class="col-sm-3 control-label">{{ text_width_per_device }}</label>
                         <div class="col-sm-9">
