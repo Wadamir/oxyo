@@ -5468,7 +5468,7 @@ h4.follow-title {
 /* ------ FOOTER ------- */
 /* --------------------- */
 #footer {
-    margin-top: 50px;
+    margin-top: 0;
     padding-top: 50px;
     background-color: var(--primary-black-100, #070709);
     color: var(--primary-white-100, #fcfcfc);
