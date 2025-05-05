@@ -39,8 +39,6 @@ class ControllerExtensionModuleOxyoContent extends Controller
             $this->document->addScript('catalog/view/theme/oxyo/js/jquery.matchHeight.min.js');
         }
 
-        // var_dump($setting['c_setting']);
-
         // Carousel
         if (isset($setting['c_setting']['carousel'])) {
             $data['carousel'] = $setting['c_setting']['carousel'];
@@ -52,6 +50,8 @@ class ControllerExtensionModuleOxyoContent extends Controller
         $data['direction'] = $this->language->get('direction');
 
         // Block
+        $data['block_id'] = (isset($setting['b_setting']['id']) && $setting['b_setting']['id']) ? $setting['b_setting']['id'] : 'oxyo_block_' . $module;
+        // var_dump($data['block_id']);
         $data['block_title'] = $setting['b_setting']['title'];
         $data['title_preline'] = false;
         $data['title'] = false;
@@ -148,7 +148,40 @@ class ControllerExtensionModuleOxyoContent extends Controller
                 }
 
                 if ($column['w'] == "custom") {
-                    $column_class = $column['w_sm'] . ' ' . $column['w_md'] . ' ' . $column['w_lg'];
+                    // $column_class = $column['w_sm'] . ' ' . $column['w_md'] . ' ' . $column['w_lg'] . ' ' . $column['w_xl'] . ' ' . $column['w_xxl'];
+                    $column_class = '';
+                    if (isset($column['w_sm']) && $column['w_sm'] != '') {
+                        $column_class .= $column['w_sm'] . ' ';
+                    }
+                    if (isset($column['w_md']) && $column['w_md'] != '') {
+                        if ($column['w_sm'] == 'd-sm-none' && $column['w_md'] !== 'd-md-none') {
+                            $column_class .= 'd-md-block ' . $column['w_md'] . ' ';
+                        } else {
+                            $column_class .= $column['w_md'] . ' ';
+                        }
+                    }
+                    if (isset($column['w_lg']) && $column['w_lg'] != '') {
+                        if ($column['w_md'] == 'd-md-none' && $column['w_lg'] !== 'd-lg-none') {
+                            $column_class .= 'd-lg-block ' . $column['w_lg'] . ' ';
+                        } else {
+                            $column_class .= $column['w_lg'] . ' ';
+                        }
+                    }
+                    if (isset($column['w_xl']) && $column['w_xl'] != '') {
+                        if ($column['w_lg'] == 'd-lg-none' && $column['w_xl'] !== 'd-xl-none') {
+                            $column_class .= 'd-xl-block ' . $column['w_xl'] . ' ';
+                        } else {
+                            $column_class .= $column['w_xl'] . ' ';
+                        }
+                    }
+                    if (isset($column['w_xxl']) && $column['w_xxl'] != '') {
+                        if ($column['w_xl'] == 'd-xl-none' && $column['w_xxl'] !== 'd-xxl-none') {
+                            $column_class .= 'd-xxl-block ' . $column['w_xxl'] . ' ';
+                        } else {
+                            $column_class .= $column['w_xxl'] . ' ';
+                        }
+                    }
+                    $column_class = trim($column_class);
                 } else {
                     $column_class = $column['w'];
                 }

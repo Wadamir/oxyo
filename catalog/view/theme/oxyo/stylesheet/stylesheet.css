@@ -850,6 +850,14 @@ div.required .control-label:after {
     gap: 0.5em;
 }
 
+.text-color-black {
+    color: var(--primary-black-100, #070709);
+}
+
+.text-color-primary-white {
+    color: var(--primary-white-100, #fcfcfc);
+}
+
 .text-color-secondary {
     color: var(--text-color-secondary, #d5d5d5);
 }
@@ -4202,7 +4210,7 @@ div.required .control-label:after {
 }
 
 .cm_content .cm_column {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
 }
 
 .cm_content .cm_column.type-tm {
@@ -4536,6 +4544,19 @@ div.required .control-label:after {
 @media (min-width: 1400px) {
     .cm_content .type-img .banner_wrap .cm_item {
         font-size: 32px;
+    }
+}
+
+@media (max-width: 991px) {
+    #home_wholesale .cm_block {
+        /* background-image: none !important; */
+        background: #858585;
+        background: linear-gradient(
+            90deg,
+            rgba(133, 133, 133, 1) 0%,
+            rgba(194, 194, 194, 1) 29%,
+            rgba(255, 255, 255, 0.51) 100%
+        ) !important;
     }
 }
 

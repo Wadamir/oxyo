@@ -12,6 +12,7 @@ $_['text_tab_content']          = 'Конструктор контента';
 $_['text_tab_template']         = 'Импорт из шаблона';
 $_['text_module_settings']      = 'Настройки модуля';
 $_['text_block_settings']       = 'Настройки области блока';
+$_['text_use_block_id']         = '<span data-toggle="tooltip" title="Используйте только латиницу без пробелов">Block ID</span>';
 $_['text_use_block_title']      = '<span data-toggle="tooltip" title="Включите, если хотите разместить заголовок над блоком">Заголовок блока</span>';
 $_['text_block_pre_line']       = '<span data-toggle="tooltip" title="Необязательно. Используйте это поле для текста над заголовком.">Пре-текст заголовка</span>';
 $_['text_block_title']          = 'Заголовок';

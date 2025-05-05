@@ -79,6 +79,7 @@ class ControllerExtensionModuleOxyoContent extends Controller
             'text_tab_template',
             'text_module_settings',
             'text_block_settings',
+            'text_use_block_id',
             'text_use_block_title',
             'text_block_pre_line',
             'text_block_title',
@@ -288,23 +289,6 @@ class ControllerExtensionModuleOxyoContent extends Controller
         // Column widths //
         $data['sm_widths'][] = array();
         $data['sm_widths'] = array(
-            "col-xs-1" => "1/12",
-            "col-xs-2" => "2/12",
-            "col-xs-3" => "3/12",
-            "col-xs-4" => "4/12",
-            "col-xs-5" => "5/12",
-            "col-xs-6" => "6/12",
-            "col-xs-7" => "7/12",
-            "col-xs-8" => "8/12",
-            "col-xs-9" => "9/12",
-            "col-xs-10" => "10/12",
-            "col-xs-11" => "11/12",
-            "col-xs-12" => "12/12",
-            "hidden-xs" => $this->language->get('text_hidden')
-        );
-
-        $data['md_widths'][] = array();
-        $data['md_widths'] = array(
             "col-sm-1" => "1/12",
             "col-sm-2" => "2/12",
             "col-sm-3" => "3/12",
@@ -317,11 +301,11 @@ class ControllerExtensionModuleOxyoContent extends Controller
             "col-sm-10" => "10/12",
             "col-sm-11" => "11/12",
             "col-sm-12" => "12/12",
-            "hidden-sm" => $this->language->get('text_hidden')
+            "d-sm-none" => $this->language->get('text_hidden')
         );
 
-        $data['lg_widths'][] = array();
-        $data['lg_widths'] = array(
+        $data['md_widths'][] = array();
+        $data['md_widths'] = array(
             "col-md-1" => "1/12",
             "col-md-2" => "2/12",
             "col-md-3" => "3/12",
@@ -334,7 +318,58 @@ class ControllerExtensionModuleOxyoContent extends Controller
             "col-md-10" => "10/12",
             "col-md-11" => "11/12",
             "col-md-12" => "12/12",
-            "hidden-md hidden-lg" => $this->language->get('text_hidden')
+            "d-md-none" => $this->language->get('text_hidden')
+        );
+
+        $data['lg_widths'][] = array();
+        $data['lg_widths'] = array(
+            "col-lg-1" => "1/12",
+            "col-lg-2" => "2/12",
+            "col-lg-3" => "3/12",
+            "col-lg-4" => "4/12",
+            "col-lg-5" => "5/12",
+            "col-lg-6" => "6/12",
+            "col-lg-7" => "7/12",
+            "col-lg-8" => "8/12",
+            "col-lg-9" => "9/12",
+            "col-lg-10" => "10/12",
+            "col-lg-11" => "11/12",
+            "col-lg-12" => "12/12",
+            "d-lg-none" => $this->language->get('text_hidden')
+        );
+
+        $data['xl_widths'][] = array();
+        $data['xl_widths'] = array(
+            "col-xl-1" => "1/12",
+            "col-xl-2" => "2/12",
+            "col-xl-3" => "3/12",
+            "col-xl-4" => "4/12",
+            "col-xl-5" => "5/12",
+            "col-xl-6" => "6/12",
+            "col-xl-7" => "7/12",
+            "col-xl-8" => "8/12",
+            "col-xl-9" => "9/12",
+            "col-xl-10" => "10/12",
+            "col-xl-11" => "11/12",
+            "col-xl-12" => "12/12",
+            "d-xl-none" => $this->language->get('text_hidden')
+        );
+
+        $data['xxl_widths'][] = array();
+        $data['xxl_widths'] = array(
+            "col-xxl-1" => "1/12",
+            "col-xxl-2" => "2/12",
+            "col-xxl-3" => "3/12",
+            "col-xxl-4" => "4/12",
+            "col-xxl-5" => "5/12",
+            "col-xxl-6" => "6/12",
+            "col-xxl-7" => "7/12",
+            "col-xxl-8" => "8/12",
+            "col-xxl-9" => "9/12",
+            "col-xxl-10" => "10/12",
+            "col-xxl-11" => "11/12",
+            "col-xxl-12" => "12/12",
+            "d-xxl-none" => $this->language->get('text_hidden')
         );
 
         $data['overlay_positions'][] = array();
@@ -367,6 +402,8 @@ class ControllerExtensionModuleOxyoContent extends Controller
                 'w_sm'   => $column['w_sm'],
                 'w_md'   => $column['w_md'],
                 'w_lg'   => $column['w_lg'],
+                'w_xl'   => (isset($column['w_xl']) ? $column['w_xl'] : ''),
+                'w_xxl'  => (isset($column['w_xxl']) ? $column['w_xxl'] : ''),
                 'type'   => $column['type'],
                 'data1'  => (isset($column['data1']) ? $column['data1'] : ''),
                 'data2'  => (isset($column['data2']) ? $column['data2'] : ''),
