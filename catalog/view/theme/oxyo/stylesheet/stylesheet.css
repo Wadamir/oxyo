@@ -3926,7 +3926,8 @@ div.required .control-label:after {
 }
 
 .single-blog .banner_wrap {
-    margin-bottom: 5px;
+    margin-bottom: 12px;
+    width: 100%;
 }
 
 .single-blog .blog-title {
@@ -8866,6 +8867,8 @@ div.ui-slider-range.ui-widget-header,
 
 .slick-slide img {
     display: block;
+    width: 100%;
+    height: auto;
 }
 
 .slick-slide.slick-loading img {
