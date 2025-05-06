@@ -61,11 +61,41 @@ class ControllerExtensionModuleBlogLatest extends Controller
                 $description = false;
             }
 
+
+
+            // <iframe src="https://vk.com/video_ext.php?oid=-224560176&id=456239120&hash=6fc1b1536ec7cdca" width="333" height="660" frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            // https://vk.com/clip-224560176_456239120
+            $vk_video_src = '';
+            $vk_video = isset($result['vk_video']) ? htmlspecialchars_decode($result['vk_video']) : '';
+            if ($vk_video) {
+                // get src from iframe
+                preg_match('/src="([^"]+)"/', $vk_video, $matches);
+                // https://vk.com/video_ext.php?oid=-224560176&id=456239120&hash=6fc1b1536ec7cdca
+                $vk_video_src = $matches[1];
+            }
+            if ($vk_video_src) {
+                $vk_video_url_parts = parse_url($vk_video_src);
+                // var_dump($vk_video_url_parts);
+                $vk_video_query = array();
+                parse_str($vk_video_url_parts['query'], $vk_video_query);
+                // var_dump($vk_video_query);
+                $vk_video_oid = (isset($vk_video_query['oid']) ? $vk_video_query['oid'] : '');
+                $vk_video_id = (isset($vk_video_query['id']) ? $vk_video_query['id'] : '');
+                $vk_video_hash = (isset($vk_video_query['hash']) ? $vk_video_query['hash'] : '');
+                if ($vk_video_oid && $vk_video_id && $vk_video_hash) {
+                    $vk_video = '<iframe src="https://vk.com/video_ext.php?oid=' . $vk_video_oid . '&id=' . $vk_video_id . '&hash=' . $vk_video_hash . '&autoplay=1" frameborder="0" allow="autoplay; encrypted-media;"></iframe>';
+                } else {
+                    $vk_video = false;
+                }
+            }
+
+
+
             $data['posts'][] = array(
                 'title' => $result['title'],
                 'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
                 'author' => $result['author'],
-                'vk_video' => isset($result['vk_video']) ? htmlspecialchars_decode($result['vk_video']) : '',
+                'vk_video' => $vk_video,
                 'comment_total' => $this->model_extension_blog_blog->getTotalCommentsByBlogId($result['blog_id']),
                 'date_added_full' => $result['date_added'],
                 'short_description' => $description,
