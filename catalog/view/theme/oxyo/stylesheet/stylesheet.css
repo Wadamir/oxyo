@@ -1697,7 +1697,10 @@ div.required .control-label:after {
         /* background: transparent !important; */
         /* background-color: rgba(7, 7, 9, 0.5); */
         border-color: transparent !important;
-        transition: background 400ms;
+        transition:
+            visibility 300ms,
+            opacity 600ms,
+            background 400ms;
     }
 }
 
