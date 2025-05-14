@@ -497,6 +497,18 @@ small {
     font-size: 13px;
 }
 
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.fs-16 {
+    font-size: 16px;
+}
+
 .form-vertical,
 form-horizontal {
     color: #111111;
@@ -2764,6 +2776,10 @@ div.required .control-label:after {
     width: 100%;
 
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.9);
+}
+
+.main-menu .menu_banner.text-end .menu-item {
+    text-align: right;
 }
 
 .dropdown-inner h4.column-title {
