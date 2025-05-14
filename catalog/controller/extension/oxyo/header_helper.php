@@ -235,6 +235,7 @@ if (($this->config->get('primary_menu') > 0) || ($this->config->get('secondary_m
     $data['oxyo_text_hours'] = $this->language->get('oxyo_text_hours');
     $data['oxyo_text_mins'] = $this->language->get('oxyo_text_mins');
     $data['oxyo_text_secs'] = $this->language->get('oxyo_text_secs');
+    $data['text_back'] = $this->language->get('text_back');
     $data['countdown_status'] = $this->config->get('countdown_status');
     $data['salebadge_status'] = $this->config->get('salebadge_status');
     $this->load->model('extension/oxyo/oxyo_megamenu');
