@@ -391,6 +391,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'oxyo_header_accent',
             'oxyo_header_menu_bg',
             'oxyo_header_menu_color',
+            'oxyo_header_menu_accent',
             'oxyo_search_scheme',
             'oxyo_vertical_menu_bg',
             'oxyo_vertical_menu_bg_hover',

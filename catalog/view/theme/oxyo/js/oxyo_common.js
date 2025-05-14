@@ -154,32 +154,32 @@ $(document).ready(function () {
     });
 
     // Keep Menu In Viewport
-    var menu_viewport = function () {
-        if ($(window).width() > 992) {
-            $('.main-menu .dropdown-content').each(function () {
-                var menu = $('.container').offset();
-                var dropdown = $(this).parent().offset();
-                var dropdown_wrapper = $(this).offset();
+    // var menu_viewport = function () {
+    //     if ($(window).width() > 992) {
+    //         $('.main-menu .dropdown-content').each(function () {
+    //             var menu = $('.container').offset();
+    //             var dropdown = $(this).parent().offset();
+    //             var dropdown_wrapper = $(this).offset();
 
-                // LTR Version
-                var i = (dropdown.left + $(this).outerWidth()) - (menu.left + $('.container').outerWidth());
-                if (i > 0) {
-                    $(this).css('margin-left', '-' + (i + 15) + 'px');
-                } else {
-                    $(this).css('margin-left', '0px');
-                }
+    //             // LTR Version
+    //             var i = (dropdown.left + $(this).outerWidth()) - (menu.left + $('.container').outerWidth());
+    //             if (i > 0) {
+    //                 $(this).css('margin-left', '-' + (i + 15) + 'px');
+    //             } else {
+    //                 $(this).css('margin-left', '0px');
+    //             }
 
-                // RTL Version		
-                var r = (menu.left - dropdown_wrapper.left);
-                if (r > 0) {
-                    $(this).css('margin-right', '-' + (r + 15) + 'px');
-                } else {
-                    $(this).css('margin-right', '0px');
-                }
-            });
-        }
-    };
-    $(window).on("load resize", function (e) { menu_viewport(); });
+    //             // RTL Version		
+    //             var r = (menu.left - dropdown_wrapper.left);
+    //             if (r > 0) {
+    //                 $(this).css('margin-right', '-' + (r + 15) + 'px');
+    //             } else {
+    //                 $(this).css('margin-right', '0px');
+    //             }
+    //         });
+    //     }
+    // };
+    // $(window).on("load resize", function (e) { menu_viewport(); });
 
     // Language and currency select
     $('#language-select').on('change', function () {

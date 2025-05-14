@@ -370,6 +370,10 @@ if ($this->config->get('oxyo_design_status')) {
     if ($this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'))) {
         $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
     } else {
+        $oxyo_header_bg = $this->config->get('oxyo_header_bg');
+        $oxyo_header_bg_rgba = sscanf($oxyo_header_bg, "#%02x%02x%02x");
+        $oxyo_header_bg_rgba_main = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 1)';
+        $oxyo_header_bg_rgba_opacity = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 0.5)';
         $styles = 'a:hover, a:focus, .menu-cell .dropdown-inner a:hover, .link-hover-color:hover, .primary-color, .cm_item .primary-color, .nav-tabs.text-center.nav-tabs-sm > li.active {color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
         $styles .= '.primary-bg-color, .widget-title-style2 .widget .widget-title-separator:after, .nav-tabs.text-center.nav-tabs-sm > li.active > a:after,.nav-tabs > li > a:hover,.nav-tabs > li > a:focus,.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus {background-color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
         $styles .= 'div.ui-slider-range.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default {background:' . $this->config->get('oxyo_primary_accent_color') . ' !important;}';
@@ -379,13 +383,16 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '.top_line {background-color:' . $this->config->get('oxyo_top_line_bg') . ';}';
         $styles .= '.top_line, .top_line a {color:' . $this->config->get('oxyo_top_line_color') . ';}';
         $styles .= '.top_line .anim-underline:after, .top_line .links ul > li + li:before, .top_line .links .setting-ul > .setting-li:before {background-color:' . $this->config->get('oxyo_top_line_color') . ';}';
-        $styles .= '.teswt, .header-style, .sticky-holder {background-color:' . $this->config->get('oxyo_header_bg') . ';}';
+
+        $styles .= '.teswt, .header-style, .sticky-holder, .main-menu > ul > li .full-width-dropdown {background-color:' . $oxyo_header_bg_rgba_main . ';}';
+
         $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ';}';
         $styles .= '.header-main .sign-in:after, .header-main .anim-underline:after, .header-main .sign-in .anim-underline:after {background-color:' . $this->config->get('oxyo_header_color') . ';}';
         $styles .= '.main-menu:not(.vertical) > ul > li:hover > a > .top, .header-main .shortcut-wrapper:hover .icon-magnifier, .header-main #cart:hover .shortcut-wrapper {opacity:0.8;}';
         $styles .= '.shortcut-wrapper .counter {background-color:' . $this->config->get('oxyo_header_accent') . ';}';
         $styles .= '.header-bottom, .menu-style {background-color:' . $this->config->get('oxyo_header_menu_bg') . ';}';
-        $styles .= '.menu-style .main-menu a > .top,.menu-style .main-menu a > .fa-angle-down, .menu-style .main-menu .search-trigger {color:' . $this->config->get('oxyo_header_menu_color') . ';}';
+        $styles .= '.menu-style .main-menu a > .top,.menu-style .main-menu a > .fa-angle-down, .menu-style .main-menu .search-trigger, .main-menu .dropdown-inner h2, .main-menu .dropdown-inner h3, .main-menu .dropdown-inner h4, .main-menu .dropdown-inner ul a:not(:hover) {color:' . $this->config->get('oxyo_header_menu_color') . ';}';
+        $styles .= '.menu-style .main-menu > ul > li:hover > a > .top, .menu-style .main-menu > ul > li:hover > a > i, .menu-style .main-menu > ul > li:hover > a {color:' . $this->config->get('oxyo_header_menu_accent') . ';}';
         $styles .= '.menu-tag.sale {background-color:' . $this->config->get('oxyo_menutag_sale_bg') . ';}';
         $styles .= '.menu-tag.sale:before {color:' . $this->config->get('oxyo_menutag_sale_bg') . ';}';
         $styles .= '.menu-tag.new {background-color:' . $this->config->get('oxyo_menutag_new_bg') . ';}';
@@ -395,9 +402,11 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '.title_in_bc .breadcrumb-holder {background-color:' . $this->config->get('oxyo_bc_bg_color') . ';}';
         $styles .= '.title_in_bc .breadcrumb-holder, .title_in_bc .breadcrumb-holder .oxyo-back-btn {color:' . $this->config->get('oxyo_bc_color') . ';}';
         $styles .= '.title_in_bc .oxyo-back-btn>i,.title_in_bc .oxyo-back-btn>i:after {background-color:' . $this->config->get('oxyo_bc_color') . ';}';
+
         if ($this->config->get('oxyo_bc_bg_img')) {
             $styles .= '.title_in_bc .breadcrumb-holder {background-position:' . $this->config->get('oxyo_bc_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_bc_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_bc_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_bc_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_bc_bg_img') . ');}';
         }
+
         $styles .= '.btn-primary, a.btn-primary,.btn-neutral {background-color:' . $this->config->get('oxyo_default_btn_bg') . ';color:' . $this->config->get('oxyo_default_btn_color') . ';}';
         $styles .= '.btn-primary:hover,.btn-primary.active,.btn-primary:focus,.btn-default:hover,.btn-default.active,.btn-default:focus {background-color:' . $this->config->get('oxyo_default_btn_bg_hover') . '!important;color:' . $this->config->get('oxyo_default_btn_color_hover') . ' !important;}';
         $styles .= '.btn-contrast-outline {border-color:' . $this->config->get('oxyo_contrast_btn_bg') . ';color:' . $this->config->get('oxyo_contrast_btn_bg') . ';}';
@@ -410,9 +419,17 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '#footer .footer-copyright:before {background-color:' . $this->config->get('oxyo_footer_color') . ';opacity:0.05;}';
         $styles .= '#footer h5:after {background-color:' . $this->config->get('oxyo_footer_h5_sep') . ';}';
         $styles .= 'body.boxed-layout {background-color:' . $this->config->get('oxyo_body_bg_color') . ';}';
+
         if ($this->config->get('oxyo_body_bg_img')) {
             $styles .= 'body.boxed-layout {background-position:' . $this->config->get('oxyo_body_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_body_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_body_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_body_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_body_bg_img') . ');}';
         }
+
+        $styles .= '@media (min-width: 1201px) {';
+        $styles .= '.common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .header-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .header-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .menu-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .menu-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .full-width-dropdown {';
+        $styles .= 'background-color:' . $oxyo_header_bg_rgba_opacity . ';';
+        $styles .= '}';
+        $styles .= '}';
+
         $this->cache->set('oxyo_styles_cache_store_' . $this->config->get('config_store_id'), $styles);
         $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
     }

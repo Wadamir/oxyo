@@ -217,7 +217,7 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
                     'image' => $product_image,
                     'image2' => $image2,
                     'rating' => ($product && isset($product['rating'])) ? $product['rating'] : false,
-                    'sale_end_date' => $date_end['date_end'],
+                    'sale_end_date' => ($date_end) ? $date_end['date_end'] : false,
                     'price' => $price,
                     'new_label' => $is_new,
                     'special' => $special
