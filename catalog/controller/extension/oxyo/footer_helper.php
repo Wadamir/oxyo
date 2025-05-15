@@ -152,6 +152,95 @@ if ($this->config->get('main_phone') && $this->config->get('main_phone') != '') 
         'link' => $data['main_phone_link']
     ];
 }
+if ($this->config->get('main_phone_header') && $this->config->get('main_phone_header') == '1') {
+    $data['main_phone_header'] = true;
+} else {
+    $data['main_phone_header'] = false;
+}
+
+if ($this->config->get('whatsapp_phone') && $this->config->get('whatsapp_phone') != '') {
+    // $contact_array['whatsapp_phone'] = $this->config->get('whatsapp_phone');
+    $data['whatsapp_phone'] = $this->config->get('whatsapp_phone');
+    if (substr($data['whatsapp_phone'], 0, 1) === '+' || substr($data['whatsapp_phone'], 0, 1) === '7') {
+        $data['whatsapp_phone_link'] = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $data['whatsapp_phone']);
+    } else {
+        $data['whatsapp_phone_link'] = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $data['whatsapp_phone']);
+    }
+    $contact_array[] = [
+        'name' => 'whatsapp_phone',
+        'icon' => '<i class="bi bi-whatsapp"></i>',
+        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>',
+        'value' => $data['whatsapp_phone'],
+        'link' => $data['whatsapp_phone_link']
+    ];
+}
+if ($this->config->get('whatsapp_phone_header') && $this->config->get('whatsapp_phone_header') == '1') {
+    $data['whatsapp_phone_header'] = true;
+} else {
+    $data['whatsapp_phone_header'] = false;
+}
+
+if ($this->config->get('telegram') && $this->config->get('telegram') != '') {
+    // $contact_array['telegram'] = $this->config->get('telegram');
+    $data['telegram'] = trim($this->config->get('telegram'));
+    if (substr($data['telegram'], 0, 1) === '@') {
+        $data['telegram_link'] = 'https://t.me/' . substr($data['telegram'], 1);
+    } else {
+        $data['telegram_link'] = 'https://t.me/' . $data['telegram'];
+    }
+    $contact_array[] = [
+        'name' => 'telegram',
+        'icon' => '<i class="bi bi-telegram"></i>',
+        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09"/></svg>',
+        'value' => $data['telegram'],
+        'link' => $data['telegram_link']
+    ];
+}
+if ($this->config->get('telegram_header') && $this->config->get('telegram_header') == '1') {
+    $data['telegram_header'] = true;
+} else {
+    $data['telegram_header'] = false;
+}
+
+if ($this->config->get('vkontakte') && $this->config->get('vkontakte') != '') {
+    // $contact_array['vkontakte'] = $this->config->get('vkontakte');
+    $data['vkontakte'] = trim($this->config->get('vkontakte'));
+    $data['vkontakte_link'] = $data['vkontakte'];
+    $data['vkontakte_icon'] = '<svg xmlns="http://www.w3.org/2000/svg" width="31" height="20" viewBox="0 0 68 43" fill="currentColor"><path d="M37.2082 42.042C14.4165 42.042 1.41667 26.417 0.875 0.416992H12.2916C12.6666 19.5003 21.0831 27.5836 27.7498 29.2503V0.416992H38.5001V16.8752C45.0835 16.1669 51.9993 8.66699 54.3326 0.416992H65.083C63.2913 10.5837 55.7913 18.0836 50.4579 21.1669C55.7913 23.6669 64.3334 30.2086 67.5834 42.042H55.7497C53.208 34.1253 46.8751 28.0003 38.5001 27.1669V42.042H37.2082Z"/></svg>';
+    $contact_array[] = [
+        'name' => 'vkontakte',
+        'icon' => '',
+        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="31" height="20" viewBox="0 0 68 43" fill="currentColor"><path d="M37.2082 42.042C14.4165 42.042 1.41667 26.417 0.875 0.416992H12.2916C12.6666 19.5003 21.0831 27.5836 27.7498 29.2503V0.416992H38.5001V16.8752C45.0835 16.1669 51.9993 8.66699 54.3326 0.416992H65.083C63.2913 10.5837 55.7913 18.0836 50.4579 21.1669C55.7913 23.6669 64.3334 30.2086 67.5834 42.042H55.7497C53.208 34.1253 46.8751 28.0003 38.5001 27.1669V42.042H37.2082Z"/></svg>',
+        'value' => $data['vkontakte'],
+        'link' => $data['vkontakte_link']
+    ];
+}
+if ($this->config->get('vkontakte_header') && $this->config->get('vkontakte_header') == '1') {
+    $data['vkontakte_header'] = true;
+} else {
+    $data['vkontakte_header'] = false;
+}
+
+if ($this->config->get('callback') && $this->config->get('callback') == '1') {
+    $data['callback'] = true;
+    $data['callback_text'] = $this->language->get('callback_text');
+    $data['callback_link'] = '#';
+    $data['callback_icon'] = '<i class="bi bi-phone-vibrate"></i>';
+    $data['callback_icon_svg'] = '<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 16 16" fill="currentColor"><path d="M10 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM6 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M8 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2M1.599 4.058a.5.5 0 0 1 .208.676A7 7 0 0 0 1 8c0 1.18.292 2.292.807 3.266a.5.5 0 0 1-.884.468A8 8 0 0 1 0 8c0-1.347.334-2.619.923-3.734a.5.5 0 0 1 .676-.208m12.802 0a.5.5 0 0 1 .676.208A8 8 0 0 1 16 8a8 8 0 0 1-.923 3.734.5.5 0 0 1-.884-.468A7 7 0 0 0 15 8c0-1.18-.292-2.292-.807-3.266a.5.5 0 0 1 .208-.676M3.057 5.534a.5.5 0 0 1 .284.648A5 5 0 0 0 3 8c0 .642.12 1.255.34 1.818a.5.5 0 1 1-.93.364A6 6 0 0 1 2 8c0-.769.145-1.505.41-2.182a.5.5 0 0 1 .647-.284m9.886 0a.5.5 0 0 1 .648.284C13.855 6.495 14 7.231 14 8s-.145 1.505-.41 2.182a.5.5 0 0 1-.93-.364C12.88 9.255 13 8.642 13 8s-.12-1.255-.34-1.818a.5.5 0 0 1 .283-.648"/></svg>';
+    $contact_array[] = [
+        'name' => 'callback',
+        'icon' => '<i class="bi bi-phone-vibrate"></i>',
+        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 16 16" fill="currentColor"><path d="M10 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM6 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M8 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2M1.599 4.058a.5.5 0 0 1 .208.676A7 7 0 0 0 1 8c0 1.18.292 2.292.807 3.266a.5.5 0 0 1-.884.468A8 8 0 0 1 0 8c0-1.347.334-2.619.923-3.734a.5.5 0 0 1 .676-.208m12.802 0a.5.5 0 0 1 .676.208A8 8 0 0 1 16 8a8 8 0 0 1-.923 3.734.5.5 0 0 1-.884-.468A7 7 0 0 0 15 8c0-1.18-.292-2.292-.807-3.266a.5.5 0 0 1 .208-.676M3.057 5.534a.5.5 0 0 1 .284.648A5 5 0 0 0 3 8c0 .642.12 1.255.34 1.818a.5.5 0 1 1-.93.364A6 6 0 0 1 2 8c0-.769.145-1.505.41-2.182a.5.5 0 0 1 .647-.284m9.886 0a.5.5 0 0 1 .648.284C13.855 6.495 14 7.231 14 8s-.145 1.505-.41 2.182a.5.5 0 0 1-.93-.364C12.88 9.255 13 8.642 13 8s-.12-1.255-.34-1.818a.5.5 0 0 1 .283-.648"/></svg>',
+        'value' => $data['callback_text'],
+        'link' => $data['callback_link']
+    ];
+}
+if ($this->config->get('callback_header') && $this->config->get('callback_header') == '1') {
+    $data['callback_header'] = true;
+} else {
+    $data['callback_header'] = false;
+}
+
 if ($this->config->get('main_email') && $this->config->get('main_email') != '') {
     // $contact_array['main_email'] = $this->config->get('main_email');
     $data['main_email'] = trim($this->config->get('main_email'));
@@ -186,50 +275,6 @@ if ($this->config->get('working_hours') && $this->config->get('working_hours') !
         'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">  <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>',
         'value' => $data['working_hours'],
         'link' => $data['working_hours_link']
-    ];
-}
-if ($this->config->get('whatsapp_phone') && $this->config->get('whatsapp_phone') != '') {
-    // $contact_array['whatsapp_phone'] = $this->config->get('whatsapp_phone');
-    $data['whatsapp_phone'] = $this->config->get('whatsapp_phone');
-    if (substr($data['whatsapp_phone'], 0, 1) === '+' || substr($data['whatsapp_phone'], 0, 1) === '7') {
-        $data['whatsapp_phone_link'] = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $data['whatsapp_phone']);
-    } else {
-        $data['whatsapp_phone_link'] = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $data['whatsapp_phone']);
-    }
-    $contact_array[] = [
-        'name' => 'whatsapp_phone',
-        'icon' => '<i class="bi bi-whatsapp"></i>',
-        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>',
-        'value' => $data['whatsapp_phone'],
-        'link' => $data['whatsapp_phone_link']
-    ];
-}
-if ($this->config->get('telegram') && $this->config->get('telegram') != '') {
-    // $contact_array['telegram'] = $this->config->get('telegram');
-    $data['telegram'] = trim($this->config->get('telegram'));
-    if (substr($data['telegram'], 0, 1) === '@') {
-        $data['telegram_link'] = 'https://t.me/' . substr($data['telegram'], 1);
-    } else {
-        $data['telegram_link'] = 'https://t.me/' . $data['telegram'];
-    }
-    $contact_array[] = [
-        'name' => 'telegram',
-        'icon' => '<i class="bi bi-telegram"></i>',
-        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09"/></svg>',
-        'value' => $data['telegram'],
-        'link' => $data['telegram_link']
-    ];
-}
-if ($this->config->get('vkontakte') && $this->config->get('vkontakte') != '') {
-    // $contact_array['vkontakte'] = $this->config->get('vkontakte');
-    $data['vkontakte'] = trim($this->config->get('vkontakte'));
-    $data['vkontakte_link'] = $data['vkontakte'];
-    $contact_array[] = [
-        'name' => 'vkontakte',
-        'icon' => '',
-        'icon_svg' => '<svg xmlns="http://www.w3.org/2000/svg width="31" height="20" viewBox="0 0 68 43" fill="currentColor"><path d="M37.2082 42.042C14.4165 42.042 1.41667 26.417 0.875 0.416992H12.2916C12.6666 19.5003 21.0831 27.5836 27.7498 29.2503V0.416992H38.5001V16.8752C45.0835 16.1669 51.9993 8.66699 54.3326 0.416992H65.083C63.2913 10.5837 55.7913 18.0836 50.4579 21.1669C55.7913 23.6669 64.3334 30.2086 67.5834 42.042H55.7497C53.208 34.1253 46.8751 28.0003 38.5001 27.1669V42.042H37.2082Z"/></svg>',
-        'value' => $data['vkontakte'],
-        'link' => $data['vkontakte_link']
     ];
 }
 if ($this->config->get('instagram') && $this->config->get('instagram') != '') {
@@ -269,4 +314,3 @@ if ($this->config->get('avito') && $this->config->get('avito') != '') {
     ];
 }
 $data['contact_array'] = $contact_array;
-// var_dump($data['main_phone']);

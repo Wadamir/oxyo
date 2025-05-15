@@ -270,7 +270,7 @@
         {% if contact_array is defined %}
             <ul class="categories">
                 {% for contact in contact_array %}
-                    {% if (contact['name'] == 'main_address') %}
+                    {% if (contact['name'] == 'main_address' and contact['value'] != '') %}
                         <li>
                             <a href="{{contact.link}}" class="contact-item" target="_blank">
                                 {{ contact.value }}
@@ -284,6 +284,33 @@
         {% if contact_array is defined %}
             <ul class="categories">
                 {% for contact in contact_array %}
+                    {% if (contact['name'] == 'working_hours' and contact['value'] != '') %}
+                        <li>
+                            <a href="{{contact.link}}" class="contact-item" target="_blank">
+                                {{ contact.value }}
+                                <i class="bi bi-sign-turn-slight-right d-none"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}        
+        {% if contact_array is defined %}
+            <ul class="categories">
+                {% for contact in contact_array %}
+                    {% if (contact['name'] == 'callback' and contact['value'] != '') %}
+                        <li>
+                            <a href="{{contact.link}}" class="contact-item" target="_blank">
+                                {{ contact['icon_svg'] }} {{ contact.value }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}            
+        {% if contact_array is defined %}
+            <ul class="categories">
+                {% for contact in contact_array %}
                     {% if (contact['name'] == 'main_phone') %}
                         <li>
                             <a href="{{contact.link}}" class="contact-item" target="_blank">
@@ -292,7 +319,7 @@
                                 {% elseif contact.icon_svg != '' %}
                                     {{ contact.icon_svg }}
                                 {% endif %}
-                                {{ contact.value }}
+                                <span class="d-none d-sm-block">{{ contact.value }}</span>
                             </a>
                         </li>
                     {% endif %}

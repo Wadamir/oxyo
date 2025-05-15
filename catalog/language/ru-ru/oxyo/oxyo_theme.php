@@ -10,6 +10,9 @@ $_['oxyo_text_mins']                 = 'Мин';
 $_['oxyo_text_secs']                 = 'Сек';
 $_['text_back']                      = 'Назад';
 
+// Contact icons
+$_['callback_text']                 = 'Обратный звонок';
+
 // Страница товара
 $_['oxyo_text_share']                = 'Поделиться';
 

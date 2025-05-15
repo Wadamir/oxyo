@@ -39,7 +39,7 @@
 				<div class="row header-main">
 					<div class="col-4 menu-cell">
 						<div class="font-zero">
-							<div class="icon-element d-xxl-none d-xl-none">
+							<div class="icon-element d-xxl-none d-xl-none p-0">
 								<a class="shortcut-wrapper menu-trigger">
 									<svg class="ham hamRotate ham1" viewbox="0 0 100 100" width="40px" height="40px">
 										<path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40"/>
@@ -48,27 +48,43 @@
 									</svg>
 								</a>
 							</div>
-							{% if main_phone %}
+							{% if main_phone is defined and main_phone and main_phone_header %}
 								<div class="icon-element">
 									<a class="shortcut-wrapper" href="{{ main_phone_link }}" target="_blank">
 										<i class="bi bi-telephone"></i>
-										<span class="nowrap d-none d-xl-block">{{ main_phone }}</span>
+										<span class="nowrap d-none">{{ main_phone }}</span>
 									</a>
 								</div>
 							{% endif %}
-                            {% if whatsapp_phone %}
-                                <div class="icon-element d-none d-sm-block">
+                            {% if whatsapp_phone is defined and whatsapp_phone and whatsapp_phone_header %}
+                                <div class="icon-element">
                                     <a class="shortcut-wrapper" href="https://wa.me/{{ whatsapp_phone_link }}" target="_blank">
                                         <i class="bi bi-whatsapp"></i>
                                         <span class="nowrap d-none">{{ whatsapp_phone }}</span>
                                     </a>
                                 </div>
                             {% endif %}
-                            {% if telegram %}
+                            {% if telegram is defined and telegram and telegram_header %}
                                 <div class="icon-element d-none d-sm-block">
                                     <a class="shortcut-wrapper" href="https://t.me/{{ telegram_link }}" target="_blank">
                                         <i class="bi bi-telegram"></i>
                                         <span class="nowrap d-none">{{ telegram }}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if vkontakte is defined and vkontakte and vkontakte_header %}
+                                <div class="icon-element d-none d-md-block">
+                                    <a class="shortcut-wrapper" href="https://vk.com/{{ vkontakte_link }}" target="_blank">
+                                        {{ vkontakte_icon }}
+                                        <span class="nowrap d-none">{{ vkontakte }}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if callback is defined and callback and callback_header %}
+                                <div class="icon-element d-none d-md-block">
+                                    <a class="shortcut-wrapper" href="{{ callback_link }}" onclick="callBackShow();">
+                                        {{ callback_icon_svg }}
+                                        <span class="nowrap d-none d-lg-block text-block">{{ callback_text }}</span>
                                     </a>
                                 </div>
                             {% endif %}
@@ -118,7 +134,7 @@
 								<div id="cart" class="dropdown-wrapper from-top">
 									<a href="{{ shopping_cart }}" class="shortcut-wrapper cart">
 										<i id="cart-icon" class="global-cart icon"></i>
-										<span id="cart-total" class="nowrap">
+										<span id="cart-total" class="nowrap text-block">
 											<span class="counter cart-total-items">{{ cart_items }}</span>
 											<span class="slash d-none d-xl-block">/</span>
 											<span class="cart-total-amount d-none d-xl-block">{{ cart_amount }}</span>

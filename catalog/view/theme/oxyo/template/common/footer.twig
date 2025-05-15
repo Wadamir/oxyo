@@ -56,6 +56,15 @@
 									</li>
 								{% endif %}
 							{% endfor %}
+							{% for contact in contact_array %}
+								{% if (contact['name'] == 'callback') %}
+									<li>
+										<a href="{{contact['link']}}" class="contact-item info-line" onclick="callBackShow();">
+											{{ contact['icon_svg'] }} {{ contact['value'] }}
+										</a>
+									</li>
+								{% endif %}
+							{% endfor %}                            
 						</ul>
 					{% endif %}
 					{% if contact_array is defined %}

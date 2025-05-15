@@ -26,7 +26,8 @@
     width: 20%;
 }
 
-.form-group.new-form-group > input {
+.form-group.new-form-group > input,
+.form-group.new-form-group > select {
     margin: 0;
     width: 80%;
 }
@@ -358,6 +359,10 @@ legend.third {
     justify-content: flex-start;
     align-items: center;
     gap: 1em;
+}
+
+.new-form-group.radio-switcher {
+    margin-top: 20px;
 }
 
 /* .radio-switcher .radio-switcher-title {

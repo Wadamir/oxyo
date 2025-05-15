@@ -10,6 +10,9 @@ $_['oxyo_text_mins']                 = 'Min';
 $_['oxyo_text_secs']                 = 'Sec';
 $_['text_back']                      = 'Back';
 
+// Contact icons
+$_['callback_text']                 = 'Callback';
+
 // Product Page
 $_['oxyo_text_share']                = 'Share';
 
