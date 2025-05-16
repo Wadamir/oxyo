@@ -83,7 +83,7 @@ class ControllerExtensionModuleBlogLatest extends Controller
                 $vk_video_id = (isset($vk_video_query['id']) ? $vk_video_query['id'] : '');
                 $vk_video_hash = (isset($vk_video_query['hash']) ? $vk_video_query['hash'] : '');
                 if ($vk_video_oid && $vk_video_id && $vk_video_hash) {
-                    $vk_video = '<iframe src="https://vk.com/video_ext.php?oid=' . $vk_video_oid . '&id=' . $vk_video_id . '&hash=' . $vk_video_hash . '&autoplay=1" frameborder="0" allow="autoplay; encrypted-media;"></iframe>';
+                    $vk_video = '<iframe src="https://vk.com/video_ext.php?oid=' . $vk_video_oid . '&id=' . $vk_video_id . '&hash=' . $vk_video_hash . '&autoplay=1&mute=1&loop=1" frameborder="0" allow="autoplay; encrypted-media;"></iframe>';
                 } else {
                     $vk_video = false;
                 }
