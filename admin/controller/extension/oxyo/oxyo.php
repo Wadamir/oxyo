@@ -76,10 +76,21 @@ class ControllerExtensionOxyoOxyo extends Controller
             $data['success'] = '';
         }
 
-        // Lanugage strings
+        // Language strings
         $data['button_add'] = $this->language->get('button_add');
         $data['button_remove'] = $this->language->get('button_remove');
         $data['error_permission'] = $this->language->get('error_permission');
+
+        $data['text_yes'] = $this->language->get('text_yes');
+        $data['text_no'] = $this->language->get('text_no');
+        $data['text_off'] = $this->language->get('text_off');
+        $data['text_on'] = $this->language->get('text_on');
+
+        $data['text_select'] = $this->language->get('text_select');
+        $data['text_none'] = $this->language->get('text_none');
+
+        $data['text_show_in_header'] = $this->language->get('text_show_in_header');
+        $data['text_show_in_footer'] = $this->language->get('text_show_in_footer');
 
         // Data strings
         $data['oxyo_theme_version'] = $this->getConfig('oxyo_theme_version');

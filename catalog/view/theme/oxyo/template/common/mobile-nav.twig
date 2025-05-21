@@ -300,7 +300,7 @@
                 {% for contact in contact_array %}
                     {% if (contact['name'] == 'callback' and contact['value'] != '') %}
                         <li>
-                            <a href="{{contact.link}}" class="contact-item" target="_blank">
+                            <a href="{{contact.link}}" class="contact-item" onclick="callBackShow(event);">
                                 {{ contact['icon_svg'] }} {{ contact.value }}
                             </a>
                         </li>

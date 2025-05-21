@@ -14,16 +14,16 @@
     <div class="col-xs-12 col-md-4">
         <div class="new-form-group form-field radio-switcher">
             <p class="radio-switcher-title">
-                <span class="title">Show in header</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show in header"></i>
+                <span class="title">{{ text_show_in_header }}</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ text_show_in_header }}"></i>
             </p>
             <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="main_phone_header_0">Off</label>
+                <label class="label-switcher label-switcher-pre" for="main_phone_header_0">{{ text_off }}</label>
                 <div class="form-radio form-radio-inline form-radio-switcher">
                     <input type="radio" name="settings[oxyo][main_phone_header]" value="0" {% if main_phone_header == '0' or main_phone_header is not defined %} checked="checked" {% endif %} id="main_phone_header_0" />
                     <input type="radio" name="settings[oxyo][main_phone_header]" value="1" {% if main_phone_header == '1' %} checked="checked" {% endif %} id="main_phone_header_1" />
                 </div>
-                <label class="label-switcher label-switcher-post" for="main_phone_header_1">On</label>
+                <label class="label-switcher label-switcher-post" for="main_phone_header_1">{{ text_on }}</label>
             </div>
         </div>
     </div>
@@ -41,16 +41,16 @@
     <div class="col-xs-12 col-md-4">
         <div class="new-form-group form-field radio-switcher">
             <p class="radio-switcher-title">
-                <span class="title">Show in header</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show in header"></i>
+                <span class="title">{{ text_show_in_header }}</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ text_show_in_header }}"></i>
             </p>
             <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="whatsapp_phone_header_0">Off</label>
+                <label class="label-switcher label-switcher-pre" for="whatsapp_phone_header_0">{{ text_off }}</label>
                 <div class="form-radio form-radio-inline form-radio-switcher">
                     <input type="radio" name="settings[oxyo][whatsapp_phone_header]" value="0" {% if whatsapp_phone_header == '0' or whatsapp_phone_header is not defined %} checked="checked" {% endif %} id="whatsapp_phone_header_0" />
                     <input type="radio" name="settings[oxyo][whatsapp_phone_header]" value="1" {% if whatsapp_phone_header == '1' %} checked="checked" {% endif %} id="whatsapp_phone_header_1" />
                 </div>
-                <label class="label-switcher label-switcher-post" for="whatsapp_phone_header_1">On</label>
+                <label class="label-switcher label-switcher-post" for="whatsapp_phone_header_1">{{ text_on }}</label>
             </div>
         </div>
     </div>
@@ -68,16 +68,16 @@
     <div class="col-xs-12 col-md-4">
         <div class="new-form-group form-field radio-switcher">
             <p class="radio-switcher-title">
-                <span class="title">Show in header</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show in header"></i>
+                <span class="title">{{ text_show_in_header }}</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ text_show_in_header }}"></i>
             </p>
             <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="telegram_header_0">Off</label>
+                <label class="label-switcher label-switcher-pre" for="telegram_header_0">{{ text_off }}</label>
                 <div class="form-radio form-radio-inline form-radio-switcher">
                     <input type="radio" name="settings[oxyo][telegram_header]" value="0" {% if telegram_header == '0' or telegram_header is not defined %} checked="checked" {% endif %} id="telegram_header_0" />
                     <input type="radio" name="settings[oxyo][telegram_header]" value="1" {% if telegram_header == '1' %} checked="checked" {% endif %} id="telegram_header_1" />
                 </div>
-                <label class="label-switcher label-switcher-post" for="telegram_header_1">On</label>
+                <label class="label-switcher label-switcher-post" for="telegram_header_1">{{ text_on }}</label>
             </div>
         </div>
     </div>
@@ -95,46 +95,16 @@
     <div class="col-xs-12 col-md-4">
         <div class="new-form-group form-field radio-switcher">
             <p class="radio-switcher-title">
-                <span class="title">Show in header</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show in header"></i>
+                <span class="title">{{ text_show_in_header }}</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ text_show_in_header }}"></i>
             </p>
             <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="vkontakte_header_0">Off</label>
+                <label class="label-switcher label-switcher-pre" for="vkontakte_header_0">{{ text_off }}</label>
                 <div class="form-radio form-radio-inline form-radio-switcher">
                     <input type="radio" name="settings[oxyo][vkontakte_header]" value="0" {% if vkontakte_header == '0' or vkontakte_header is not defined %} checked="checked" {% endif %} id="vkontakte_header_0" />
                     <input type="radio" name="settings[oxyo][vkontakte_header]" value="1" {% if vkontakte_header == '1' %} checked="checked" {% endif %} id="vkontakte_header_1" />
                 </div>
-                <label class="label-switcher label-switcher-post" for="vkontakte_header_1">On</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-8">
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Callback</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show callback button?"></i>
-            </label>
-            <select name="settings[oxyo][callback]" class="form-control">
-                <option value="0" {% if callback == '0' or callback is not defined %} selected="selected" {% endif %}>Disabled</option>
-                <option value="1" {% if callback == '1' %} selected="selected" {% endif %}>Show popup window</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4">
-        <div class="new-form-group form-field radio-switcher">
-            <p class="radio-switcher-title">
-                <span class="title">Show in header</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show in header"></i>
-            </p>
-            <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="callback_header_0">Off</label>
-                <div class="form-radio form-radio-inline form-radio-switcher">
-                    <input type="radio" name="settings[oxyo][callback_header]" value="0" {% if callback_header == '0' or callback_header is not defined %} checked="checked" {% endif %} id="callback_header_0" />
-                    <input type="radio" name="settings[oxyo][callback_header]" value="1" {% if callback_header == '1' %} checked="checked" {% endif %} id="callback_header_1" />
-                </div>
-                <label class="label-switcher label-switcher-post" for="callback_header_1">On</label>
+                <label class="label-switcher label-switcher-post" for="vkontakte_header_1">{{ text_on }}</label>
             </div>
         </div>
     </div>
@@ -182,16 +152,65 @@
             <input class="form-control" name="settings[oxyo][avito]" value="{{ avito ? avito : '' }}"/>
         </div>
 
-<legend class="sub d-none hidden">Catalog Mode</legend>
+<legend class="sub">Callback settings</legend>
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <div class="form-group new-form-group">
+            <label class="new-title">
+                <span class="title">Callback</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show callback button?"></i>
+            </label>
+            <select name="settings[oxyo][callback]" class="form-control">
+                <option value="0" {% if callback == '0' or callback is not defined %} selected="selected" {% endif %}>{{ text_disabled }}</option>
+                <option value="1" {% if callback == '1' %} selected="selected" {% endif %}>Show popup window</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="new-form-group form-field radio-switcher">
+            <p class="radio-switcher-title">
+                <span class="title">{{ text_show_in_header }}</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ text_show_in_header }}"></i>
+            </p>
+            <div class="form-radio-switcher-wrapper">
+                <label class="label-switcher label-switcher-pre" for="callback_header_0">{{ text_off }}</label>
+                <div class="form-radio form-radio-inline form-radio-switcher">
+                    <input type="radio" name="settings[oxyo][callback_header]" value="0" {% if callback_header == '0' or callback_header is not defined %} checked="checked" {% endif %} id="callback_header_0" />
+                    <input type="radio" name="settings[oxyo][callback_header]" value="1" {% if callback_header == '1' %} checked="checked" {% endif %} id="callback_header_1" />
+                </div>
+                <label class="label-switcher label-switcher-post" for="callback_header_1">{{ text_on }}</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="new-form-group form-field radio-switcher">
+            <p class="radio-switcher-title">
+                <span class="title">Show name field?</span>
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show name field?"></i>
+            </p>
+            <div class="form-radio-switcher-wrapper">
+                <label class="label-switcher label-switcher-pre" for="callback_name_0">{{ text_off }}</label>
+                <div class="form-radio form-radio-inline form-radio-switcher">
+                    <input type="radio" name="settings[oxyo][callback_name]" value="0" {% if callback_name == '0' or callback_name is not defined %} checked="checked" {% endif %} id="callback_name_0" />
+                    <input type="radio" name="settings[oxyo][callback_name]" value="1" {% if callback_name == '1' %} checked="checked" {% endif %} id="callback_name_1" />
+                </div>
+                <label class="label-switcher label-switcher-post" for="callback_name_1">{{ text_on }}</label>
+            </div>
+        </div>
+    </div>
+</div>
 
+<legend class="sub d-none hidden">Catalog Mode</legend>
 <div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
 		<span data-toggle="tooltip" title="Disable the product purchase options globally">Catalog Mode</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][catalog_mode]" value="0" {% if catalog_mode == '0' %} checked="checked" {% endif %}/><span>Off</span>
+		<label><input type="radio" name="settings[oxyo][catalog_mode]" value="0" {% if catalog_mode == '0' %} checked="checked" {% endif %}/><span>{{ text_off }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][catalog_mode]" value="1" {% if catalog_mode == '1' %} checked="checked" {% endif %}/><span>On</span>
+		<label><input type="radio" name="settings[oxyo][catalog_mode]" value="1" {% if catalog_mode == '1' %} checked="checked" {% endif %}/><span>{{ text_on }}</span>
 		</label>
 	</div>
 </div>
@@ -202,9 +221,9 @@
 		<span data-toggle="tooltip" title="Enable/Disable the product quickview feature globally">Product quickview Status</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][quickview_status]" value="0" {% if quickview_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][quickview_status]" value="0" {% if quickview_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][quickview_status]" value="1" {% if quickview_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][quickview_status]" value="1" {% if quickview_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
@@ -214,7 +233,7 @@
 	<label class="col-sm-2 control-label">Sale label</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][salebadge_status]" class="form-control">
-			<option value="0" {% if salebadge_status == '0' %} selected="selected" {% endif %}>Disabled</option>
+			<option value="0" {% if salebadge_status == '0' %} selected="selected" {% endif %}>{{ text_disabled }}</option>
 			<option value="1" {% if salebadge_status == '1' %} selected="selected" {% endif %}>Enabled - Sale Text</option>
 			<option value="2" {% if salebadge_status == '2' %} selected="selected" {% endif %}>Enabled - Discount Percentage</option>
 		</select>
@@ -234,9 +253,9 @@
 <div class="form-group">
 	<label class="col-sm-2 control-label">Out of stock label</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][stock_badge_status]" value="0" {% if stock_badge_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][stock_badge_status]" value="0" {% if stock_badge_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][stock_badge_status]" value="1" {% if stock_badge_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][stock_badge_status]" value="1" {% if stock_badge_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
@@ -247,9 +266,9 @@
 		<span data-toggle="tooltip" title="View time left on (time limited) special prices. Please note tat the Product groups module has its own setting for this.">Specials countdown status</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][countdown_status]" value="0" {% if countdown_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][countdown_status]" value="0" {% if countdown_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][countdown_status]" value="1" {% if countdown_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][countdown_status]" value="1" {% if countdown_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
@@ -274,9 +293,9 @@
 		<span data-toggle="tooltip" title="Enable/Disable the wishlist feature globally">Wish List Status</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][wishlist_status]" value="0" {% if wishlist_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][wishlist_status]" value="0" {% if wishlist_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][wishlist_status]" value="1" {% if wishlist_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][wishlist_status]" value="1" {% if wishlist_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
@@ -299,9 +318,9 @@
 		<span data-toggle="tooltip" title="Enable/Disable the product comparison feature globally">Comparison Status</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][compare_status]" value="0" {% if compare_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][compare_status]" value="0" {% if compare_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][compare_status]" value="1" {% if compare_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][compare_status]" value="1" {% if compare_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>

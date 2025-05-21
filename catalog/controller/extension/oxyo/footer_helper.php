@@ -1,6 +1,21 @@
 <?php
 $lang_id = $this->config->get('config_language_id');
 
+
+// Language
+$this->load->language('oxyo/oxyo_theme');
+$data['text_name'] = $this->language->get('text_name');
+$data['text_email'] = $this->language->get('text_email');
+$data['text_phone'] = $this->language->get('text_phone');
+$data['text_message'] = $this->language->get('text_message');
+$data['text_captcha'] = $this->language->get('text_captcha');
+$data['text_agree'] = $this->language->get('text_agree');
+$data['text_submit'] = $this->language->get('text_submit');
+$data['text_cancel'] = $this->language->get('text_cancel');
+$data['text_send_success'] = $this->language->get('text_send_success');
+$data['text_send_error'] = $this->language->get('text_send_error');
+
+
 // Footer positions
 if ($this->config->get('theme_default_directory') == 'oxyo') {
     $data['position_bottom_half'] = $this->load->controller('extension/oxyo/position_bottom_half');
@@ -221,6 +236,7 @@ if ($this->config->get('vkontakte_header') && $this->config->get('vkontakte_head
     $data['vkontakte_header'] = false;
 }
 
+$data['callback'] = false;
 if ($this->config->get('callback') && $this->config->get('callback') == '1') {
     $data['callback'] = true;
     $data['callback_text'] = $this->language->get('callback_text');

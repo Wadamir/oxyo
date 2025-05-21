@@ -1,233 +1,335 @@
-<div class="container">
-	{{ position_bottom_half }}
-</div>
+            <div class="container">
+                {{ position_bottom_half }}
+            </div>
 
-<div class="container">
-	{{ position_bottom }}
-</div>
+            <div class="container">
+                {{ position_bottom }}
+            </div>
 
-<div id="footer">
-	<div class="container">
-		{% if footer_block_1 and footer_block_1 != '<p><br></p>' %}
-			<div class="footer-top-block">
-				{{ footer_block_1 }}
-			</div>
-		{% endif %}
+            <div id="footer">
+                <div class="container">
+                    {% if footer_block_1 and footer_block_1 != '<p><br></p>' %}
+                        <div class="footer-top-block">
+                            {{ footer_block_1 }}
+                        </div>
+                    {% endif %}
 
-		<div class="row links-holder">
-			<div class="col-12 col-md-6 col-lg-5 order-md-last">
-				<div class="footer-column">
-					<h5>{{ text_contact }}</h5>
-					{% if contact_array is defined %}
-						<ul class="info-lines">
-							{% for contact in contact_array %}
-								{% if (contact['name'] == 'main_address') %}
-									<li>
-										<a href="{{contact['link']}}" class="contact-item info-line" target="_blank">
-											{{ contact['value'] }}
-											<i class="bi bi-sign-turn-slight-right d-none"></i>
-										</a>
-									</li>
-								{% endif %}
-								{% if (contact['name'] == 'working_hours') %}
-									<li>
-										<p class="contact-item info-line">
-											{% if contact['icon'] != '' %}
-												{{ contact['icon'] }}
-											{% elseif contact['icon_svg'] != '' %}
-												{{ contact['icon_svg'] }}
-											{% endif %}
-											{{ contact['value'] }}
-										</p>
-									</li>
-								{% endif %}
-							{% endfor %}
-							{% for contact in contact_array %}
-								{% if (contact['name'] == 'main_phone') %}
-									<li>
-										<a href="{{contact['link']}}" class="contact-item info-line" target="_blank">
-											{% if contact['icon'] != '' %}
-												{{ contact['icon'] }}
-											{% elseif contact['icon_svg'] != '' %}
-												{{ contact['icon_svg'] }}
-											{% endif %}
-											{{ contact['value'] }}
-										</a>
-									</li>
-								{% endif %}
-							{% endfor %}
-							{% for contact in contact_array %}
-								{% if (contact['name'] == 'callback') %}
-									<li>
-										<a href="{{contact['link']}}" class="contact-item info-line" onclick="callBackShow();">
-											{{ contact['icon_svg'] }} {{ contact['value'] }}
-										</a>
-									</li>
-								{% endif %}
-							{% endfor %}                            
-						</ul>
-					{% endif %}
-					{% if contact_array is defined %}
-						<ul class="info-icons">
-							{% for contact in contact_array %}
-								{% if (contact['name'] == 'whatsapp_phone' or contact['name'] == 'telegram' or contact['name'] == 'vkontakte' or contact['name'] == 'avito' or contact['name'] == 'instagram' or contact['name'] == 'tiktok' ) %}
-									<li>
-										<a href="{{contact['link']}}" class="contact-item info-icon" target="_blank">
-											{% if contact['icon'] != '' %}
-												{{ contact['icon'] }}
-											{% elseif contact['icon_svg'] != '' %}
-												{{ contact['icon_svg'] }}
-											{% endif %}
-										</a>
-									</li>
-								{% endif %}
-							{% endfor %}
-						</ul>
-					{% endif %}
-					{% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '' and footer_block_2 != '<p><br></p>' %}
-						{% if footer_block_title is defined %}
-							<h5>{{ footer_block_title }}</h5>
-						{% endif %}
-						{% if footer_block_2 and footer_block_2 != '<p><br></p>' %}
-							<div class="custom_block">{{ footer_block_2 }}</div>
-						{% endif %}
-					{% endif %}
-				</div>
-			</div>
-			<div class="col-12 col-md-6 col-lg-7 order-md-first">
-				<div class="row">
-					{% if custom_links %}
-						{% for column in oxyo_footer_columns %}
-							<div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
-								{% if column.title %}
-									<h5>{{ column.title }}</h5>
-								{% endif %}
-								{% if column.links is defined %}
-									<ul class="list-unstyled">
-										{% for link in column.links %}
-											<li>
-												<a href="{{ link.target }}">{{ link.title }}</a>
-											</li>
-										{% endfor %}
-									</ul>
-								{% endif %}
-							</div>
-						{% endfor %}
-					{% else %}
-						{% if informations %}
-							<div class="footer-column col-12 col-xl-6 eq_height">
-								<h5>{{ text_information }}</h5>
-								<ul class="list-unstyled">
-									{% for information in informations %}
-										<li>
-											<a href="{{ information.href }}">{{ information.title }}</a>
-										</li>
-									{% endfor %}
-									<li>
-										<a href="{{ contact }}">{{ text_contact }}</a>
-									</li>
-								</ul>
-							</div>
-						{% endif %}
-						<div class="footer-column col-12 col-xl-6 eq_height">
-							<h5>{{ text_extra }}</h5>
-							<ul class="list-unstyled">
-								<li class="d-none">
-									<a href="{{ manufacturer }}">{{ text_manufacturer }}</a>
-								</li>
-								<li>
-									<a href="{{ voucher }}">{{ text_voucher }}</a>
-								</li>
-								<li class="d-none">
-									<a href="{{ affiliate }}">{{ text_affiliate }}</a>
-								</li>
-								<li>
-									<a href="{{ special }}">{{ text_special }}</a>
-								</li>
-								<li class="d-none">
-									<a href="{{ sitemap }}">{{ text_sitemap }}</a>
-								</li>
-							</ul>
-							<br/>
-							<h5>{{ text_account }}</h5>
-							<ul class="list-unstyled">
-								<li>
-									<a href="{{ account }}">{{ text_account }}</a>
-								</li>
-								<li>
-									<a href="{{ order }}">{{ text_order }}</a>
-								</li>
-								<li class="d-none">
-									<a href="{{ return }}">{{ text_return }}</a>
-								</li>
-								<li class="is_wishlist">
-									<a href="{{ wishlist }}">{{ text_wishlist }}</a>
-								</li>
-								<li class="d-none">
-									<a href="{{ newsletter }}">{{ text_newsletter }}</a>
-								</li>
-							</ul>
-						</div>
-					{% endif %}
-				</div>
-				<!-- .row ends -->
-			</div>
-		</div>
-		<!-- .row ends -->
+                    <div class="row links-holder">
+                        <div class="col-12 col-md-6 col-lg-5 order-md-last">
+                            <div class="footer-column">
+                                <h5>{{ text_contact }}</h5>
 
-		{% if oxyo_copyright %}
-			<div class="footer-copyright">{{ oxyo_copyright }}</div>
-		{% endif %}
-	</div>
-</div>
+                                {% if contact_array is defined %}
+                                    <ul class="info-lines">
+                                        {% for contact in contact_array %}
+                                            {% if contact['name'] == 'main_address' %}
+                                                <li>
+                                                    <a href="{{ contact['link'] }}" class="contact-item info-line" target="_blank">
+                                                        {{ contact['value'] }}
+                                                        <i class="bi bi-sign-turn-slight-right d-none"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
 
-<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-<link href="catalog/view/theme/oxyo/js/lightgallery/css/lightgallery.css" rel="stylesheet"/>
-<script src="catalog/view/theme/oxyo/js/jquery.matchHeight.min.js"></script>
-<script src="catalog/view/theme/oxyo/js/countdown.js"></script>
-<script src="catalog/view/theme/oxyo/js/live_search.js"></script>
-<script src="catalog/view/theme/oxyo/js/featherlight.js"></script>
+                                            {% if contact['name'] == 'working_hours' %}
+                                                <li>
+                                                    <p class="contact-item info-line">
+                                                        {% if contact['icon'] != '' %}
+                                                            {{ contact['icon'] }}
+                                                        {% elseif contact['icon_svg'] != '' %}
+                                                            {{ contact['icon_svg'] }}
+                                                        {% endif %}
+                                                        {{ contact['value'] }}
+                                                    </p>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
 
-{% if view_popup %}
-	<!-- Popup -->
-	<script>
-		$(document).ready(function () {
-if ($(window).width() > {{ popup_width_limit }}) {
-setTimeout(function () {
-$.featherlight({ajax: 'index.php?route=extension/oxyo/oxyo_features/oxyo_popup', variant: 'popup-wrapper'});
-}, {{ popup_delay }});
-}
-});
-	</script>
-{% endif %}
+                                        {% for contact in contact_array %}
+                                            {% if contact['name'] == 'main_phone' %}
+                                                <li>
+                                                    <a href="{{ contact['link'] }}" class="contact-item info-line" target="_blank">
+                                                        {% if contact['icon'] != '' %}
+                                                            {{ contact['icon'] }}
+                                                        {% elseif contact['icon_svg'] != '' %}
+                                                            {{ contact['icon_svg'] }}
+                                                        {% endif %}
+                                                        {{ contact['value'] }}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
 
-{% if sticky_columns %}
-	<!-- Sticky columns -->
-	<script>
-		if ($(window).width() > 767) {
-$('#column-left, #column-right').theiaStickySidebar({containerSelector: $(this).closest('.row'), additionalMarginTop: {{ sticky_columns_offset }}});
-}
-	</script>
-{% endif %}
+                                        {% for contact in contact_array %}
+                                            {% if contact['name'] == 'callback' %}
+                                                <li>
+                                                    <a href="{{ contact['link'] }}" class="contact-item info-line" onclick="callBackShow(event);">
+                                                        {{ contact['icon_svg'] }} {{ contact['value'] }}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
 
-{% if view_cookie_bar %}
-	<!-- Cookie bar -->
-	<div class="oxyo_cookie_bar">
-		<div class="table">
-			<div class="table-cell w100">{{ oxyo_cookie_info }}</div>
-			<div class="table-cell button-cell">
-				<a class="btn btn-tiny btn-light-outline" onclick="$(this).parent().parent().parent().fadeOut(400);">{{ oxyo_cookie_btn_close }}</a>
-				{% if href_more_info is defined %}
-					<a class="more-info anim-underline light" href="{{ href_more_info }}">{{ oxyo_cookie_btn_more_info }}</a>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-{% endif %}
+                                {% if contact_array is defined %}
+                                    <ul class="info-icons">
+                                        {% for contact in contact_array %}
+                                            {% if contact['name'] in ['whatsapp_phone', 'telegram', 'vkontakte', 'avito', 'instagram', 'tiktok'] %}
+                                                <li>
+                                                    <a href="{{ contact['link'] }}" class="contact-item info-icon" target="_blank">
+                                                        {% if contact['icon'] != '' %}
+                                                            {{ contact['icon'] }}
+                                                        {% elseif contact['icon_svg'] != '' %}
+                                                            {{ contact['icon_svg'] }}
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
 
-<!--
-OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but it's generally accepted practice to make a small donation.
-Please donate via PayPal to donate@opencart.com
-OXYO VERSION {{ oxyo_version }} - OPENCART VERSION 3 ({{ VERSION }})
---></div><!-- .outer-container ends --><a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop:0});">
-<i class="icon-arrow-right"></i></a><div id="featherlight-holder"></div></body></html>
+                                {% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '<p><br></p>' %}
+                                    <h5>{{ footer_block_title }}</h5>
+                                    <div class="custom_block">{{ footer_block_2 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-7 order-md-first">
+                            <div class="row">
+                                {% if custom_links %}
+                                    {% for column in oxyo_footer_columns %}
+                                        <div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
+                                            {% if column.title %}
+                                                <h5>{{ column.title }}</h5>
+                                            {% endif %}
+                                            {% if column.links is defined %}
+                                                <ul class="list-unstyled">
+                                                    {% for link in column.links %}
+                                                        <li><a href="{{ link.target }}">{{ link.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% if informations %}
+                                        <div class="footer-column col-12 col-xl-6 eq_height">
+                                            <h5>{{ text_information }}</h5>
+                                            <ul class="list-unstyled">
+                                                {% for information in informations %}
+                                                    <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+                                                {% endfor %}
+                                                <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="footer-column col-12 col-xl-6 eq_height">
+                                        <h5>{{ text_extra }}</h5>
+                                        <ul class="list-unstyled">
+                                            <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+                                            <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+                                            <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+                                            <li><a href="{{ special }}">{{ text_special }}</a></li>
+                                            <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+                                        </ul>
+
+                                        <br/>
+
+                                        <h5>{{ text_account }}</h5>
+                                        <ul class="list-unstyled">
+                                            <li><a href="{{ account }}">{{ text_account }}</a></li>
+                                            <li><a href="{{ order }}">{{ text_order }}</a></li>
+                                            <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
+                                            <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+                                            <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if oxyo_copyright %}
+                        <div class="footer-copyright">{{ oxyo_copyright }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+            <link href="catalog/view/theme/oxyo/js/lightgallery/css/lightgallery.css" rel="stylesheet"/>
+            <script src="catalog/view/theme/oxyo/js/jquery.matchHeight.min.js"></script>
+            <script src="catalog/view/theme/oxyo/js/countdown.js"></script>
+            <script src="catalog/view/theme/oxyo/js/live_search.js"></script>
+            <script src="catalog/view/theme/oxyo/js/featherlight.js"></script>
+
+            {% if view_popup %}
+                <!-- Popup -->
+                <script>
+                    $(document).ready(function () {
+                        if ($(window).width() > {{ popup_width_limit }}) {
+                            setTimeout(function () {
+                                $.featherlight({
+                                    ajax: 'index.php?route=extension/oxyo/oxyo_features/oxyo_popup',
+                                    variant: 'popup-wrapper'
+                                });
+                            }, {{ popup_delay }});
+                        }
+                    });
+                </script>
+            {% endif %}
+
+            {% if sticky_columns %}
+                <!-- Sticky columns -->
+                <script>
+                    if ($(window).width() > 767) {
+                        $('#column-left, #column-right').theiaStickySidebar({
+                            containerSelector: $(this).closest('.row'),
+                            additionalMarginTop: {{ sticky_columns_offset }}
+                        });
+                    }
+                </script>
+            {% endif %}
+
+            {% if view_cookie_bar %}
+                <!-- Cookie bar -->
+                <div class="oxyo_cookie_bar">
+                    <div class="table">
+                        <div class="table-cell w100">{{ oxyo_cookie_info }}</div>
+                        <div class="table-cell button-cell">
+                            <a class="btn btn-tiny btn-light-outline" onclick="$(this).closest('.oxyo_cookie_bar').fadeOut(400);">
+                                {{ oxyo_cookie_btn_close }}
+                            </a>
+                            {% if href_more_info is defined %}
+                                <a class="more-info anim-underline light" href="{{ href_more_info }}">{{ oxyo_cookie_btn_more_info }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if callback is defined  and callback %}
+                <!-- Callback Fullscreen Modal -->
+                <div class="modal fade" id="callbackModal" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header no-title pt-0 pb-2 border-0">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-0">
+                                <div class="container">
+                                    <form id="callbackForm" class="form mw-600">
+                                        <div class="mb-3">
+                                            <label for="callbackName" class="form-label">{{ text_name }}</label>
+                                            <input type="text" class="form-control" id="callbackName" name="name" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="callbackPhone" class="form-label">{{ text_phone }}</label>
+                                            <input type="tel" class="form-control" id="callbackPhone" name="phone" required>
+                                        </div>
+
+                                        <div class="form-check mb-0">
+                                            <input class="form-check-input form-control" type="checkbox" id="callbackAgreement" name="agreement" required>
+                                            <label class="form-check-label" for="callbackAgreement">{{ text_agree }}</label>
+                                        </div>
+
+                                        <div class="text-end mt-3">
+                                            <button type="submit" class="btn btn-sm btn-contrast">{{ text_submit }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="callbackSuccess" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackSuccessLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body p-0">
+                                <div class="container">
+                                    <div class="text-center p-4">
+                                        <h5 class="modal-title" id="callbackSuccessLabel">{{ text_success }}</h5>
+                                        <p>{{ text_success_message }}</p>
+                                        <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- JS function to trigger modal -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        console.log('Callback form script loaded');
+                        const form = document.getElementById('callbackForm');
+                        const callbackModal = bootstrap.Modal.getInstance(document.getElementById('callbackModal'));
+                        const callbackSuccess = bootstrap.Modal.getInstance(document.getElementById('callbackSuccess'));
+
+                        if (!form || !callbackModal || !callbackSuccess) return;
+
+                        console.log(form, callbackModal, callbackSuccess);
+
+                        form.addEventListener('submit', function (e) {
+                            console.log('Callback form submitted');
+                            e.preventDefault();
+
+                            const formData = new FormData(form);
+                            const submitButton = form.querySelector('button[type="submit"]');
+                            submitButton.disabled = true;
+
+                            fetch('index.php?route=extension/module/oxyo_callback/send', {
+                                method: 'POST',
+                                body: formData,
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                submitButton.disabled = false;
+
+                                if (data.success) {
+                                    form.reset();
+                                    
+                                    callbackModal.addEventListener('hidden.bs.modal', function () {
+                                        callbackSuccess.show();
+                                    }, { once: true });
+                                    callbackModal.hide();
+                                    setTimeout(() => {
+                                        callbackSuccess.show();
+                                    }, 1500);
+                                } else {
+                                    let message = '';
+                                    for (const key in data.error) {
+                                        if (data.error.hasOwnProperty(key)) {
+                                            message += data.error[key] + '\n';
+                                        }
+                                    }
+                                    alert(message);
+                                }
+                            })
+                            .catch(error => {
+                                submitButton.disabled = false;
+                                console.error('Error:', error);
+                                alert('An error occurred. Please try again later.');
+                            });
+                        });
+                    });                
+                    function callBackShow(e) {
+                        e.preventDefault();
+                        const modal = new bootstrap.Modal(document.getElementById('callbackModal'));
+                        modal.show();
+                    }
+                </script>
+            {% endif %}
+
+        </div><!-- .outer-container ends -->
+
+        <a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop: 0});">
+            <i class="icon-arrow-right"></i>
+        </a>
+
+        <div id="featherlight-holder"></div>
+    </body>
+</html>

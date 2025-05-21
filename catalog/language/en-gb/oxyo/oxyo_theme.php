@@ -13,6 +13,25 @@ $_['text_back']                      = 'Back';
 // Contact icons
 $_['callback_text']                 = 'Callback';
 
+// Callback Form
+$_['text_name']                     = 'Your Name';
+$_['text_email']                    = 'Your Email';
+$_['text_phone']                    = 'Your Phone';
+$_['text_message']                  = 'Your Message';
+$_['text_captcha']                  = 'Answer The Question Below';
+$_['text_agree']                    = 'I agree to the processing of personal data';
+$_['text_submit']                   = 'Send';
+$_['text_cancel']                   = 'Cancel';
+$_['error_name']                    = 'Your name must be between 2 and 30 characters';
+$_['error_email']                   = 'Invalid or missing email address';
+$_['error_phone']                   = 'Invalid or missing phone number';
+$_['error_message']                 = 'Message is missing';
+$_['error_captcha']                 = 'The verification answer was wrong';
+$_['text_success_form']             = 'Thank you! Your message was sent.';
+$_['text_send_success']             = 'Your message has been successfully sent';
+$_['text_send_error']               = 'Error sending message. Please try again later.';
+
+
 // Product Page
 $_['oxyo_text_share']                = 'Share';
 
