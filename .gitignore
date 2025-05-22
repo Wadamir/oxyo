@@ -18,22 +18,7 @@
 !/admin/controller/extension/
 
 !/admin/controller/extension/blog/
-
-/admin/controller/extension/module/*
 !/admin/controller/extension/module/
-
-!/admin/controller/extension/module/blog_category.php
-!/admin/controller/extension/module/blog_latest.php
-!/admin/controller/extension/module/digitalElephantFilter.php
-!/admin/controller/extension/module/oxyo_carousel.php
-!/admin/controller/extension/module/oxyo_categories.php
-!/admin/controller/extension/module/oxyo_content.php
-!/admin/controller/extension/module/oxyo_instagram.php
-!/admin/controller/extension/module/oxyo_installer.php
-!/admin/controller/extension/module/oxyo_layerslider.php
-!/admin/controller/extension/module/oxyo_megamenu.php
-!/admin/controller/extension/module/oxyo_products.php
-
 !/admin/controller/extension/oxyo/
 
 /admin/controller/extension/theme/*
@@ -173,21 +158,7 @@
 !/catalog/controller/extension/
 
 !/catalog/controller/extension/blog/
-
-/catalog/controller/extension/module/*
 !/catalog/controller/extension/module/
-!/catalog/controller/extension/module/digitalElephantFilter/
-!/catalog/controller/extension/module/blog_category.php
-!/catalog/controller/extension/module/blog_latest.php
-!/catalog/controller/extension/module/digitalElephantFilter.php
-!/catalog/controller/extension/module/oxyo_carousel.php
-!/catalog/controller/extension/module/oxyo_categories.php
-!/catalog/controller/extension/module/oxyo_content.php
-!/catalog/controller/extension/module/oxyo_instagram.php
-!/catalog/controller/extension/module/oxyo_layerslider.php
-!/catalog/controller/extension/module/oxyo_megamenu.php
-!/catalog/controller/extension/module/oxyo_products.php
-
 !/catalog/controller/extension/oxyo/
 
 
