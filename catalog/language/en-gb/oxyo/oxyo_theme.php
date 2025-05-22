@@ -35,6 +35,10 @@ $_['error_phone']                   = 'Invalid or missing phone number';
 $_['error_message']                 = 'Message is missing';
 $_['error_captcha']                 = 'The verification answer was wrong';
 
+// Spam protection
+$_['text_callback_surname']         = 'Your Surname';
+$_['text_callback_spam_success']    = 'Thank you for your message. We will contact you soon.';
+
 
 // Product Page
 $_['oxyo_text_share']                = 'Share';

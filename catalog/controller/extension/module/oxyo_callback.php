@@ -55,6 +55,15 @@ class ControllerExtensionModuleOxyoCallback extends Controller
         $phone = trim($post['callback_phone'] ?? '');
         $agreement = isset($post['callback_agreement']);
 
+        $surname = trim($post['callback_surname'] ?? '');
+        if (!empty($surname)) {
+            $errors['surname'] = $this->language->get('text_callback_spam_success');
+            return [
+                'errors' => $errors,
+                'data'   => $data
+            ];
+        }
+
         if (utf8_strlen($name) < 2 || utf8_strlen($name) > 30) {
             $errors['name'] = $this->language->get('error_name');
         } else {

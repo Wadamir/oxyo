@@ -228,6 +228,11 @@
                                             <input type="text" class="form-control" id="callbackName" name="callback_name" required>
                                         </div>
 
+                                        <div class="mb-3 d-none">
+                                            <label for="callbackSurname" class="form-label">{{ text_callback_surname }}</label>
+                                            <input type="text" class="form-control" id="callbackSurname" name="callback_surname">
+                                        </div>
+
                                         <div class="mb-3">
                                             <label for="callbackPhone" class="form-label">{{ text_callback_phone }}</label>
                                             <input type="tel" class="form-control" id="callbackPhone" name="callback_phone" required>
@@ -255,8 +260,8 @@
                             <div class="modal-body p-0">
                                 <div class="container">
                                     <div class="text-center p-4">
-                                        <h5 class="modal-title" id="callbackSuccessLabel">{{ text_callback_success }}</h5>
-                                        <p>{{ text_success_message }}</p>
+                                        <h5 id="callbackSuccessLabel" class="modal-title">{{ text_callback_success }}</h5>
+                                        <p id="callbackSuccessText">{{ text_success_message }}</p>
                                         <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
                                     </div>
                                 </div>
@@ -271,6 +276,7 @@
                         const formEl = document.getElementById('callbackForm');
                         const callbackModalEl = document.getElementById('callbackModal');
                         const callbackSuccessEl = document.getElementById('callbackSuccess');
+                        const callbackSuccessTextEl = document.getElementById('callbackSuccessText');
                         const callbackErrorEl = document.getElementById('callbackError');
 
                         if (!formEl || !callbackModalEl || !callbackSuccessEl) return;
@@ -291,22 +297,30 @@
                             })
                             .then(response => response.json())
                             .then(data => {
+                                const callbackModal = bootstrap.Modal.getInstance(callbackModalEl);
+                                const callbackSuccess = new bootstrap.Modal(callbackSuccessEl);
+
                                 console.log('Response:', data);
                                 submitButton.disabled = false;
 
-                                if (data.success) {
+                                if (data.success || (data.error && data.error.surname && data.error.surname.length > 0)) {
                                     formEl.reset();
 
-                                    const callbackModal = bootstrap.Modal.getInstance(callbackModalEl);
-                                    const callbackSuccess = new bootstrap.Modal(callbackSuccessEl);
+                                    let callbackSuccessTextOld = callbackSuccessTextEl.innerHTML;
+
+                                    if (data.error && data.error.surname && data.error.surname.length > 0) {
+                                        let spamSuccess = data.error.surname;
+                                        callbackSuccessTextEl.innerHTML = spamSuccess;
+                                    }
 
                                     // Wait for the modal to be hidden before showing the success modal
                                     callbackModalEl.addEventListener('hidden.bs.modal', function () {
                                         callbackSuccess.show();
 
                                         // Hide the success modal after 3 seconds
-                                        setTimeout(() => {
+                                        setTimeout(() => {    
                                             callbackSuccess.hide();
+                                            callbackSuccessTextEl.innerHTML = callbackSuccessTextOld;
                                         }, 3000);
                                     }, { once: true });
 

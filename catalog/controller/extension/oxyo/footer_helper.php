@@ -18,6 +18,10 @@ $data['text_callback_error'] = $this->language->get('text_callback_error');
 
 $data['text_close'] = $this->language->get('text_close');
 
+// Spam protection
+$data['text_callback_surname'] = $this->language->get('text_callback_surname');
+$data['text_callback_spam_success'] = $this->language->get('text_callback_spam_success');
+
 
 // Footer positions
 if ($this->config->get('theme_default_directory') == 'oxyo') {
