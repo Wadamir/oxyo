@@ -793,7 +793,7 @@ html.no-scroll body {
     box-shadow: none;
 }
 
-.modal-header.no-title > .btn-close {
+.modal-header > .btn-close {
     margin: 0;
     padding: 0;
 

@@ -216,30 +216,33 @@
                 <div class="modal fade" id="callbackModal" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                            <div class="modal-header no-title pt-0 pb-2 border-0">
+                            <div class="modal-header pt-0 pb-2 border-0">
+                                <h3>{{ text_callback_title }}</h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body p-0">
                                 <div class="container">
                                     <form id="callbackForm" class="form mw-600">
                                         <div class="mb-3">
-                                            <label for="callbackName" class="form-label">{{ text_name }}</label>
-                                            <input type="text" class="form-control" id="callbackName" name="name" required>
+                                            <label for="callbackName" class="form-label">{{ text_callback_name }}</label>
+                                            <input type="text" class="form-control" id="callbackName" name="callback_name" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="callbackPhone" class="form-label">{{ text_phone }}</label>
-                                            <input type="tel" class="form-control" id="callbackPhone" name="phone" required>
+                                            <label for="callbackPhone" class="form-label">{{ text_callback_phone }}</label>
+                                            <input type="tel" class="form-control" id="callbackPhone" name="callback_phone" required>
                                         </div>
 
                                         <div class="form-check mb-0">
-                                            <input class="form-check-input form-control" type="checkbox" id="callbackAgreement" name="agreement" required>
-                                            <label class="form-check-label" for="callbackAgreement">{{ text_agree }}</label>
+                                            <input class="form-check-input form-control" type="checkbox" id="callbackAgreement" name="callback_agreement" required>
+                                            <label class="form-check-label" for="callbackAgreement">{{ text_callback_agree }}</label>
                                         </div>
 
                                         <div class="text-end mt-3">
-                                            <button type="submit" class="btn btn-sm btn-contrast">{{ text_submit }}</button>
+                                            <button type="submit" class="btn btn-sm btn-contrast">{{ text_callback_submit }}</button>
                                         </div>
+
+                                        <div id="callbackError" class="mt-2 d-none text-danger">{{ text_callback_error }}</div>
                                     </form>
                                 </div>
                             </div>
@@ -252,7 +255,7 @@
                             <div class="modal-body p-0">
                                 <div class="container">
                                     <div class="text-center p-4">
-                                        <h5 class="modal-title" id="callbackSuccessLabel">{{ text_success }}</h5>
+                                        <h5 class="modal-title" id="callbackSuccessLabel">{{ text_callback_success }}</h5>
                                         <p>{{ text_success_message }}</p>
                                         <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
                                     </div>
@@ -265,20 +268,21 @@
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         console.log('Callback form script loaded');
-                        const form = document.getElementById('callbackForm');
-                        const callbackModal = bootstrap.Modal.getInstance(document.getElementById('callbackModal'));
-                        const callbackSuccess = bootstrap.Modal.getInstance(document.getElementById('callbackSuccess'));
+                        const formEl = document.getElementById('callbackForm');
+                        const callbackModalEl = document.getElementById('callbackModal');
+                        const callbackSuccessEl = document.getElementById('callbackSuccess');
+                        const callbackErrorEl = document.getElementById('callbackError');
 
-                        if (!form || !callbackModal || !callbackSuccess) return;
+                        if (!formEl || !callbackModalEl || !callbackSuccessEl) return;
 
-                        console.log(form, callbackModal, callbackSuccess);
+                        console.log(formEl, callbackModalEl, callbackSuccessEl);
 
-                        form.addEventListener('submit', function (e) {
+                        formEl.addEventListener('submit', function (e) {
                             console.log('Callback form submitted');
                             e.preventDefault();
 
-                            const formData = new FormData(form);
-                            const submitButton = form.querySelector('button[type="submit"]');
+                            const formData = new FormData(formEl);
+                            const submitButton = formEl.querySelector('button[type="submit"]');
                             submitButton.disabled = true;
 
                             fetch('index.php?route=extension/module/oxyo_callback/send', {
@@ -287,18 +291,27 @@
                             })
                             .then(response => response.json())
                             .then(data => {
+                                console.log('Response:', data);
                                 submitButton.disabled = false;
 
                                 if (data.success) {
-                                    form.reset();
-                                    
-                                    callbackModal.addEventListener('hidden.bs.modal', function () {
+                                    formEl.reset();
+
+                                    const callbackModal = bootstrap.Modal.getInstance(callbackModalEl);
+                                    const callbackSuccess = new bootstrap.Modal(callbackSuccessEl);
+
+                                    // Wait for the modal to be hidden before showing the success modal
+                                    callbackModalEl.addEventListener('hidden.bs.modal', function () {
                                         callbackSuccess.show();
+
+                                        // Hide the success modal after 3 seconds
+                                        setTimeout(() => {
+                                            callbackSuccess.hide();
+                                        }, 3000);
                                     }, { once: true });
+
+                                    // Hide the callback modal
                                     callbackModal.hide();
-                                    setTimeout(() => {
-                                        callbackSuccess.show();
-                                    }, 1500);
                                 } else {
                                     let message = '';
                                     for (const key in data.error) {
@@ -306,13 +319,21 @@
                                             message += data.error[key] + '\n';
                                         }
                                     }
-                                    alert(message);
+                                    callbackErrorEl.innerHTML = message;
+                                    callbackErrorEl.classList.remove('d-none');
+                                    setTimeout(() => {
+                                        callbackErrorEl.classList.add('d-none');
+                                    }, 5000);
                                 }
                             })
                             .catch(error => {
                                 submitButton.disabled = false;
                                 console.error('Error:', error);
-                                alert('An error occurred. Please try again later.');
+                                callbackErrorEl.innerHTML = '{{ text_callback_error }}';
+                                callbackErrorEl.classList.remove('d-none');
+                                setTimeout(() => {
+                                    callbackErrorEl.classList.add('d-none');
+                                }, 5000);
                             });
                         });
                     });                

@@ -4,16 +4,19 @@ $lang_id = $this->config->get('config_language_id');
 
 // Language
 $this->load->language('oxyo/oxyo_theme');
-$data['text_name'] = $this->language->get('text_name');
-$data['text_email'] = $this->language->get('text_email');
-$data['text_phone'] = $this->language->get('text_phone');
-$data['text_message'] = $this->language->get('text_message');
-$data['text_captcha'] = $this->language->get('text_captcha');
-$data['text_agree'] = $this->language->get('text_agree');
-$data['text_submit'] = $this->language->get('text_submit');
-$data['text_cancel'] = $this->language->get('text_cancel');
-$data['text_send_success'] = $this->language->get('text_send_success');
-$data['text_send_error'] = $this->language->get('text_send_error');
+$data['text_callback_title'] = $this->language->get('text_callback_title');
+$data['text_callback_name'] = $this->language->get('text_callback_name');
+$data['text_callback_email'] = $this->language->get('text_callback_email');
+$data['text_callback_phone'] = $this->language->get('text_callback_phone');
+$data['text_callback_message'] = $this->language->get('text_callback_message');
+$data['text_callback_captcha'] = $this->language->get('text_callback_captcha');
+$data['text_callback_agree'] = $this->language->get('text_callback_agree');
+$data['text_callback_submit'] = $this->language->get('text_callback_submit');
+$data['text_callback_cancel'] = $this->language->get('text_callback_cancel');
+$data['text_callback_success'] = $this->language->get('text_callback_success');
+$data['text_callback_error'] = $this->language->get('text_callback_error');
+
+$data['text_close'] = $this->language->get('text_close');
 
 
 // Footer positions
