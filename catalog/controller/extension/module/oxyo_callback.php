@@ -16,6 +16,8 @@ class ControllerExtensionModuleOxyoCallback extends Controller
                 $name = $validation['data']['name'];
                 $phone = $validation['data']['phone'];
 
+                $store_name = $this->config->get('config_name');
+
                 $mail = new Mail($this->config->get('config_mail_engine'));
                 $mail->parameter = $this->config->get('config_mail_parameter');
                 $mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
@@ -27,11 +29,11 @@ class ControllerExtensionModuleOxyoCallback extends Controller
                 $mail->setTo($this->config->get('config_email'));
                 $mail->setFrom($this->config->get('config_email'));
                 $mail->setSender(html_entity_decode($name, ENT_QUOTES, 'UTF-8'));
-                $mail->setSubject($this->language->get('heading_title') . ' - ' . $name);
+                $mail->setSubject($store_name . ' > ' . $this->language->get('heading_title') . ' - ' . $phone);
 
                 // Use language variables for content
-                $body  = $this->language->get('text_name') . ': ' . $name . "\n";
-                $body .= $this->language->get('text_phone') . ': ' . $phone;
+                $body  = $this->language->get('text_callback_name') . ': ' . $name . "\n";
+                $body .= $this->language->get('text_callback_phone') . ': ' . $phone;
 
                 $mail->setText($body);
                 $mail->send();
