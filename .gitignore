@@ -201,5 +201,6 @@
 /system/*
 !/system/
 !/system/oxyo_template.ocmod.xml
+!/system/oxyo_theme_3X.ocmod.xml
 
 /storage/*
