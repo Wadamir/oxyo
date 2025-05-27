@@ -498,7 +498,10 @@ class ControllerExtensionOxyoOxyo extends Controller
             'oxyo_custom_js',
             'oxyo_thumb_swap',
             'oxyo_price_update',
-            'oxyo_sharing_style'
+            'oxyo_sharing_style',
+            // Stickers
+            'sticker_sale',
+            'sticker_new',
         );
 
         foreach ($codes as $code => $variables) {
@@ -510,6 +513,11 @@ class ControllerExtensionOxyoOxyo extends Controller
                 }
             }
         }
+
+        // var_dump($data['sticker_sale']);
+
+        // Stickers
+        // $data['oxyo']['sticker_sale'];
 
         // var_dump($this->request->post['main_phone']);
         // exit;

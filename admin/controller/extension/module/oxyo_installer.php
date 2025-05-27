@@ -66,7 +66,7 @@ class ControllerExtensionModuleOxyoInstaller extends Controller
             'code' => 'oxyo_theme',
             'id' => 'oxyo_theme',
             'extension_install_id' => 'oxyo_theme',
-            'author' => 'Openthemer.com',
+            'author' => 'XDomus.ru',
             'version' => 'v. 1.2.8.0',
             'xml' => $xml,
             'link' => '',

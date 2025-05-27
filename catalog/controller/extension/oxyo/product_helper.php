@@ -46,6 +46,19 @@ if ((float)$product_info['special'] && ($this->config->get('salebadge_status')))
     $data['sale_badge'] = false;
 }
 
+$current_language_id = $this->config->get('config_language_id');
+$data['sale_badge'] = false;
+if ((float)$product_info['special'] && ($this->config->get('sticker_sale'))) {
+    $sticker_sale = $this->config->get('sticker_sale');
+    if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
+        if ($sticker_sale['discount_status'] == 1) {
+            $data['sale_badge'] = '-' . number_format(((($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+        } else {
+            $data['sale_badge'] = $sticker_sale['text'][$current_language_id];
+        }
+    }
+}
+$data['sale_badge'] = 'SALE!';
 
 // RTL support
 $data['direction'] = $this->language->get('direction');

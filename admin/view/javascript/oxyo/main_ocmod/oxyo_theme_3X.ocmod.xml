@@ -3,7 +3,7 @@
     <extension_install_id>Oxyo Theme</extension_install_id>
 	<name>Oxyo Theme</name>
     <version>1.2.8.0</version>
-    <author>Openthemer.com</author>
+    <author>XDomus.ru</author>
 	<code>oxyo_theme</code>
 	
 	<file path="catalog/controller/common/header.php">

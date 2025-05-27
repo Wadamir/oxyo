@@ -144,6 +144,21 @@ class ControllerExtensionModuleOxyoProducts extends Controller
                             $sale_badge = false;
                         }
 
+                        $current_language_id = $this->config->get('config_language_id');
+                        $sale_badge = false;
+                        if ((float)$result['special'] && ($this->config->get('sticker_sale'))) {
+                            $sticker_sale = $this->config->get('sticker_sale');
+                            if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
+                                if ($sticker_sale['discount_status'] == 1) {
+                                    $sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+                                } else {
+                                    $sale_badge = $sticker_sale['text'][$current_language_id];
+                                }
+                            }
+                        }
+                        $sale_badge = 'SALE!';
+                        // var_dump($sale_badge);
+
                         $image2 = $this->model_catalog_product->getProductImages($result['product_id']);
                         if (isset($image2[0]['image']) && !empty($image2[0]['image']) && $this->config->get('oxyo_thumb_swap')) {
                             $image2 = $image2[0]['image'];

@@ -457,8 +457,6 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '.btn-primary:hover,.btn-primary.active,.btn-primary:focus,.btn-default:hover,.btn-default.active,.btn-default:focus {background-color:' . $this->config->get('oxyo_default_btn_bg_hover') . '!important;color:' . $this->config->get('oxyo_default_btn_color_hover') . ' !important;}';
         $styles .= '.btn-contrast-outline {border-color:' . $this->config->get('oxyo_contrast_btn_bg') . ';color:' . $this->config->get('oxyo_contrast_btn_bg') . ';}';
         $styles .= '.btn-contrast, a.btn-contrast, .btn-contrast-outline:hover {background-color:' . $this->config->get('oxyo_contrast_btn_bg') . ';}';
-        $styles .= '.sale_badge {background-color:' . $this->config->get('oxyo_salebadge_bg') . ';color:' . $this->config->get('oxyo_salebadge_color') . '}';
-        $styles .= '.new_badge {background-color:' . $this->config->get('oxyo_newbadge_bg') . ';color:' . $this->config->get('oxyo_newbadge_color') . '}';
         $styles .= '.price, #cart-content .totals tbody > tr:last-child > td:last-child {color:' . $this->config->get('oxyo_price_color') . '}';
         $styles .= '#footer {background-color:' . $this->config->get('oxyo_footer_bg') . ';}';
         $styles .= '#footer, #footer a, #footer a:hover, #footer h5 {color:' . $this->config->get('oxyo_footer_color') . ';}';
@@ -469,6 +467,22 @@ if ($this->config->get('oxyo_design_status')) {
         if ($this->config->get('oxyo_body_bg_img')) {
             $styles .= 'body.boxed-layout {background-position:' . $this->config->get('oxyo_body_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_body_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_body_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_body_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_body_bg_img') . ');}';
         }
+
+        // Stickers
+        if ($this->config->get('sticker_sale')) {
+            $sticker_sale = $this->config->get('sticker_sale');
+            if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
+                $styles .= '.sale_badge {background-color:' . $sticker_sale['bg'] . ';color:' . $sticker_sale['color'] . ';}';
+            }
+        }
+        if ($this->config->get('sticker_new')) {
+            $sticker_new = $this->config->get('sticker_new');
+            if (isset($sticker_new['status']) && $sticker_new['status'] == 1) {
+                $styles .= '.new_badge {background-color:' . $sticker_new['bg'] . ';color:' . $sticker_new['color'] . ';}';
+            }
+        }
+        // $styles .= '.sale_badge {background-color:' . $this->config->get('oxyo_salebadge_bg') . ';color:' . $this->config->get('oxyo_salebadge_color') . '}';
+        // $styles .= '.new_badge {background-color:' . $this->config->get('oxyo_newbadge_bg') . ';color:' . $this->config->get('oxyo_newbadge_color') . '}';
 
         $styles .= '@media (min-width: 1201px) {';
         $styles .= '.common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .header-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .header-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .menu-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .menu-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .full-width-dropdown {';

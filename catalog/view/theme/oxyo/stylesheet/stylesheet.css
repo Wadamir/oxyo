@@ -230,6 +230,10 @@ body {
         margin-right 500ms;
 }
 
+body.sticky-active {
+    padding-top: 150px;
+}
+
 .product-name.main-font,
 .gridlist .single-product .product-name,
 .gridlist .single-blog .blog-title,
@@ -6810,6 +6814,9 @@ a.button-circle {
 .single-product .image {
     position: relative;
     margin-bottom: 12px;
+
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .single-product .image .thumb2 {
@@ -6830,7 +6837,7 @@ a.button-circle {
     transition: all 750ms;
 }
 
-.single-product .image > a {
+.single-product .image > a:not(.img-overlay) {
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -6843,9 +6850,9 @@ a.button-circle {
     display: table;
     top: 5px;
     left: 5px;
-    height: 50px;
+    /* height: 50px;
     width: 50px;
-    border-radius: 50%;
+    border-radius: 50%; */
 }
 
 .single-product .image .badge + .badge,
@@ -7119,6 +7126,10 @@ a.button-circle {
 .product-style2 .single-product .image .icons-wrapper .icon.is-cart:hover {
     color: #d5d5d5;
 }
+
+/* .img-overlay {
+    display: none;
+} */
 
 /* Products Style 3 */
 @media (min-width: 768px) {
@@ -8738,6 +8749,8 @@ a.label-link:not(:hover) {
     top: 7px;
     transform: none;
     transition: transform 500ms;
+
+    display: none;
 }
 
 #digitalElephantFilter_box .filter_element_title.is_closed:before {
