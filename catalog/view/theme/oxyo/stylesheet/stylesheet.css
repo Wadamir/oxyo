@@ -2054,6 +2054,15 @@ div.required .control-label:after {
 
 /* callback */
 @media screen and (min-width: 1201px) {
+    .header-main .callback_action > .dropdown-content {
+        margin: 0;
+        padding: 12px 24px;
+
+        border-radius: 6px;
+        line-height: 1;
+
+        color: var(--primary-black-100, #070709);
+    }
     .text_hover_animate {
         overflow: hidden;
         width: 180px;

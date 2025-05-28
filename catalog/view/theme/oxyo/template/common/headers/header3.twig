@@ -81,11 +81,11 @@
                                 </div>
                             {% endif %}
                             {% if callback is defined and callback and callback_header %}
-                                <div class="icon-element d-none d-md-block text_hover_animate">
+                                <div class="icon-element callback_action d-none d-md-block dropdown-wrapper from-top">
                                     <a href="{{ callback_link }}" class="shortcut-wrapper" onclick="callBackShow(event);">
                                         {{ callback_icon_svg }}
-                                        <span class="nowrap d-none d-xl-block text-block">{{ callback_text }}</span>
                                     </a>
+                                    <a href="#" onclick="callBackShow(event);" class="nowrap d-none d-xl-block text-block dropdown-content dropdown-right">{{ callback_text }}</a>
                                 </div>
                             {% endif %}
 						</div>
