@@ -161,7 +161,9 @@ function DigitalElephantFilterContainerProducts() {
 
     this.slideToTop = function () {
         var topProductWrap = $(this.selector).offset().top;
-        $('html, body').animate({ scrollTop: topProductWrap - 130 }, '1200');
+        // $('html, body').animate({ scrollTop: topProductWrap - 130 }, '1200');
+        // Scroll to top of body
+        $('html, body').animate({ scrollTop: 0}, '1200');
     };
 }
 

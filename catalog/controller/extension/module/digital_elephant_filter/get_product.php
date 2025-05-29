@@ -39,18 +39,22 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
         $data['wishlist_products'] = $this->getWishlistProducts();
 
         $data['cart_products'] = $this->getCartProducts();
-		
-		// RTL support
-		$data['direction'] = $this->language->get('direction');
-		if ($this->language->get('direction') == 'rtl') { $data['tooltip_align'] = 'right'; } else { $data['tooltip_align'] = 'left'; }
-		$data['oxyo_list_style'] = $this->config->get('oxyo_list_style');
-		$data['salebadge_status'] = $this->config->get('salebadge_status');
-		$data['stock_badge_status'] = $this->config->get('stock_badge_status');
-		$data['countdown_status'] = $this->config->get('countdown_status');
-		$data['compare'] = $this->url->link('product/compare');
-		$data['oxyo_prod_grid'] = $this->config->get('oxyo_prod_grid');
-		$data['sorts'] = array();
-		$data['limits'] = array();
+
+        // RTL support
+        $data['direction'] = $this->language->get('direction');
+        if ($this->language->get('direction') == 'rtl') {
+            $data['tooltip_align'] = 'right';
+        } else {
+            $data['tooltip_align'] = 'left';
+        }
+        $data['oxyo_list_style'] = $this->config->get('oxyo_list_style');
+        $data['salebadge_status'] = $this->config->get('salebadge_status');
+        $data['stock_badge_status'] = $this->config->get('stock_badge_status');
+        $data['countdown_status'] = $this->config->get('countdown_status');
+        $data['compare'] = $this->url->link('product/compare');
+        $data['oxyo_prod_grid'] = $this->config->get('oxyo_prod_grid');
+        $data['sorts'] = array();
+        $data['limits'] = array();
 
         $data['products'] = $this->getProducts($data_filter);
 
@@ -59,8 +63,7 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
 
         if ($data['products']) {
 
-        $this->response->setOutput($this->load->view('product/category', $data));
-
+            $this->response->setOutput($this->load->view('product/category', $data));
         } else {
             return false;
         }
@@ -96,17 +99,18 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
         $this->load->model('extension/module/digitalElephantFilter');
         $this->load->model('catalog/product');
         $this->load->model('tool/image');
-		$this->load->model('extension/oxyo/oxyo');
+        $this->load->model('extension/oxyo/oxyo');
     }
 
     protected function loadLanguage()
     {
         $this->load->language('product/category');
         $this->load->language('extension/module/digitalElephantFilter');
-		$this->load->language('oxyo/oxyo_theme');
+        $this->load->language('oxyo/oxyo_theme');
     }
 
-    public function getFilterDataByUrl($data_url) {
+    public function getFilterDataByUrl($data_url)
+    {
         $filter_data = array(
             'filter_sub_category' => true,
             'filter_category_id' => $data_url['category_id'],
@@ -125,15 +129,16 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
         return $filter_data;
     }
 
-    private function getProducts($data_filter) {
-		
+    private function getProducts($data_filter)
+    {
+
         $results = $this->model_extension_module_digitalElephantFilter->getProducts($data_filter);
 
         $products = array();
 
         foreach ($results as $result) {
 
-        	if (VERSION >= '3.0.0.0') {
+            if (VERSION >= '3.0.0.0') {
                 $image_width = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width');
                 $image_height = $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height');
             } else {
@@ -146,13 +151,13 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
             } else {
                 $image = $this->model_tool_image->resize('placeholder.png', $image_width, $image_height);
             }
-			
-			$images = $this->model_catalog_product->getProductImages($result['product_id']);
-			if(isset($images[0]['image']) && !empty($images[0]['image'])){
-			$images =$images[0]['image'];
-			} else {
-			$images = false;
-			}
+
+            $images = $this->model_catalog_product->getProductImages($result['product_id']);
+            if (isset($images[0]['image']) && !empty($images[0]['image'])) {
+                $images = $images[0]['image'];
+            } else {
+                $images = false;
+            }
 
             if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
                 $price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
@@ -165,35 +170,48 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
             } else {
                 $special = false;
             }
-			
-			$image2 = $this->model_catalog_product->getProductImages($result['product_id']);
-			if(isset($image2[0]['image']) && !empty($image2[0]['image']) && $this->config->get('oxyo_thumb_swap')){
-				$image2 = $image2[0]['image'];
-			} else {
-				$image2 = false;
-			}
-			
-			if ( (float)$result['special'] && ($this->config->get('salebadge_status')) ) {
-			if ($this->config->get('salebadge_status') == '2') {
-				$sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')))-($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax'))))/(($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')))/100)), 0, ',', '.') . '%';
-			} else {
-				$sale_badge = $this->language->get('oxyo_text_sale');
-			}		
-			} else {
-				$sale_badge = false;
-			}
-		
-			if (strtotime($result['date_available']) > strtotime('-' . $this->config->get('newlabel_status') . ' day')) {
-				$is_new = true;
-			} else {
-				$is_new = false;
-			}
-			
-			if ((float)$result['special']) {
-				$date_end = $this->model_extension_oxyo_oxyo->getSpecialEndDate($result['product_id']);
-			} else {
-				$date_end = false;
-			}
+
+            $image2 = $this->model_catalog_product->getProductImages($result['product_id']);
+            if (isset($image2[0]['image']) && !empty($image2[0]['image']) && $this->config->get('oxyo_thumb_swap')) {
+                $image2 = $image2[0]['image'];
+            } else {
+                $image2 = false;
+            }
+
+            if ((float)$result['special'] && ($this->config->get('salebadge_status'))) {
+                if ($this->config->get('salebadge_status') == '2') {
+                    $sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+                } else {
+                    $sale_badge = $this->language->get('oxyo_text_sale');
+                }
+            } else {
+                $sale_badge = false;
+            }
+
+            $current_language_id = $this->config->get('config_language_id');
+            $sale_badge = false;
+            if ((float)$result['special'] && ($this->config->get('sticker_sale'))) {
+                $sticker_sale = $this->config->get('sticker_sale');
+                if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
+                    if ($sticker_sale['discount_status'] == 1) {
+                        $sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+                    } else {
+                        $sale_badge = $sticker_sale['text'][$current_language_id];
+                    }
+                }
+            }
+
+            if (strtotime($result['date_available']) > strtotime('-' . $this->config->get('newlabel_status') . ' day')) {
+                $is_new = true;
+            } else {
+                $is_new = false;
+            }
+
+            if ((float)$result['special']) {
+                $date_end = $this->model_extension_oxyo_oxyo->getSpecialEndDate($result['product_id']);
+            } else {
+                $date_end = false;
+            }
 
             if ($this->config->get('config_tax')) {
                 $tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
@@ -207,7 +225,7 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
                 $rating = false;
             }
 
-           if (VERSION >= '3.0.0.0') {
+            if (VERSION >= '3.0.0.0') {
                 $description = utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..';
             } else {
                 $description = utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..';
@@ -216,14 +234,14 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
             $products[] = array(
                 'product_id'  => $result['product_id'],
                 'thumb'       => $image,
-				'thumb2' 	 => $this->model_tool_image->resize($image2, $image_width, $image_height),
-				'sale_end_date'  => $date_end['date_end'],
+                'thumb2'      => $this->model_tool_image->resize($image2, $image_width, $image_height),
+                'sale_end_date'  => $date_end['date_end'],
                 'name'        => $result['name'],
-				'quantity'  => $result['quantity'],
+                'quantity'  => $result['quantity'],
                 'description' => $description,
                 'price'       => $price,
-				'sale_badge'  => $sale_badge,
-				'new_label'   => $is_new,
+                'sale_badge'  => $sale_badge,
+                'new_label'   => $is_new,
                 'special'     => $special,
                 'tax'         => $tax,
                 'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
@@ -236,7 +254,8 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
     }
 
 
-    private function getCartProducts() {
+    private function getCartProducts()
+    {
         $result = array();
         $cart_products = $this->cart->getProducts();
         if ($cart_products) {
@@ -248,33 +267,36 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
         return $result;
     }
 
-    private function getWishlistProducts() {
+    private function getWishlistProducts()
+    {
         return isset($this->session->data['wishlist']) ? $this->session->data['wishlist'] : array();
     }
 
-    private function getText() {
+    private function getText()
+    {
         $data = array();
         $data['text_tax'] = $this->language->get('text_tax');
         $data['button_cart'] = $this->language->get('button_cart');
         $data['button_wishlist'] = $this->language->get('button_wishlist');
         $data['button_compare'] = $this->language->get('button_compare');
         $data['button_continue'] = $this->language->get('button_continue');
-		$data['oxyo_text_out_of_stock'] = $this->language->get('oxyo_text_out_of_stock');
-		$data['default_button_cart'] = $this->language->get('button_cart');
-		$data['oxyo_button_quickview'] = $this->language->get('oxyo_button_quickview');
-		$data['oxyo_text_sale'] = $this->language->get('oxyo_text_sale');
-		$data['oxyo_text_new'] = $this->language->get('oxyo_text_new');
-		$data['oxyo_text_days'] = $this->language->get('oxyo_text_days');
-		$data['oxyo_text_hours'] = $this->language->get('oxyo_text_hours');
-		$data['oxyo_text_mins'] = $this->language->get('oxyo_text_mins');
-		$data['oxyo_text_secs'] = $this->language->get('oxyo_text_secs');
-		$data['oxyo_text_out_of_stock'] = $this->language->get('oxyo_text_out_of_stock');
-		$data['default_button_cart'] = $this->language->get('button_cart');
+        $data['oxyo_text_out_of_stock'] = $this->language->get('oxyo_text_out_of_stock');
+        $data['default_button_cart'] = $this->language->get('button_cart');
+        $data['oxyo_button_quickview'] = $this->language->get('oxyo_button_quickview');
+        $data['oxyo_text_sale'] = $this->language->get('oxyo_text_sale');
+        $data['oxyo_text_new'] = $this->language->get('oxyo_text_new');
+        $data['oxyo_text_days'] = $this->language->get('oxyo_text_days');
+        $data['oxyo_text_hours'] = $this->language->get('oxyo_text_hours');
+        $data['oxyo_text_mins'] = $this->language->get('oxyo_text_mins');
+        $data['oxyo_text_secs'] = $this->language->get('oxyo_text_secs');
+        $data['oxyo_text_out_of_stock'] = $this->language->get('oxyo_text_out_of_stock');
+        $data['default_button_cart'] = $this->language->get('button_cart');
 
         return $data;
     }
 
-    public function getTotalProducts($data_filter) {
+    public function getTotalProducts($data_filter)
+    {
         $this->loadModel();
         return $this->model_extension_module_digitalElephantFilter->getTotalProducts($data_filter);
     }
