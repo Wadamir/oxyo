@@ -79,9 +79,8 @@
                                        onclick="compare.add('{{ product.product_id }}');">
                                         <span class="icon-refresh"></span>
                                     </a>
-                                    <a class="icon is_quickview hidden-xs" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ oxyo_button_quickview }}"
-                                       onclick="quickview('{{ product.product_id }}');">
-                                        <span class="icon-magnifier-add"></span>
+                                    <a class="icon is_quickview d-none d-xl-block" onclick="quickview('{{ product.product_id }}');" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ oxyo_button_quickview }}">
+                                        <i class="bi bi-zoom-in"></i>
                                     </a>
                                 </div>
                             </div>

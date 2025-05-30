@@ -236,21 +236,202 @@ $(document).ready(function () {
 });
 
 // Quickview
-var quickview = function (product_id) {
-    $.ajax({
-        url: 'index.php?route=extension/oxyo/quickview&product_id=' + product_id,
-        type: 'post',
-        dataType: 'html',
-        beforeSend: function () {
-            $('body').append('<span class="oxyo-spinner ajax-call"></span>');
-        },
-        success: function (html) {
-            $('.oxyo-spinner.ajax-call').remove();
-            $('[data-toggle=\'tooltip\']').tooltip('hide');
-            $.featherlight(html);
-        }
-    });
+// var quickview = function (product_id) {
+//     $.ajax({
+//         url: 'index.php?route=extension/oxyo/quickview&product_id=' + product_id,
+//         type: 'post',
+//         dataType: 'html',
+//         beforeSend: function () {
+//             $('body').append('<span class="oxyo-spinner ajax-call"></span>');
+//         },
+//         success: function (html) {
+//             $('.oxyo-spinner.ajax-call').remove();
+//             $('[data-toggle=\'tooltip\']').tooltip('hide');
+//             // $.featherlight(html);
+//         }
+//     });
+// }
+const quickview = function (product_id) {
+	const modalEl = document.getElementById('quickviewModal');
+	const contentEl = modalEl.querySelector('.quickview-content');
+
+	// Clear previous content and show loader
+	contentEl.innerHTML = `
+		<div class="quickview-loader">
+			<i class="fa fa-spinner fa-spin"></i>
+		</div>
+	`;
+
+	// Show the modal
+	const modal = new bootstrap.Modal(modalEl);
+	modal.show();
+
+	// Send AJAX request to fetch quickview content
+	fetch('index.php?route=extension/oxyo/quickview&product_id=' + product_id, {
+		method: 'POST',
+		headers: {
+			'X-Requested-With': 'XMLHttpRequest'
+		}
+	})
+	.then(response => {
+		if (!response.ok) throw new Error('Network error');
+		return response.text();
+	})
+	.then(html => {
+		contentEl.innerHTML = html;
+
+		// Init Bootstrap tooltips
+		const tooltipTriggerList = [].slice.call(contentEl.querySelectorAll('[data-bs-toggle="tooltip"]'));
+		tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+			new bootstrap.Tooltip(tooltipTriggerEl);
+		});
+
+        setTimeout(function () {
+            $('.qv_image').slick({
+                prevArrow: "<a class=\"arrow-left within icon-arrow-left\"></a>", 
+                nextArrow: "<a class=\"arrow-right within icon-arrow-right\"></a>", 
+                arrows: true
+            });
+        }, 100);
+	})
+	.catch(error => {
+		console.error('Quickview error:', error);
+		contentEl.innerHTML = `<div class="p-3 text-danger">Ошибка загрузки быстрого просмотра</div>`;
+	});
+};
+
+function addToCartQuickview() {
+	console.log('Adding to cart from quickview');
+
+	const form = document.getElementById('product');
+	if (!form) {
+		console.warn('Form #product not found.');
+		return;
+	}
+
+	// Prepare form data
+	const formData = new FormData();
+	form.querySelectorAll('input, select, textarea').forEach(input => {
+		if ((input.type === 'radio' || input.type === 'checkbox') && !input.checked) return;
+		if (input.name) formData.append(input.name, input.value);
+	});
+
+	// Show spinner
+	const spinner = document.createElement('span');
+	spinner.className = 'oxyo-spinner ajax-call';
+	document.body.appendChild(spinner);
+
+	// Send AJAX request
+	fetch('index.php?route=extension/oxyo/oxyo_features/add_to_cart', {
+		method: 'POST',
+		body: formData
+	})
+	.then(async response => {
+		const text = await response.text();
+		try {
+			return JSON.parse(text);
+		} catch (e) {
+			throw new Error('Invalid JSON response: ' + text);
+		}
+	})
+	.then(json => {
+		document.querySelectorAll('.alert, .text-danger, .popup-note').forEach(e => e.remove());
+		document.querySelectorAll('.table-cell, .has-error').forEach(e => e.classList.remove('has-error'));
+		spinner.remove();
+
+		// Handle errors
+		if (json.error) {
+			if (json.error.option) {
+				for (const key in json.error.option) {
+					const input = document.getElementById('input-option' + key.replace('_', '-'));
+					if (!input) continue;
+
+					const errorDiv = document.createElement('div');
+					errorDiv.className = 'text-danger';
+					errorDiv.textContent = json.error.option[key];
+
+					if (input.parentElement.classList.contains('input-group')) {
+						input.parentElement.insertAdjacentElement('afterend', errorDiv);
+					} else {
+						input.insertAdjacentElement('afterend', errorDiv);
+					}
+				}
+			}
+
+			if (json.error.recurring) {
+				const recurringSelect = form.querySelector('select[name="recurring_id"]');
+				if (recurringSelect) {
+					const recurringError = document.createElement('div');
+					recurringError.className = 'text-danger';
+					recurringError.textContent = json.error.recurring;
+					recurringSelect.insertAdjacentElement('afterend', recurringError);
+				}
+			}
+
+			document.querySelectorAll('.text-danger').forEach(e => {
+				e.parentElement.classList.add('has-error');
+			});
+
+			return;
+		}
+
+		// Handle redirect
+		if (json.success_redirect) {
+			location.href = json.success_redirect;
+			return;
+		}
+
+		// Success popup
+		if (json.success) {
+			const note = document.createElement('div');
+			note.className = 'popup-note';
+			note.innerHTML = `
+				<div class="inner">
+					<a class="popup-note-close" onclick="this.closest('.popup-note').remove()">&times;</a>
+					<div class="table">
+						<div class="table-cell v-top img"><img src="${json.image}" alt=""/></div>
+						<div class="table-cell v-top">${json.success}</div>
+					</div>
+				</div>
+			`;
+			document.body.appendChild(note);
+
+			setTimeout(() => {
+				note.remove();
+			}, 8100);
+
+			// Update cart totals
+			setTimeout(() => {
+				const items = document.querySelector('.cart-total-items');
+				const amount = document.querySelector('.cart-total-amount');
+				if (items) items.innerHTML = json.total_items;
+				if (amount) amount.innerHTML = json.total_amount;
+			}, 100);
+
+			// Reload cart content
+			const cartContent = document.getElementById('cart-content');
+			if (cartContent) {
+				fetch('index.php?route=common/cart/info')
+					.then(response => response.text())
+					.then(html => {
+						const temp = document.createElement('div');
+						temp.innerHTML = html;
+						const newContent = temp.querySelector('#cart-content');
+						if (newContent) {
+							cartContent.innerHTML = newContent.innerHTML;
+						}
+					})
+					.catch(err => console.error('Cart update error:', err));
+			}
+		}
+	})
+	.catch(error => {
+		alert(error.message);
+		console.error('Add to cart error:', error);
+	});
 }
+
+
 
 // Newsletter Subscribe
 var subscribe = function (module) {

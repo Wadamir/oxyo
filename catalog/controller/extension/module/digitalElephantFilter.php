@@ -41,12 +41,12 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
     public function index()
     {
 
-		if ((float)VERSION >= 3.0) {
-			$setting = $this->config->get('module_digitalElephantFilter_settings');
-		} else {
-		 	$setting = $this->config->get('digitalElephantFilter_settings');       
-		}
-        
+        if ((float)VERSION >= 3.0) {
+            $setting = $this->config->get('module_digitalElephantFilter_settings');
+        } else {
+            $setting = $this->config->get('digitalElephantFilter_settings');
+        }
+
         if ($rendered_panel = $this->panel->render($setting)) {
             $this->setStyle();
             $this->setScript();
@@ -56,21 +56,21 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
     }
     protected function setScript()
     {
-		
-		if ($this->request->server['HTTPS']) {
-			$server = $this->config->get('config_ssl');
-		} else {
-			$server = $this->config->get('config_url');
-		}	
-		
+
+        if ($this->request->server['HTTPS']) {
+            $server = $this->config->get('config_ssl');
+        } else {
+            $server = $this->config->get('config_url');
+        }
+
         if ($this->language->get('direction') == 'rtl') {
-		$this->document->addScript($server . '/catalog/view/javascript/jquery/ui/jquery-ui-slider-rtl.min.js');	
-        } else { 
-		$this->document->addScript($server . '/catalog/view/javascript/jquery/ui/jquery-ui-slider.min.js');
-		}
-		
-		$this->document->addScript($server . '/catalog/view/theme/oxyo/js/jquery.ui.touch-punch.min.js');
-		$this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/main.js');
+            $this->document->addScript($server . '/catalog/view/javascript/jquery/ui/jquery-ui-slider-rtl.min.js');
+        } else {
+            $this->document->addScript($server . '/catalog/view/javascript/jquery/ui/jquery-ui-slider.min.js');
+        }
+
+        $this->document->addScript($server . '/catalog/view/theme/oxyo/js/jquery.ui.touch-punch.min.js');
+        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/main.js');
         $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/controller.js');
         $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/helper.js');
         $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/slider_price.js');
@@ -88,16 +88,17 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
 
     protected function setStyle()
     {
-		if ($this->request->server['HTTPS']) {
-			$server = $this->config->get('config_ssl');
-		} else {
-			$server = $this->config->get('config_url');
-		}
-		
+        if ($this->request->server['HTTPS']) {
+            $server = $this->config->get('config_ssl');
+        } else {
+            $server = $this->config->get('config_url');
+        }
+
         $this->document->addStyle($server . '/catalog/view/javascript/jquery/ui/jquery-ui.min.css');
     }
 
-    private function runSEO($setting) {
+    private function runSEO($setting)
+    {
         if (isset($setting['DEF_settings']['seo']['is_keywords']) && isset($this->request->get['ajax_digitalElephantFilter'])) {
             $this->seo->setMetaKeywords();
         }

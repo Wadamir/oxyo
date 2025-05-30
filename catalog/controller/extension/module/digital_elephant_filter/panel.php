@@ -1,5 +1,5 @@
 <?php
-Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
+class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
 {
     protected $urlData = array();
     private $isPackageShow = [];
@@ -72,18 +72,19 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
         $data['is_button_clear'] = $this->isButtonClear($setting);
         $data['is_show_group_attributes'] = $this->isShowGroupAttributes($setting);
         $data['is_ajax_render'] = $is_ajax_render;
-		
-		if ($this->config->get('theme_default_directory') == 'oxyo')
-        return $this->load->view('extension/module/digitalElephantFilter', $data);
+
+        if ($this->config->get('theme_default_directory') == 'oxyo')
+            return $this->load->view('extension/module/digitalElephantFilter', $data);
     }
 
-    public function ajaxRender() {
-        
-	if ((float)VERSION >= 3.0) {
-	$setting = $this->config->get('module_digitalElephantFilter_settings');
-	} else {
-	$setting = $this->config->get('digitalElephantFilter_settings');       
-	}
+    public function ajaxRender()
+    {
+
+        if ((float)VERSION >= 3.0) {
+            $setting = $this->config->get('module_digitalElephantFilter_settings');
+        } else {
+            $setting = $this->config->get('digitalElephantFilter_settings');
+        }
         echo $this->render($setting, true);
     }
 
@@ -92,9 +93,9 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
         $filterPrice = $this->getFilterPrice($setting);
 
         $text_no_result = $this->language->get('text_no_results');
-       	
-		if (!isset($this->request->get['path']))
-		$this->request->get['path'] = '';
+
+        if (!isset($this->request->get['path']))
+            $this->request->get['path'] = '';
 
         return [
             'peakPrice' => [
@@ -147,8 +148,8 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
                 || $this->isPackageShow['option']
                 || $this->isPackageShow['attribute']
             )
-            && $this->hasCategoryProducts($this->urlData['category_id']) 
-			&& (isset($this->request->get['path'])) 
+            && $this->hasCategoryProducts($this->urlData['category_id'])
+            && (isset($this->request->get['path']))
         );
     }
 
@@ -186,8 +187,10 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
             $price = $this->model_extension_module_digitalElephantFilter->getMinMaxPrice($this->urlData['category_id']);
 
             $show = true;
-            if (isset($setting['DEF_settings']['filter_price']['hide'])
-                || $price['min'] == $price['max']) {
+            if (
+                isset($setting['DEF_settings']['filter_price']['hide'])
+                || $price['min'] == $price['max']
+            ) {
                 $show = false;
             }
 
@@ -248,7 +251,6 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
         $this->load->model('extension/module/digitalElephantFilter');
         $this->load->model('tool/image');
         $this->load->model('localisation/currency');
-
     }
 
     protected function loadLanguage()
@@ -326,7 +328,8 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
      * @param array $setting
      * @return string
      */
-    private function getPreloaderClass($setting) {
+    private function getPreloaderClass($setting)
+    {
         $preloaders = [
             'spinner_fast'  => 'fa fa-spinner fa-pulse fa-3x fa-fw',
             'circle'        => 'fa fa-circle-o-notch fa-spin fa-3x fa-fw',
@@ -338,7 +341,8 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
         return $preloaders[$setting['DEF_settings']['preloader_type']];
     }
 
-    public function ajaxSetStateSection() {
+    public function ajaxSetStateSection()
+    {
         if (
             isset($this->request->post['section']['name'])
             && isset($this->request->post['section']['id'])
@@ -365,12 +369,12 @@ Class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
         }
     }
 
-    private function getStateSections() {
+    private function getStateSections()
+    {
         $output = [];
         if (isset($this->session->data['DEF_section'])) {
             $output = $this->session->data['DEF_section'];
         }
         return $output;
-
     }
 }

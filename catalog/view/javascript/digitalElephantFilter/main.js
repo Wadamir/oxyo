@@ -8,12 +8,12 @@ $(function(){
     $(DEFController.containerProducts.selector).css('position', 'relative');
 
     //toggle Filter
-    $(document).on('click', DEFController.filterPanel.selectorElementTitle, function(){
-        var $this = this;
-        $(this).next('div').slideToggle(500, function(){
-            DEFController.filterPanel.setStateSection($this);
-        });
-    });
+    // $(document).on('click', DEFController.filterPanel.selectorElementTitle, function(){
+    //     var $this = this;
+    //     $(this).next('div').slideToggle(500, function(){
+    //         DEFController.filterPanel.setStateSection($this);
+    //     });
+    // });
     //toggle Filter End
 
     //ajax get products BEGIN

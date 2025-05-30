@@ -243,6 +243,7 @@ if ($this->config->get('vkontakte_header') && $this->config->get('vkontakte_head
     $data['vkontakte_header'] = false;
 }
 
+// Callback
 $data['callback'] = false;
 if ($this->config->get('callback') && $this->config->get('callback') == '1') {
     $data['callback'] = true;
@@ -262,6 +263,13 @@ if ($this->config->get('callback_header') && $this->config->get('callback_header
     $data['callback_header'] = true;
 } else {
     $data['callback_header'] = false;
+}
+
+// Quickview
+$data['quickview'] = false;
+if ($this->config->get('quickview_status') && $this->config->get('quickview_status') == '1') {
+    $data['quickview'] = true;
+    $data['quickview_text'] = $this->language->get('text_quickview');
 }
 
 if ($this->config->get('main_email') && $this->config->get('main_email') != '') {

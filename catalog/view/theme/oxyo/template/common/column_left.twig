@@ -1,8 +1,16 @@
 {% if modules %}
-	<div id="column-left" class="column col-sm-4 col-md-3">
-		<div class="inner">
+	<div id="column-left" class="column col-12 col-lg-3">
+		<div class="inner row">
+            {% set class='col-12' %}
+            
+            {% if modules|length > 1 %}
+                {% set class = 'col-6 col-lg-12' %}
+            {% endif %}
+
 			{% for module in modules %}
-				{{ module }}
+                <div class="{{ class }}">
+                    {{ module }}
+                </div>
 			{% endfor %}
 		</div>
 	</div>

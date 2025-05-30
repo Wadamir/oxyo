@@ -280,7 +280,7 @@
 
                         if (!formEl || !callbackModalEl || !callbackSuccessEl) return;
 
-                        console.log(formEl, callbackModalEl, callbackSuccessEl);
+                        // console.log(formEl, callbackModalEl, callbackSuccessEl);
 
                         formEl.addEventListener('submit', function (e) {
                             console.log('Callback form submitted');
@@ -364,6 +364,24 @@
             <i class="icon-arrow-right"></i>
         </a>
 
-        <div id="featherlight-holder"></div>
+        {% if quickview is defined  and quickview %}
+            <div id="featherlight-holder"></div>
+            <div class="modal fade" id="quickviewModal" tabindex="-1" data-easein="expandIn" aria-labelledby="quickviewModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header p-0 border-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div class="container-fluid quickview-content p-0">
+                                <div class="quickview-loader">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </body>
 </html>
