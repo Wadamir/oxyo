@@ -280,19 +280,28 @@ const quickview = function (product_id) {
 	.then(html => {
 		contentEl.innerHTML = html;
 
-		// Init Bootstrap tooltips
-		const tooltipTriggerList = [].slice.call(contentEl.querySelectorAll('[data-bs-toggle="tooltip"]'));
-		tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-			new bootstrap.Tooltip(tooltipTriggerEl);
-		});
+		// Re-init tooltips (Bootstrap 5)
+		const tooltips = contentEl.querySelectorAll('[data-bs-toggle="tooltip"]');
+		tooltips.forEach(el => new bootstrap.Tooltip(el));
 
-        setTimeout(function () {
-            $('.qv_image').slick({
-                prevArrow: "<a class=\"arrow-left within icon-arrow-left\"></a>", 
-                nextArrow: "<a class=\"arrow-right within icon-arrow-right\"></a>", 
-                arrows: true
-            });
-        }, 100);
+		// Init slick (still jQuery-based)
+		if (window.$ && $.fn.slick) {
+			const sliderEl = $('.qv_image');
+			sliderEl.css('opacity', '0');
+
+			sliderEl.on('init', function () {
+				sliderEl.css('opacity', '1');
+			});
+            setTimeout(() => {
+                sliderEl.slick({
+                    prevArrow: '<a class="arrow-left within icon-arrow-left"></a>',
+                    nextArrow: '<a class="arrow-right within icon-arrow-right"></a>',
+                    arrows: true
+                })
+            }, 100);
+		} else {
+			console.warn('Slick slider or jQuery is not available');
+		}
 	})
 	.catch(error => {
 		console.error('Quickview error:', error);
