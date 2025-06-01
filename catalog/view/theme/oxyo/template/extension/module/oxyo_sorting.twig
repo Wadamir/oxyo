@@ -1,0 +1,24 @@
+<div id="widgetOxyoSorting" class="widget">
+	<div class="widget-title hidden d-none">
+		<p class="main-title">
+			<span>{{ heading_title }}</span>
+		</p>
+		<p class="widget-title-separator">
+			<i class="icon-line-cross"></i>
+		</p>
+	</div>
+
+    <div class="sort-select">
+        <select id="input-sort" class="form-select" aria-label="{{ heading_title }}" onchange="location = this.value;">
+            {% for sorts in sorts %}
+                {% if sorts.active %}
+                    <option value="{{ sorts.href }}" selected="selected">
+                        {{ sorts.text }}
+                    </option>
+                {% else %}
+                    <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
