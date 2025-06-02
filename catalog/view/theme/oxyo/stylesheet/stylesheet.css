@@ -2107,6 +2107,27 @@ div.required .control-label:after {
     }
 }
 
+.animate-text.animate-splash {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+}
+.animate-text.animate-splash > .animate-content {
+    opacity: 0;
+    transform: scale(0.1);
+    transition: all 0.5s;
+}
+.animate-text.animate-splash:hover > .animate-content {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.5s;
+}
+
 /* Header icons */
 .icon-element {
     font-size: 14px;
