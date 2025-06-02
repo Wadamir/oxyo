@@ -74,19 +74,20 @@ class ControllerExtensionModuleOxyoSorting extends Controller
             'active' => (isset($this->request->get['sort']) && $this->request->get['sort'] == 'p.price' && isset($this->request->get['order']) && $this->request->get['order'] == 'DESC') ? true : false
         );
 
-        // if ($this->config->get('config_review_status')) {
-        //     $data['sorts'][] = array(
-        //         'text'  => $this->language->get('text_rating_desc'),
-        //         'value' => 'rating-DESC',
-        //         'href'  => $this->url->link($link, $path . '&sort=rating&order=DESC' . $url)
-        //     );
+        if ($this->config->get('config_review_status')) {
+            $data['sorts'][] = array(
+                'text'  => $this->language->get('text_rating_desc'),
+                'value' => 'rating-DESC',
+                'href'  => $this->url->link($link, $path . '&sort=rating&order=DESC' . $url),
+                'active' => (isset($this->request->get['sort']) && $this->request->get['sort'] == 'rating' && isset($this->request->get['order']) && $this->request->get['order'] == 'DESC') ? true : false
+            );
 
-        //     $data['sorts'][] = array(
-        //         'text'  => $this->language->get('text_rating_asc'),
-        //         'value' => 'rating-ASC',
-        //         'href'  => $this->url->link($link, $path . '&sort=rating&order=ASC' . $url)
-        //     );
-        // }
+            // $data['sorts'][] = array(
+            //     'text'  => $this->language->get('text_rating_asc'),
+            //     'value' => 'rating-ASC',
+            //     'href'  => $this->url->link($link, $path . '&sort=rating&order=ASC' . $url)
+            // );
+        }
 
         // $data['sorts'][] = array(
         //     'text'  => $this->language->get('text_model_asc'),

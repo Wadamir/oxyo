@@ -1427,7 +1427,7 @@ div.required .control-label:after {
 
 /* Rating */
 .rating {
-    color: #333333;
+    color: var(--text-accent-color, #e61f80);
     font-size: 12px;
     line-height: 1;
     letter-spacing: 1px;
@@ -7022,6 +7022,8 @@ a.button-circle {
 .single-product .rating {
     margin-bottom: 9px;
     margin-top: 3px;
+
+    display: flex;
 }
 
 .grid .single-product .price {
@@ -7836,7 +7838,7 @@ a.button-circle {
 
 .product-info .right .rating {
     margin: 0px 5px 9px 0;
-    display: inline-block;
+    display: flex;
 }
 
 .product-info .right .review_link {
@@ -8902,7 +8904,7 @@ a.label-link:not(:hover) {
 #digitalElephantFilter_box .radio-inline span,
 .digitalElephantFilter_type_checkbox label {
     cursor: pointer;
-    line-height: 22px;
+    line-height: 16px;
 
     font-family: var(--font-family-text, 'Philosopher'), sans-serif;
 }
@@ -8964,9 +8966,10 @@ a.label-link:not(:hover) {
     display: inline-block;
     margin-right: 8px;
     text-align: center;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border: 1px solid #aaaaaa;
+    border-radius: 4px;
     font-family: FontAwesome;
     vertical-align: top;
     line-height: 17px;
