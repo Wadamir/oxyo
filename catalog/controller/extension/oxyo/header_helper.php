@@ -432,7 +432,10 @@ if ($this->config->get('oxyo_design_status')) {
 
         $styles .= '.teswt, .header-style, .sticky-holder, .main-menu > ul > li .full-width-dropdown {background-color:' . $oxyo_header_bg_rgba_main . ';}';
 
-        $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ';}';
+        // $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ';}';
+        $styles .= '.header-main, .header-main a:not(.btn) {color:' . $this->config->get('oxyo_header_color') . ';}';
+        // Added
+        $styles .= '.header-main .menu-element:hover > a, .header-main .menu-element:hover > div > a {color:' . $this->config->get('oxyo_header_accent') . ';}';
         $styles .= '.header-main .sign-in:after, .header-main .anim-underline:after, .header-main .sign-in .anim-underline:after {background-color:' . $this->config->get('oxyo_header_color') . ';}';
         $styles .= '.main-menu:not(.vertical) > ul > li:hover > a > .top, .header-main .shortcut-wrapper:hover .icon-magnifier, .header-main #cart:hover .shortcut-wrapper {opacity:0.8;}';
         $styles .= '.shortcut-wrapper .counter {background-color:' . $this->config->get('oxyo_header_accent') . ';}';

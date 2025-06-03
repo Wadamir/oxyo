@@ -39,7 +39,7 @@
 				<div class="row header-main">
 					<div class="col-4 menu-cell">
 						<div class="font-zero">
-							<div class="icon-element d-xxl-none d-xl-none p-0">
+							<div class="icon-element menu-element d-xxl-none d-xl-none p-0">
 								<a class="shortcut-wrapper menu-trigger">
 									<svg class="ham hamRotate ham1" viewbox="0 0 100 100" width="40px" height="40px">
 										<path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40"/>
@@ -49,7 +49,7 @@
 								</a>
 							</div>
 							{% if main_phone is defined and main_phone and main_phone_header %}
-								<div class="icon-element">
+								<div class="icon-element menu-element">
 									<a href="{{ main_phone_link }}" class="shortcut-wrapper" target="_blank">
 										<i class="bi bi-telephone"></i>
 										<span class="nowrap d-none">{{ main_phone }}</span>
@@ -57,7 +57,7 @@
 								</div>
 							{% endif %}
                             {% if whatsapp_phone is defined and whatsapp_phone and whatsapp_phone_header %}
-                                <div class="icon-element">
+                                <div class="icon-element menu-element">
                                     <a href="https://wa.me/{{ whatsapp_phone_link }}" class="shortcut-wrapper" target="_blank">
                                         <i class="bi bi-whatsapp"></i>
                                         <span class="nowrap d-none">{{ whatsapp_phone }}</span>
@@ -65,7 +65,7 @@
                                 </div>
                             {% endif %}
                             {% if telegram is defined and telegram and telegram_header %}
-                                <div class="icon-element d-none d-lg-block">
+                                <div class="icon-element menu-element d-none d-lg-block">
                                     <a href="https://t.me/{{ telegram_link }}" class="shortcut-wrapper" target="_blank">
                                         <i class="bi bi-telegram"></i>
                                         <span class="nowrap d-none">{{ telegram }}</span>
@@ -73,7 +73,7 @@
                                 </div>
                             {% endif %}
                             {% if vkontakte is defined and vkontakte and vkontakte_header %}
-                                <div class="icon-element d-none d-md-block">
+                                <div class="icon-element menu-element d-none d-md-block">
                                     <a href="https://vk.com/{{ vkontakte_link }}" class="shortcut-wrapper" target="_blank">
                                         {{ vkontakte_icon }}
                                         <span class="nowrap d-none">{{ vkontakte }}</span>
@@ -81,7 +81,7 @@
                                 </div>
                             {% endif %}
                             {% if callback is defined and callback and callback_header %}
-                                <div class="icon-element callback_action d-none d-md-flex animate-text animate-splash">
+                                <div class="icon-element menu-element callback_action d-none d-md-flex animate-text animate-splash">
                                     <a href="{{ callback_link }}" class="shortcut-wrapper" onclick="callBackShow(event);">
                                         {{ callback_icon_svg }}
                                     </a>
@@ -100,7 +100,7 @@
 					<div class="col-4 shortcuts text-end">
 						<div class="font-zero justify-content-end">
 							{% if header_search %}
-								<div class="icon-element d-none d-xl-block">
+								<div class="icon-element menu-element d-none d-xl-block">
 									<div class="dropdown-wrapper-click from-top hidden-sx hidden-sm hidden-xs">
 										<a class="shortcut-wrapper search-trigger from-top clicker">
 											<i class="icon-magnifier icon"></i>
@@ -116,13 +116,13 @@
 								</div>
 							{% endif %}
 							{% if header_login %}
-								<div class="icon-element is_account">
+								<div class="icon-element menu-element is_account">
 									<a class="shortcut-wrapper" href="{{ account }}">
 										<i class="icon-user icon"></i>
 									</a>
 								</div>
 							{% endif %}
-							<div class="icon-element is_wishlist">
+							<div class="icon-element menu-element is_wishlist">
 								<a class="shortcut-wrapper wishlist" href="{{ wishlist }}">
 									<div class="wishlist-hover">
 										<i class="icon-heart icon"></i>
@@ -130,7 +130,7 @@
 									</div>
 								</a>
 							</div>
-							<div class="icon-element catalog_hide">
+							<div class="icon-element menu-element catalog_hide">
 								<div id="cart" class="dropdown-wrapper from-top">
 									<a href="{{ shopping_cart }}" class="shortcut-wrapper cart">
 										<i id="cart-icon" class="global-cart icon"></i>
