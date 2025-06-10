@@ -1,100 +1,102 @@
 {% if is_filter_show %}
     <div id="digitalElephantFilter_box" class="widget">
-        <div class="widget-title d-lg-none">
-            <p class="main-title">
-                <span>{{ heading_title }}</span>
-            </p>
-            <p class="widget-title-separator"><i class="icon-line-cross"></i></p>
+        <div class="d-lg-none">
+            <a href="#" class="btn btn-md btn-primary-outline w-100 filter-trigger-btn">{{ heading_title }}</a>
         </div>
         <div class="box-content digitalElephantFilter">
-            <form id="digitalElephantFilter_form" action="{{ JS_config['action']['getProduct'] }}" method="get">
-                {% if filter_data['price']['show'] %}
-                    <div class="filter_element_wrap">
-                        <div class="filter_element_title" data-section-name="price" data-section-id="price">
-                            {{ text_price_range }}
-                        </div>
-                        {% set display = 'none' %}
-                        {% if filter_data['price']['open'] %}
-                            {% set display = 'block' %}
-                        {% endif %}
-                        <div class="filter_element_content price_slider collapsible" style="display: {{ display }}">
-
-                            <input type="hidden" id="digitalElephantFilter_changing_price_min" value="{{ filter_data['price']['min'] }}" name="price[min]" class="price">
-                            <input type="hidden" id="digitalElephantFilter_changing_price_max" value="{{ filter_data['price']['max'] }}" name="price[max]" class="price">
-
-
-                            <div id="slider-range"></div>
-                            <div class="price-range-holder">
+            <div class="filter-wrapper-top">
+                <div class="widget-title d-lg-none">
+                    <h3 class="title">{{ heading_title }}</h3>
+                    <a href="#" class="btn-close btn-filter-close"></a>
+                </div>
+                <form id="digitalElephantFilter_form" action="{{ JS_config['action']['getProduct'] }}" method="get">
+                    {% if filter_data['price']['show'] %}
+                        <div class="filter_element_wrap">
+                            <div class="filter_element_title" data-section-name="price" data-section-id="price">
                                 {{ text_price_range }}
-                                <b>
-                                    {{ symbol_left }}<span id="price-min-holder">{{ filter_data['price']['min'] }}</span>
-                                    {{ symbol_right }}
-                                    -
-                                    {{ symbol_left }}<span id="price-max-holder">{{ filter_data['price']['max'] }}</span>
-                                    {{ symbol_right }}
-                                </b>
+                            </div>
+                            {% set display = 'none' %}
+                            {% if filter_data['price']['open'] %}
+                                {% set display = 'block' %}
+                            {% endif %}
+                            <div class="filter_element_content price_slider collapsible" style="display: {{ display }}">
+
+                                <input type="hidden" id="digitalElephantFilter_changing_price_min" value="{{ filter_data['price']['min'] }}" name="price[min]" class="price">
+                                <input type="hidden" id="digitalElephantFilter_changing_price_max" value="{{ filter_data['price']['max'] }}" name="price[max]" class="price">
+
+
+                                <div id="slider-range"></div>
+                                <div class="price-range-holder">
+                                    {{ text_price_range }}
+                                    <b>
+                                        {{ symbol_left }}<span id="price-min-holder">{{ filter_data['price']['min'] }}</span>
+                                        {{ symbol_right }}
+                                        -
+                                        {{ symbol_left }}<span id="price-max-holder">{{ filter_data['price']['max'] }}</span>
+                                        {{ symbol_right }}
+                                    </b>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
 
 
-                {% for package in filter_data['packages'] %}
+                    {% for package in filter_data['packages'] %}
 
-                    {% for section_group in package %}
+                        {% for section_group in package %}
 
-                        {% if section_group['sections'] %}
+                            {% if section_group['sections'] %}
 
-                            {% if is_show_group_attributes and section_group['group_name'] %}
-                                <div class="filter_element_title">{{ section_group['group_name'] }}</div>
-                            {% endif %}
-
-                            {% for section in section_group['sections'] %}
-
-                                {% if section['type'] and section['values'] %}
-                                    <div class="filter_element_wrap">
-
-                                        <div class="filter_element_title {% if is_show_group_attributes and section_group['group_name'] %}is-attribute-child{% endif %}" data-section-name="{{ section['name'] }}" data-section-id="{{ section['id'] }}">{{ section['name'] }}</div>
-
-                                        {% set display = 'none' %}
-                                        {% if section['open'] %}
-                                            {% set display = 'block' %}
-                                        {% endif %}
-
-                                        <div class="filter_element_content" style="display: {{ display }}">
-                                            {% set inputs_data = section['values'] %}
-                                            {% include "oxyo/template/extension/module/digitalElephantFilter/%s.twig"|format(section['type']) %}
-                                        </div>
-                                    </div>
+                                {% if is_show_group_attributes and section_group['group_name'] %}
+                                    <div class="filter_element_title">{{ section_group['group_name'] }}</div>
                                 {% endif %}
 
-                            {% endfor %}
-                        {% endif %}
+                                {% for section in section_group['sections'] %}
+
+                                    {% if section['type'] and section['values'] %}
+                                        <div class="filter_element_wrap">
+
+                                            <div class="filter_element_title {% if is_show_group_attributes and section_group['group_name'] %}is-attribute-child{% endif %}" data-section-name="{{ section['name'] }}" data-section-id="{{ section['id'] }}">{{ section['name'] }}</div>
+
+                                            {% set display = 'none' %}
+                                            {% if section['open'] %}
+                                                {% set display = 'block' %}
+                                            {% endif %}
+
+                                            <div class="filter_element_content" style="display: {{ display }}">
+                                                {% set inputs_data = section['values'] %}
+                                                {% include "oxyo/template/extension/module/digitalElephantFilter/%s.twig"|format(section['type']) %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+                            {% endif %}
+
+                        {% endfor %}
 
                     {% endfor %}
 
-                {% endfor %}
-
-                {% if is_button_apply or is_button_clear %}
-                <div>
-                    <table width="100%" class="digitalElephantFilter_btn">
-                        <tr>
-                            {% if is_button_apply and is_button_clear %}
-                                <td width="50%" style="padding-right:2px;"><input type="reset" id="digitalElephantFilter_button_clear" class="btn btn-md btn-outline" value="{{ text_clear }}"/></td>
-                                <td width="50%" style="padding-left:2px;"><input type="button" id="digitalElephantFilter_button_apply" class="btn btn-md btn-contrast" value="{{ text_ok }}"/></td>
-                            {% elseif is_button_apply %}
-                                <td width="100%"><input type="button" id="digitalElephantFilter_button_apply" class="btn btn-md btn-contrast" value="{{ text_ok }}"/></td>
-                            {% elseif is_button_clear %}
-                                <td width="100%"><input type="reset" id="digitalElephantFilter_button_clear" class="btn btn-md btn-outline" value="{{ text_clear }}"/></td>
-                            {% endif %}
-                        </tr>
-                    </table>
-                </div>
-                {% endif %}
-                
-                <input type="hidden" name="ajax_digitalElephantFilter" value="1"/>
-            </form>
-
+                    {% if is_button_apply or is_button_clear %}
+                    <div>
+                        <table width="100%" class="digitalElephantFilter_btn">
+                            <tr>
+                                {% if is_button_apply and is_button_clear %}
+                                    <td width="50%" style="padding-right:2px;"><input type="reset" id="digitalElephantFilter_button_clear" class="btn btn-md btn-outline" value="{{ text_clear }}"/></td>
+                                    <td width="50%" style="padding-left:2px;"><input type="button" id="digitalElephantFilter_button_apply" class="btn btn-md btn-contrast" value="{{ text_ok }}"/></td>
+                                {% elseif is_button_apply %}
+                                    <td width="100%"><input type="button" id="digitalElephantFilter_button_apply" class="btn btn-md btn-contrast" value="{{ text_ok }}"/></td>
+                                {% elseif is_button_clear %}
+                                    <td width="100%"><input type="reset" id="digitalElephantFilter_button_clear" class="btn btn-md btn-outline" value="{{ text_clear }}"/></td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                    {% endif %}
+                    
+                    <input type="hidden" name="ajax_digitalElephantFilter" value="1"/>
+                </form>
+            </div>
             <script>
                 var DEFConfig = {
                     peakPrice: {
@@ -152,10 +154,17 @@
             // Oxyo
             $(document).ready(function () {
                 $('.filter-trigger-btn').addClass('active').html('<i class="icon-line-menu icon"></i> <b> {{ heading_title }}</b>');
-                    // Oxyo
-                    $(".filter-trigger-btn").click(function () {
-                        $('html').addClass('no-scroll side-filter-open');
-                    $('.body-cover').addClass('active');
+                // Oxyo
+                $(".filter-trigger-btn").click(function (event) {
+                    event.preventDefault();
+                    $('html').addClass('no-scroll side-filter-open');
+                    // $('.body-cover').addClass('active');
+                });
+                $('.btn-filter-close').click(function (event) {
+                    event.preventDefault();
+                    $('html').removeClass('no-scroll side-filter-open');
+                    // $('.body-cover').removeClass('active');
+
                 });
             });
         </script>

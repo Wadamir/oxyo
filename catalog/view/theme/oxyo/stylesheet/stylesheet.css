@@ -2302,7 +2302,6 @@ div.required .control-label:after {
 
 /* Top menu elements */
 
-
 /* Cart drop down */
 #cart-content {
     width: 300px;
@@ -3722,14 +3721,16 @@ div.required .control-label:after {
 
 /* Breadcrumb */
 .common-home .breadcrumb-holder {
-    display: none !important;
+    /* display: none !important; */
+    display: none;
 }
 
 .breadcrumb-holder {
     margin: 0;
     margin-bottom: 12px;
     padding: 0;
-    display: block;
+    /* display: block; */
+    display: none;
 }
 
 .breadcrumb-holder #title-holder,
@@ -3805,7 +3806,9 @@ div.required .control-label:after {
 
 @media (min-width: 992px) {
     .breadcrumb-holder {
-        margin-bottom: 40px;
+        margin: 0;
+        padding: 0;
+        display: block;
     }
     .title_in_bc.extra_tall_height_bc .breadcrumb-holder {
         padding: 140px 0 120px;
@@ -6930,7 +6933,7 @@ a.button-circle {
 }
 
 .single-product .image .badge,
-.main-image .badge {
+.image-area .badge {
     position: absolute;
     z-index: 3;
     display: table;
@@ -6942,22 +6945,25 @@ a.button-circle {
 }
 
 .single-product .image .badge + .badge,
-.main-image .badge + .badge {
+.image-area .badge + .badge {
     top: 60px;
 }
 
 .single-product .image .badge + .badge + .badge,
-.main-image .badge + .badge + .badge {
+.image-area .badge + .badge + .badge {
     top: 115px;
 }
 
 .single-product .image .badge i,
-.main-image .badge i {
-    font-style: normal;
+.image-area .badge i {
     display: table-cell;
     vertical-align: middle;
-    line-height: 14px;
-    letter-spacing: 0.5px;
+
+    font-style: normal;
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+
+    line-height: 1;
+    /* letter-spacing: 0.5px; */
     white-space: normal;
     text-align: center;
     text-transform: uppercase;
@@ -7682,27 +7688,92 @@ a.button-circle {
 }
 
 /* Product Page */
+@media (max-width: 991px) {
+    .container.product-layout {
+        /* padding: 0; */
+        max-width: none;
+    }
+}
+
 .product-info {
+    margin: 0 -12px;
+    width: calc(100% + 24px);
+}
+
+.product-info > .left {
+    /* width: auto; */
+    /* max-width: 50%; */
     width: 100%;
+    vertical-align: top;
+    padding-bottom: 24px;
+}
+
+.product-info > .right {
+    margin: 0;
+    padding: 0 12px;
+
+    width: 100%;
+}
+.product-layout .image-area {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .product-info {
+        margin: 0;
+        padding: 0;
+        padding-top: 12px;
+
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+    }
+
+    .product-info > .left,
+    .product-info > .right {
+        margin: 0;
+        padding: 0;
+
+        width: 50%;
+    }
 }
 
 @media (min-width: 992px) {
     .product-info {
         margin-bottom: 15px;
     }
-}
+    .product-layout.images-left .image-area {
+        flex-direction: row;
+    }
+    .product-layout.images-left .image-area > .main-image {
+        order: 2;
+    }
 
-.product-info .table-cell.left {
-    width: auto;
-    vertical-align: top;
-    padding-bottom: 30px;
+    .product-layout.images-left .image-area > .image-additional {
+        order: 1;
+        margin-right: 12px;
+    }
 }
 
 .image-area .main-image {
-    display: inline-block;
+    margin: 0;
+    padding: 0;
     padding-bottom: 3px;
+
+    display: none;
     overflow: hidden;
     position: relative;
+}
+
+@media screen and (min-width: 992px) {
+    .image-area .main-image {
+        display: block;
+    }
 }
 
 #main-image img {
@@ -7796,16 +7867,20 @@ a.button-circle {
 
 @media (min-width: 992px) {
     .images-left .image-area .image-additional {
-        display: inline-block;
+        margin: 0;
         margin-right: 20px;
+        padding: 0;
+
+        display: inline-block;
+
         /* float: left; */
     }
 }
 
 @media (max-width: 991px) {
-    .product-main:not(.col-sm-8) .image-area {
+    /* .product-main:not(.col-sm-8) .image-area {
         width: 340px !important;
-    }
+    } */
 
     /* has to be separated */
 
@@ -7827,10 +7902,13 @@ a.button-circle {
 }
 
 @media (max-width: 767px) {
-    .product-main:not(.col-sm-8) .image-area,
+    /* .product-main:not(.col-sm-8) .image-area,
     .image-area,
     .image-area img {
         width: 100% !important;
+    } */
+    .image-area img {
+        width: 100%;
     }
 
     #main-image img {
@@ -7855,9 +7933,23 @@ a.button-circle {
 }
 
 .product-info .right h1#page-title {
-    font-size: 38px;
+    font-size: 26px;
     margin: 7px 0 14px;
-    line-height: 1.4;
+    line-height: 1;
+}
+
+@media (min-width: 576px) {
+    .product-info .right h1#page-title {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+}
+
+@media (min-width: 768px) {
+    .product-info .right h1#page-title {
+        font-size: 38px;
+        line-height: 1.4;
+    }
 }
 
 .product-info .right .rating {
@@ -8799,7 +8891,7 @@ a.label-link:not(:hover) {
 /* Ajax filter */
 #digitalElephantFilter_box {
     position: relative;
-    padding-bottom: 40px;
+    /* padding-bottom: 40px; */
 }
 
 @media (max-width: 767px) {
@@ -8809,6 +8901,53 @@ a.label-link:not(:hover) {
 }
 
 #digitalElephantFilter_box .box-content {
+    margin: 0;
+    padding: 12px 14px;
+
+    position: fixed;
+    z-index: 99999;
+    top: 56px;
+    right: 0;
+    left: 0;
+
+    height: 100vh;
+    width: 100%;
+
+    background: var(--primary-white-100, #fcfcfc);
+
+    transition: left 500ms;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+@media (min-width: 992px) {
+    #digitalElephantFilter_box .box-content {
+        position: static;
+
+        height: auto;
+        width: 100%;
+    }
+}
+#digitalElephantFilter_box .box-content .widget-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#digitalElephantFilter_box .box-content .title {
+    margin: 0;
+    padding: 0;
+
+    font-size: 24px;
+    font-weight: 600;
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
 }
 
 #digitalElephantFilter_box .filter_element_wrap {
