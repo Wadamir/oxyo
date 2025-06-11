@@ -134,6 +134,7 @@
 
 /catalog/language/ru-ru/*
 !/catalog/language/ru-ru/
+!/catalog/language/ru-ru/product/
 /catalog/language/ru-ru/extension/*
 !/catalog/language/ru-ru/extension/
 !/catalog/language/ru-ru/extension/blog/
