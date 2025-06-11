@@ -529,55 +529,55 @@
 						<!-- Tabs area start -->
 						<div class="row">
 							<div class="col-sm-12">
-
-								<ul class="nav nav-tabs {{ product_tabs_style }} main_tabs">
-									<li class="active">
-										<a href="#tab-description" data-toggle="tab">{{ tab_description }}</a>
-									</li>
-									{% if product_tabs %}
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="description-tab-btn" data-bs-toggle="tab" data-bs-target="#tab-description" type="button" role="tab" aria-controls="tab-description" aria-selected="true">{{ tab_description }}</button>
+                                    </li>
+                                    {% if product_tabs %}
 										{% for tab in product_tabs %}
-											<li>
-												<a href="#custom-tab-{{ tab.tab_id }}" data-toggle="tab">{{ tab.name }}</a>
-											</li>
-										{% endfor %}
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="custom-tab-{{ tab.tab_id }}-btn" data-bs-toggle="tab" data-bs-target="#custom-tab-{{ tab.tab_id }}" type="button" role="tab" aria-controls="custom-tab-{{ tab.tab_id }}" aria-selected="false">{{ tab.name }}</button>
+                                            </li>
+                                        {% endfor %}
 									{% endif %}
-									{% if attribute_groups %}
-										<li>
-											<a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a>
-										</li>
-									{% endif %}
-									{% if review_status %}
-										<li>
-											<a href="#tab-review" data-toggle="tab">{{ tab_review }}</a>
-										</li>
-									{% endif %}
-									{% if question_status %}
-										<li>
-											<a href="#tab-questions" data-toggle="tab">{{ oxyo_tab_questions }}
-												({{ questions_total }})</a>
-										</li>
-									{% endif %}
-								</ul>
-
+                                    {% if attribute_groups %}
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="specification-tab-btn" data-bs-toggle="tab" data-bs-target="#tab-specification" type="button" role="tab" aria-controls="tab-specification" aria-selected="false">{{ tab_attribute }}</button>
+                                        </li>
+                                    {% endif %}
+                                    {% if review_status %}
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="review-tab-btn" data-bs-toggle="tab" data-bs-target="#tab-review" type="button" role="tab" aria-controls="tab-review" aria-selected="false">{{ tab_review }}</button>
+                                        </li>
+                                    {% endif %}
+                                    {% if question_status %}
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="question-tab-btn" data-bs-toggle="tab" data-bs-target="#tab-question" type="button" role="tab" aria-controls="tab-question" aria-selected="false">{{ oxyo_tab_questions }} ({{ questions_total }})</button>
+                                        </li>
+                                    {% endif %}                                    
+                                </ul>
+                                <!-- Tab panes -->                           
 								<div class="tab-content">
-
-									<div class="tab-pane show" id="tab-description">
+									<div class="tab-pane active" id="tab-description" role="tabpanel" aria-labelledby="description-tab-btn">
+                                        <h3 class="tab-title">{{ tab_description }}</h3>
 										{{ description }}
 									</div>
 
 									{% if product_tabs %}
 										{% for tab in product_tabs %}
-											<div class="tab-pane" id="custom-tab-{{ tab.tab_id }}">
+											<div class="tab-pane" id="custom-tab-{{ tab.tab_id }}" role="tabpanel" aria-labelledby="custom-tab-{{ tab.tab_id }}-btn">
+                                                <h3 class="tab-title">{{ tab.name }}</h3>
 												{{ tab.description }}
 											</div>
 										{% endfor %}
 									{% endif %}
 
 									{% if attribute_groups %}
-										<div class="tab-pane" id="tab-specification">
-											<table class="table specification">
+										<div class="tab-pane" id="tab-specification" role="tabpanel" aria-labelledby="specification-tab-btn">
+                                            <h3 class="tab-title">{{ tab_attribute }}</h3>
+											<table class="table table-borderless table-striped specification">
 												{% for attribute_group in attribute_groups %}
-													<thead>
+													<thead class="d-none">
 														<tr>
 															<td colspan="2">{{ attribute_group.name }}</td>
 														</tr>
@@ -598,19 +598,17 @@
 									{% endif %}
 
 									{% if question_status %}
-										<div class="tab-pane" id="tab-questions">
+										<div class="tab-pane" id="tab-questions" role="tabpanel" aria-labelledby="question-tab-btn">
+                                            <h3 class="tab-title">{{ oxyo_tab_questions }}</h3>
 											{{ product_questions }}
 										</div>
 									{% endif %}
 
 									{% if review_status %}
-										<div class="tab-pane" id="tab-review">
+										<div class="tab-pane" id="tab-review" role="tabpanel" aria-labelledby="review-tab-btn">
+                                            <h3 class="tab-title">{{ tab_review }}</h3>
 											<div class="row">
-												<div class="col-sm-6">
-													<h4>
-														<b>{{ button_reviews }}</b>
-													</h4>
-
+												<div class="col-12 col-sm-6">
 													<div id="review">
 														{% if seo_reviews %}
 															{% for review in seo_reviews %}
@@ -646,9 +644,8 @@
 													</div>
 
 												</div>
-												<div class="col-sm-6 right">
+												<div class="col-12 col-sm-6 right">
 													<form class="form-horizontal" id="form-review">
-
 														<h4 id="review-notification">
 															<b>{{ text_write }}</b>
 														</h4>

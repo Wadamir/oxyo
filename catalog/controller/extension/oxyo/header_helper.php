@@ -423,7 +423,8 @@ if ($this->config->get('oxyo_design_status')) {
         $styles = 'a:hover, a:focus, .menu-cell .dropdown-inner a:hover, .link-hover-color:hover, .primary-color, .cm_item .primary-color, .nav-tabs.text-center.nav-tabs-sm > li.active {color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
         $styles .= '.primary-bg-color, .widget-title-style2 .widget .widget-title-separator:after, .nav-tabs.text-center.nav-tabs-sm > li.active > a:after,.nav-tabs > li > a:hover,.nav-tabs > li > a:focus,.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus {background-color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
         $styles .= 'div.ui-slider-range.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default {background:' . $this->config->get('oxyo_primary_accent_color') . ' !important;}';
-        $styles .= '.primary-color-border, .nav-tabs {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
+        // $styles .= '.primary-color-border, .nav-tabs {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
+        $styles .= '.primary-color-border {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
         $styles .= '.top_notificaiton {background-color:' . $this->config->get('oxyo_top_note_bg') . ';}';
         $styles .= '.top_notificaiton, .top_notificaiton a {color:' . $this->config->get('oxyo_top_note_color') . ';}';
         $styles .= '.top_line {background-color:' . $this->config->get('oxyo_top_line_bg') . ';}';
