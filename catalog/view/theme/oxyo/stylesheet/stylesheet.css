@@ -7941,6 +7941,11 @@ a.button-circle {
         border-radius: 12px;
     }
 
+    .image-area > .image-additional {
+        max-height: 170px;
+        min-height: 170px;
+    }
+
     .image-additional .link .video-placeholder {
         opacity: 0.75;
     }
