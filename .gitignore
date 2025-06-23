@@ -229,6 +229,7 @@
 
 /image/*
 !/image/
+!/image/no_video.png
 /image/catalog/*
 !/image/catalog/
 !/image/catalog/oxyo-demo/
