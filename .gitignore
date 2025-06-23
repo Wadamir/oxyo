@@ -20,7 +20,7 @@
 
 /admin/controller/common/*
 !/admin/controller/common/
-# !/admin/controller/common/filemanager.php
+!/admin/controller/common/filemanager.php
 
 /admin/controller/extension/*
 !/admin/controller/extension/
@@ -117,6 +117,10 @@
 /admin/view/template/catalog/*
 !/admin/view/template/catalog/
 !/admin/view/template/catalog/product_form.twig
+
+/admin/view/template/common/*
+!/admin/view/template/common/
+!/admin/view/template/common/filemanager.twig
 
 /admin/view/template/extension/*
 !/admin/view/template/extension/
