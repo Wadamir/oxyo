@@ -7690,8 +7690,7 @@ a.button-circle {
 /* Product Page */
 @media (max-width: 991px) {
     .container.product-layout {
-        /* padding: 0; */
-        max-width: none;
+        max-width: none; /* Fix bootstrap's max-width */
     }
 }
 
@@ -7701,8 +7700,6 @@ a.button-circle {
 }
 
 .product-info > .left {
-    /* width: auto; */
-    /* max-width: 50%; */
     width: 100%;
     vertical-align: top;
     padding-bottom: 24px;
@@ -7713,41 +7710,6 @@ a.button-circle {
     padding: 0 12px;
 
     width: 100%;
-}
-.product-layout .image-area {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.product-layout .image-area > .main-image {
-    width: 70%;
-}
-
-.product-layout .image-area > .image-additional {
-    width: calc(30% - 12px);
-    max-height: 100%;
-}
-
-.product-layout .image-area > .image-additional > .slick-list {
-    height: calc(100% + 5px) !important;
-}
-
-.image-additional .link {
-    position: relative;
-    display: block;
-}
-
-.image-additional .link .video-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #bbb;
-    z-index: 1;
-    opacity: 0;
 }
 
 @media (min-width: 768px) {
@@ -7774,26 +7736,49 @@ a.button-circle {
 
 @media (min-width: 992px) {
     .product-info {
-        margin-bottom: 15px;
-    }
-    .product-layout.images-left .image-area {
-        flex-direction: row;
-    }
-    .product-layout.images-left .image-area > .main-image {
-        order: 2;
+        margin-bottom: 12px;
     }
 
-    .product-layout.images-left .image-area > .image-additional {
-        order: 1;
-        margin-right: 12px;
+    .images-bottom .product-info > .left {
+        width: 33.3333%;
     }
 
-    .image-additional .link .video-placeholder {
-        opacity: 0.75;
+    .images-bottom .product-info > .right {
+        width: 66.6667%;
     }
 }
 
-.image-area .main-image {
+@media (min-width: 1200px) {
+    .product-info > .left {
+        width: 40%;
+    }
+    .product-info > .right {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .product-layout:not(.images-left) .product-info > .left {
+        width: 30%;
+    }
+    .product-layout:not(.images-left) .product-info > .right {
+        width: 70%;
+    }
+}
+
+/* Image area */
+.image-area {
+    position: relative;
+
+    /* display: flex;
+    flex-direction: column; */
+}
+
+.image-area > .main-image {
+    /* width: 70%; */
+    width: 100%;
+    height: 100%;
+
     margin: 0;
     padding: 0;
     /* padding-bottom: 3px; */
@@ -7801,15 +7786,53 @@ a.button-circle {
     display: none;
     overflow: hidden;
     position: relative;
+
+    transition: opacity 0.2s ease;
 }
 
-@media screen and (min-width: 992px) {
-    .image-area .main-image {
-        display: block;
-    }
+.image-area > .main-image > a {
+    display: block;
+    line-height: 1;
+}
+
+.image-area > .image-additional {
+    width: 100%;
+    max-height: 300px;
+    min-height: 300px;
+
+    transition: max-height 0.5s linear;
+}
+
+.image-area > .image-additional.slick-initialized {
+    max-height: none;
+    min-height: 1px;
+    transition: max-height 0.5s linear;
+}
+
+.image-area > .image-additional.show-skeleton.slick-initialized::after {
+    content: none;
+}
+
+.image-additional .link {
+    position: relative;
+    display: block;
+}
+
+.image-additional .link .video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #bbb;
+    z-index: 1;
+    opacity: 0;
 }
 
 #main-image img {
+    width: 100%;
+    height: auto;
+
     display: block;
 }
 
@@ -7829,25 +7852,30 @@ a.button-circle {
     display: none;
 }
 
-.image-additional {
+/* .image-additional {
     overflow: hidden;
     padding: 0;
     margin: 0;
     opacity: 0;
-}
+} */
 
 .container.full-width .image-additional {
     opacity: 1;
 }
 
+.image-additional > .slick-list {
+    height: calc(100% + 5px) !important;
+}
+
 .image-additional .slick-list {
-    /* margin: -5px; */
     margin: 0;
-    margin-top: -5px;
 }
 
 .image-additional .slick-slide {
-    padding: 5px 0;
+    margin: 0;
+    padding: 0;
+
+    min-height: 1px;
 }
 
 .image-additional .icon-arrow-left,
@@ -7880,7 +7908,99 @@ a.button-circle {
     box-shadow: 4px 0 4px rgba(0, 0, 0, 0.1);
 }
 
+@media (min-width: 768px) {
+    .image-area > .image-additional {
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 991px) {
+    .image-area > .image-additional {
+        height: auto !important;
+    }
+
+    #main-image img {
+        max-width: 100%;
+    }
+
+    .col-md-9.col-sm-8 .product-info,
+    .col-md-9.col-sm-8 .product-info .table-cell {
+        display: block;
+        padding-left: 0;
+    }
+}
+
 @media (min-width: 992px) {
+    .image-area {
+        display: flex;
+    }
+
+    .image-area > .main-image {
+        display: block;
+
+        border-radius: 12px;
+    }
+
+    .image-additional .link .video-placeholder {
+        opacity: 0.75;
+    }
+
+    .image-additional .slick-slide {
+        margin: 0;
+        padding: 0;
+
+        border-radius: 6px;
+
+        overflow: hidden;
+    }
+
+    /* Images bottom */
+    .images-bottom .image-area {
+        flex-direction: column;
+    }
+
+    .images-bottom .image-area > .main-image {
+        margin: 0;
+        margin-bottom: 12px;
+        padding: 0;
+    }
+
+    .images-bottom .image-additional {
+        margin-right: -10px;
+        width: calc(100% + 10px);
+    }
+
+    .images-bottom .image-additional .slick-slide {
+        margin-right: 10px;
+    }
+
+    /* Images left */
+    .images-left .image-area {
+        flex-direction: row;
+    }
+
+    .images-left .image-area > .main-image {
+        order: 2;
+
+        width: 70%;
+    }
+
+    .images-left .image-additional {
+        margin: 0;
+        margin-right: 12px;
+        padding: 0;
+
+        order: 1;
+
+        width: calc(30% - 12px);
+
+        border-radius: 0;
+    }
+
+    .images-left .image-additional .slick-slide {
+        margin-bottom: 10px;
+    }
+
     .images-left .image-additional .icon-arrow-left {
         right: 50%;
         left: auto;
@@ -7900,48 +8020,80 @@ a.button-circle {
     }
 }
 
-@media (min-width: 992px) {
-    .images-left .image-area .image-additional {
-        margin: 0;
-        margin-right: 20px;
-        padding: 0;
+/* Placeholder skeleton */
+.show-skeleton {
+    margin: 0;
+    padding: 0;
 
-        display: inline-block;
+    position: relative;
+    overflow: hidden;
 
-        /* float: left; */
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.show-skeleton::after {
+    content: '';
+    display: block;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+
+    background: linear-gradient(
+        130deg,
+        rgba(122, 122, 122, 1),
+        rgba(255, 255, 255, 1),
+        rgba(122, 122, 122, 1)
+    );
+    background-size: 200% 200%;
+
+    -webkit-animation: skeletonAnimation 5s ease infinite;
+    -moz-animation: skeletonAnimation 5s ease infinite;
+    animation: skeletonAnimation 5s ease infinite;
+}
+
+@-webkit-keyframes skeletonAnimation {
+    0% {
+        background-position: 10% 0%;
+    }
+    50% {
+        background-position: 91% 100%;
+    }
+    100% {
+        background-position: 10% 0%;
+    }
+}
+@-moz-keyframes skeletonAnimation {
+    0% {
+        background-position: 10% 0%;
+    }
+    50% {
+        background-position: 91% 100%;
+    }
+    100% {
+        background-position: 10% 0%;
+    }
+}
+@keyframes skeletonAnimation {
+    0% {
+        background-position: 10% 0%;
+    }
+    50% {
+        background-position: 91% 100%;
+    }
+    100% {
+        background-position: 10% 0%;
     }
 }
 
-@media (max-width: 991px) {
-    /* .product-main:not(.col-sm-8) .image-area {
-        width: 340px !important;
-    } */
-
-    /* has to be separated */
-
-    #main-image img {
-        max-width: 100%;
-    }
-
-    .image-area .image-additional,
-    .main-image {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    .col-md-9.col-sm-8 .product-info,
-    .col-md-9.col-sm-8 .product-info .table-cell {
-        display: block;
-        padding-left: 0;
-    }
-}
-
-@media (max-width: 767px) {
-    /* .product-main:not(.col-sm-8) .image-area,
-    .image-area,
-    .image-area img {
-        width: 100% !important;
-    } */
+/* @media (max-width: 767px) {
     .image-area img {
         width: 100%;
     }
@@ -7954,13 +8106,8 @@ a.button-circle {
     .product-info .table-cell {
         display: block;
     }
-}
-@media (min-width: 768px) {
-    .product-info .table-cell.right {
-        padding-left: 33px;
-        vertical-align: top;
-    }
-}
+} */
+
 .product-info .table-cell .inner {
     display: inline-block;
     padding-bottom: 30px;
@@ -7981,9 +8128,14 @@ a.button-circle {
 }
 
 @media (min-width: 768px) {
+    .product-info .table-cell.right {
+        padding-left: 33px;
+        vertical-align: top;
+    }
+
     .product-info .right h1#page-title {
         font-size: 38px;
-        line-height: 1.4;
+        line-height: 1.25;
     }
 }
 
@@ -9417,6 +9569,7 @@ div.ui-slider-range.ui-widget-header,
     overflow: visible;
 }
 
+/* Slick Slider */
 .slick-slider {
     position: relative;
     display: block;
@@ -9484,7 +9637,8 @@ div.ui-slider-range.ui-widget-header,
 .slick-slide {
     display: none;
     float: left;
-    height: 100%;
+    /* height: 100%; */
+    height: auto;
     min-height: 1px;
 }
 
@@ -9526,7 +9680,6 @@ div.ui-slider-range.ui-widget-header,
 }
 
 .slick-vertical .slick-slide > .active > img {
-    /* box-shadow: inset 0px 0px 0px 10px red; */
     outline: 3px solid #e61f80;
     outline-offset: -3px;
 }
@@ -11857,6 +12010,10 @@ ul.sitemap > li > ul > li > ul > li > a {
 .glightbox-container .gslide-description {
     display: none !important;
 }
+.gslide-media {
+    border-radius: 24px;
+    overflow: hidden;
+}
 .glightbox-container video {
     max-height: 97vh;
     height: 100%;
@@ -11873,7 +12030,10 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 .gslide-video .gvideo-wrapper {
     width: auto !important;
+    border-radius: 24px;
+    overflow: hidden;
 }
+
 .plyr__video-embed,
 .plyr__video-wrapper--fixed-ratio {
     aspect-ratio: 2 / 3 !important;

@@ -1,54 +1,5 @@
 {{ header }}
 
-{% if product_layout != "full-width" %}
-	<style>
-		.product-page .image-area {
-			{% if product_layout == "images-left" and images %}
-				/* width: {{img_w + img_a_w + 20}}px; */
-                /* height:509px; */
-			{% else %}
-				/* width: {{img_w}}px; */
-			{% endif %}
-		}
-		.product-page .main-image {
-			/* width: {{img_w}}px; */
-		}
-		.product-page .image-additional {
-			{% if product_layout == "images-left" %}
-				width: {{img_a_w}}px;
-				/* height: {{img_h}}px; */
-			{% else %}
-				width: {{img_w}}px;
-			{% endif %}
-		}
-		.product-page .image-additional.has-arrows {
-			{% if product_layout == "images-left" %}
-				height: {{img_h - 40}}px;
-			{% endif %}
-		}
-		@media(min-width: 992px) and(max-width: 1199px) {
-			.product-page .image-area {
-				{% if product_layout == "images-left" %}
-					width: {{((img_w + img_a_w)/1.25 + 20)}}px;
-				{% else %}
-					width: {{img_w/1.25}}px;
-				{% endif %}
-			}
-			.product-page .main-image {
-				width: {{img_w/1.25}}px;
-			}
-			.product-page .image-additional {
-				{% if product_layout == "images-left" %}
-					width: {{img_a_w/1.25}}px;
-					/* height: {{img_h/1.25}}px; */
-				{% else %}
-					width: {{img_w/1.25}}px;
-				{% endif %}
-			}
-		}
-	</style>
-{% endif %}
-
 <ul class="breadcrumb">
 	{% for breadcrumb in breadcrumbs %}
 		<li>
@@ -57,7 +8,7 @@
 	{% endfor %}
 </ul>
 
-<div class="container product-layout {{ product_layout }}">
+<div id="product-layout" class="container product-layout {{ product_layout }}">
 
 	<div class="row">{{ column_left }}
 		{% if column_left and column_right %}
@@ -122,9 +73,9 @@
                                 </div>
                             {% endif %}
 
-                            <ul class="image-additional">
+                            <div class="image-additional show-skeleton">
                                 {% if video %}
-                                    <li>
+                                    <div>
                                         <a class="link cloud-zoom-gallery glightbox locked active"
                                         href="{{ video }}"
                                         data-type="video"
@@ -140,11 +91,11 @@
                                                 <p class="vjs-no-js">{{ text_no_js }}</p>
                                             </video>
                                         </a>
-                                    </li>
+                                    </div>
                                 {% endif %}
 
                                 {% if thumb and (product_layout != "full-width") %}
-                                    <li>
+                                    <div>
                                         <a class="link cloud-zoom-gallery glightbox locked{% if not video %} active{% endif %}" 
                                             href="{{ popup }}" 
                                             rel="useZoom: 'main-image', smallImage: '{{ thumb }}'"
@@ -155,12 +106,12 @@
                                             data-draggable="false">
                                             <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
                                         </a>
-                                    </li>
+                                    </div>
                                 {% endif %}
 
                                 {% if images %}
                                     {% for image in images %}
-                                        <li>
+                                        <div>
                                             <a class="link cloud-zoom-gallery glightbox locked" 
                                                 href="{{ image.popup }}" 
                                                 rel="useZoom: 'main-image', smallImage: '{{ image.thumb_lg }}'"
@@ -171,14 +122,12 @@
                                                 data-draggable="false">
                                                 <img src="{{ image.popup }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
                                             </a>
-                                        </li>
+                                        </div>
                                     {% endfor %}
                                 {% endif %}
-                            </ul>
+                            </div>
                         </div>
                     {% endif %}
-
-
                 </div>
                 <!-- .table-cell.left ends -->
 
@@ -860,9 +809,6 @@
                 prevArrow: "<a class=\"arrow-left icon-arrow-left\"></a>",
                 nextArrow: "<a class=\"arrow-right icon-arrow-right\"></a>",
                 dots: true,
-                {% if direction == 'rtl' %}
-                rtl: true,
-                {% endif %}
                 respondTo: 'min',
                 {% if oxyo_rel_prod_grid == '5' %}
                 slidesToShow: 5,
@@ -1215,61 +1161,114 @@ $('.vk_share').attr("href", 'http://vkontakte.ru/share.php?url=' + share_url + '
             $(document).ready(function () {
                 $('.image-additional a.link').click(function (e) {
                     e.preventDefault();
+
                     if ($(this).hasClass("locked")) {
                         e.stopImmediatePropagation();
-                        // return false; // Prevent further action if locked
                     }
 
-                    // Удалить класс active у всех, назначить текущему
+                    const $main = $('.image-area .main-image');
+
+                    // Remove 'active' class from all thumbnails and add to the clicked one
                     $('.image-additional a.link.active').removeClass('active');
                     $(this).addClass('active');
 
-                    // Получить href и data-type
                     const href = $(this).attr('href');
                     const type = $(this).data('type');
                     const poster = $(this).data('poster') || '';
 
-                    let mainHtml = '';
+                    let newContent = '';
 
                     if (type === 'video') {
-                        mainHtml = `
+                        newContent = `
                             <a href="${href}" class="glightbox main-video" 
                                 data-type="video"
                                 data-source="${href}"
                                 data-poster="${poster}"
                                 data-width="100%"
-                                data-height="100%"
-                                data-zoomable="false"
-                                data-draggable="false">
-                                <video class="video-js vjs-default-skin vjs-big-play-centered" 
-                                    controls loop autoplay muted preload="none" width="100%" height="auto" poster="${poster}">
+                                data-height="100%">
+                                <video class="video-js vjs-default-skin vjs-big-play-centered"
+                                    controls loop autoplay muted playsinline preload="auto"
+                                    width="100%" height="auto" poster="${poster}">
                                     <source src="${href}" type="video/mp4">
                                     <p class="vjs-no-js">Your browser does not support the video tag.</p>
                                 </video>
                             </a>
                         `;
                     } else {
-                        mainHtml = `
+                        newContent = `
                             <a href="${href}" class="glightbox main-image-link" data-type="image">
                                 <img src="${href}" alt="" />
                             </a>
                         `;
                     }
 
-                    // Вставить в блок .main-image (внутри .image-area)
-                    $('.image-area .main-image').html(mainHtml);
-
-                    // Обновить GLightbox, если нужно
-                    if (window.glightboxInstance) {
-                        window.glightboxInstance.destroy();
-                    }
-                    window.glightboxInstance = GLightbox({
-                        selector: '.glightbox:not(.active)',
-                        autoplayVideos: true,
-                        descriptions: false
+                    // Fix current height and hide the container using visibility and opacity
+                    const currentHeight = $main.outerHeight();
+                    $main.css({
+                        height: currentHeight + 'px',
+                        visibility: 'hidden',
+                        opacity: 0
                     });
+
+                    // Short delay to ensure styles are applied before replacing content
+                    setTimeout(() => {
+                        $main.html(newContent);
+
+                        const $img = $main.find('img');
+                        const videoEl = $main.find('video').get(0);
+
+                        // Animate height and restore visibility/opactiy
+                        const animateToHeight = (targetHeight) => {
+                            $main.animate({ height: targetHeight }, 200, () => {
+                                $main.css('height', '');
+                                $main.css('visibility', 'visible');
+                                $main.animate({ opacity: 1 }, 150);
+                            });
+                        };
+
+                        // Handle image loading
+                        if ($img.length) {
+                            $('<img/>').attr('src', $img.attr('src')).on('load', function () {
+                                const tempImg = this;
+                                const tempWrapper = $('<div>').css({
+                                    position: 'absolute',
+                                    visibility: 'hidden',
+                                    width: $main.width() + 'px'
+                                }).append($(tempImg));
+                                $('body').append(tempWrapper);
+                                const newHeight = $(tempImg).height();
+                                tempWrapper.remove();
+                                animateToHeight(newHeight);
+                            });
+                        }
+                        // Handle video loading
+                        else if (videoEl) {
+                            videoEl.onloadedmetadata = () => {
+                                const ratio = videoEl.videoHeight / videoEl.videoWidth;
+                                const newHeight = $main.width() * ratio;
+                                animateToHeight(newHeight);
+                                videoEl.play().catch(() => {});
+                            };
+                        }
+                        // If nothing to wait for, just reset visibility and opacity
+                        else {
+                            $main.css({ height: '', visibility: 'visible' }).animate({ opacity: 1 }, 150);
+                        }
+
+                        // Reinitialize GLightbox
+                        if (window.glightboxInstance) {
+                            window.glightboxInstance.destroy();
+                        }
+                        window.glightboxInstance = GLightbox({
+                            selector: '.glightbox:not(.no-lightbox)',
+                            autoplayVideos: true,
+                            descriptions: false
+                        });
+                    }, 50);
                 });
             });
+
+
             $(document).ready(function () {
                 // // Handle click on additional image thumbnails
                 // $('.image-additional a.link').click(function (e) {
@@ -1304,9 +1303,6 @@ $('.vk_share').attr("href", 'http://vkontakte.ru/share.php?url=' + share_url + '
                     nextArrow: "<a class=\"icon-arrow-right\"></a>",
                     appendArrows: '.image-additional .slick-list',
                     arrows: true,
-                    {% if direction == 'rtl' %}
-                        rtl: true,
-                    {% endif %}
                     infinite: false,
                     {% if product_layout == "images-left" %}
                         slidesToShow: {{ (img_h / img_a_h)|round(0, 'floor') }},
@@ -1316,26 +1312,21 @@ $('.vk_share').attr("href", 'http://vkontakte.ru/share.php?url=' + share_url + '
                         slidesToShow: {{ (img_w / img_a_w)|round }},
                     {% endif %}
                     centerMode: false,
-                    slidesToShow: 3,
+                    {% if product_layout == "images-left" %}
+                        slidesToShow: 2,
+                    {% else %}
+                        slidesToShow: 3,
+                    {% endif %}
                     slidesToScroll: 1,
                     responsive: [
                         {
-                            breakpoint: 992,
+                            breakpoint: 991,
                             settings: {
                                 vertical: false,
                                 verticalSwiping: false,
                                 slidesToShow: 1,
                                 slidesToScroll: 1
                             },
-                        },
-                        {
-                            breakpoint: 576,
-                            settings: {
-                                vertical: false,
-                                verticalSwiping: false,
-                                slidesToShow: 1,
-                                slidesToScroll: 1
-                            }
                         }
                     ]
                 });
@@ -1410,22 +1401,29 @@ $('.vk_share').attr("href", 'http://vkontakte.ru/share.php?url=' + share_url + '
 		}
 		}
 	</script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setGalleryHeight();
-            window.addEventListener('resize', setGalleryHeight);
-        });
-        const setGalleryHeight = () => {
-            console.log('Setting gallery height');
-            const mainImage = document.getElementById('main-img');
-            const additionalImages = document.querySelector('.image-additional');
-            setTimeout(() => {                
-                if (mainImage && additionalImages) {
-                    const mainImageHeight = mainImage.offsetHeight;
-                    additionalImages.style.height = `${mainImageHeight}px`;
-                    console.log(`Set additional images height to ${mainImageHeight}px`);
+    {% if product_layout == "images-left" or product_layout == "images-right" %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                setGalleryHeight();
+                window.addEventListener('resize', setGalleryHeight);
+            });
+            const setGalleryHeight = () => {
+                console.log('Setting gallery height');
+                const productLayout = document.getElementById('product-layout');
+                if (!productLayout.classList.contains('images-left') && !productLayout.classList.contains('images-right')) {
+                    console.log('Product layout is not images-left or images-right, skipping height adjustment');
+                    return;
                 }
-            }, 100); // Delay to ensure images are loaded
-        };
-    </script>
+                const mainImage = document.getElementById('main-img');
+                const additionalImages = document.querySelector('.image-additional');
+                setTimeout(() => {                
+                    if (mainImage && additionalImages) {
+                        const mainImageHeight = mainImage.offsetHeight;
+                        additionalImages.style.height = `${mainImageHeight}px`;
+                        console.log(`Set additional images height to ${mainImageHeight}px`);
+                    }
+                }, 100); // Delay to ensure images are loaded
+            };
+        </script>
+    {% endif %}
 	{{ footer }}
