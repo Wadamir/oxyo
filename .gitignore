@@ -14,6 +14,14 @@
 /admin/controller/*
 !/admin/controller/
 
+/admin/controller/catalog/*
+!/admin/controller/catalog/
+!/admin/controller/catalog/product.php
+
+/admin/controller/common/*
+!/admin/controller/common/
+# !/admin/controller/common/filemanager.php
+
 /admin/controller/extension/*
 !/admin/controller/extension/
 
@@ -35,6 +43,10 @@
 
 !/admin/language/en-gb/blog
 
+/admin/language/en-gb/catalog/*
+!/admin/language/en-gb/catalog/
+!/admin/language/en-gb/catalog/product.php
+
 /admin/language/en-gb/extension/*
 !/admin/language/en-gb/extension/
 
@@ -51,6 +63,10 @@
 
 /admin/language/ru-ru/blog
 
+/admin/language/ru-ru/catalog/*
+!/admin/language/ru-ru/catalog/
+!/admin/language/ru-ru/catalog/product.php
+
 /admin/language/ru-ru/extension/*
 !/admin/language/ru-ru/extension/
 
@@ -65,6 +81,14 @@
 
 /admin/model/*
 !/admin/model/
+
+/admin/model/catalog/*
+!/admin/model/catalog/
+!/admin/model/catalog/product.php
+
+/admin/model/tool/*
+!/admin/model/tool/
+# !/admin/model/tool/image.php
 
 /admin/model/extension/*
 !/admin/model/extension/
@@ -85,9 +109,14 @@
 /admin/view/stylesheet/*
 !/admin/view/stylesheet/
 !/admin/view/stylesheet/bootstrap.colorpickersliders.min.css
+!/admin/view/stylesheet/stylesheet.css
 
 /admin/view/template/*
 !/admin/view/template/
+
+/admin/view/template/catalog/*
+!/admin/view/template/catalog/
+!/admin/view/template/catalog/product_form.twig
 
 /admin/view/template/extension/*
 !/admin/view/template/extension/
@@ -147,6 +176,11 @@
 
 /catalog/model/*
 !/catalog/model/
+
+/catalog/model/catalog/*
+!/catalog/model/catalog/
+!/catalog/model/catalog/product.php
+
 /catalog/model/extension/*
 !/catalog/model/extension/
 
@@ -203,5 +237,6 @@
 !/system/
 !/system/oxyo_template.ocmod.xml
 !/system/oxyo_theme_3X.ocmod.xml
+!/system/oxyo_video_support.ocmod.xml
 
 /storage/*

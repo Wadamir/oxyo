@@ -7721,6 +7721,35 @@ a.button-circle {
     flex-direction: column;
 }
 
+.product-layout .image-area > .main-image {
+    width: 70%;
+}
+
+.product-layout .image-area > .image-additional {
+    width: calc(30% - 12px);
+    max-height: 100%;
+}
+
+.product-layout .image-area > .image-additional > .slick-list {
+    height: calc(100% + 5px) !important;
+}
+
+.image-additional .link {
+    position: relative;
+    display: block;
+}
+
+.image-additional .link .video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #bbb;
+    z-index: 1;
+    opacity: 0;
+}
+
 @media (min-width: 768px) {
     .product-info {
         margin: 0;
@@ -7758,12 +7787,16 @@ a.button-circle {
         order: 1;
         margin-right: 12px;
     }
+
+    .image-additional .link .video-placeholder {
+        opacity: 0.75;
+    }
 }
 
 .image-area .main-image {
     margin: 0;
     padding: 0;
-    padding-bottom: 3px;
+    /* padding-bottom: 3px; */
 
     display: none;
     overflow: hidden;
@@ -7808,11 +7841,13 @@ a.button-circle {
 }
 
 .image-additional .slick-list {
-    margin: -5px;
+    /* margin: -5px; */
+    margin: 0;
+    margin-top: -5px;
 }
 
 .image-additional .slick-slide {
-    padding: 5px;
+    padding: 5px 0;
 }
 
 .image-additional .icon-arrow-left,
@@ -9483,10 +9518,17 @@ div.ui-slider-range.ui-widget-header,
 .slick-vertical .slick-slide {
     display: block;
     height: auto;
+    width: 100% !important;
 }
 
 .slick-arrow.slick-hidden {
     display: none;
+}
+
+.slick-vertical .slick-slide > .active > img {
+    /* box-shadow: inset 0px 0px 0px 10px red; */
+    outline: 3px solid #e61f80;
+    outline-offset: -3px;
 }
 
 .carousel .arrow-left,
@@ -11805,4 +11847,34 @@ ul.sitemap > li > ul > li > ul > li > a {
 
 .icon-world:before {
     content: '\e92f';
+}
+
+/* glightbox */
+.glightbox-container {
+    background-color: #000;
+}
+.glightbox-slide .gdesc,
+.glightbox-container .gslide-description {
+    display: none !important;
+}
+.glightbox-container video {
+    max-height: 97vh;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.gslide-video .gvideo-wrapper,
+.gslide-video .gvideo-wrapper > div {
+    position: relative;
+    width: auto;
+    height: 97vh;
+}
+.gslide-video .gvideo-wrapper {
+    width: auto !important;
+}
+.plyr__video-embed,
+.plyr__video-wrapper--fixed-ratio {
+    aspect-ratio: 2 / 3 !important;
 }

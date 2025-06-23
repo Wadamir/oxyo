@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
-    <extension_install_id>Oxyo Theme</extension_install_id>
     <name>Oxyo Theme</name>
-    <version>1.2.8.0</version>
-    <author>XDomus.ru</author>
     <code>oxyo_theme</code>
-
+    <version>1.2.8.0</version>
+    <author><![CDATA[<span style="color:#0066cc"><b>XDomus.ru</b></span>]]></author>
+    <link>//oxyo.ru/</link>
+    <extension_install_id>Oxyo Theme</extension_install_id>
     <file path="catalog/controller/common/header.php">
         <operation error="log">
             <search><![CDATA[
