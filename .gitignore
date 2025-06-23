@@ -142,6 +142,10 @@
 /catalog/controller/*
 !/catalog/controller/
 
+/catalog/controller/product/*
+!/catalog/controller/product/
+!/catalog/controller/product/product.php
+
 /catalog/controller/extension/*
 !/catalog/controller/extension/
 
