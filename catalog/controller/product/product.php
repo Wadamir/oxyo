@@ -243,6 +243,10 @@ class ControllerProductProduct extends Controller
             $this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
             $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 
+            // GLightbox
+            $this->document->addScript('https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js');
+            $this->document->addStyle('https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css');
+
             $data['heading_title'] = $product_info['name'];
 
             $data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);

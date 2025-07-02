@@ -1,6 +1,7 @@
 <?php
 
 $data['full_width_tabs'] = $this->config->get('full_width_tabs');
+$data['full_width_tabs'] = 1; // Force full width tabs for OXYO theme
 $data['product_tabs_style'] = $this->config->get('product_tabs_style');
 $data['img_w'] = $this->config->get('theme_default_image_thumb_width');
 $data['img_h'] = $this->config->get('theme_default_image_thumb_height');
