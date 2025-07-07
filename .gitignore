@@ -225,15 +225,20 @@
 !/catalog/view/theme/
 !/catalog/view/theme/oxyo/
 
+
+/catalog/view/theme/default/*
+!/catalog/view/theme/default/
+/catalog/view/theme/default/template/*
+!/catalog/view/theme/default/template/
+
 /catalog/view/theme/default/template/module/*
 !/catalog/view/theme/default/template/module/
 !/catalog/view/theme/default/template/module/xd_callback.tpl
 
 /catalog/view/theme/default/template/extension/*
 !/catalog/view/theme/default/template/extension/
-/catalog/view/theme/default/template/extension/module/*
 !/catalog/view/theme/default/template/extension/module/
-!/catalog/view/theme/default/template/extension/module/xd_callback.tpl
+!/catalog/view/theme/default/template/extension/module/*
 
 /image/*
 !/image/
