@@ -267,7 +267,9 @@
 		<operation>
 			<search index="0"><![CDATA[<div id="product"]]></search>
 			<add position="before"><![CDATA[
+                <!-- begin: HPM -->
 				{% if hpmodel.html %}{{ hpmodel.html }}{% endif %}
+                <!-- end: HPM -->
 			]]></add>
 		</operation>	
 		<operation error="skip">
