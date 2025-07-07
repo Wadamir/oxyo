@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<code>hmpm14</code>
+	<name><![CDATA[<b>Hyper Multi Product Models</b>]]></name>
+	<version>2.1.5</version>
+	<author>&lt;a target="blanck" href=&quot;//hyperlab.team/&quot; &gt;&lt;i&gt;HyperLab.Team&lt;/i&gt;&lt;/a&gt;</author>
+	<link>https://hyperlab.team/</link>
+	
+	<!--
+	<file path="admin/controller/common/header.php">
+		<operation>
+			<search><![CDATA[$data['logged'] = true;]]></search>
+			<add position="after"><![CDATA[
+				// begin: HPM
+				$query = $this->db->query("SELECT COUNT(*) as total FROM `" . DB_PREFIX . "hpmodel_links` WHERE type_id = 0");
+				if ($query->row['total'] > 0) $this->load->controller('extension/module/hpmodel/update');
+				// end: HPM
+			]]></add>
+		</operation>    
+	</file>
+	-->
+	
+	<file path="admin/language/*/catalog/product.php">
+		<operation>
+			<search><![CDATA[<?php]]></search>
+			<add position="after"><![CDATA[
+				$_['tab_hpm']        = '<b style="color:#4b0082;"><i class="fa fa-sitemap fa-1x fa-rotate-90"></i> HPM</b>';
+			]]></add>
+		</operation>
+	</file> 
+	<file path="admin/model/catalog/product.php">
+		<operation>
+			<search><![CDATA[$this->cache->delete('product');]]></search>
+			<add position="after"><![CDATA[
+				$this->load->controller('extension/module/hpmodel/refresh_product_hidden',false);
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[public function deleteProduct($product_id) {]]></search>
+			<add position="after"><![CDATA[
+				$this->db->query("DELETE FROM " . DB_PREFIX . "hpmodel_product_hidden WHERE pid = '" . (int)$product_id . "'");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "hpmodel_links WHERE product_id = '" . (int)$product_id . "' OR parent_id = '" . (int)$product_id . "'");
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[SELECT * FROM " . DB_PREFIX . "product p]]></search>
+			<add position="replace"><![CDATA[SELECT *, p.product_id, p.image FROM " . DB_PREFIX . "product p]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[WHERE pd.language_id = '"]]></search>
+			<add position="replace"><![CDATA[" . (!empty($data['filter_hpm_parent']) || !empty($data['filter_hpm_product']) ? "LEFT JOIN " . DB_PREFIX . "hpmodel_links hpl ON (p.product_id = hpl.product_id)" : "") . " WHERE pd.language_id = '"]]></add>
+		</operation>	
+		<operation>
+			<search><![CDATA[if (!empty($data['filter_name'])) {]]></search>
+			<add position="before"><![CDATA[
+				if (!empty($data['filter_hpm_parent'])) {
+					$sql .= " AND hpl.parent_id = p.product_id AND hpl.type_id = '" . (int)$data['filter_hpm_parent'] . "'";
+				}
+				if (!empty($data['filter_hpm_product'])) {
+					$sql .= " AND hpl.type_id = '" . (int)$data['filter_hpm_product'] . "'";
+				}
+			]]></add>
+		</operation>	
+	</file>
+	<file path="admin/controller/catalog/product.php">
+		<operation>
+			<search><![CDATA[$this->load->model('localisation/language');]]></search>
+			<add position="after"><![CDATA[
+				if (isset($this->request->get['product_id'])) {
+					$data['tab_hpm'] = $this->language->get('tab_hpm');
+					$data['hpm_tab'] = $this->load->controller('extension/module/hpmodel/get_hpm_tab');
+				} else {
+					$data['tab_hpm'] = false;
+					$data['hpm_tab'] = false;
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$this->model_catalog_product->getTotalProducts($filter_data);]]></search>
+			<add position="before"><![CDATA[
+				if (!empty($this->request->get['filter_hpm_product'])) $filter_data['filter_hpm_product'] = $this->request->get['filter_hpm_product'];
+				if (!empty($this->request->get['filter_hpm_parent'])) $filter_data['filter_hpm_parent'] = $this->request->get['filter_hpm_parent'];
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[if (isset($this->request->get['filter_name'])) {]]></search>
+			<add position="before"><![CDATA[
+				if (!empty($this->request->get['filter_hpm_parent']) && isset($url)) {
+					$url .= '&filter_hpm_parent=' . $this->request->get['filter_hpm_parent'];
+				}
+				if (!empty($this->request->get['filter_hpm_product']) && isset($url)) {
+					$url .= '&filter_hpm_product=' . $this->request->get['filter_hpm_product'];
+				}
+			]]></add>
+		</operation>	
+	</file>
+	<file path="admin/view/template/catalog/product_form.twig">
+		<operation>
+			<search><![CDATA[<div class="tab-pane" id="tab-attribute">]]></search>
+			<add position="before"><![CDATA[{{ hpm_tab }}]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[<li><a href="#tab-attribute" data-toggle="tab">]]></search>
+			<add position="before"><![CDATA[<li><a href="#tab-hpmodel" data-toggle="tab">{{ tab_hpm }}</a></li>]]></add>
+		</operation>
+	</file>
+	<file path="catalog/model/catalog/product.php">
+		<operation error="skip">
+			<search><![CDATA[p2s ON (p.product_id = p2s.product_id) WHERE]]></search>
+			<add position="replace"><![CDATA[p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "hpmodel_product_hidden hph ON (p.product_id = hph.pid) LEFT JOIN " . DB_PREFIX . "hpmodel_links hpl ON (p.product_id = hpl.product_id) LEFT JOIN " . DB_PREFIX . "hpmodel_to_store h2s ON (hpl.type_id = h2s.type_id AND h2s.store_id = '" . (int)$this->config->get('config_store_id') . "') WHERE]]></add>
+		</operation>
+		
+		<operation error="skip">
+			<search><![CDATA[$sql = "SELECT p.product_id,]]></search>
+			<add position="replace"><![CDATA[$sql = "SELECT " . (empty($data['filter_name']) && empty($data['filter_ocfilter']) && empty($this->request->get['ocf']) && empty($this->request->get['ocfilter_page_id']) ? "IF(hpl.parent_id IS NOT NULL AND h2s.store_id IS NOT NULL AND hph.pid IS NOT NULL, hpl.parent_id, p.product_id) AS product_id" : "p.product_id") . ",]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$sql .= " GROUP BY p.product_id";]]></search>
+			<add position="replace"><![CDATA[$sql .= " GROUP BY IF(hpl.parent_id IS NOT NULL AND h2s.store_id IS NOT NULL AND hph.pid IS NOT NULL, hpl.parent_id, p.product_id)";]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[COUNT(DISTINCT p.product_id)]]></search>
+			<add position="replace"><![CDATA[COUNT(DISTINCT IF(hpl.parent_id IS NOT NULL AND h2s.store_id IS NOT NULL AND hph.pid IS NOT NULL, hpl.parent_id, p.product_id))]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[GROUP BY ps.product_id]]></search>
+			<add position="replace"><![CDATA[GROUP BY IF(hpl.parent_id IS NOT NULL AND h2s.store_id IS NOT NULL AND hph.pid IS NOT NULL, hpl.parent_id, ps.product_id)]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[COUNT(DISTINCT ps.product_id)]]></search>
+			<add position="replace"><![CDATA[COUNT(DISTINCT IF(hpl.parent_id IS NOT NULL AND h2s.store_id IS NOT NULL AND hph.pid IS NOT NULL, hpl.parent_id, ps.product_id))]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[WHERE p.status = '1' AND]]></search>
+			<add position="replace"><![CDATA[WHERE (hpl.parent_id IS NULL OR h2s.store_id IS NULL OR hph.pid IS NULL) AND p.status = '1' AND]]></add>
+		</operation>
+		
+		<operation error="skip">
+			<search><![CDATA[public function getProduct(]]></search>
+			<add position="before"><![CDATA[
+				private $hpm_parent = array();
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[public function getProduct(]]></search>
+			<add position="after"><![CDATA[
+				$parent_id = false;
+				if (isset($this->hpm_parent[$product_id])) {
+					$parent_id = $this->hpm_parent[$product_id];
+				} else {
+					$hpm_query = $this->db->query("SELECT parent_id FROM `" . DB_PREFIX . "hpmodel_links` WHERE `product_id` = '" . (int)$product_id . "' OR `parent_id` = '" . (int)$product_id . "'");
+					if ($hpm_query->row) $parent_id = $hpm_query->row['parent_id'];
+					$this->hpm_parent[$product_id] = $parent_id;
+				}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search index="0"><![CDATA[(SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating]]></search>
+			<add position="replace"><![CDATA[(SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 LEFT JOIN " . DB_PREFIX . "hpmodel_links hpl ON (r1.product_id = hpl.product_id OR r1.product_id = hpl.parent_id) WHERE (" . ($parent_id !== false ? "hpl.parent_id = '" . (int)$parent_id . "'" : "r1.product_id = p.product_id") . ") AND r1.status = '1' GROUP BY " . ($parent_id !== false ? "hpl.parent_id" : "r1.product_id") . ") AS rating]]></add>
+		</operation>
+		<operation error="skip">
+			<search index="0"><![CDATA[(SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review r2 WHERE r2.product_id = p.product_id AND r2.status = '1' GROUP BY r2.product_id) AS reviews]]></search>
+			<add position="replace"><![CDATA[(SELECT COUNT(DISTINCT review_id) AS total FROM " . DB_PREFIX . "review r2 LEFT JOIN " . DB_PREFIX . "hpmodel_links hpl ON (r2.product_id = hpl.product_id OR r2.product_id = hpl.parent_id) WHERE (" . ($parent_id !== false ? "hpl.parent_id = '" . (int)$parent_id . "'" : "r2.product_id = p.product_id") . ") AND r2.status = '1' GROUP BY " . ($parent_id !== false ? "hpl.parent_id" : "r2.product_id") . ") AS reviews]]></add>
+		</operation>
+	</file>
+	<file path="catalog/model/catalog/review.php">
+		<operation error="skip">
+			<search><![CDATA[$query = $this->db->query("SELECT]]></search>
+			<add position="before"><![CDATA[
+				$parent_id = false;
+				$hpm_query = $this->db->query("SELECT parent_id FROM `" . DB_PREFIX . "hpmodel_links` WHERE `product_id` = '" . (int)$product_id . "' OR `parent_id` = '" . (int)$product_id . "'");
+				if ($hpm_query->row) $parent_id = $hpm_query->row['parent_id'];
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[WHERE p.product_id = '" . (int)$product_id . "']]></search>
+			<add position="replace"><![CDATA[LEFT JOIN " . DB_PREFIX . "hpmodel_links hpl ON (p.product_id = hpl.product_id) WHERE (" . ($parent_id !== false ? "hpl.parent_id = '" . (int)$parent_id . "'" : "p.product_id = '" . (int)$product_id . "'").")]]></add>
+		</operation>	
+	</file>
+	<file path="catalog/controller/product/product.php">
+		<operation>
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+				$data['hpmodel']=$this->load->controller('extension/module/hpmodel/hpmodel/getForm', false);
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') &&]]></search>
+			<add position="replace"><![CDATA[if (empty($this->request->post['hpmodel_orig']) && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') &&]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/default/template/product/product.twig">
+		<operation>
+			<search index="0"><![CDATA[<div id="product"]]></search>
+			<add position="before"><![CDATA[
+				{% if hpmodel.html %}{{ hpmodel.html }}{% endif %}
+			]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[$('#button-cart').on('click', function() {]]></search>
+			<add position="replace"><![CDATA[$(document).on('click', '#button-cart', function() {]]></add>
+		</operation>	
+	</file>
+	<file path="catalog/controller/product/*.php">
+		<operation error="skip">
+			<search><![CDATA[if ($result['image']) {]]></search>
+			<add position="before"><![CDATA[
+				$result = $this->load->controller('extension/module/hpmodel/hpmodel/getCategoryBlock', $result);
+			]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[=> $result['product_id'],]]></search>
+			<add position="after"><![CDATA[
+				'hpm_block' => !empty($result['hpm_block']) ? $result['hpm_block'] : '',
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/extension/module/*.php">
+		<operation error="skip">
+			<search><![CDATA[if ($result['image']) {]]></search>
+			<add position="before"><![CDATA[
+				$result = $this->load->controller('extension/module/hpmodel/hpmodel/getCategoryBlock', $result);
+			]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[=> $result['product_id'],]]></search>
+			<add position="after"><![CDATA[
+				'hpm_block' => !empty($result['hpm_block']) ? $result['hpm_block'] : '',
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[if ($product_info['image']) {]]></search>
+			<add position="before"><![CDATA[
+				$product_info = $this->load->controller('extension/module/hpmodel/hpmodel/getCategoryBlock', $product_info);
+			]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[=> $product_info['product_id'],]]></search>
+			<add position="after"><![CDATA[
+				'hpm_block' => !empty($product_info['hpm_block']) ? $product_info['hpm_block'] : '',
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/common/header.php">
+		<operation>
+			<search><![CDATA[public function index()]]></search>
+			<add position="after"><![CDATA[
+				$this->document->addStyle('catalog/view/javascript/hpmodel/hpmodel.css');
+				$this->document->addScript('catalog/view/javascript/hpmodel/hpmodel.js');
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/default/template/{product/*,extension/module/*}.twig">
+		<operation error="skip">
+			<search><![CDATA[{% if product.rating %}]]></search>
+			<add position="before"><![CDATA[
+				{% if product.hpm_block %}{{ product.hpm_block }}{% endif %}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[href="{{ product.href }}"]]></search>
+			<add position="replace"><![CDATA[data-hpm-href="1" href="{{ product.href }}"]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/oxyo/template/product/product.twig">
+		<operation>
+			<search index="0"><![CDATA[<div id="product"]]></search>
+			<add position="before"><![CDATA[
+				{% if hpmodel.html %}{{ hpmodel.html }}{% endif %}
+			]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[$('#button-cart').on('click', function () {]]></search>
+			<add position="replace"><![CDATA[$(document).on('click', '#button-cart', function() {]]></add>
+		</operation>	
+	</file>
+	<file path="catalog/view/theme/oxyo/template/product/single_product.twig">
+		<operation error="skip">
+			<search><![CDATA[{% if product.rating %}]]></search>
+			<add position="before"><![CDATA[
+				{% if product.hpm_block %}{{ product.hpm_block }}{% endif %}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[href="{{ product.href }}"]]></search>
+			<add position="replace"><![CDATA[data-hpm-href="1" href="{{ product.href }}"]]></add>
+		</operation>
+	</file>
+</modification>

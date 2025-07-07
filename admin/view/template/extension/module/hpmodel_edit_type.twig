@@ -1,0 +1,1163 @@
+{{ header }}{{ column_left }}
+<div id="content" class="hpm-series hpm-edit">
+<div class="page-header">
+  <div class="container-fluid">
+    <h1>{{ heading_title }}<span>by HLT</span></h1>
+    <div class="version" data-toggle="tooltip" data-placement="bottom" title="{{ hpm_version }}"><span>v</span>{{ version_numb }}</div>
+    <div form="help_modals" class="btn-help" data-toggle="modal" data-target="#Hpmodel_Modal">
+      <div class="btn-helpers" data-toggle="tooltip" title="Info" data-placement="bottom">
+        <i class="fa fa-info-circle"></i>
+      </div>
+    </div>
+    <div class="pull-right">
+      <a target="_blank" href="https://hyperlab.team/" class="btn btn-sm btn-success hpm-mods"><i class="fa fa-puzzle-piece fa-fw"></i> {{ url_module }}</a>
+      <button type="submit" form="form-hpmodel-add-type" data-placement="bottom"  data-toggle="tooltip" title="{{ button_save }}" class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
+      <a href="{{ cancel }}" data-toggle="tooltip" data-placement="bottom" title="{{ button_cancel }}" class="btn btn-sm btn-default"><i class="fa fa-reply"></i></a>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  {% if error_warning %}
+  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+  <form action="{{ action }}" method="post"  id="form-hpmodel-add-type" class="form-horizontal">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3><i class="fa fa-pencil"></i> {{ name_series }}</h3>
+        <button form="help_modals" class="pull-right hm-help btn btn-primary btn-sm" data-toggle="modal" data-target="#Series_Modal"><i class="fa fa-info"></i> - HELPER</button>
+      </div>
+      <div class="panel-body">
+        <input type="hidden" name="type" value="" />
+        <table class="table table-hover table-bordered table-responsive">
+          <thead>
+            <tr>
+              <td class="title-start">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ text_name_title }}">{{ text_name }}</span></label>
+              </td>
+              <td class="text-center status">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ entry_store }}"><i class="fa fa-shopping-cart"></i></span></label>
+              </td>
+              <td class="text-center switcher-editors">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ entry_type_title }}">{{ entry_type }}</span></label>
+              </td>
+              <td class="text-center edit-links">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ entry_links_title }}">{{ entry_links }}</span></label>
+              </td>
+              <td class="text-center status">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ entry_view_title }}"><i class="fa fa-exclamation-triangle"></i></span></label>
+              </td>
+              <td class="text-center status">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ hpm_next_title }}"><i class="fa fa-crosshairs"></i></span></label>
+              </td>
+              <td>
+                <label class="control-label"><span data-toggle="tooltip" title="{{ text_comment }}">{{ text_comment }}</span></label>
+              </td>
+              <td class="text-center status">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ button_on_off }}"><i class="fa fa-power-off"></i></span></label>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="title-start">
+                <input type="text" name="name" value="{{ name }}" class="form-control" />
+              </td>
+              <td class="text-center switcher-edits">
+                <button form="help_modals" class="hm-links btn btn-primary btn-md" data-toggle="modal" data-target="#Store_Form_Modal"><i class="fa fa-server" aria-hidden="true"></i></button>
+              </td>
+              <td class="text-center switcher-edits edit-group">
+                <div class="input-group" data-toggle="tooltip" data-placement="bottom" title="{{ group_title }}">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[group]" data-size="small" data-on-color="success" {% if setting.group %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </div>
+
+                <div class="-hidden input-group" data-toggle="tooltip" data-placement="bottom" title="{{ redirect_title }}">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[redirect]" data-size="small" data-on-color="success" {% if setting.redirect %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </div>
+
+                <div class="input-group" data-toggle="tooltip" data-placement="bottom" title="{{ hash_title }}">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[hash]" data-size="small" data-on-color="success" {% if setting.hash %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </div>
+                
+                <div class="input-group" data-toggle="tooltip" data-placement="bottom" title="{{ plink_title }}">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[plink]" data-size="small" data-on-color="success" {% if setting.plink %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </div>
+              </td>
+              <td class="text-center switcher-edit">
+                <div class="input-group pull-left">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[links]" data-size="small" data-on-color="success" {% if setting.links %}checked="checked"{% endif %} data-on-text="ALL" data-off-text="EDIT" />
+                </div>
+                <button form="help_modals" class="hm-links btn btn-primary btn-md" data-toggle="modal" data-target="#Links_Form_Modal"><i class="fa fa-indent" aria-hidden="true"></i></button>
+              </td>
+              <td class="text-center switcher-edits">
+                <div class="input-group pull-left">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[hidden_if_null]" data-size="small" data-on-color="success" {% if setting.hidden_if_null %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </div>
+              </td>
+              <td class="text-center switcher-edits">
+                <div class="input-group pull-left">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[hidden_if_next]" data-size="small" data-on-color="success" {% if setting.hidden_if_next %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </div>
+              </td>
+              <td>
+                <textarea style="resize: vertical;" class="form-control" name="description">{{ description }}</textarea>
+              </td>
+              <td class="text-center switcher-edits">
+                <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="status" data-size="small" data-on-color="success" {% if status %}checked="checked"{% endif %} data-on-text="ON" data-off-text="OFF" />
+              </td>
+            </tr>
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+    </div>
+        
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3><i class="fa fa-pencil"></i> {{ hpm_set_category }}</h3>
+        <button form="help_modals" class="pull-right hm-help btn btn-primary btn-sm" data-toggle="modal" data-target="#Type_Lists"><i class="fa fa-info" aria-hidden="true"></i> - {{ help_name }}</button>
+      </div>
+      <div class="panel-body">
+        <table class="table table-hover table-bordered table-responsive {% if not setting.category_show %}off{% endif %}" style="margin-bottom:0px;">
+            <thead>
+            <tr>
+                <td class="text-center status">
+                    <label class="control-label"><span data-toggle="tooltip" title="{{ button_on_off }}"><i class="fa fa-power-off"></i></span></label>
+                </td>
+            <td class="title-start">
+              <label class="control-label"><span data-toggle="tooltip" title="{{ help_group_title }}">{{ text_group_title }}</span></label>
+            </td>
+                <td class="edit-links">
+                    <label class="control-label"><span data-toggle="tooltip" title="{{ entry_width_lists }}">{{ entry_width }}</span></label>
+                </td>
+                <td class="text-center status">
+                    <label class="control-label"><span data-toggle="tooltip" title="{{ entry_ltd_title }}">{{ entry_ltd }}</span></label>
+                </td>
+                <td class="-hidden text-center status">
+                    <label class="control-label"><span data-toggle="tooltip" title="{{ cat_column_h }}">H1</span></label>
+                </td>
+                <td class="text-center status">
+                    <label class="control-label"><span data-toggle="tooltip" title="{{ kit_column_img }}"><i class="fa fa-picture-o"></i></span></label>
+                </td>
+                <td></td>                
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-center switcher-edits">
+                    <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[category_show]" data-size="small" data-on-color="success" {% if setting.category_show %}checked="checked"{% endif %} data-on-text="ON" data-off-text="OFF" onchange="if ($(this).prop('checked')) { $(this).closest('.panel-body').find('table').removeClass('off'); } else { $(this).closest('.panel-body').find('table').addClass('off'); }" />
+                </td>
+                <td class="name-text">
+                  {% for language in languages %}
+                  <div class="input-group">
+                    <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                    <input type="text" name="setting[category_group_title][{{ language.language_id }}]" value="{{ setting.category_group_title[language.language_id] }}" class="form-control" />
+                  </div>
+                  {% endfor %}
+                </td>
+                <td class="edit-links">
+                    <div class="form-set">
+                        <input class="form-control" type="text" value="{{ setting.category_image_width }}" name="setting[category_image_width]" />
+                    </div>
+                    <div class="form-set">
+                        <input class="form-control" type="text" value="{{ setting.category_image_height }}" name="setting[category_image_height]" />
+                    </div>
+                </td>
+                <td class="status">
+                    <div class="form-set">
+                        <input class="form-control" type="text" value="{{ setting.category_limit }}" name="setting[category_limit]" />
+                    </div>
+                </td>
+                <td class="-hidden text-center switcher-edits">
+                    <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[category_replace_h1]" data-size="small" data-on-color="success" {% if setting.category_replace_h1 %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+                <td class="text-center switcher-edits">
+                    <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[category_replace_image]" data-size="small" data-on-color="success" {% if setting.category_replace_image %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+                <td></td>                
+            </tr>
+            </tbody>
+        </table>
+        
+        <table class="table table-hover table-bordered table-responsive {% if not setting.category_show %}off{% endif %}">
+          <thead>
+            <td class="text-center status"></td>
+            <td class="title-start">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ title_cat_html }}">{{ title_name }}</span></label>
+            </td>
+            <td class="edit-type">
+              <div class="required"><label class="control-label"><span data-toggle="tooltip" title="{{ help_sg_key_field }}">{{ entry_sg_key_field }}</span></label>
+            </td>
+            <td class="edit-links">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ entry_types_title }}">{{ entry_types }}</span></label>
+            </td>
+            {% for i in 0..2 %}
+            <td class="edit-type">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ kit_fields_title }}">{{ kit_fields }}</span></label>
+            </td>
+            {% endfor %}
+            <td></td>                
+            <td class="text-center status">
+                <label class="control-label">
+                  <span data-toggle="tooltip" title="{{ button_add_sub_remove }}">
+                    <b style="line-height: 0; font-size: 18px;">±</b>
+                  </span>
+                </label>
+            </td>
+          </thead>
+          <tbody>
+              <td></td>
+              <td class="name-text">
+                {% for language in languages %}
+                <div class="input-group">
+                  <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                  <input type="text" name="setting[category_title][{{ language.language_id }}]" value="{{ setting.category_title[language.language_id] }}" class="form-control" />
+                </div>
+                {% endfor %}
+              </td>
+              <td class="form-tables">
+                <select name="setting[category_after_title]" class="form-control select-col">
+                  {% for key, value in array_h_titles %}
+                  {% if setting.category_after_title == key %}
+                  <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                  {% else %}
+                  <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="prop prop-attribute" style="display:none;">
+                  <input type="hidden" name="setting[category_after_title_attribute]" value="{{ setting.category_after_title_attribute }}" />
+                  <input class="form-control" type="text" value="{{ setting.category_after_title_attribute_text }}" />
+                </div>
+                <div class="prop prop-filter" style="display:none;">
+                  <input type="hidden" name="setting[category_after_title_filter]" value="{{ setting.category_after_title_filter }}" />
+                  <input class="form-control" type="text" value="{{ setting.category_after_title_filter_text }}" />
+                </div>
+              </td>
+              <td class="edit-links">
+                <select name="setting[category_variant]" class="form-control">
+                  {% for variant_key, variant_value in array_variants %}
+                  {% if setting.category_variant == variant_key %}
+                  <option value="{{ variant_key }}" selected="selected">{{ variant_value }}</option>
+                  {% else %}
+                  <option value="{{ variant_key }}" >{{ variant_value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </td>
+              {% for i in 0..2 %}
+              <td class="form-tables">
+                <select name="setting[category_columns][{{ i }}]" class="form-control select-col">
+                  {% for columns_key, columns_value in array_columns %}
+                  {% if setting.category_columns[i] == columns_key %}
+                  <option value="{{ columns_key }}" selected="selected" class="hpm-select">{{ columns_value }}</option>
+                  {% else %}
+                  <option value="{{ columns_key }}" class="hpm-select">{{ columns_value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="prop prop-attribute" style="display:none;">
+                  <input type="hidden" name="setting[category_attributes][{{ i }}]" value="{{ setting.category_attributes[i] }}" />
+                  <input class="form-control" type="text" value="{{ setting.category_attributes_text[i] }}" />
+                </div>
+                <div class="prop prop-filter" style="display:none;">
+                  <input type="hidden" name="setting[category_filters][{{ i }}]" value="{{ setting.category_filters[i] }}" />
+                  <input class="form-control" type="text" value="{{ setting.category_filters_text[i] }}" />
+                </div>
+              </td>
+              {% endfor %}
+              <td></td>                
+              <td></td>                
+          </tbody>
+          <tbody id="category-sub-group-table">
+            {% set category_sg_row = 0 %}
+            {% for sub_group in setting.category_sub_group %}
+            <tr>
+              <td></td>
+              <td>
+                {% for language in languages %}
+                <div class="input-group">
+                  <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                  <input type="text" name="setting[category_sub_group][{{ category_sg_row }}][title][{{ language.language_id }}]" value="{{ sub_group.title[language.language_id] }}" class="form-control" />
+                </div>
+                {% endfor %}
+              </td>
+              <td>
+                <select name="setting[category_sub_group][{{ category_sg_row }}][key]" class="form-control select-col">
+                  {% for key, value in array_h_titles %}
+                  {% if sub_group.key == key %}
+                  <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                  {% else %}
+                  <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="prop prop-attribute" style="display:none;">
+                  <input type="hidden" name="setting[category_sub_group][{{ category_sg_row }}][attr]" value="{{ sub_group.attr }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.attr_text }}" />
+                </div>
+                <div class="prop prop-filter" style="display:none;">
+                  <input type="hidden" name="setting[category_sub_group][{{ category_sg_row }}][filter]" value="{{ sub_group.filter }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.filter_text }}" />
+                </div>
+              </td>
+              <td>
+                <select name="setting[category_sub_group][{{ category_sg_row }}][variant]" class="form-control">
+                  {% for variant_key, variant_value in array_variants %}
+                  {% if sub_group.variant == variant_key %}
+                  <option value="{{ variant_key }}" selected="selected">{{ variant_value }}</option>
+                  {% else %}
+                  <option value="{{ variant_key }}" >{{ variant_value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </td>
+              {% for i in 0..2 %}
+              <td class="form-tables">
+                <select name="setting[category_sub_group][{{ category_sg_row }}][col][{{ i }}]" class="form-control select-col">
+                  {% for key, value in array_columns %}
+                  {% if sub_group.col[i] == key %}
+                  <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                  {% else %}
+                  <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="prop prop-attribute" style="display:none;">
+                  <input type="hidden" name="setting[category_sub_group][{{ category_sg_row }}][col_attr][{{ i }}]" value="{{ sub_group.col_attr[i] }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.col_attr_text[i] }}" />
+                </div>
+                <div class="prop prop-filter" style="display:none;">
+                  <input type="hidden" name="setting[category_sub_group][{{ category_sg_row }}][col_filter][{{ i }}]" value="{{ sub_group.col_filter[i] }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.col_filter_text[i] }}" />
+                </div>
+              </td>
+              {% endfor %}
+              <td></td>
+              <td class="text-center">
+                <button onclick="$(this).closest('tr').remove();" form="none" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></button>
+              </td>
+            </tr>
+            {% set category_sg_row = category_sg_row + 1 %}
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+                <td colspan="8"></td>
+                <td class="text-center">
+                    <button  onclick="addCategorySubGroup();" form="none" data-toggle="tooltip" title="{{ button_add_sub_group }}" class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
+                </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3><i class="fa fa-pencil"></i> {{ kit_set_product }}</h3>
+        <button form="help_modals" class="pull-right hm-help btn btn-primary btn-sm" data-toggle="modal" data-target="#Type_Modal"><i class="fa fa-info" aria-hidden="true"></i> - {{ help_name }}</button>
+      </div>
+      <div class="panel-body">
+        <table class="table table-hover table-bordered table-responsive">
+            <thead>
+              <tr>
+                <td class="title-start">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ help_group_title }}">{{ text_group_title }}</span></label>
+                </td>
+                <td class="text-center status">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ entry_status_name }}"><i class="fa fa-paperclip"></i></span></label>
+                </td>
+                <td class="edit-links">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ entry_width_title }}">{{ entry_width }}</span></label>
+                </td>
+                <td class="edit-links">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ entry_position_title }}">{{ entry_position }}</span></label>
+                </td>
+                <td>
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ entry_selector_title }}">{{ entry_selector }}</span></label>
+                </td>
+                <td class="-hidden text-center status">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ kit_column_h }}">H1</span></label>
+                </td>
+                <td class="text-center status">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ kit_column_img }}"><i class="fa fa-picture-o"></i></span></label>
+                </td>
+                <td class="text-center status">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ kit_column_desc }}"><i class="fa fa-align-justify"></i></span></label>
+                </td>
+                <td class="text-center status">
+                  <label class="control-label"><span data-toggle="tooltip" title="{{ kit_column_attr }}"><i class="fa fa-list"></i></span></label>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name-text">
+                  {% for language in languages %}
+                  <div class="input-group">
+                    <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                    <input type="text" name="setting[product_group_title][{{ language.language_id }}]" value="{{ setting.product_group_title[language.language_id] }}" class="form-control" />
+                  </div>
+                  {% endfor %}
+                </td>
+                <td class="text-center switcher-edits">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[product_name_as_title]" data-size="small" data-on-color="success" {% if setting.product_name_as_title %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+                <td class="edit-links">
+                  <div class="form-set">
+                    <input class="form-control" type="text" value="{{ setting.product_image_width }}" name="setting[product_image_width]" />
+                  </div>
+                  <div class="form-set">
+                    <input class="form-control" type="text" value="{{ setting.product_image_height }}" name="setting[product_image_height]" />
+                  </div>
+                </td>
+                <td class="edit-links">
+                  <select name="setting[product_position]" class="form-control">
+                    {% for key, value in array_positions %}
+                    {% if setting.product_position == key %}
+                    <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                    {% else %}
+                    <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </td>
+                <td class="">
+                  <input class="form-control" type="text" value="{{ setting.product_selector }}" name="setting[product_selector]" />
+                </td>
+                <td class="-hidden text-center switcher-edits">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[replace_h1]" data-size="small" data-on-color="success" {% if setting.replace_h1 %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+                <td class="text-center switcher-edits">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[replace_image]" data-size="small" data-on-color="success" {% if setting.replace_image %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+                <td class="text-center switcher-edits">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[replace_desc]" data-size="small" data-on-color="success" {% if setting.replace_desc %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+                <td class="text-center switcher-edits">
+                  <input class="bootstrap-switcher form-control" type="checkbox" value="1" name="setting[replace_att]" data-size="small" data-on-color="success" {% if setting.replace_att %}checked="checked"{% endif %} data-on-text="YES" data-off-text="NO" />
+                </td>
+              </tr>
+            </tbody>
+        </table>
+        
+        <legend class="">
+            {{ hpm_fields_block }}
+            <button form="help_modals" class="pull-right hm-help btn btn-primary btn-sm" data-toggle="modal" data-target="#Column_Modal"><i class="fa fa-info" aria-hidden="true"></i> - {{ help_name }}</button>
+        </legend>
+        <table class="table table-hover table-bordered table-responsive">
+          <thead>
+            <tr>
+              <td class="title-start">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ title_prod_html_sub }}">{{ title_name_sub }}</span></label>
+              </td>
+              <td class="edit-type">
+                <div class="required"><label class="control-label"><span data-toggle="tooltip" title="{{ help_sg_key_field }}">{{ entry_sg_key_field }}</span></label>
+              </td>
+              <td class="edit-links">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ entry_types_title }}">{{ entry_types }}</span></label>
+              </td>
+              {% for i in 0..2 %}
+              <td class="edit-type">
+                <label class="control-label"><span data-toggle="tooltip" title="{{ kit_fields_title }}">{{ kit_fields }}</span></label>
+              </td>
+              {% endfor %}
+              <td></td>
+              <td class="text-center status">
+                  <label class="control-label">
+                    <span data-toggle="tooltip" title="{{ button_add_sub_remove }}">
+                      <b style="line-height: 0; font-size: 18px;">±</b>
+                    </span>
+                  </label>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="name-text">
+              {% for language in languages %}
+              <div class="input-group">
+                  <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                  <input type="text" name="setting[product_title][{{ language.language_id }}]" value="{{ setting.product_title[language.language_id] }}" class="form-control" />
+              </div>
+              {% endfor %}
+            </td>
+            <td class="form-tables">
+              <select name="setting[after_title]" class="form-control select-col">
+                {% for key, value in array_h_titles %}
+                {% if setting.after_title == key %}
+                <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                {% else %}
+                <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+              <div class="prop prop-attribute" style="display:none;">
+                <input type="hidden" name="setting[after_title_attribute]" value="{{ setting.after_title_attribute }}" />
+                <input class="form-control" type="text" value="{{ setting.after_title_attribute_text }}" />
+              </div>
+              <div class="prop prop-filter" style="display:none;">
+                <input type="hidden" name="setting[after_title_filter]" value="{{ setting.after_title_filter }}" />
+                <input class="form-control" type="text" value="{{ setting.after_title_filter_text }}" />
+              </div>
+            </td>
+            <td class="edit-links">
+              <select name="setting[product_variant]" class="form-control">
+                {% for key, value in array_variants %}
+                {% if setting.product_variant == key %}
+                <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                {% else %}
+                <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </td>
+            {% for i in 0..2 %}
+            <td class="form-tables">
+              <select name="setting[product_columns][{{ i }}]" class="form-control select-col">
+                {% for key, value in array_columns %}
+                {% if setting.product_columns[i] == key %}
+                <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                {% else %}
+                <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+              <div class="prop prop-attribute" style="display:none;">
+                <input type="hidden" name="setting[product_attributes][{{ i }}]" value="{{ setting.product_attributes[i] }}" />
+                <input class="form-control" type="text" value="{{ setting.product_attributes_text[i] }}" />
+              </div>
+              <div class="prop prop-filter" style="display:none;">
+                <input type="hidden" name="setting[product_filters][{{ i }}]" value="{{ setting.product_filters[i] }}" />
+                <input class="form-control" type="text" value="{{ setting.product_filters_text[i] }}" />
+              </div>
+            </td>
+            {% endfor %}
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+          <tbody id="sub-group-table">
+            {% set sg_row = 0 %}
+            {% for sub_group in setting.sub_group %}
+            <tr>
+              <td>
+                {% for language in languages %}
+                <div class="input-group">
+                  <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                  <input type="text" name="setting[sub_group][{{ sg_row }}][title][{{ language.language_id }}]" value="{{ sub_group.title[language.language_id] }}" class="form-control" />
+                </div>
+                {% endfor %}
+              </td>
+              <td>
+                <select name="setting[sub_group][{{ sg_row }}][key]" class="form-control select-col">
+                  {% for key, value in array_h_titles %}
+                  {% if sub_group.key == key %}
+                  <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                  {% else %}
+                  <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="prop prop-attribute" style="display:none;">
+                  <input type="hidden" name="setting[sub_group][{{ sg_row }}][attr]" value="{{ sub_group.attr }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.attr_text }}" />
+                </div>
+                <div class="prop prop-filter" style="display:none;">
+                  <input type="hidden" name="setting[sub_group][{{ sg_row }}][filter]" value="{{ sub_group.filter }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.filter_text }}" />
+                </div>
+              </td>
+              <td>
+                <select name="setting[sub_group][{{ sg_row }}][variant]" class="form-control">
+                  {% for variant_key, variant_value in array_variants %}
+                  {% if sub_group.variant == variant_key %}
+                  <option value="{{ variant_key }}" selected="selected">{{ variant_value }}</option>
+                  {% else %}
+                  <option value="{{ variant_key }}" >{{ variant_value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </td>
+              {% for i in 0..2 %}
+              <td class="form-tables">
+                <select name="setting[sub_group][{{ sg_row }}][col][{{ i }}]" class="form-control select-col">
+                  {% for key, value in array_columns %}
+                  {% if sub_group.col[i] == key %}
+                  <option value="{{ key }}" selected="selected" class="hpm-select">{{ value }}</option>
+                  {% else %}
+                  <option value="{{ key }}" class="hpm-select">{{ value }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="prop prop-attribute" style="display:none;">
+                  <input type="hidden" name="setting[sub_group][{{ sg_row }}][col_attr][{{ i }}]" value="{{ sub_group.col_attr[i] }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.col_attr_text[i] }}" />
+                </div>
+                <div class="prop prop-filter" style="display:none;">
+                  <input type="hidden" name="setting[sub_group][{{ sg_row }}][col_filter][{{ i }}]" value="{{ sub_group.col_filter[i] }}" />
+                  <input class="form-control" type="text" value="{{ sub_group.col_filter_text[i] }}" />
+                </div>
+              </td>
+              {% endfor %}
+              <td></td>
+              <td class="text-center">
+                <button onclick="$(this).closest('tr').remove();" form="none" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></button>
+              </td>
+            </tr>
+            {% set sg_row = sg_row + 1 %}
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+                <td colspan="7"></td>
+                <td class="text-center">
+                    <button  onclick="addSubGroup();" form="none" data-toggle="tooltip" title="{{ button_add_sub_group }}" class="btn btn-sm btn-success"><i class="fa fa-plus"></i></button>
+                </td>
+            </tr>
+          </tfoot>
+        </table>
+        
+        <legend>
+          {{ kit_css }}
+          <button form="help_modals" class="pull-right hm-help btn btn-primary btn-sm" data-toggle="modal" data-target="#CSS_JS_Modal">
+          <i class="fa fa-info" aria-hidden="true"></i> - {{ help_name }}
+          </button>
+        </legend>
+        <table class="table table-hover table-bordered table-responsive">
+          <thead>
+            <tr>
+              <td>CSS</td>
+              <td>JS</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <textarea style="resize: vertical;" class="form-control" name="setting[custom_css]">{{ setting.custom_css }}</textarea>
+              </td>
+              <td>
+                <textarea style="resize: vertical;" class="form-control" name="setting[custom_js]">{{ setting.custom_js }}</textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal fade" id="Store_Form_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ help_name_store }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{ top_store_text }}</p>
+                    <div class="well well-sm" style="height: 300px; overflow: auto;">
+                        <div class="checkbox">
+                          <label>
+                            {% if 0 in type_store %}
+                            <input type="checkbox" name="type_store[]" value="0" checked="checked" />
+                            {{ text_default }}
+                            {% else %}
+                            <input type="checkbox" name="type_store[]" value="0" />
+                            {{ text_default }}
+                            {% endif %}
+                          </label>
+                        </div>
+                        {% for store in stores %}
+                        <div class="checkbox">
+                          <label>
+                            {% if store.store_id in type_store %}
+                            <input type="checkbox" name="type_store[]" value="{{ store.store_id }}" checked="checked" />
+                            {{ store.name }}
+                            {% else %}
+                            <input type="checkbox" name="type_store[]" value="{{ store.store_id }}" />
+                            {{ store.name }}
+                            {% endif %}
+                          </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"> {{ help_ok }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="Links_Form_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+            <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ help_name_links }}</h4>
+          </div>
+          <div class="modal-body">
+            <p>{{ top_links_text }}</p>
+            <div class="links-table">
+              <table class='table table-bordered table-responsive'>
+                <thead>
+                  <tr>
+                    <td>{{ entry_suppler }}</td>
+                    <td>{{ entry_brand }}</td>
+                    <td>{{ entry_category }}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class='h5-scroll'>
+                        {% if supplers %}
+                        {% for suppler in supplers %}
+                        <input type="checkbox" name="setting[suppler][]" value="{{ suppler.suppler_id }}" {% if suppler.suppler_id in setting.suppler %}checked="checked"{% endif %} /> {{ suppler.name }}<br />
+                        {% endfor %}
+                        {% endif %}
+                      </div>
+                    </td>
+                    <td>
+                      <div class='h5-scroll'>
+                        {% for manufacturer in manufacturers %}
+                        <input type="checkbox" name="setting[manufacturer][]" {% if manufacturer.manufacturer_id in setting.manufacturer %}checked="checked"{% endif %} value="{{ manufacturer.manufacturer_id }}" /> {{ manufacturer.name }}<br />
+                        {% endfor %}
+                      </div>
+                    </td>
+                    <td>
+                      <div class='h5-scroll'>
+                        {% for category in categories %}
+                        <input type="checkbox" name="setting[category][]" {% if category.category_id in setting.category %}checked="checked"{% endif %} value="{{ category.category_id }}" /> {{ category.name }}<br />
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <p>{{ bottom_links_text }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"> {{ help_ok }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+            
+    </form>
+    
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel-heading text-center copy">
+          <button form="help_modals" class="hm-info btn btn-primary btn-sm" data-toggle="modal" data-target="#Authors_Modal">
+          {{ desc_author_start }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+            
+<div class="modal fade" id="Hpmodel_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ name_kit_series }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="help-text">{{ help_first_kit_series }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Series_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ name_series }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="help-text">{{ help_first_series }}</div>
+        <div class="text-center">{{ help_second_series }}</div>
+        <div class="help-text">{{ help_third_series }}</div>
+        <div class="text-center">{{ help_second_store }}</div>
+        <div class="help-text">{{ help_third_store }}</div>
+        <div class="text-center">{{ help_fourth_series }}</div>
+        <div class="help-text">{{ help_fifth_series }}</div>
+        <div class="text-center">{{ help_sixth_series }}</div>
+        <div class="help-text">{{ help_seventh_series }}</div>
+        <div class="text-center">{{ help_eighth_series }}</div>
+        <div class="help-text">{{ help_ninth_series }}</div>
+        <div class="text-center">{{ help_first_next }}</div>
+        <div class="help-text">{{ help_second_next }}</div>
+        <div class="text-center">{{ help_tenth_series }}</div>
+        <div class="help-text">{{ help_eleventh_series }}</div>
+        <div class="text-center">{{ help_twelfth_series }}</div>
+        <div class="help-text">{{ help_thirteenth_series }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Type_Lists" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ help_name_lists }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">{{ help_on_lists }}</div>
+                <div class="help-text">{{ help_on_off_lists }}</div>
+                <div class="text-center">{{ help_first_lists }}</div>
+                <div class="help-text">{{ help_second_lists }}</div>
+                <div class="text-center">{{ help_third_lists }}</div>
+                <div class="help-text">{{ help_fourth_lists }}</div>
+
+                <div class="text-center">{{ help_fifth_type }}</div>
+                <div class="help-text">{{ help_sixth_type }}</div>
+
+                <div class="text-center">{{ help_fifth_lists }}</div>
+                <div class="help-text">{{ help_sixth_lists }}</div>
+
+                <div class="text-center">{{ help_seventh_lists }}</div>
+                <div class="help-text">{{ help_eighth_lists }}</div>
+                <div class="text-center">{{ help_ninth_lists }}</div>
+                <div class="help-text">{{ help_tenth_lists }}</div><hr>
+                <div class="text-center">{{ helper_list }}</div>
+                <div class="help-text">{{ helper_lists }}</div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">{{ copy_label }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Type_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ help_name_type }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">{{ help_first_type }}</div>
+        <div class="help-text">{{ help_second_type }}</div>
+        <div class="text-center">{{ help_third_types }}</div>
+        <div class="help-text">{{ help_fourth_types }}</div>
+        <div class="text-center">{{ help_seventh_type }}</div>
+        <div class="help-text">{{ help_eighth_type }}</div>
+        <div class="text-center">{{ help_ninth_type }}</div>
+        <div class="help-text">{{ help_tenth_type }}</div>
+        <div class="text-center">{{ help_first_column }}</div>
+        <div class="help-text">{{ help_second_column }}</div>
+        <div class="text-center">{{ help_third_column }}</div>
+        <div class="help-text">{{ help_fourth_column }}</div>
+        <div class="text-center">{{ help_fifth_column }}</div>
+        <div class="help-text">{{ help_sixth_column }}</div>
+        <div class="text-center">{{ help_seventh_column }}</div>
+        <div class="help-text">{{ help_eighth_column }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Column_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ hpm_fields_block }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="help-text">{{ help_zero_type_sub }}</div>
+          <div class="text-center">{{ help_first_sub }}</div>
+          <div class="help-text">{{ help_second_sub }}</div>
+
+          <div class="text-center">{{ help_third_sub }}</div>
+          <div class="help-text">{{ help_fourth_sub }}</div>
+
+          <div class="text-center">{{ help_third_type }}</div>
+          <div class="help-text">{{ help_fourth_type }}</div>
+
+          <div class="text-center">{{ help_fifth_type }}</div>
+          <div class="help-text">{{ help_sixth_type }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="CSS_JS_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ help_name_js }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">{{ help_first_js }}</div>
+        <div class="help-text">{{ help_second_js }}</div>
+        <div class="text-center">{{ help_third_js }}</div>
+        <div class="help-text">{{ help_fourth_js }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="help-sub-group" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title"><i class="fa fa-cogs"></i> {{ title_sub_group }}</h4>
+      </div>
+      <div class="modal-body">
+          <div class="help-text">{{ help_sub }}</div>
+          <div class="text-center">{{ help_first_sub }}</div>
+          <div class="help-text">{{ help_second_sub }}</div>
+
+          <div class="text-center">{{ help_third_sub }}</div>
+          <div class="help-text">{{ help_fourth_sub }}</div>
+
+          <div class="text-center">{{ help_third_type }}</div>
+          <div class="help-text">{{ help_fourth_type }}</div>
+
+          <div class="text-center">{{ help_fifth_type }}</div>
+          <div class="help-text">{{ help_sixth_type }}</div>
+
+          <div class="text-center">{{ help_fifth_sub }}</div>
+          <div class="help-text">{{ help_sixth_sub }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Authors_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-copyright"></i> {{ desc_author }}</h4>
+      </div>
+      <div class="modal-body authors">
+        <legend class="text-center">{{ desc_copy }}</legend>
+        <div class="text-center">{{ desc_author_copy }}</div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function attribute_autocomplete(s) {
+    $(s).autocomplete({
+        'source': function(request, response) {
+            var t = this;
+            $.ajax({
+                url: 'index.php?route=catalog/attribute/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            category: item.attribute_group,
+                            label: item.name,
+                            value: item.attribute_id,
+                            t: t
+                        }
+                    }));
+                }
+            });
+        },
+        'select': function(item) {
+            $(item.t).val(item['label']);
+            $(item.t).prev().val(item['value']);
+        }
+    });
+}
+
+function filter_autocomplete(s) {
+    $(s).autocomplete({
+        'source': function(request, response) {
+            var t = this;
+            $.ajax({
+                url: 'index.php?route={{ hpmodel_controller }}/filter_autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item.name,
+                            value: item.filter_id,
+                            t: t
+                        }
+                    }));
+                }
+            });
+        },
+        'select': function(item) {
+            $(item.t).val(item['label']);
+            $(item.t).prev().val(item['value']);
+        }
+    });
+}
+
+$('.bootstrap-switcher').bootstrapSwitch();
+$(document).on('change', '.select-col', function(){var $c=$(this).closest('td');$c.find('.prop').hide();$c.find('.prop-'+$(this).val()).show();});
+$('.select-col').trigger('change');
+attribute_autocomplete('.prop-attribute input[type="text"]');
+filter_autocomplete('.prop-filter input[type="text"]');
+
+var sg_row = {{ sg_row }};
+function addSubGroup(){
+    var html = '';
+    html += '<tr id="sg-row-' + sg_row + '">';
+    html += '<td>';
+    {% for language in languages %}
+    html += '  <div class="input-group">';
+    html += '    <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>';
+    html += '    <input type="text" name="setting[sub_group][' + sg_row + '][title][{{ language.language_id }}]" value="" class="form-control" />';
+    html += '  </div>';
+    {% endfor %}
+    html += '</td>';
+    html += '<td>'
+    html += '  <select name="setting[sub_group][' + sg_row + '][key]" class="form-control select-col">';
+    {% for key, value in array_h_titles %}
+    html += '    <option value="{{ key }}" class="hpm-select">{{ value }}</option>';
+    {% endfor %}
+    html += '  </select>';
+    html += '  <div class="prop prop-attribute" style="display:none;">'
+    html += '    <input type="hidden" name="setting[sub_group][' + sg_row + '][attr]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '  <div class="prop prop-filter" style="display:none;">'
+    html += '    <input type="hidden" name="setting[sub_group][' + sg_row + '][filter]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '</td>';
+    html += '<td>'
+    html += '  <select name="setting[sub_group][' + sg_row + '][variant]" class="form-control">';
+    {% for variant_key, variant_value in array_variants %}
+    html += '    <option value="{{ variant_key }}" >{{ variant_value }}</option>';
+    {% endfor %}
+    html += '  </select>';
+    html += '</td>';
+    {% for i in 0..2 %}
+    html += '<td>';
+    html += '  <select name="setting[sub_group][' + sg_row + '][col][{{ i }}]" class="form-control select-col">';
+    {% for columns_key, columns_value in array_columns %}
+    html += '    <option value="{{ columns_key }}" class="hpm-select">{{ columns_value }}</option>';
+    {% endfor %}
+    html += '  </select>';
+    html += '  <div class="prop prop-attribute" style="display:none;">';
+    html += '    <input type="hidden" name="setting[sub_group][' + sg_row + '][col_attr][{{ i }}]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '  <div class="prop prop-filter" style="display:none;">';
+    html += '    <input type="hidden" name="setting[sub_group][' + sg_row + '][col_filter][{{ i }}]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '</td>';
+    {% endfor %}
+    html += '<td></td>';
+    html += '<td class="text-center">';
+    html += '  <button onclick="$(this).closest(\'tr\').remove();" form="none" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></button>';
+    html += '</td>';
+    html += '</tr>';
+    $('#sub-group-table').append(html);
+    attribute_autocomplete('#sg-row-' + sg_row + ' .prop-attribute input[type="text"]');
+    filter_autocomplete('#sg-row-' + sg_row + ' .prop-filter input[type="text"]');
+    sg_row++;
+}
+
+var category_sg_row = {{ category_sg_row }};
+function addCategorySubGroup(){
+    var html = '';
+    html += '<tr id="category-sg-row-' + category_sg_row + '">';
+    html += '<td></td>';
+    html += '<td>';
+    {% for language in languages %}
+    html += '  <div class="input-group">';
+    html += '    <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>';
+    html += '    <input type="text" name="setting[category_sub_group][' + category_sg_row + '][title][{{ language.language_id }}]" value="" class="form-control" />';
+    html += '  </div>';
+    {% endfor %}
+    html += '</td>';
+    html += '<td>'
+    html += '  <select name="setting[category_sub_group][' + category_sg_row + '][key]" class="form-control select-col">';
+    {% for key, value in array_h_titles %}
+    html += '    <option value="{{ key }}" class="hpm-select">{{ value }}</option>';
+    {% endfor %}
+    html += '  </select>';
+    html += '  <div class="prop prop-attribute" style="display:none;">'
+    html += '    <input type="hidden" name="setting[category_sub_group][' + category_sg_row + '][attr]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '  <div class="prop prop-filter" style="display:none;">'
+    html += '    <input type="hidden" name="setting[category_sub_group][' + category_sg_row + '][filter]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '</td>';
+    html += '<td>'
+    html += '  <select name="setting[category_sub_group][' + category_sg_row + '][variant]" class="form-control">';
+    {% for variant_key, variant_value in array_variants %}
+    html += '    <option value="{{ variant_key }}" >{{ variant_value }}</option>';
+    {% endfor %}
+    html += '  </select>';
+    html += '</td>';
+    {% for i in 0..2 %}
+    html += '<td>';
+    html += '  <select name="setting[category_sub_group][' + category_sg_row + '][col][{{ i }}]" class="form-control select-col">';
+    {% for columns_key, columns_value in array_columns %}
+    html += '    <option value="{{ columns_key }}" class="hpm-select">{{ columns_value }}</option>';
+    {% endfor %}
+    html += '  </select>';
+    html += '  <div class="prop prop-attribute" style="display:none;">';
+    html += '    <input type="hidden" name="setting[category_sub_group][' + category_sg_row + '][col_attr][{{ i }}]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '  <div class="prop prop-filter" style="display:none;">';
+    html += '    <input type="hidden" name="setting[category_sub_group][' + category_sg_row + '][col_filter][{{ i }}]" value="" />';
+    html += '    <input class="form-control" type="text" value="" />';
+    html += '  </div>';
+    html += '</td>';
+    {% endfor %}
+    html += '<td></td>';
+    html += '<td class="text-center">';
+    html += '  <button onclick="$(this).closest(\'tr\').remove();" form="none" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></button>';
+    html += '</td>';
+    html += '</tr>';
+    $('#category-sub-group-table').append(html);
+    attribute_autocomplete('#category-sg-row-' + category_sg_row + ' .prop-attribute input[type="text"]');
+    filter_autocomplete('#category-sg-row-' + category_sg_row + ' .prop-filter input[type="text"]');
+    category_sg_row++;
+}
+</script>
+</div>
+{{ footer }}

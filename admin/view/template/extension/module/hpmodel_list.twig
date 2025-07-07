@@ -1,0 +1,319 @@
+<div class="tab-pane hpm-series hpm-list" id="tab-hpmodel">
+  <div id="ajax-response"></div>
+  <input type="hidden" name="parent_id" value="{{ parent_id }}">
+  <input type="hidden" name="product_id" value="{{ product_id }}">
+  <legend>
+    <h2>{{ name_kit }}</h2> <button form="help_modals" class="pull-right hm-help btn btn-primary btn-sm" data-toggle="modal" data-target="#hpm-modal"><i class="fa fa-info" aria-hidden="true"></i> - {{ help_name }}</button>
+  </legend>
+  <table class='table table-hover table-bordered table-responsive' id="hpm-search">
+    <thead>
+      <tr>
+        <td><label class="control-label"><span data-toggle="tooltip" title="{{ col_name_search }}">{{ col_name_search }}</span></label></td>
+        <td><label class="control-label"><span data-toggle="tooltip" title="{{ col_sku_search }}">{{ col_sku_search }}</span></label></td>
+        <td class="text-center status"><label class="control-label"><span data-toggle="tooltip" title="{{ col_add }}"><i class="fa fa-check-square-o" aria-hidden="true"></i></span></label></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" id="hpmodel-search-prd" placeholder="{{ add_name_product }}" class="form-control"></td>
+        <td><input type="text" id="hpmodel-search-sku" placeholder="{{ add_sku_product }}" class="form-control"></td>
+        <td class="text-center"><button id="save-hpmodel" class="btn btn-success" data-toggle="tooltip" title="{{ col_add }}"><i class="fa fa-check-square-o"></i></button></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <legend>
+    {{ title_mass_product_add }}
+  </legend>
+  <table class="table table-hover table-bordered table-responsive" id="hpm-mass-add">
+    <thead>
+      <tr>
+        <td><label class="control-label"><span data-toggle="tooltip" title="{{ help_mass_search }}">{{ text_mass_search }}</span></label></td>
+        <td class="text-center status"></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" id="hpmodel-search" placeholder="{{ text_mass_search }}" class="form-control"></td>
+        <td class="text-center"><button id="hpmodel-btn-search" class="btn btn-primary" data-toggle="tooltip" title="{{ button_search }}"><i class="fa fa-filter"></i></button></td>
+      </tr>
+      <tr class="search-results" style="display: none;">
+        <td colspan="2">
+          <div class="hpm-search-info"></div>
+          <div id="hpmodel-search-products" class="well well-sm" style="height: 150px; overflow: auto; margin: 5px 0 10px 0;"></div>
+          <div class="text-center">
+            <button id="hpmodel-btn-search-add" class="btn btn-success"><i class="fa fa-plus"></i> {{ button_add_serch_products }}</button>
+          </div>
+        </td>
+      </td>
+    </tbody>
+  </table>
+  
+  <legend>{{ title_group_products }}</legend>
+  <table class="table table-hover table-bordered table-responsive" id="hpmodel-prd-list">
+    <thead>
+      <tr>
+        <td class="text-center"><label class="control-label">ID</label></td>        
+        <td class="text-center status"><label class="control-label"><span data-toggle="tooltip" title="{{ parent_product }}"><i class="fa fa-dot-circle-o"></i></span></label></td>
+        <td class="text-center hpm-list-img"><label class="control-label"><span data-toggle="tooltip" title="{{ img_edit }}"><i class="fa fa-picture-o"></i></span></label></td>
+        <td><label class="control-label"><span data-toggle="tooltip" title="{{ name }}">{{ name }}</span></label></td>
+        <td><label class="control-label">{{ entry_model }}</label></td>
+        <td class="text-center hpm-list-sku"><label class="control-label"><span data-toggle="tooltip" title="{{ sku }}">SKU</span></label></td>
+        <td><label class="control-label">{{ entry_manufacturer }}</label></td>
+        <td><label class="control-label">{{ entry_category }}</label></td>
+        <td class="text-center"><label class="control-label">{{ entry_price }}</label></td>
+        <td class="text-center status"><label class="control-label"><span data-toggle="tooltip" title="{{ entry_quantity }}"><i class="fa fa-signal fa-1x"></i></span></label></td>
+        <td class="text-center status"><label class="control-label"><span data-toggle="tooltip" title="{{ col_sort }}"><i class="fa fa-sort fa-1x"></i></span></label></td>
+        <td class="text-center status"><label class="control-label"><span data-toggle="tooltip" title="{{ button_remove }}"><i class="fa fa-trash-o fa-1x"></i></span></label></td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in childs %}
+      <tr class="{% if product.id == parent_id %}active{% endif %}">
+        <td class="text-center">{{ product.id }}</td>
+        <td class="text-center hpm-main-product"><input type="radio" name="hpm_main_product" {% if product.id == parent_id %}checked="checked"{% endif %} value="{{ product.id }}" /></td>
+        <td class="text-center hpm-list-img">
+          <a href="" id="thumb-hpm-image-{{ product.id }}" data-toggle="image" class="img-thumbnail"><img src="{{ product.thumb }}" alt="" title="" data-placeholder="{{ product.product_image }}" /></a><input type="hidden" name="products[{{ product.id }}][image]" value="{{ product.image }}" id="input-hpm-image-{{ product.id }}" />
+        </td>
+        <td><input type="hidden" name="products[{{ product.id }}][id]" value="{{ product.id }}"><a href="{{ product.edit }}" target="_blank"><i class="fa fa-link"></i> {{ product.name }}</a></td>
+        <td class="text-left">{{ product.model }}</td>
+        <td class="text-center">{{ product.sku }}</td>
+        <td class="text-left">{{ product.manufacturer }}</td>
+        <td class="text-left">
+          {% for category in categories %}
+          {% if category.category_id in product.category %}
+          <div>{{ category.name }}</div>
+          {% endif %}
+          {% endfor %}
+        </td>
+        <td class="text-right">{{ product.price }}</td>
+        <td class="text-right">{{ product.quantity }}</td>
+        <td><input type="text" name="products[{{ product.id }}][sort]" value="{{ product.sort }}" class="form-control"></td>
+        <td class="text-center"><button class="btn btn-danger remove" data-toggle="tooltip" title="{{ button_remove }}"><i class="fa fa-trash-o"></i></button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel-heading text-center copy">
+        <button form="help_modals" class="hm-info btn btn-primary btn-sm" data-toggle="modal" data-target="#hpm-authors-modal">
+        {{ desc_author_start }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hpm-series modal fade" id="hpm-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-cogs"></i> {{ help_name_kit }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="help-text">{{ top_kit_text }}</div>
+        <hr>
+        <div class="text-center">{{ help_first_kit }}</div>
+        <div class="help-text">{{ help_second_kit }}</div>
+        <div class="text-center">{{ help_first_multi }}</div>
+        <div class="help-text">{{ help_second_multi }}</div>
+        <div class="text-center">{{ help_third_kit }}</div>
+        <div class="help-text">{{ help_fourth_kit }}</div>
+        <hr>
+        <div class="help-text">{{ bottom_kit_text }}</div>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="hpm-authors-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-copyright"></i> {{ desc_author }}</h4>
+      </div>
+      <div class="modal-body authors">
+        <legend class="text-center">{{ desc_copy }}</legend>
+        <div class="text-center">{{ desc_author_copy }}</div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">{{ copy_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#hpmodel-search-sku').autocomplete({'source': hpm_autocomplete_source_model,'select': hpm_autocomplete_select});
+    $('#hpmodel-search-prd').autocomplete({'source': hpm_autocomplete_source,'select': hpm_autocomplete_select});
+
+    $('#hpmodel-prd-list').on('click', 'td .remove', function () {
+        $(this).parents('tr').remove();
+        hpm_update_parent();
+        return false;
+    });
+
+    $('#save-hpmodel').on('click', function () {
+        $.ajax({
+            url: 'index.php?route=extension/module/hpmodel/save&user_token={{ user_token }}',
+            method: 'POST',
+            data: $('#tab-hpmodel input[type="hidden"], #tab-hpmodel input[type="text"]'),
+            success: function (json) {
+                if (json['error']) {
+                    $('#tab-hpmodel #ajax-response').html('<div class=\'alert alert-danger\'>' + json['error'] + '</div>')
+                } else if (json['success']) {
+                    $('#tab-hpmodel #ajax-response').html('<div class=\'alert alert-success\'>' + json['success'] + '</div>')
+                }
+            }
+        });
+        return false;
+    });
+
+    var hpm_search_data = [];
+    $('#hpmodel-search').on('keydown', function(e) {
+          if (e.keyCode == 13) { $(this).closest('tr').find('button').trigger('click'); }
+      });
+    $('#hpmodel-btn-search').on('click', function () {
+        var value = $('#hpmodel-search').val();
+        if (!value) {
+            $('#hpmodel-search').parent().addClass('has-error');
+            return false;
+        }
+        $('#tab-hpmodel .has-error').removeClass('has-error');
+        $.ajax({
+            url: 'index.php?route=extension/module/hpmodel/search&user_token={{ user_token }}',
+            method: 'POST',
+            data: 'value=' + encodeURIComponent(value),
+            beforeSend: function() {
+                $('#hpmodel-btn-search').prop('disabled', true);
+            },
+            complete: function() {
+                $('#hpmodel-btn-search').prop('disabled', false);
+            },
+            success: function (json) {
+                hpm_search_data = [];
+                if (json['products'] || json['total']) {
+                    var html = '';
+                    json['products'].forEach(function(item){
+                        html += '<div class="checkbox">'; 
+                        html += '<label><input type="checkbox" name="hpm_me_product[]" value="'+item.product_id+'" checked="checked"> '+item.name+' ('+item.model+')</label>'; 
+                        html += '</div>';
+                        hpm_search_data[item.product_id] = item;
+                    });
+                    $('#hpmodel-search-products').html(html);
+                    $('#hpm-mass-add .hpm-search-info').html(json['total']);
+                    $('#hpm-mass-add .search-results').slideDown();
+                } else {
+                    $('#hpm-mass-add .search-results').slideUp();
+                }
+            }
+        });
+        return false;
+    });
+    $('#hpmodel-btn-search-add').on('click',function(){
+        $('#hpmodel-search-products input:checked').each(function(){
+            var product_id = $(this).val();
+                console.log(product_id);
+            if (typeof hpm_search_data[product_id] != 'undefined') {
+                console.log(hpm_search_data[product_id]);
+                hpm_autocomplete_select(hpm_search_data[product_id]);
+            }
+        });
+        $('#hpm-mass-add .search-results').slideUp();
+        return false;
+    });
+    
+    $('.hpm-series').on('change', '.hpm-main-product input[type="radio"]', function() {
+        if ($(this).closest('tr').hasClass('active')) $(this).prop('checked', false);
+        $('.hpm-series tbody tr.active').removeClass('active');
+        hpm_update_parent();
+    }).on('click', 'tr.active input[type="radio"]:checked', function(e) {
+        $(this).trigger('change');
+    }).on('click', '.hpm-main-product', function(e) {
+        if (e.target.localName != 'td') return;
+        $(this).find('input[type="radio"]').prop('checked', true).trigger('change');
+    });
+});
+
+function hpm_update_parent() {
+    var $cb = $('.hpm-main-product input[type="radio"]:checked');
+    if ($cb.length) {
+        $cb.closest('tr').addClass('active');
+        $('.hpm-series input[name="parent_id"]').val($cb.val());
+    } else {
+        $('.hpm-series input[name="parent_id"]').val({{ product_id }});
+    }
+}
+
+function hpm_autocomplete_source_model(request, response) {
+    $.ajax({
+        url: 'index.php?route=extension/module/hpmodel/autocomplete&user_token={{ user_token }}&filter_model=' + encodeURIComponent(request),
+        dataType: 'json',
+        success: function (json) {
+            response($.map(json, function (item) {
+                return {
+                    label: item['name'] + ' (' + item['model'] + ')',
+                    value: item['product_id'],
+                    sku: item['sku'],
+                    model: item['model'],
+                    quantity: item['quantity'],
+                    manufacturer: item['manufacturer'],
+                    product_category: item['product_category'],
+                    price: item['price'],
+                    name: item['name'],
+                    image: item['image'],
+                    product_id: item['product_id'],
+                }
+            }));
+        }
+    });
+}
+function hpm_autocomplete_source(request, response) {
+    $.ajax({
+        url: 'index.php?route=extension/module/hpmodel/autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+        dataType: 'json',
+        success: function (json) {
+            response($.map(json, function (item) {
+                return {
+                    label: item['name'] + ' (' + item['model'] + ')',
+                    value: item['product_id'],
+                    sku: item['sku'],
+                    model: item['model'],
+                    quantity: item['quantity'],
+                    manufacturer: item['manufacturer'],
+                    product_category: item['product_category'],
+                    price: item['price'],
+                    name: item['name'],
+                    image: item['image'],
+                    product_id: item['product_id'],
+                }
+            }));
+        }
+    });
+}
+function hpm_autocomplete_select(item) {
+    html  = '<tr>';
+    html += '  <td class="text-center">' + item.product_id + '</td>';
+    html += '  <td class="text-center hpm-main-product"><input type="radio" name="hpm_main_product" value="' + item.product_id + '" /></td>';
+    html += '  <td class="text-center hpm-list-img"><a href="" id="thumb-hpm-image-' + item.product_id + '"data-toggle="image" class="img-thumbnail"><img src="' + item.image+ '" alt="" title="" data-placeholder="' + item.image+ '" /></a><input type="hidden" name="products[' + item.product_id + '][image]" value="" id="input-hpm-image-' + item.product_id + '" /></td>';
+    html += '  <td><input type="hidden" name="products[' + item.product_id + '][id]" value="' + item.product_id + '" >' + item.name + '</td>';
+    html += '  <td class="text-left">' + item.model + '</td>';
+    html += '  <td class="text-center">' + item.sku + '</td>';
+    html += '  <td class="text-left">' + item.manufacturer + '</td>';
+    html += '  <td class="text-left">' + item.product_category + '</td>';
+    html += '  <td class="text-center">' + item.price + '</td>';
+    html += '  <td class="text-center">' + item.quantity + '</td>';
+    html += '  <td><input type="text" name="products[' + item.product_id + '][sort]" value="1" class="form-control"></td>';
+    html += '  <td class="text-center"><button class="btn btn-danger remove"><i class="fa fa-trash-o"></i></button></td>';
+    html += '</tr>';        
+    $('#hpmodel-prd-list tbody').append(html);
+}
+</script>

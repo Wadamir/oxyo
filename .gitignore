@@ -247,5 +247,6 @@
 !/system/oxyo_template.ocmod.xml
 !/system/oxyo_theme_3X.ocmod.xml
 !/system/oxyo_video_support.ocmod.xml
+!/system/hyper_multi_product_models.ocmod.xml
 
 /storage/*
