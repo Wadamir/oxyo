@@ -179,8 +179,8 @@
 	</file>
 	<file path="catalog/controller/product/product.php">
 		<operation>
-			<search><![CDATA[public function index() {]]></search>
-			<add position="after"><![CDATA[
+			<search><![CDATA[$data['breadcrumbs'] = array();]]></search>
+			<add position="before"><![CDATA[
 				$data['hpmodel']=$this->load->controller('extension/module/hpmodel/hpmodel/getForm', false);
 			]]></add>
 		</operation>
