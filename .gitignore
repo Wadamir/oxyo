@@ -197,6 +197,7 @@
 /catalog/model/extension/module/*
 !/catalog/model/extension/module/
 !/catalog/model/extension/module/digitalElephantFilter.php
+!/catalog/model/extension/module/hpmodel.php
 
 !/catalog/model/extension/oxyo/
 
