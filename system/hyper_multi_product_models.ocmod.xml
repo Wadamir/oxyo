@@ -279,7 +279,9 @@
 		<operation error="skip">
 			<search><![CDATA[{% if product.rating %}]]></search>
 			<add position="before"><![CDATA[
+                <!-- begin: HPM -->
 				{% if product.hpm_block %}{{ product.hpm_block }}{% endif %}
+                <!-- end: HPM -->
 			]]></add>
 		</operation>
 		<operation error="skip">
