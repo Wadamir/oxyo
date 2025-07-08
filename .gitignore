@@ -117,6 +117,7 @@
 /admin/view/template/catalog/*
 !/admin/view/template/catalog/
 !/admin/view/template/catalog/product_form.twig
+!/admin/view/template/catalog/product_list.twig
 
 /admin/view/template/common/*
 !/admin/view/template/common/

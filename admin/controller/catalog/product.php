@@ -365,11 +365,61 @@ class ControllerCatalogProduct extends Controller
                 }
             }
 
+            // Attributes
+            $this->load->model('catalog/attribute');
+
+            $product_attributes = $this->model_catalog_product->getProductAttributes($result['product_id']);
+            $product_attributes_array = array();
+            foreach ($product_attributes as $product_attribute) {
+                $attribute_info = $this->model_catalog_attribute->getAttribute($product_attribute['attribute_id']);
+
+                if ($attribute_info) {
+                    $product_attributes_array[] = array(
+                        'attribute_id'                  => $product_attribute['attribute_id'],
+                        'name'                          => $attribute_info['name'],
+                        'product_attribute_description' => $product_attribute['product_attribute_description']
+                    );
+                }
+            }
+
+            $this->load->model('localisation/language');
+            $data['languages'] = $this->model_localisation_language->getLanguages();
+
+            // $product_attributes_array = array();
+
+            // foreach ($product_attributes as $product_attribute) {
+            //     $attribute_info = $this->model_catalog_attribute->getAttribute($product_attribute['attribute_id']);
+
+            //     $product_attribute_values = $product_attribute['product_attribute_description'];
+            //     if (is_array($product_attribute_values)) {
+            //         foreach ($product_attribute_values as $key => $value) {
+            //             if (is_array($value)) {
+            //                 $product_attribute_values[$key] = implode(', ', $value);
+            //             }
+            //         }
+            //     }
+
+            //     if ($attribute_info) {
+            //         $product_attributes_array[] = array(
+            //             'attribute_id'                  => $product_attribute['attribute_id'],
+            //             'name'                          => $attribute_info['name'],
+            //             'product_attribute_description' => $product_attribute['product_attribute_description'],
+            //             'product_attribute_values'      => $product_attribute_values
+            //         );
+            //     }
+            // }
+            // var_dump($product_attributes_array[1]['attribute_id']);
+            // var_dump($product_attributes_array[1]['name']);
+            // var_dump($product_attributes_array[1]['product_attribute_description']);
+            // var_dump($product_attributes_array[1]['product_attribute_values']);
+
+
             $data['products'][] = array(
                 'product_id' => $result['product_id'],
                 'image'      => $image,
                 'name'       => $result['name'],
                 'model'      => $result['model'],
+                'attributes' => $product_attributes_array,
                 'price'      => $this->currency->format($result['price'], $this->config->get('config_currency')),
                 'special'    => $special,
                 'quantity'   => $result['quantity'],

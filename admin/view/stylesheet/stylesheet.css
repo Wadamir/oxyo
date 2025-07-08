@@ -1094,3 +1094,7 @@ html[dir='rtl'] .text-right {
 input.form-control {
     position: relative;
 }
+
+span.strong {
+    font-weight: 600;
+}
