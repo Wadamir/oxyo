@@ -1090,3 +1090,7 @@ html[dir='rtl'] .text-right {
     width: 100%;
     max-height: 102px;
 }
+
+input.form-control {
+    position: relative;
+}
