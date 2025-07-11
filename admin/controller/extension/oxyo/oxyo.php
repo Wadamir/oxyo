@@ -328,6 +328,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'main_menu_align',
             'header_login',
             'header_search',
+            'oxyo_breadcrumbs_full_path',
             'oxyo_titles_listings',
             'oxyo_titles_product',
             'oxyo_titles_account',
@@ -693,6 +694,27 @@ class ControllerExtensionOxyoOxyo extends Controller
             $data['subcat_image_width'] = '200';
             $data['subcat_image_height'] = '264';
         }
+
+        // Breadcrumbs
+        $data['bc_titles'] = [
+            'listings' => $this->language->get('bc_title_listings'),
+            'product'  => $this->language->get('bc_title_product'),
+            'account'  => $this->language->get('bc_title_account'),
+            'checkout' => $this->language->get('bc_title_checkout'),
+            'contact'  => $this->language->get('bc_title_contact'),
+            'blog'     => $this->language->get('bc_title_blog'),
+            'default'  => $this->language->get('bc_title_default'),
+        ];
+
+        $data['bc_tooltips'] = array(
+            'listings' => $this->language->get('bc_tooltip_listings'),
+            'product' => $this->language->get('bc_tooltip_product'),
+            'account' => $this->language->get('bc_tooltip_account'),
+            'checkout' => $this->language->get('bc_tooltip_checkout'),
+            'contact' => $this->language->get('bc_tooltip_contact'),
+            'blog' => $this->language->get('bc_tooltip_blog'),
+            'default' => $this->language->get('bc_tooltip_default')
+        );
 
         // Render page
         $data['header'] = $this->load->controller('common/header');

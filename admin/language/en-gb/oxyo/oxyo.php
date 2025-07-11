@@ -37,6 +37,48 @@ $_['text_tab_custom_js']         = 'Custom Javascript';
 $_['text_tab_one_click']         = 'One Click Installer';
 
 
+// Tab page-titles (for breadcrumbs)
+$_['heading_breadcrumbs']           = 'Breadcrumbs / Page Titles';
+
+$_['bc_full_path']                  = 'Show full path in breadcrumbs';
+$_['bc_tooltip_full_path']          = 'If enabled, the breadcrumbs will show the full path to the current page, including all parent categories.';
+
+$_['bc_title_listings']             = 'Product listing pages';
+$_['bc_title_product']              = 'Product pages';
+$_['bc_title_account']              = 'Account pages';
+$_['bc_title_checkout']             = 'Checkout page';
+$_['bc_title_contact']              = 'Contact page';
+$_['bc_title_blog']                 = 'Blog pages';
+$_['bc_title_default']              = 'Default (information) pages';
+
+$_['bc_tooltip_listings']           = 'Page title style on product listing pages, like category pages, search result page etc';
+$_['bc_tooltip_product']            = 'Page title style on product pages, like product details page etc';
+$_['bc_tooltip_account']            = 'Page title style on account pages, like login, register, etc.';
+$_['bc_tooltip_checkout']           = 'Page title style on checkout page';
+$_['bc_tooltip_contact']            = 'Page title style on contact page';
+$_['bc_tooltip_blog']               = 'Page title style on blog pages, like blog listing, blog post, etc.';
+$_['bc_tooltip_default']            = 'Page title style on information pages. This style will also work as default fall back style for all pages that do not have a specific style set.';
+
+$_['option_default_short_boxed']    = 'Default Style + Short Height + Boxed Width';
+$_['option_default_short_full']     = 'Default Style + Short Height + Full Width';
+$_['option_default_normal_boxed']   = 'Default Style / Normal Height + Boxed Width';
+$_['option_default_normal_full']    = 'Default Style / Normal Height + Full Width';
+
+$_['option_minimal_short_boxed']    = 'Minimal + Short Height + Boxed Width';
+$_['option_minimal_short_full']     = 'Minimal + Short Height + Full Width';
+$_['option_minimal_normal_boxed']   = 'Minimal + Normal Height + Boxed Width';
+$_['option_minimal_normal_full']    = 'Minimal + Normal Height + Full Width';
+
+$_['option_inline_short']           = 'Minimal Inline + Short Height';
+$_['option_inline_normal']          = 'Minimal Inline + Normal Height';
+
+$_['option_title_in_short']         = 'Page Title Inside Breadcrumb + Short Height';
+$_['option_title_in_normal']        = 'Page Title Inside Breadcrumb + Normal Height';
+$_['option_title_in_tall']          = 'Page Title Inside Breadcrumb + Tall Height';
+$_['option_title_in_extra_tall']    = 'Page Title Inside Breadcrumb + Extra Tall Height';
+
+
+
 // Shop settings
 $_['text_theme_status']                 = 'Theme Status';
 $_['text_contacts']                     = 'Contacts';

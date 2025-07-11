@@ -1098,3 +1098,55 @@ input.form-control {
 span.strong {
     font-weight: 600;
 }
+
+.custom-select {
+    min-width: 300px;
+    position: relative;
+}
+
+.custom-select select {
+    appearance: none;
+    width: 100%;
+    /* font-size: 1.15rem; */
+    padding: 6px 24px 6px 12px;
+    background-color: #fff;
+    /* border: 1px solid #555; */
+    /* border-radius: 0.25rem; */
+    /* color: #000; */
+    cursor: pointer;
+}
+
+.custom-select::before,
+.custom-select::after {
+    --size: 0.35rem;
+    content: '';
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+}
+
+.custom-select::before {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-bottom: var(--size) solid #555;
+    top: 40%;
+}
+
+.custom-select::after {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid #555;
+    top: 55%;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+
+.m-0 {
+    margin: 0 !important;
+}

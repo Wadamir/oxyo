@@ -178,46 +178,6 @@ class ControllerProductProduct extends Controller
 
         if ($product_info) {
 
-            $data['breadcrumbs'] = [];
-
-            // Always include home
-            $data['breadcrumbs'][] = array(
-                'text' => $this->language->get('text_home'),
-                'href' => $this->url->link('common/home')
-            );
-
-            // Get all categories of this product
-            $product_categories = $this->model_catalog_product->getCategories($this->request->get['product_id']);
-
-            $breadcrumbs_done = [];
-
-            foreach ($product_categories as $product_category) {
-                $path = $this->getPathByCategoryId($product_category['category_id']);
-
-                if ($path) {
-                    $parts = explode('_', $path);
-                    $accumulated_path = [];
-
-                    foreach ($parts as $path_id) {
-                        $accumulated_path[] = $path_id;
-                        $accumulated = implode('_', $accumulated_path);
-
-                        // Avoid duplicates
-                        if (!in_array($accumulated, $breadcrumbs_done)) {
-                            $category_info = $this->model_catalog_category->getCategory($path_id);
-
-                            if ($category_info) {
-                                $data['breadcrumbs'][] = array(
-                                    'text' => $category_info['name'],
-                                    'href' => $this->url->link('product/category', 'path=' . $accumulated)
-                                );
-                                $breadcrumbs_done[] = $accumulated;
-                            }
-                        }
-                    }
-                }
-            }
-
             $url = '';
 
             if (isset($this->request->get['path'])) {
@@ -750,27 +710,5 @@ class ControllerProductProduct extends Controller
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
-    }
-
-    protected function getPathByCategoryId($category_id)
-    {
-        $this->load->model('catalog/category');
-        $path = [];
-
-        while ($category_id) {
-            $category = $this->model_catalog_category->getCategory($category_id);
-            if ($category) {
-                $path[] = $category['category_id'];
-                $category_id = $category['parent_id'];
-            } else {
-                break;
-            }
-        }
-
-        if ($path) {
-            return implode('_', array_reverse($path));
-        } else {
-            return '';
-        }
     }
 }

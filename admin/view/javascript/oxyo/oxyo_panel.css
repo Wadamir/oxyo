@@ -384,6 +384,7 @@ legend.third {
     min-width: 12%;
 }
 
+.label-switcher,
 .radio-switcher .label-switcher {
     margin: 0;
     cursor: pointer;
@@ -400,6 +401,10 @@ legend.third {
     align-items: center;
 
     gap: 0.5em;
+}
+
+.form-radio-switcher-wrapper.justify-content-start {
+    justify-content: flex-start;
 }
 
 .form-radio-switcher-wrapper.disabled {

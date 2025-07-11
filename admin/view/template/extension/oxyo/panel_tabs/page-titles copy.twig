@@ -1,0 +1,57 @@
+{# Heading #}
+<legend>{{ heading_breadcrumbs }}</legend>
+
+{# Product listing pages #}
+<div class="form-group">
+	<label class="col-sm-2 control-label">
+		<span data-toggle="tooltip" title="{{ tooltip_product_listing }}">{{ text_product_listing }}</span>
+	</label>
+	<div class="col-sm-10">
+		<select name="settings[oxyo][oxyo_titles_listings]" class="form-control">
+			<option value="default_bc"{% if oxyo_titles_listings == 'default_bc' %} selected="selected"{% endif %}>{{ option_default_boxed }}</option>
+			<option value="default_bc full_width_bc"{% if oxyo_titles_listings == 'default_bc full_width_bc' %} selected="selected"{% endif %}>{{ option_default_full }}</option>
+			<option value="default_bc normal_height_bc"{% if oxyo_titles_listings == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_default_normal_boxed }}</option>
+			<option value="default_bc full_width_bc normal_height_bc"{% if oxyo_titles_listings == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_default_normal_full }}</option>
+			<option value="minimal_bc"{% if oxyo_titles_listings == 'minimal_bc' %} selected="selected"{% endif %}>{{ option_minimal_boxed }}</option>
+			<option value="minimal_bc full_width_bc"{% if oxyo_titles_listings == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>{{ option_minimal_full }}</option>
+			<option value="minimal_bc normal_height_bc"{% if oxyo_titles_listings == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_minimal_normal_boxed }}</option>
+			<option value="minimal_bc full_width_bc normal_height_bc"{% if oxyo_titles_listings == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_minimal_normal_full }}</option>
+			<option value="minimal_inline_bc"{% if oxyo_titles_listings == 'minimal_inline_bc' %} selected="selected"{% endif %}>{{ option_inline_short }}</option>
+			<option value="minimal_inline_bc normal_height_bc"{% if oxyo_titles_listings == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_inline_normal }}</option>
+			<option value="title_in_bc"{% if oxyo_titles_listings == 'title_in_bc' %} selected="selected"{% endif %}>{{ option_title_in_short }}</option>
+			<option value="title_in_bc normal_height_bc"{% if oxyo_titles_listings == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_title_in_normal }}</option>
+			<option value="title_in_bc tall_height_bc"{% if oxyo_titles_listings == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>{{ option_title_in_tall }}</option>
+			<option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_listings == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>{{ option_title_in_extra_tall }}</option>
+		</select>
+	</div>
+</div>
+
+{# Product pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'product', value: oxyo_titles_product, texts: texts } %}
+
+{# Account pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'account', value: oxyo_titles_account, texts: texts } %}
+
+{# Checkout pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'checkout', value: oxyo_titles_checkout, texts: texts } %}
+
+{# Contact pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'contact', value: oxyo_titles_contact, texts: texts } %}
+
+{# Blog pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'blog', value: oxyo_titles_blog, texts: texts } %}
+
+{# Default/catalog pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'default', value: oxyo_titles_default, texts: texts } %}
+
+{# Back button #}
+<legend class="hidden d-none">{{ heading_back }}</legend>
+<div class="form-group hidden d-none">
+	<label class="col-sm-2 control-label">
+		<span data-toggle="tooltip" title="{{ tooltip_back }}">{{ text_back }}</span>
+	</label>
+	<div class="col-sm-10 toggle-btn">
+		<label><input type="radio" name="settings[oxyo][oxyo_back_btn]" value="0"{% if oxyo_back_btn == '0' %} checked="checked"{% endif %}/> <span>{{ text_disabled }}</span></label>
+		<label><input type="radio" name="settings[oxyo][oxyo_back_btn]" value="1"{% if oxyo_back_btn == '1' %} checked="checked"{% endif %}/> <span>{{ text_enabled }}</span></label>
+	</div>
+</div>

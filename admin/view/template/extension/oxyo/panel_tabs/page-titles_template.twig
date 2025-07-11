@@ -1,0 +1,27 @@
+{# Shared template for title dropdowns by page type #}
+<div class="form-group">
+    <label class="col-sm-3 control-label">
+        <span data-toggle="tooltip" title="{{ bc_tooltips[page] }}">{{ bc_titles[page] }}</span>
+    </label>
+
+    <div class="col-sm-9">
+        <div class="custom-select">
+            <select name="settings[oxyo][oxyo_titles_{{ page }}]" class="form-control">
+                <option value="default_bc"{% if value == 'default_bc' %} selected="selected"{% endif %}>{{ option_default_short_boxed }}</option>
+                <option value="default_bc full_width_bc"{% if value == 'default_bc full_width_bc' %} selected="selected"{% endif %}>{{ option_default_short_full }}</option>
+                <option value="default_bc normal_height_bc"{% if value == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_default_normal_boxed }}</option>
+                <option value="default_bc full_width_bc normal_height_bc"{% if value == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_default_normal_full }}</option>
+                <option value="minimal_bc"{% if value == 'minimal_bc' %} selected="selected"{% endif %}>{{ option_minimal_short_boxed }}</option>
+                <option value="minimal_bc full_width_bc"{% if value == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>{{ option_minimal_short_full }}</option>
+                <option value="minimal_bc normal_height_bc"{% if value == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_minimal_normal_boxed }}</option>
+                <option value="minimal_bc full_width_bc normal_height_bc"{% if value == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_minimal_normal_full }}</option>
+                <option value="minimal_inline_bc"{% if value == 'minimal_inline_bc' %} selected="selected"{% endif %}>{{ option_inline_short }}</option>
+                <option value="minimal_inline_bc normal_height_bc"{% if value == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_inline_normal }}</option>
+                <option value="title_in_bc"{% if value == 'title_in_bc' %} selected="selected"{% endif %}>{{ option_title_in_short }}</option>
+                <option value="title_in_bc normal_height_bc"{% if value == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>{{ option_title_in_normal }}</option>
+                <option value="title_in_bc tall_height_bc"{% if value == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>{{ option_title_in_tall }}</option>
+                <option value="title_in_bc extra_tall_height_bc"{% if value == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>{{ option_title_in_extra_tall }}</option>
+            </select>
+        </div>
+    </div>
+</div>

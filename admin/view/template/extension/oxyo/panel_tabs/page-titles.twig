@@ -1,431 +1,55 @@
-<legend>Breadcrumbs / Page Titles</legend>
+<legend>{{ heading_breadcrumbs }}</legend>
+
+{# Show full path in breadcrumbs #}
 <div class="form-group">
-<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Select page title style on product listing pages, like category pages, search result page etc">Product listing pages</span></label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_listings]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_listings == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_listings == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_listings == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_listings == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_listings == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_listings == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_listings == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_listings == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_listings == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_listings == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_listings == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_listings == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_listings == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_listings == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
+	<div class="col-sm-3">
+        <label class="control-label text-right p-0 w-100">
+            <span data-toggle="tooltip" title="{{ bc_tooltip_full_path }}">{{ bc_full_path }}</span>
+        </label>
+    </div>
+    <div class="col-sm-9">
+        <div class="form-radio-switcher-wrapper justify-content-start">
+            <label class="label-switcher label-switcher-pre" for="oxyo_breadcrumbs_full_path_0">{{ text_off }}</label>
+            <div class="form-radio form-radio-inline form-radio-switcher">
+                <input type="radio" name="settings[oxyo][oxyo_breadcrumbs_full_path]" value="0"{% if oxyo_breadcrumbs_full_path is not defined or oxyo_breadcrumbs_full_path == '0' %} checked="checked"{% endif %} id="oxyo_breadcrumbs_full_path_0" />
+                <input type="radio" name="settings[oxyo][oxyo_breadcrumbs_full_path]" value="1"{% if oxyo_breadcrumbs_full_path is defined and oxyo_breadcrumbs_full_path == '1' %} checked="checked"{% endif %} id="oxyo_breadcrumbs_full_path_1" />
+            </div>
+            <label class="label-switcher label-switcher-post" for="oxyo_breadcrumbs_full_path_1">{{ text_on }}</label>
+        </div>
+    </div>
 </div>
 
-<div class="form-group">
-<label class="col-sm-2 control-label">Product pages</label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_product]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_product == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_product == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_product == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_product == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_product == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_product == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_product == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_product == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_product == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_product == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_product == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_product == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_product == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_product == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
-</div>
+{# Product listing pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'listings', value: oxyo_titles_listings, texts: texts } %}
 
-<div class="form-group">
-<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Select page title style on account and affiliate pages">Account pages</span></label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_account]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_account == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_account == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_account == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_account == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_account == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_account == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_account == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_account == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_account == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_account == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_account == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_account == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_account == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_account == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
-</div>
+{# Product pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'product', value: oxyo_titles_product, texts: texts } %}
 
-<div class="form-group">
-<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Select page title style on shopping cart and checkout pages">Checkout</span></label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_checkout]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_checkout == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_checkout == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_checkout == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_checkout == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_checkout == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_checkout == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_checkout == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_checkout == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_checkout == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_checkout == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_checkout == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_checkout == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_checkout == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_checkout == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
-</div>
+{# Account pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'account', value: oxyo_titles_account, texts: texts } %}
 
-<div class="form-group">
-<label class="col-sm-2 control-label">Contact page</label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_contact]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_contact == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_contact == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_contact == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_contact == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_contact == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_contact == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_contact == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_contact == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_contact == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_contact == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_contact == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_contact == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_contact == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_contact == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
-</div>
+{# Checkout pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'checkout', value: oxyo_titles_checkout, texts: texts } %}
 
-<div class="form-group">
-<label class="col-sm-2 control-label">Blog pages</label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_blog]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_blog == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_blog == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_blog == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_blog == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_blog == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_blog == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_blog == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_blog == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_blog == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_blog == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_blog == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_blog == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_blog == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_blog == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
-</div>
+{# Contact pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'contact', value: oxyo_titles_contact, texts: texts } %}
 
-<div class="form-group">
-<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Select page title style on information pages. This style will also work as default fall back style">Catalog pages</span></label>
-<div class="col-sm-10">
-    <select name="settings[oxyo][oxyo_titles_default]" class="form-control">
-        <option value="default_bc"
-        {% if oxyo_titles_default == 'default_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc"
-        {% if oxyo_titles_default == 'default_bc full_width_bc' %} selected="selected"{% endif %}>
-        Default Style + Short Height + Full Width
-        </option>
-        <option value="default_bc normal_height_bc"
-        {% if oxyo_titles_default == 'default_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Boxed Width
-        </option>
-        <option value="default_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_default == 'default_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Default Style / Normal Height + Full Width
-        </option>
-        <option value="minimal_bc"
-        {% if oxyo_titles_default == 'minimal_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc"
-        {% if oxyo_titles_default == 'minimal_bc full_width_bc' %} selected="selected"{% endif %}>
-        Minimal + Short Height + Full Width
-        </option>
-        <option value="minimal_bc normal_height_bc"
-        {% if oxyo_titles_default == 'minimal_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Boxed Width
-        </option>
-        <option value="minimal_bc full_width_bc normal_height_bc"
-        {% if oxyo_titles_default == 'minimal_bc full_width_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal + Normal Height + Full Width
-        </option>
-        <option value="minimal_inline_bc"
-        {% if oxyo_titles_default == 'minimal_inline_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Short Height
-        </option>
-        <option value="minimal_inline_bc normal_height_bc"
-        {% if oxyo_titles_default == 'minimal_inline_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Minimal Inline + Normal Height
-        </option>
-        <option value="title_in_bc"{% if oxyo_titles_default == 'title_in_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Short Height
-        </option>
-        <option value="title_in_bc normal_height_bc"{% if oxyo_titles_default == 'title_in_bc normal_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Normal Height
-        </option>
-        <option value="title_in_bc tall_height_bc"{% if oxyo_titles_default == 'title_in_bc tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Tall Height
-        </option>
-        <option value="title_in_bc extra_tall_height_bc"{% if oxyo_titles_default == 'title_in_bc extra_tall_height_bc' %} selected="selected"{% endif %}>
-        Page Title Inside Breadcrumb + Extra Tall Height
-        </option>
-    </select>
-</div>                   
-</div>
+{# Blog pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'blog', value: oxyo_titles_blog, texts: texts } %}
 
+{# Default/catalog pages #}
+{% include 'extension/oxyo/panel_tabs/page-titles_template.twig' with { page: 'default', value: oxyo_titles_default, texts: texts } %}
+
+{# Back button #}
 <legend class="hidden d-none">Back button</legend>
 <div class="form-group hidden d-none">
-    <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Adds a back button in the breadcrumbs">Back button</span></label>
-    <div class="col-sm-10 toggle-btn">
-    <label><input type="radio" name="settings[oxyo][oxyo_back_btn]" value="0" {% if oxyo_back_btn == '0' %} checked="checked"{% endif %} /><span>Disabled</span></label>
-    <label><input type="radio" name="settings[oxyo][oxyo_back_btn]" value="1" {% if oxyo_back_btn == '1' %} checked="checked"{% endif %} /><span>Enabled</span></label>
-    </div>                   
+	<label class="col-sm-2 control-label">
+		<span data-toggle="tooltip" title="Adds a back button in the breadcrumbs">Back button</span>
+	</label>
+	<div class="col-sm-10 toggle-btn">
+		<label><input type="radio" name="settings[oxyo][oxyo_back_btn]" value="0" {% if oxyo_back_btn == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		</label>
+		<label><input type="radio" name="settings[oxyo][oxyo_back_btn]" value="1" {% if oxyo_back_btn == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		</label>
+	</div>
 </div>
-
-
