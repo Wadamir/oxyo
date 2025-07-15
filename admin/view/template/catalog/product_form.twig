@@ -460,8 +460,7 @@
 										{% set attribute_row = 0 %}
 										{% for product_attribute in product_attributes %}
 											<tr id="attribute-row{{ attribute_row }}">
-												<td class="text-left" style="width: 40%;"><input type="text" name="product_attribute[{{ attribute_row }}][name]" value="{{ product_attribute.name }}" placeholder="{{ entry_attribute }}" class="form-control"/>
-													<input type="hidden" name="product_attribute[{{ attribute_row }}][attribute_id]" value="{{ product_attribute.attribute_id }}"/></td>
+												<td class="text-left" style="width: 40%;"><input type="text" name="product_attribute[{{ attribute_row }}][name]" value="{{ product_attribute.name }}" placeholder="{{ entry_attribute }}" class="form-control"/> <input type="hidden" name="product_attribute[{{ attribute_row }}][attribute_id]" value="{{ product_attribute.attribute_id }}"/></td>
 												<td class="text-left">
 													{% for language in languages %}
 														<div class="input-group">
