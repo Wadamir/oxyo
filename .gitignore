@@ -17,6 +17,7 @@
 /admin/controller/catalog/*
 !/admin/controller/catalog/
 !/admin/controller/catalog/product.php
+!/admin/controller/catalog/bulk_copy.php
 
 /admin/controller/common/*
 !/admin/controller/common/
@@ -46,6 +47,7 @@
 /admin/language/en-gb/catalog/*
 !/admin/language/en-gb/catalog/
 !/admin/language/en-gb/catalog/product.php
+!/admin/language/en-gb/catalog/bulk_copy.php
 
 /admin/language/en-gb/extension/*
 !/admin/language/en-gb/extension/
@@ -66,6 +68,7 @@
 /admin/language/ru-ru/catalog/*
 !/admin/language/ru-ru/catalog/
 !/admin/language/ru-ru/catalog/product.php
+!/admin/language/ru-ru/catalog/bulk_copy.php
 
 /admin/language/ru-ru/extension/*
 !/admin/language/ru-ru/extension/
@@ -85,6 +88,7 @@
 /admin/model/catalog/*
 !/admin/model/catalog/
 !/admin/model/catalog/product.php
+!/admin/model/catalog/bulk_copy.php
 
 /admin/model/tool/*
 !/admin/model/tool/
@@ -110,6 +114,7 @@
 !/admin/view/stylesheet/
 !/admin/view/stylesheet/bootstrap.colorpickersliders.min.css
 !/admin/view/stylesheet/stylesheet.css
+!/admin/view/stylesheet/bulk_copy.css
 
 /admin/view/template/*
 !/admin/view/template/
@@ -118,6 +123,7 @@
 !/admin/view/template/catalog/
 !/admin/view/template/catalog/product_form.twig
 !/admin/view/template/catalog/product_list.twig
+!/admin/view/template/catalog/bulk_copy.twig
 
 /admin/view/template/common/*
 !/admin/view/template/common/
