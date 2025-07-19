@@ -12,6 +12,13 @@
     margin: 0 -3px;
     width: 100%;
 }
+.hpm-type-images > a,
+.hpm-type-images > div {
+    display: inline-block;
+    /* width: 100%; */
+    /* margin: 0 3px; */
+}
+
 .hpm-type-images .hpm-item {
     margin: 0;
     padding: 0;
