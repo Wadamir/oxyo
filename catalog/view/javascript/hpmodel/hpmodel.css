@@ -23,7 +23,7 @@
     text-align: center;
     max-width: 100px;
 
-    color: #666;
+    color: #1d262b;
 }
 .hpm-type-images .hpm-item > .hcol-image {
     margin: 0;
@@ -43,8 +43,17 @@
     width: 100%;
 }
 .hpm-type-images .hpm-item > div:not(.hcol-image) {
-    padding: 3px 5px;
-    min-width: 30px;
+    margin: 0;
+    margin-right: 8px;
+    padding: 4px 8px;
+
+    min-width: 45px;
+
+    border-radius: 8px;
+}
+.hpm-type-images .hpm-item.active > .hcol-attribute {
+    background-color: #1d262b;
+    color: #fff;
 }
 .hpm-type-images .hpm-item.active {
     /* box-shadow: 0 0 5px rgba(33, 153, 198, 0.45); */
