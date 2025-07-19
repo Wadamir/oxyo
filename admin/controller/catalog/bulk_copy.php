@@ -144,6 +144,8 @@ class ControllerCatalogBulkCopy extends Controller
             $this->response->setOutput(json_encode($json));
             return;
         }
+        $products_status = isset($this->request->post['products_status']) ? (int)$this->request->post['products_status'] : 0;
+        $products_title = isset($this->request->post['products_title']) ? (int)$this->request->post['products_title'] : 0;
 
         $json['data'] = [
             'product_id' => $product_id,
@@ -153,9 +155,16 @@ class ControllerCatalogBulkCopy extends Controller
 
         $this->load->model('catalog/bulk_copy');
 
+        $new_products = [];
         foreach ($attribute_values as $value) {
-            $copy_product_result = $this->model_catalog_bulk_copy->copyProduct($product_id, $attribute_id, $value);
-            $json['data']['copy_product_result'][] = $copy_product_result;
+            $copy_product_result = $this->model_catalog_bulk_copy->copyProduct($product_id, $attribute_id, $value, $products_status, $products_title);
+            $new_products[] = $copy_product_result;
+        }
+        
+        if (empty($new_products)) {
+            $json['error'] = $this->language->get('error_fetching_data');
+        } else {
+            $json['success'] = sprintf($this->language->get('text_success'), count($new_products));
         }
 
 

@@ -42,6 +42,25 @@
 		</div>
 	</div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="bulkCopyModalSuccess" tabindex="-1" role="dialog" aria-labelledby="bulkCopyModalLabelSuccess">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="bulkCopyModalLabelSuccess">{{ heading_title }}</h3>
+			</div>
+			<div class="modal-body">
+                <h5 class="text-success m-0">{{ text_loading }}</h5>
+            </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">{{ text_cancel }}</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('btnBulkCopyModal').addEventListener('click', function () {
@@ -92,6 +111,12 @@
 
                     formBulkCopy.innerHTML     += `<p class="text-description small">{{ text_new_products }}</p>`;
                     formBulkCopy.innerHTML     += `<div id="newProductsList" class="mb-2"></div>`;
+                    formBulkCopy.innerHTML     += `<hr class="my-2">`;
+
+                    formBulkCopy.innerHTML     += `<div class="checkbox-item"><input type="checkbox" id="products_status" class="checkbox-input" name="products_status" value="1" checked /><label for="products_status" class="checkbox-label">{{ text_products_status }}</label></div>`;
+                    formBulkCopy.innerHTML     += `<hr class="my-2">`;
+
+                    formBulkCopy.innerHTML     += `<div class="checkbox-item"><input type="checkbox" id="products_title" class="checkbox-input" name="products_title" value="1" checked /><label for="products_title" class="checkbox-label">{{ text_products_title }}</label></div>`;
 
 					$('#bulkCopyModal').modal('show');
 
@@ -121,16 +146,29 @@
                 console.error('Form with id "bulk_copy_product" not found.');
                 return;
             }
+
+            let bulkCopyBtn = document.getElementById('bulk_copy_btn');
+            bulkCopyBtn.disabled = true; // Disable the button while fetching data
+            bulkCopyBtn.classList.add('disabled');
+
+            let bulkCopyErrorEl = document.getElementById('bulkCopyError');
+            bulkCopyErrorEl.style.display = 'none'; // Hide any previous error messages
+            bulkCopyErrorEl.innerHTML = ''; // Clear previous error message
+
+            let bulkCopyModalSuccessEl = document.getElementById('bulkCopyModalSuccess');
+
             let productId = formBulkCopy.querySelector('input[name="product_id"]').value;
             let selectedAttribute = formBulkCopy.querySelector('select[name="bulk_copy_attribute"]');
             let selectedAttributeValues = Array.from(document.querySelectorAll('#newProductsList input[name="attribute_value"]:checked')).map(input => parseInt(input.value));
-            // console.log('selectedAttributeValues:', selectedAttributeValues);
-            // console.log(JSON.stringify(selectedAttributeValues));
+            let productsStatus = formBulkCopy.querySelector('input[name="products_status"]').checked ? 1 : 0;
+            let productsTitle = formBulkCopy.querySelector('input[name="products_title"]').checked ? 1 : 0;
 
             let formData = new FormData();
             formData.append('product_id', productId);
             formData.append('attribute_id', selectedAttribute.value);
             formData.append('attribute_values', JSON.stringify(selectedAttributeValues));
+            formData.append('products_status', productsStatus);
+            formData.append('products_title', productsTitle);
 
             fetch('index.php?route=catalog/bulk_copy/bulkCopyProduct&user_token={{ user_token }}', {
                 method: 'POST',
@@ -141,26 +179,39 @@
                 console.log('Response Data:', data);
                 if (data.error) {
                     console.error('Error:', data);
-                    let bulkCopyErrorEl = document.getElementById('bulkCopyError');
+                    
                     bulkCopyErrorEl.innerHTML = data.error;
                     bulkCopyErrorEl.style.display = 'block';
                     setTimeout(() => {
                         bulkCopyErrorEl.style.display = 'none';
                         bulkCopyErrorEl.innerHTML = '';
-                    }, 3000);
+
+                        bulkCopyBtn.disabled = false; // Re-enable the button after success
+                        bulkCopyBtn.classList.remove('disabled');
+                    }, 2000);
                 }
                 if (data.success) {
                     console.log('Success:', data.success);
-                    $('#bulkCopyModal').modal('hide');  
-                    document.querySelector('#bulkCopyModalError .modal-body .text-danger').textContent = data.success;
-                    $('#bulkCopyModalError').modal('show');
-                    // Optionally, you can refresh the product list or redirect to another page
+                    $('#bulkCopyModal').modal('hide');
+                    bulkCopyModalSuccessEl.querySelector('.modal-body').innerHTML = `<h3 class="text-success m-0">${data.success}</h3>`;
+                    $('#bulkCopyModalSuccess').modal('show');
+                    setTimeout(() => {
+                        $('#bulkCopyModalSuccess').modal('hide');
+                        // refresh the product list or perform any other action
+                        location.reload(); // Reload the page to reflect changes
+                    }, 2000);
                 }
             })
             .catch(err => {
                 console.error('Fetch error:', err);
-                document.querySelector('#bulkCopyModalError .modal-body .text-danger').textContent = '{{ text_error_copying }}';
-                $('#bulkCopyModalError').modal('show');
+                bulkCopyErrorEl.innerHTML = '{{ error_fetching_data }}';
+                bulkCopyErrorEl.style.display = 'block';
+                setTimeout(() => {
+                    bulkCopyErrorEl.style.display = 'none';
+                    bulkCopyErrorEl.innerHTML = '';
+                }, 2000);
+                bulkCopyBtn.disabled = false; // Re-enable the button after error
+                bulkCopyBtn.classList.remove('disabled');
             });
             return false; // Prevent default form submission
         });
@@ -193,7 +244,7 @@
                 if (data.attribute_values && data.attribute_values.length > 0) {
                     let list = '<div class="list-unstyled list-rounded">';
                     data.attribute_values.forEach(value => {
-                        list += `<div class="checkbox-item"><input type="checkbox" id="indigo_${value.value_id}" class="checkbox-input attribute_values" name="attribute_value" value="${value.value_id}" checked /><label for="indigo_${value.value_id}" class="checkbox-label">${productName}, ${attributeName} - ${value.name}</label></div>`;
+                        list += `<div class="checkbox-item"><input type="checkbox" id="attribute_value_${value.value_id}" class="checkbox-input attribute_values" name="attribute_value" value="${value.value_id}" checked /><label for="attribute_value_${value.value_id}" class="checkbox-label">${productName}, ${attributeName}: ${value.name}</label></div>`;
                     });
                     list += '</div>';
                     newProductsList.innerHTML = list;

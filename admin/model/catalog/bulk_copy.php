@@ -147,7 +147,7 @@ class ModelCatalogBulkCopy extends Model
 
 
 
-    public function copyProduct($product_id, $attribute_id, $attribute_value)
+    public function copyProduct($product_id, $attribute_id, $attribute_value, $products_status = 0, $products_title = 0)
     {
         $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product p WHERE p.product_id = '" . (int)$product_id . "'");
 
@@ -158,7 +158,7 @@ class ModelCatalogBulkCopy extends Model
             // $data['upc'] = '';
             // $data['viewed'] = '0';
             // $data['keyword'] = '';
-            $data['status'] = '0';
+            $data['status'] = (int)$products_status;
 
             $product_attribute = $this->getProductAttributes($product_id);
             $data['product_attribute'] = [];
@@ -181,6 +181,32 @@ class ModelCatalogBulkCopy extends Model
             // return $data['product_attribute'];
 
             $data['product_description'] = $this->getProductDescriptions($product_id);
+            $products_title = (int)$products_title;
+
+            if ($products_title) {
+                $new_product_description = [];
+                $new_attribute_description = $this->getAttributeDescription($attribute_id);
+                foreach ($data['product_description'] as $language_id => $description) {
+                    $new_product_description[$language_id] = [
+                        'name' => $description['name'],
+                        'description' => $description['description'],
+                        'meta_title' => $description['meta_title'],
+                        'meta_description' => $description['meta_description'],
+                        'meta_keyword' => $description['meta_keyword'],
+                        'tag' => $description['tag']
+                    ];
+                    if (isset($new_attribute_description[$language_id])) {
+                        $new_product_description[$language_id]['name'] .= ', ' . $new_attribute_description[$language_id]['name'];
+                        $new_product_description[$language_id]['meta_title'] .= ', ' . $new_attribute_description[$language_id]['name'];
+                    }
+                    if (isset($new_attribute_value[$language_id])) {
+                        $new_product_description[$language_id]['name'] .= ': ' . $new_attribute_value[$language_id]['text'];
+                        $new_product_description[$language_id]['meta_title'] .= ': ' . $new_attribute_value[$language_id]['text'];
+                    }
+                }
+                $data['product_description'] = $new_product_description;
+            }
+
             $data['product_discount'] = $this->getProductDiscounts($product_id);
             $data['product_filter'] = $this->getProductFilters($product_id);
             $data['product_image'] = $this->getProductImages($product_id);
@@ -198,21 +224,34 @@ class ModelCatalogBulkCopy extends Model
         }
     }
 
+    private function getAttributeDescription($attribute_id)
+    {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "attribute_description WHERE attribute_id = '" . (int)$attribute_id . "'");
+
+        $attribute_descriptions = [];
+        if ($query->num_rows) {
+            foreach ($query->rows as $row) {
+                $attribute_descriptions[$row['language_id']] = [
+                    'name' => $row['name'],
+                ];
+            }
+        }
+        return $attribute_descriptions;
+    }
+
     private function getAttributeValueDescription($attribute_value_id)
     {
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "attribute_value_description WHERE attribute_value_id = '" . (int)$attribute_value_id . "'");
 
+        $attribute_values = [];
         if ($query->num_rows) {
-            $attribute_values = [];
             foreach ($query->rows as $row) {
                 $attribute_values[$row['language_id']] = [
                     'text' => $row['name']
                 ];
             }
-            return $attribute_values;
-        } else {
-            return [];
         }
+        return $attribute_values;
     }
 
 
