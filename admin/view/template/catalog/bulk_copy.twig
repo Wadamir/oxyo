@@ -107,14 +107,14 @@
 						list += '</select>';
 						formBulkCopy.innerHTML += list;
 					}
-                    formBulkCopy.innerHTML     += `<hr class="my-2">`;
+                    formBulkCopy.innerHTML     += `<hr class="my-1">`;
 
                     formBulkCopy.innerHTML     += `<p class="text-description small">{{ text_new_products }}</p>`;
                     formBulkCopy.innerHTML     += `<div id="newProductsList" class="mb-2"></div>`;
-                    formBulkCopy.innerHTML     += `<hr class="my-2">`;
+                    formBulkCopy.innerHTML     += `<hr class="my-1">`;
 
                     formBulkCopy.innerHTML     += `<div class="checkbox-item"><input type="checkbox" id="products_status" class="checkbox-input" name="products_status" value="1" checked /><label for="products_status" class="checkbox-label">{{ text_products_status }}</label></div>`;
-                    formBulkCopy.innerHTML     += `<hr class="my-2">`;
+                    formBulkCopy.innerHTML     += `<hr class="my-1">`;
 
                     formBulkCopy.innerHTML     += `<div class="checkbox-item"><input type="checkbox" id="products_title" class="checkbox-input" name="products_title" value="1" checked /><label for="products_title" class="checkbox-label">{{ text_products_title }}</label></div>`;
 
@@ -242,14 +242,27 @@
                 }
 
                 if (data.attribute_values && data.attribute_values.length > 0) {
+                    // Select / deselect all checkbox
+                    let selectAllCheckbox = `<div class="checkbox-item my-2"><input type="checkbox" id="select_all_attribute_values" class="checkbox-input" name="select_all_attribute_values" value="1" checked /><label for="select_all_attribute_values" class="checkbox-label text-description">{{ text_select_all_values }}</label></div>`;
+
                     let list = '<div class="list-unstyled list-rounded">';
                     data.attribute_values.forEach(value => {
                         list += `<div class="checkbox-item"><input type="checkbox" id="attribute_value_${value.value_id}" class="checkbox-input attribute_values" name="attribute_value" value="${value.value_id}" checked /><label for="attribute_value_${value.value_id}" class="checkbox-label">${productName}, ${attributeName}: ${value.name}</label></div>`;
                     });
                     list += '</div>';
-                    newProductsList.innerHTML = list;
+
+                    newProductsList.innerHTML = selectAllCheckbox + list;
+
                     bulkCopyBtn.disabled = false; // Enable the button after fetching data
                     bulkCopyBtn.classList.remove('disabled');
+
+                    // Add event listener for select all checkbox
+                    document.getElementById('select_all_attribute_values').addEventListener('change', function () {
+                        let checkboxes = document.querySelectorAll('#newProductsList input[name="attribute_value"]');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = this.checked;
+                        });
+                    });
                 } else {
                     newProductsList.innerHTML = '<p class="text-muted">{{ text_no_values }}</p>';
                 }

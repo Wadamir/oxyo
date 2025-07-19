@@ -22,6 +22,42 @@
         border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Плавные анимации */
 }
 
+#bulkCopyModal .m-0 {
+    margin: 0;
+}
+
+#bulkCopyModal .mb-0 {
+    margin-bottom: 0;
+}
+
+#bulkCopyModal .mt-0 {
+    margin-top: 0;
+}
+
+#bulkCopyModal .my-1 {
+    margin: 1rem 0 !important;
+}
+
+#bulkCopyModal .mt-1 {
+    margin-top: 1rem;
+}
+
+#bulkCopyModal .mb-1 {
+    margin-bottom: 1rem;
+}
+
+#bulkCopyModal .my-2 {
+    margin: 2rem 0 !important;
+}
+
+#bulkCopyModal .p-0 {
+    padding: 0;
+}
+
+#bulkCopyModal .p-1 {
+    padding: 1rem;
+}
+
 #bulkCopyModal input[type='checkbox']:checked::after,
 #bulkCopyModal .checkbox input[type='checkbox']:checked::after,
 #bulkCopyModal .checkbox-inline input[type='checkbox']:checked::after {
