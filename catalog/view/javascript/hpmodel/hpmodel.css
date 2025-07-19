@@ -79,6 +79,9 @@
 
     border: 1px solid transparent;
     border-radius: 16px;
+
+    width: 56px;
+    height: 56px;
 }
 .hpm-type-images .hpm-item.active > .hcol-image {
     border-color: #1d262b;
