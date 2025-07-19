@@ -17,15 +17,19 @@
     padding: 4px;
 
     cursor: pointer;
-    border-radius: 16px;
+    border-radius: 8px;
     border: 1px solid transparent;
     float: left;
     text-align: center;
     max-width: 100px;
     color: #666;
 }
+.hpm-type-images .hpm-type-images .hpm-item {
+    border-radius: 16px;
+}
 .hpm-item > .hcol-image {
     border-radius: 12px;
+    overflow: hidden;
 }
 .hpm-type-images .hcol-image img {
     width: 100%;
