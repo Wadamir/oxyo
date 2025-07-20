@@ -107,21 +107,19 @@ class ModelExtensionModuleHpmodel extends Model
             return 0;
         }
 
-        $query = $this->db->query("SELECT attribute_value_id FROM " . DB_PREFIX . "attribute_value_description WHERE attribute_id = '" . (int)$attribute_id . "' AND name = '" . $this->db->escape($value) . "' LIMIT 1");
-        if (!$query->num_rows) {
-            return 0;
-        }
-        $attribute_value_id = (int)$query->row['attribute_value_id'];
-        if (!$attribute_value_id) {
-            return 0;
-        }
+        $sql = "SELECT av.sort_order FROM " . DB_PREFIX . "attribute_value av
+                LEFT JOIN " . DB_PREFIX . "attribute_value_description avd ON (av.attribute_value_id = avd.attribute_value_id)
+                WHERE av.attribute_id = '" . (int)$attribute_id . "'
+                AND avd.name = '" . $this->db->escape($value) . "'
+                AND avd.language_id = '" . (int)$this->config->get('config_language_id') . "'
+                LIMIT 1";
 
-        $query = $this->db->query("SELECT sort_order FROM " . DB_PREFIX . "attribute_value WHERE attribute_id = '" . (int)$attribute_id . "' AND attribute_value_id = '" . (int)$attribute_value_id . "' LIMIT 1");
+        $query = $this->db->query($sql);
 
         if ($query->num_rows) {
             return (int)$query->row['sort_order'];
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 }
