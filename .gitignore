@@ -167,6 +167,9 @@
 
 /catalog/language/en-gb/*
 !/catalog/language/en-gb/
+/catalog/language/en-gb/product/*
+!/catalog/language/en-gb/product/
+!/catalog/language/en-gb/product/product.php
 /catalog/language/en-gb/extension/*
 !/catalog/language/en-gb/extension/
 !/catalog/language/en-gb/extension/blog/
@@ -178,7 +181,9 @@
 
 /catalog/language/ru-ru/*
 !/catalog/language/ru-ru/
+/catalog/language/ru-ru/product/*
 !/catalog/language/ru-ru/product/
+!/catalog/language/ru-ru/product/product.php
 /catalog/language/ru-ru/extension/*
 !/catalog/language/ru-ru/extension/
 !/catalog/language/ru-ru/extension/blog/
@@ -263,5 +268,12 @@
 !/system/oxyo_theme_3X.ocmod.xml
 !/system/oxyo_video_support.ocmod.xml
 !/system/hyper_multi_product_models.ocmod.xml
+
+/system/library/*
+!/system/library/
+/system/library/cart/*
+!/system/library/cart/
+!/system/library/cart/weight.php
+
 
 /storage/*

@@ -30,6 +30,7 @@ $_['text_week']                = 'недели';
 $_['text_semi_month']          = 'полмесяца';
 $_['text_month']               = 'месяц';
 $_['text_year']                = 'год';
+$_['text_weight']              = 'Вес:';
 
 // Entry
 $_['entry_qty']                = 'Количество';

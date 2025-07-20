@@ -143,9 +143,14 @@
 						{% endif %}
 
                         <p class="info"><b>{{ text_model }}</b> {{ model }}</p>
+                        {% if weight %}
+                            <p class="info"><b>{{ text_weight }}</b> {{ weight }}</p>
+                        {% endif %}
+                        <!-- if weight ends -->
                         {% if manufacturer %}
                             <p class="info"><b>{{ text_manufacturer }}</b> <a class="hover_uline" href="{{ manufacturers }}">{{ manufacturer }}</a></p>
-                        {% endif %}                          
+                        {% endif %}            
+                        <!-- if manufacturer ends -->
                         <p class="info{% if qty > 0 %} in_stock{% endif %}"><b>{{ text_stock }}</b> {{ stock }}</p>                   
 
                         {% if meta_description_status and meta_description %}
