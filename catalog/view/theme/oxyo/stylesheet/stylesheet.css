@@ -7710,6 +7710,8 @@ a.button-circle {
     padding: 0 12px;
 
     width: 100%;
+
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
 }
 
 @media (min-width: 768px) {
@@ -7825,14 +7827,21 @@ a.button-circle {
 
 .image-additional .link > img {
     width: 100%;
-
-    border-radius: 6px;
+    border-radius: 0;
 }
 
-.image-additional .link.active > img {
-    display: block;
-    outline: 2px solid var(--text-accent-color, #e61f80);
-    outline-offset: -2px;
+@media (min-width: 768px) {
+    .image-additional .link > img {
+        border-radius: 6px;
+    }
+}
+
+@media (min-width: 992px) {
+    .image-additional .link.active > img {
+        display: block;
+        outline: 2px solid var(--text-accent-color, #e61f80);
+        outline-offset: -2px;
+    }
 }
 
 .image-additional .link .video-placeholder {
@@ -8122,17 +8131,17 @@ a.button-circle {
 }
 
 .product-info .right h1#page-title {
-    font-size: 26px;
+    font-size: 24px;
     margin: 7px 0 14px;
     line-height: 1;
 }
 
-@media (min-width: 576px) {
+/* @media (min-width: 576px) {
     .product-info .right h1#page-title {
-        font-size: 32px;
+        font-size: 24px;
         line-height: 1.2;
     }
-}
+} */
 
 @media (min-width: 768px) {
     .product-info .table-cell.right {
@@ -8141,8 +8150,15 @@ a.button-circle {
     }
 
     .product-info .right h1#page-title {
-        font-size: 38px;
+        font-size: 28px;
         line-height: 1.25;
+    }
+}
+
+@media (min-width: 992px) {
+    .product-info .right h1#page-title {
+        font-size: 32px;
+        line-height: 1.2;
     }
 }
 
@@ -8161,6 +8177,9 @@ a.button-circle {
     padding: 0;
     /* margin-bottom: 13px; */
     font-size: 2em;
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+    font-weight: 500;
+
     line-height: 1;
 }
 
@@ -8321,6 +8340,31 @@ a.button-circle {
     margin-bottom: 12px;
     line-height: 22px;
     vertical-align: middle;
+}
+
+.wishlist_compare {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.wishlist_compare > p {
+    margin: 0;
+    margin-right: 15px;
+    font-size: 14px;
+    line-height: 1;
+    /* color: #666666; */
+}
+
+.wishlist_compare > p > a {
+    display: inline-block;
+}
+
+.wishlist_compare > p i {
+    font-size: 24px;
 }
 
 .product-info .table-cell.right p.info.is_wishlist,

@@ -111,7 +111,14 @@
 
 				<div class="table-cell__ w100 right">
 					<div class="inner">
-
+                        <div class="wishlist_compare">
+                            <p class="info is_wishlist">
+                                <a onclick="wishlist.add('{{ product_id }}');"><i class="icon-heart"></i></a>
+                            </p>
+                            <p class="info is_compare">
+                                <a onclick="compare.add('{{ product_id }}');"><i class="icon-refresh"></i></a>
+                            </p>
+                        </div>
 						<div class="product-h1">
 							<h1 id="page-title">{{ heading_title }}</h1>
 						</div>
@@ -125,9 +132,15 @@
 									<i class="fa fa-star-o"></i>
 									<i class="fa fa-star-o"></i>
 								</span>
+                                <span class="review_link">(<a class="hover_uline to_tabs" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">{{ reviews }}</a>)</span>
 							</div>
-							<span class="review_link">(<a class="hover_uline to_tabs" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">{{ reviews }}</a>)</span>
 						{% endif %}
+
+                        <p class="info"><b>{{ text_model }}</b> {{ model }}</p>
+                        {% if manufacturer %}
+                            <p class="info"><b>{{ text_manufacturer }}</b> <a class="hover_uline" href="{{ manufacturers }}">{{ manufacturer }}</a></p>
+                        {% endif %}                          
+                        <p class="info{% if qty > 0 %} in_stock{% endif %}"><b>{{ text_stock }}</b> {{ stock }}</p>                      
 
 						{% if price %}
 							<ul class="list-unstyled price">
@@ -365,13 +378,6 @@
 
                         </div>
                         <!-- #product ends -->
-
-                        <p class="info is_wishlist">
-                            <a onclick="wishlist.add('{{ product_id }}');"><i class="icon-heart"></i>{{ button_wishlist }}</a>
-                        </p>
-                        <p class="info is_compare">
-                            <a onclick="compare.add('{{ product_id }}');"><i class="icon-refresh"></i>{{ button_compare }}</a>
-                        </p>
                         {% if question_status %}
                             <p class="info is_ask">
                                 <a class="to_tabs" onclick="$('a[href=\'#tab-questions\']').trigger('click'); return false;"><i class="icon-question"></i>{{ oxyo_button_ask }}</a>
@@ -389,14 +395,6 @@
                             {% if price and points %}
                                 <p class="info"><b>{{ text_points }}</b>{{ points }}</p>
                             {% endif %}
-
-                            <p class="info {% if qty > 0 %}in_stock{% endif %}"><b>{{ text_stock }}</b>{{ stock }}</p>
-
-                            {% if manufacturer %}
-                                <p class="info"><b>{{ text_manufacturer }}</b><a class="hover_uline" href="{{ manufacturers }}">{{ manufacturer }}</a></p>
-                            {% endif %}
-
-                            <p class="info"><b>{{ text_model }}</b>{{ model }}</p>
 
                             {% if reward %}
                                 <p class="info"><b>{{ text_reward }}</b>{{ reward }}</p>
@@ -1220,7 +1218,7 @@
                 slidesToScroll: 1,
                 responsive: [
                     {
-                        breakpoint: 991,
+                        breakpoint: 992,
                         settings: {
                             vertical: false,
                             verticalSwiping: false,
