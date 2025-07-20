@@ -330,8 +330,11 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
             foreach ($config_groups as $group_id => &$config_group) {
                 $column = $config_group['key']['type'];
 
+                $sort_order = 0;
                 if ($column == 'attribute') {
                     $key_value = !empty($attributes[$config_group['key']['id']]) ? $attributes[$config_group['key']['id']] : '';
+                    $sort_order = $this->model_extension_module_hpmodel->getAttributeValueSortOrder($config_group['key']['id'], $key_value);
+                    var_dump($sort_order);
                 } else if ($column == 'filter') {
                     $key_value = !empty($filters[$config_group['key']['id']]) ? $filters[$config_group['key']['id']] : '';
                 } else if ($column == 'col_weight') {
