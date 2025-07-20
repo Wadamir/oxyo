@@ -52,9 +52,12 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         // });
 
 
-        foreach ($data['groups'] as $group) {
+        foreach ($data['groups'] as $group_key => $group) {
             // Show type of var
-            print_r(gettype($group['value']));
+            foreach ($group['value'] as $key => $value) {
+                print_r($value['sort_order']);
+                echo "<br />";
+            }
         }
 
         if (!empty($type['setting']['hidden_if_next'])) {
