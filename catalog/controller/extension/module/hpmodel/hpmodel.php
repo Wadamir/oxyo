@@ -297,7 +297,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
                 $attributes = array();
             }
 
-            var_dump($attributes);
+            // var_dump($attributes);
 
             if ($filters_id) {
                 $filters = $this->model_extension_module_hpmodel->getProductFilters($product_id, $filters_id);
