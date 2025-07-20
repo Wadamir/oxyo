@@ -48,12 +48,14 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         $data['groups'] = $result['groups'];
 
         foreach ($data['groups'] as $group) {
-            foreach ($group['value'] as $key => $value) {
-                print_r($key);
-                echo "<br />";
-                print_r($value);
-                echo "<br />";
-            }
+            print_r($group);
+            echo "<br />";
+            // foreach ($group['value'] as $key => $value) {
+            //     print_r($key);
+            //     echo "<br />";
+            //     print_r($value);
+            //     echo "<br />";
+            // }
         }
 
         if (!empty($type['setting']['hidden_if_next'])) {
