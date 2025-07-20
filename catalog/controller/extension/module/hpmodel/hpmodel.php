@@ -47,8 +47,12 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         $data['products'] = $result['products'];
         $data['groups'] = $result['groups'];
 
+        uasort($data['groups'], function ($a, $b) {
+            return (int)$a['value']['sort_order'] <=> (int)$b['value']['sort_order'];
+        });
+
         foreach ($data['groups'] as $group) {
-            print_r($group);
+            print_r($group['value']);
         }
 
         if (!empty($type['setting']['hidden_if_next'])) {
