@@ -99,7 +99,7 @@
 .hpm-type-images .hpm-item > div:not(.hcol-image) {
     margin: 0;
     margin-right: 8px;
-    padding: 4px 8px;
+    padding: 6px 8px 4px 8px;
 
     min-width: 45px;
 
@@ -107,6 +107,9 @@
 
     background-color: #f1f1f1;
     color: #1d262b;
+
+    font-size: 14px;
+    line-height: 22px;
 }
 .hpm-type-images .hpm-item:hover > .hcol-attribute {
     background-color: #ced3d6;

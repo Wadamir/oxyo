@@ -133,6 +133,12 @@
 									<i class="fa fa-star-o"></i>
 								</span>
                                 <span class="review_link">(<a class="hover_uline to_tabs" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">{{ reviews }}</a>)</span>
+
+                                {% if question_status %}
+                                    <p class="info is_ask">
+                                        <a class="to_tabs" onclick="$('a[href=\'#tab-questions\']').trigger('click'); return false;"><i class="icon-question"></i>{{ oxyo_button_ask }}</a>
+                                    </p>
+                                {% endif %}
 							</div>
 						{% endif %}
 
@@ -140,32 +146,11 @@
                         {% if manufacturer %}
                             <p class="info"><b>{{ text_manufacturer }}</b> <a class="hover_uline" href="{{ manufacturers }}">{{ manufacturer }}</a></p>
                         {% endif %}                          
-                        <p class="info{% if qty > 0 %} in_stock{% endif %}"><b>{{ text_stock }}</b> {{ stock }}</p>                      
-
-						{% if price %}
-							<ul class="list-unstyled price">
-								{% if not special %}
-									<li><span class="live-price">{{ price }}<span></li>
-								{% else %}
-									<li><span class="price-old">{{ price }}</span><span class="live-price-new">{{ special }}<span></li>
-									<li><span id="special_countdown"></span></li>
-								{% endif %}
-							</ul>
-
-                            {% if discounts %}
-                                <p class="discount">
-                                    {% for discount in discounts %}
-                                        <span>{{ discount.quantity }}{{ text_discount }}<i class="price">{{ discount.price }}</i></span>
-                                    {% endfor %}
-                                </p>
-                            {% endif %}
-
-                        {% endif %}
-                        <!-- if price ends -->
+                        <p class="info{% if qty > 0 %} in_stock{% endif %}"><b>{{ text_stock }}</b> {{ stock }}</p>                   
 
                         {% if meta_description_status and meta_description %}
                             <p class="meta_description">{{ meta_description }}</p>
-                        {% endif %}
+                        {% endif %}                           
 
                         <div id="product">
 
@@ -361,6 +346,27 @@
                             {% endif %}
                             <!-- if recurrings ends -->
 
+                            {% if price %}
+                                <ul class="list-unstyled price">
+                                    {% if not special %}
+                                        <li><span class="live-price">{{ price }}<span></li>
+                                    {% else %}
+                                        <li><span class="price-old">{{ price }}</span><span class="live-price-new">{{ special }}<span></li>
+                                        <li><span id="special_countdown"></span></li>
+                                    {% endif %}
+                                </ul>
+
+                                {% if discounts %}
+                                    <p class="discount">
+                                        {% for discount in discounts %}
+                                            <span>{{ discount.quantity }}{{ text_discount }}<i class="price">{{ discount.price }}</i></span>
+                                        {% endfor %}
+                                    </p>
+                                {% endif %}
+
+                            {% endif %}
+                            <!-- if price ends -->                            
+
                             <div class="form-group buy catalog_hide">
                                 <input type="number" step="1" min="{{ minimum }}" name="quantity" value="{{ minimum }}" id="input-quantity" class="form-control input-quantity"/>
                                 <input type="hidden" name="product_id" value="{{ product_id }}"/>
@@ -378,11 +384,6 @@
 
                         </div>
                         <!-- #product ends -->
-                        {% if question_status %}
-                            <p class="info is_ask">
-                                <a class="to_tabs" onclick="$('a[href=\'#tab-questions\']').trigger('click'); return false;"><i class="icon-question"></i>{{ oxyo_button_ask }}</a>
-                            </p>
-                        {% endif %}
 
                         <div class="clearfix"></div>
 
