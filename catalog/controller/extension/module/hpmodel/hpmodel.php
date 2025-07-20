@@ -283,7 +283,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
             }
         }
 
-        var_dump($attributes_id);
+        // var_dump($attributes_id);
 
 
         $products = array();
