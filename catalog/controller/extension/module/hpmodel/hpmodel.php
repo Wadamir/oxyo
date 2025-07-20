@@ -51,7 +51,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
             foreach ($group['value'] as $key => $value) {
                 print_r($key);
                 echo "<br />";
-                print_r($value);
+                print_r($value['view']['attribute']);
             }
         }
 
