@@ -334,7 +334,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
                 if ($column == 'attribute') {
                     $key_value = !empty($attributes[$config_group['key']['id']]) ? $attributes[$config_group['key']['id']] : '';
                     $sort_order = $this->model_extension_module_hpmodel->getAttributeValueSortOrder($config_group['key']['id'], $key_value);
-                    var_dump($sort_order);
+                    // var_dump($sort_order);
                 } else if ($column == 'filter') {
                     $key_value = !empty($filters[$config_group['key']['id']]) ? $filters[$config_group['key']['id']] : '';
                 } else if ($column == 'col_weight') {
@@ -359,6 +359,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
 
                 if (!isset($config_group['value'][$key_value])) {
                     $config_group['value'][$key_value] = array(
+                        'sort_order' => $sort_order,
                         'view'      => array(),
                         'view_text' => '',
                         'id'        => array()
