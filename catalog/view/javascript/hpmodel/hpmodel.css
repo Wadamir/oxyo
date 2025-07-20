@@ -5,6 +5,9 @@
     clear: both;
 }
 .hpm-title {
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 0;
     font-weight: bold;
     width: 100%;
 }
@@ -105,9 +108,12 @@
     background-color: #f1f1f1;
     color: #1d262b;
 }
+.hpm-type-images .hpm-item:hover > .hcol-attribute {
+    background-color: #ced3d6;
+}
 .hpm-type-images .hpm-item.active > .hcol-attribute {
     background-color: #1d262b;
-    color: #fff;
+    color: #ffffff;
 }
 .hpm-type-images .hpm-item.active {
     /* box-shadow: 0 0 5px rgba(33, 153, 198, 0.45); */
