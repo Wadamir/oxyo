@@ -48,9 +48,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         $data['groups'] = $result['groups'];
 
         foreach ($data['groups'] as $group) {
-            usort($group, function ($a, $b) {
-                return (int)$a['sort_order'] <=> (int)$b['sort_order'];
-            });
+            print_r($group);
         }
 
         if (!empty($type['setting']['hidden_if_next'])) {
