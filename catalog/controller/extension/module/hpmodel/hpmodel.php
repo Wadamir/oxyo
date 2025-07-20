@@ -47,13 +47,18 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         $data['products'] = $result['products'];
         $data['groups'] = $result['groups'];
 
+        usort($data['groups'], function ($a, $b) {
+            return (int)$a['sort_order'] <=> (int)$b['sort_order'];
+        });
+
+
         foreach ($data['groups'] as $group) {
             // print_r($group);
             // echo "<br />";
             foreach ($group['value'] as $key => $value) {
                 print_r($key);
                 echo "<br />";
-                print_r($value);
+                print_r($value['sort_order']);
                 echo "<br />";
             }
         }
