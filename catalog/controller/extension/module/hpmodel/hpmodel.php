@@ -46,7 +46,7 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         $result = $this->prepareProducts($type['setting'], $childs, $parent);
         $data['products'] = $result['products'];
         $data['groups'] = $result['groups'];
-        var_dump($data['groups']);
+        // var_dump($data['groups']);
 
 
         if (!empty($type['setting']['hidden_if_next'])) {
