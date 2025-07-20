@@ -107,7 +107,7 @@ class ModelExtensionModuleHpmodel extends Model
             return 0;
         }
 
-        $query = $this->db->query("SELECT attribute_value_id FROM " . DB_PREFIX . "attribute_value_description WHERE attribute_id = '" . (int)$attribute_id . "' AND value = '" . $this->db->escape($value) . "' LIMIT 1");
+        $query = $this->db->query("SELECT attribute_value_id FROM " . DB_PREFIX . "attribute_value_description WHERE attribute_id = '" . (int)$attribute_id . "' AND name = '" . $this->db->escape($value) . "' LIMIT 1");
         if (!$query->num_rows) {
             return 0;
         }
