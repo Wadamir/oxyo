@@ -58,13 +58,13 @@ class ControllerExtensionModuleHpmodelHpmodel extends Controller
         }
         unset($group); // break the reference
 
-        foreach ($data['groups'] as $group_key => $group) {
-            // Show type of var
-            foreach ($group['value'] as $key => $value) {
-                print_r($value['sort_order']);
-                echo "<br />";
-            }
-        }
+        // foreach ($data['groups'] as $group_key => $group) {
+        //     // Show type of var
+        //     foreach ($group['value'] as $key => $value) {
+        //         print_r($value['sort_order']);
+        //         echo "<br />";
+        //     }
+        // }
 
         if (!empty($type['setting']['hidden_if_next'])) {
             $no_stock = true;
