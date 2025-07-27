@@ -360,9 +360,14 @@
                                         <li><span class="live-price">{{ price }}<span></li>
                                     {% else %}
                                         <li><span class="price-old">{{ price }}</span><span class="live-price-new">{{ special }}<span></li>
-                                        <li><span id="special_countdown"></span></li>
                                     {% endif %}
                                 </ul>
+                                {% if sale_end_date and product_page_countdown %}
+                                    <div class="special_countdown_wrapper">
+                                        <div class="special_countdown_description"><span class="icon-clock"></span>  <p>{{ oxyo_text_offer_ends }}</p></div>
+                                        <div id="special_countdown"></div>
+                                    </div>
+                                {% endif %}
 
                                 {% if discounts %}
                                     <p class="discount">
@@ -860,7 +865,7 @@
     <script>
         $(function () {
             $('#special_countdown').countdown('{{ sale_end_date }}').on('update.countdown', function (event) {
-                var $this = $(this).html(event.strftime('' + '<div class=\"special_countdown\"></span><p><span class=\"icon-clock\"></span>  {{ oxyo_text_offer_ends }}</p><div>' + '%D<i> {{ oxyo_text_days }}</i></div><div>' + '%H <i> {{ oxyo_text_hours }}</i></div><div>' + '%M <i> {{ oxyo_text_mins }}</i></div><div>' + '%S <i> {{ oxyo_text_secs }}</i></div></div>'));
+                var $this = $(this).html(event.strftime('' + '<div>' + '%D<i> {{ oxyo_text_days }}</i></div><div>' + '%H <i> {{ oxyo_text_hours }}</i></div><div>' + '%M <i> {{ oxyo_text_mins }}</i></div><div>' + '%S <i> {{ oxyo_text_secs }}</i></div></div>'));
             });
         });
     </script>
