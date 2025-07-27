@@ -6932,6 +6932,27 @@ a.button-circle {
     text-align: center;
 }
 
+/* Badges */
+.single-product .image .badges-wrapper,
+.image-area .badges-wrapper {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.badges-wrapper > .badge > i {
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+}
+/*
 .single-product .image .badge,
 .image-area .badge {
     position: absolute;
@@ -6939,9 +6960,6 @@ a.button-circle {
     display: table;
     top: 5px;
     left: 5px;
-    /* height: 50px;
-    width: 50px;
-    border-radius: 50%; */
 }
 
 .single-product .image .badge + .badge,
@@ -6963,7 +6981,6 @@ a.button-circle {
     font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
 
     line-height: 1;
-    /* letter-spacing: 0.5px; */
     white-space: normal;
     text-align: center;
     text-transform: uppercase;
@@ -6983,6 +7000,7 @@ a.button-circle {
     background: var(--primary-white-100, #fcfcfc);
     color: var(--primary-black-100, #070709);
 }
+*/
 
 .out_of_stock_badge {
     background: var(--primary-black-100, #070709);

@@ -231,16 +231,29 @@
                 $data['category_thumb_status'] = $this->config->get('category_thumb_status');
                 $data['category_subs_status'] = $this->config->get('category_subs_status');
                 $data['countdown_status'] = $this->config->get('countdown_status');
-                // $data['salebadge_status'] = $this->config->get('salebadge_status');
-                $data['salebadge_status'] = $this->config->get('sticker_sale');
                 $data['oxyo_subs_grid'] = $this->config->get('oxyo_subs_grid');
                 $data['oxyo_prod_grid'] = $this->config->get('oxyo_prod_grid');
                 $data['oxyo_list_style'] = $this->config->get('oxyo_list_style');
-                $data['stock_badge_status'] = $this->config->get('stock_badge_status');
-                $data['oxyo_text_out_of_stock'] = $this->language->get('oxyo_text_out_of_stock');
+
                 $data['default_button_cart'] = $this->language->get('button_cart');
                 $data['direction'] = $this->language->get('direction');
                 if ($this->language->get('direction') == 'rtl') { $data['tooltip_align'] = 'right'; } else { $data['tooltip_align'] = 'left'; }
+
+                $current_language_id = $this->config->get('config_language_id');
+
+                $sticker_sale = $this->config->get('sticker_sale');
+                $sticker_sale_status = isset($sticker_sale['status']) ? $sticker_sale['status'] : 0;
+                $data['sticker_sale_text'] = isset($sticker_sale['text'][$current_language_id]) ? $sticker_sale['text'][$current_language_id] : '';
+
+                $sticker_new = $this->config->get('sticker_new');
+                $sticker_new_status = isset($sticker_new['status']) ? $sticker_new['status'] : 0;
+                $data['sticker_new_text'] = isset($sticker_new['text'][$current_language_id]) ? $sticker_new['text'][$current_language_id] : '';
+
+                $sticker_stock = $this->config->get('sticker_stock');
+                $sticker_stock_status = isset($sticker_stock['status']) ? $sticker_stock['status'] : 0;
+                $data['sticker_stock_text'] = isset($sticker_stock['text'][$current_language_id]) ? $sticker_stock['text'][$current_language_id] : '';
+
+                $data['oxyo_text_out_of_stock'] = $this->language->get('oxyo_text_out_of_stock');
                 // Oxyo end
             ]]></add>
         </operation>
@@ -264,34 +277,21 @@
                 } else {
                     $date_end = false;
                 }
-                if ( (float)$result['special'] && ($this->config->get('salebadge_status')) ) {
-                    if ($this->config->get('salebadge_status') == '2') {
-                        $sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')))-($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax'))))/(($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')))/100)), 0, ',', '.') . '%';
-                    } else {
-                        $sale_badge = $this->language->get('oxyo_text_sale');
-                    }       
-                } else {
-                    $sale_badge = false;
-                }
 
-                $current_language_id = $this->config->get('config_language_id');
                 $sale_badge = false;
-                if ((float)$result['special'] && ($this->config->get('sticker_sale'))) {
-                    $sticker_sale = $this->config->get('sticker_sale');
-                    if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
-                        if ($sticker_sale['discount_status'] == 1) {
-                            $sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
-                        } else {
-                            $sale_badge = $sticker_sale['text'][$current_language_id];
-                        }
+                if ((float)$result['special'] && $sticker_sale_status) {
+                    if ($sticker_sale['discount_status'] == 1) {
+                        $sale_badge = $data['sticker_sale_text'] . ' -' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+                    } else {
+                        $sale_badge = $data['sticker_sale_text'];
                     }
                 }
-                // $sale_badge = 'SALE!';
 
-                if (strtotime($result['date_available']) > strtotime('-' . $this->config->get('newlabel_status') . ' day')) {
-                    $is_new = true;
-                } else {
-                    $is_new = false;
+                $new_badge = false;
+                if ($sticker_new_status) {
+                    if (strtotime($result['date_available']) > strtotime('-' . $sticker_new['days'] . ' day')) {
+                        $new_badge = $data['sticker_new_text'];
+                    }
                 }
             ]]></add>
         </operation>
@@ -300,11 +300,11 @@
                 $data['products'][] = array(
             ]]></search>
             <add position="after"><![CDATA[
-                'thumb2'  => $image2,
-                'quantity'  => $result['quantity'],
-                'sale_badge' => $sale_badge,
-                'sale_end_date'  => isset($date_end['date_end']) ? $date_end['date_end'] : false,
-                'new_label'  => $is_new,
+                'thumb2'        => $image2,
+                'quantity'      => $result['quantity'],
+                'sale_badge'    => $sale_badge,
+                'sale_end_date' => isset($date_end['date_end']) ? $date_end['date_end'] : false,
+                'new_badge'     => $new_badge,
             ]]></add>
         </operation>
     </file>

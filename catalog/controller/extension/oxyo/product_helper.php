@@ -25,7 +25,7 @@ $this->document->addLink($data['thumb'], 'image');
 $data['oxyo_share_btn'] = $this->config->get('oxyo_share_btn');
 $data['oxyo_rel_prod_grid'] = $this->config->get('oxyo_rel_prod_grid');
 $data['items_mobile_fw'] = $this->config->get('items_mobile_fw');
-if (strtotime($product_info['date_available']) > strtotime('-' . $this->config->get('newlabel_status') . ' day')) $data['is_new'] = true;
+
 $data['oxyo_text_offer_ends'] = $this->language->get('oxyo_text_offer_ends');
 $price_snippet = preg_replace("/[^0-9,.]/", "", $data['price']);
 $data['price_snippet'] = str_replace(',', '.', $price_snippet);
@@ -37,29 +37,26 @@ if ((float)$product_info['special']) {
 }
 if ($this->config->get('product_layout') == 'full-width') $this->document->addScript('catalog/view/theme/oxyo/js/theia-sticky-sidebar.min.js');
 
-if ((float)$product_info['special'] && ($this->config->get('salebadge_status'))) {
-    if ($this->config->get('salebadge_status') == '2') {
-        $data['sale_badge'] = '-' . number_format(((($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
-    } else {
-        $data['sale_badge'] = $this->language->get('oxyo_text_sale');
-    }
-} else {
-    $data['sale_badge'] = false;
-}
 
 $current_language_id = $this->config->get('config_language_id');
 $data['sale_badge'] = false;
-if ((float)$product_info['special'] && ($this->config->get('sticker_sale'))) {
-    $sticker_sale = $this->config->get('sticker_sale');
-    if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
-        if ($sticker_sale['discount_status'] == 1) {
-            $data['sale_badge'] = '-' . number_format(((($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
-        } else {
-            $data['sale_badge'] = $sticker_sale['text'][$current_language_id];
-        }
+$sticker_sale = $this->config->get('sticker_sale');
+if ((float)$product_info['special'] && isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
+    if ($sticker_sale['discount_status'] == 1) {
+        $data['sale_badge'] = $sticker_sale['text'][$current_language_id] . '-' . number_format(((($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+    } else {
+        $data['sale_badge'] = $sticker_sale['text'][$current_language_id];
     }
 }
-$data['sale_badge'] = 'SALE!';
+
+$data['new_badge'] = false;
+$sticker_new = $this->config->get('sticker_new');
+if (isset($sticker_new['status']) && $sticker_new['status'] == 1) {
+    if (strtotime($product_info['date_available']) > strtotime('-' . $sticker_new['days'] . ' day')) {
+        $data['new_badge'] = $sticker_new['text'][$current_language_id];
+    }
+}
+
 
 // RTL support
 $data['direction'] = $this->language->get('direction');

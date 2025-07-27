@@ -27,16 +27,19 @@
                         <div id="gallery" class="image-area {% if not hover_zoom %}hover-zoom-disabled{% endif %}">
                             {% if video  or thumb %}
                                 <div id="main-image-wrapper">
-                                    {% if price and special and sale_badge %}
-                                        <span class="badge sale_badge test"><i>{{ sale_badge }}</i></span>
+                                    {% if (sale_badge or new_badge) %}
+                                        <div class="badges-wrapper">                                            
+                                            {% if sale_badge %}
+                                                <span class="badge sale_badge"><i>{{ sale_badge }}</i></span>
+                                            {% endif %}
+                                            {% if new_badge %}
+                                                <span class="badge new_badge"><i>{{ new_badge }}</i></span>
+                                            {% endif %}
+                                            {% if ((qty < 1) and (stock_badge_status)) %}
+                                                <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
+                                            {% endif %}
+                                        </div>
                                     {% endif %}
-                                    {% if is_new %}
-                                        <span class="badge new_badge"><i>{{ oxyo_text_new }}</i></span>
-                                    {% endif %}
-                                    {% if ((qty < 1) and (stock_badge_status)) %}
-                                        <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
-                                    {% endif %}
-
                                     {% if video %}
                                         <a href="{{ video }}" id="main-image-link" class="glightbox">
                                             <video id="main-image" class="video-js vjs-default-skin vjs-big-play-centered" controls loop autoplay muted preload="none" width="100%" height="auto" poster="{{ video_placeholder }}">
