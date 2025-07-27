@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleBuyOneClick extends Controller
+class ControllerExtensionModuleOxyoBuyOneClick extends Controller
 {
     public function send()
     {
