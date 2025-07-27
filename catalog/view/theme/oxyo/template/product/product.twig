@@ -392,9 +392,9 @@
                                     {% endif %}
                                 </button>
                                 {% if (buyoneclick_status and qty > 0) %}
-                                    <button type="button" id="button-buyoneclick" data-loading-text="{{ text_loading }}" class="btn btn-primary">
+                                    <a href="#" onclick="buyOneClickShow(event);" id="button-buyoneclick" data-loading-text="{{ text_loading }}" class="btn btn-primary">
                                         {{ button_buyoneclick }}
-                                    </button>
+                                    </a>
                                 {% endif %}
                             </div>
                             {% if minimum > 1 %}

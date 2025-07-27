@@ -265,6 +265,12 @@ if ($this->config->get('callback_header') && $this->config->get('callback_header
     $data['callback_header'] = false;
 }
 
+// Buyoneclick
+$data['buyoneclick'] = false;
+if ($this->config->get('buyoneclick_status') && $this->config->get('buyoneclick_status') == '1') {
+    $data['buyoneclick'] = true;
+}
+
 // Quickview
 $data['quickview'] = false;
 if ($this->config->get('quickview_status') && $this->config->get('quickview_status') == '1') {

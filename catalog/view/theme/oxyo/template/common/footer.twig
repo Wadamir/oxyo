@@ -211,7 +211,7 @@
                 </div>
             {% endif %}
 
-            {% if callback is defined  and callback %}
+            {% if callback is defined and callback %}
                 <!-- Callback Fullscreen Modal -->
                 <div class="modal fade" id="callbackModal" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -353,6 +353,155 @@
                     function callBackShow(e) {
                         e.preventDefault();
                         const modal = new bootstrap.Modal(document.getElementById('callbackModal'));
+                        modal.show();
+                    }
+                </script>
+            {% endif %}
+
+            {% if buyoneclick is defined and buyoneclick %}
+                <!-- Buy One Click Fullscreen Modal -->
+                <div class="modal fade" id="buyOneClickModal" tabindex="-1" data-easein="expandIn" aria-labelledby="buyOneClickModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header pt-0 pb-2 border-0">
+                                <h3>{{ text_buyoneclick_title }}</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-0">
+                                <div class="container">
+                                    <form id="buyOneClickForm" class="form mw-600">
+                                        <input type="hidden" name="buyoneclick_product_id" value=""/>
+                                        <input type="hidden" name="buyoneclick_quantity" value="1"/>
+                                        <div class="mb-3">
+                                            <label for="buyOneClickName" class="form-label">{{ text_buyoneclick_name }}</label>
+                                            <input type="text" class="form-control" id="buyOneClickName" name="buyoneclick_name" required>
+                                        </div>
+
+                                        <div class="mb-3 d-none">
+                                            <label for="buyOneClickSurname" class="form-label">{{ text_buyoneclick_surname }}</label>
+                                            <input type="text" class="form-control" id="buyOneClickSurname" name="buyoneclick_surname">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="buyOneClickPhone" class="form-label">{{ text_buyoneclick_phone }}</label>
+                                            <input type="tel" class="form-control" id="buyOneClickPhone" name="buyoneclick_phone" required>
+                                        </div>
+
+                                        <div class="form-check mb-0">
+                                            <input class="form-check-input form-control" type="checkbox" id="buyOneClickAgreement" name="buyoneclick_agreement" required>
+                                            <label class="form-check-label" for="buyOneClickAgreement">{{ text_buyoneclick_agree }}</label>
+                                        </div>
+
+                                        <div class="text-end mt-3">
+                                            <button type="submit" class="btn btn-sm btn-contrast">{{ text_buyoneclick_submit }}</button>
+                                        </div>
+
+                                        <div id="buyOneClickError" class="mt-2 d-none text-danger">{{ text_buyoneclick_error }}</div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Modal -->
+                <div class="modal fade" id="buyOneClickSuccess" tabindex="-1" data-easein="expandIn" aria-labelledby="buyOneClickSuccessLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body p-0">
+                                <div class="container">
+                                    <div class="text-center p-1">
+                                        <h5 id="buyOneClickSuccessText" class="modal-title mb-4">{{ text_buyoneclick_success }}</h5>
+                                        <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const formEl = document.getElementById('buyOneClickForm');
+                        const modalEl = document.getElementById('buyOneClickModal');
+                        const successEl = document.getElementById('buyOneClickSuccess');
+                        const successTextEl = document.getElementById('buyOneClickSuccessText');
+                        const errorEl = document.getElementById('buyOneClickError');
+
+                        if (!formEl || !modalEl || !successEl) return;
+
+                        formEl.addEventListener('submit', function (e) {
+                            e.preventDefault();
+
+                            const formData = new FormData(formEl);
+                            const submitButton = formEl.querySelector('button[type="submit"]');
+                            submitButton.disabled = true;
+
+                            fetch('index.php?route=extension/module/oxyo_buyoneclick/send', {
+                                method: 'POST',
+                                body: formData,
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                const modal = bootstrap.Modal.getInstance(modalEl);
+                                const success = new bootstrap.Modal(successEl);
+
+                                submitButton.disabled = false;
+
+                                if (data.success) {
+                                    formEl.reset();
+
+                                    // Show success
+                                    modalEl.addEventListener('hidden.bs.modal', function () {
+                                        success.show();
+                                        setTimeout(() => {
+                                            success.hide();
+                                        }, 3000);
+                                    }, { once: true });
+
+                                    modal.hide();
+                                } else {
+                                    let message = '';
+                                    for (const key in data.error) {
+                                        message += data.error[key] + '\n';
+                                    }
+                                    errorEl.innerHTML = message;
+                                    errorEl.classList.remove('d-none');
+                                    setTimeout(() => errorEl.classList.add('d-none'), 5000);
+                                }
+                            })
+                            .catch(err => {
+                                submitButton.disabled = false;
+                                console.error(err);
+                                errorEl.innerHTML = '{{ text_buyoneclick_error }}';
+                                errorEl.classList.remove('d-none');
+                                setTimeout(() => errorEl.classList.add('d-none'), 5000);
+                            });
+                        });
+                    });
+
+                    function buyOneClickShow(e) {
+                        e.preventDefault();
+                        const productId = document.querySelector('input[name="product_id"]').value;
+                        if (!productId) {
+                            console.error('Product ID not found');
+                            return;
+                        }
+                        const buyoneclickProductId = document.querySelector('input[name="buyoneclick_product_id"]');
+                        if (!buyoneclickProductId) {
+                            console.error('Buy One Click product ID input not found');
+                            return;
+                        }
+                        buyoneclickProductId.value = productId;
+                        const productQuantity = document.querySelector('input[name="quantity"]');
+                        const buyoneclickQuantity = document.querySelector('input[name="buyoneclick_quantity"]');
+                        if (productQuantity && buyoneclickQuantity) {
+                            buyoneclickQuantity.value = productQuantity.value || 1;
+                        } else {
+                            console.warn('Product quantity input not found, defaulting to 1');
+                            buyoneclickQuantity.value = 1;
+                        }
+                        const modal = new bootstrap.Modal(document.getElementById('buyOneClickModal'));
                         modal.show();
                     }
                 </script>

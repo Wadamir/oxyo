@@ -648,8 +648,10 @@ input[type='color'].form-control {
 
 input[type='checkbox'].form-control {
     width: 24px;
+    min-width: 24px;
     height: 24px;
-    margin-right: 10px;
+    min-height: 24px;
+    margin-right: 12px;
 }
 
 .form-check-input:checked {

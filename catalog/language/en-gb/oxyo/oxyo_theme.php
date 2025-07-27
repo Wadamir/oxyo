@@ -108,3 +108,13 @@ $_['oxyo_text_question']             = 'Question:';
 $_['oxyo_cookie_info']               = 'We use cookies to improve your experience on our website. By browsing this website, you agree to our use of cookies.';
 $_['oxyo_cookie_btn_close']          = 'Close';
 $_['oxyo_cookie_btn_more_info']      = 'More info';
+
+
+// Buy One Click
+$_['text_buyoneclick_title']     = 'Buy One Click';
+$_['text_buyoneclick_name']      = 'Your Name';
+$_['text_buyoneclick_phone']     = 'Phone Number';
+$_['text_buyoneclick_agree']     = 'By clicking "Place Order", you confirm your consent to the processing of personal data';
+$_['text_buyoneclick_submit']    = 'Place Order';
+$_['text_buyoneclick_success']   = 'Your request has been successfully submitted!';
+$_['text_buyoneclick_error']     = 'There was an error sending your request. Please try again later.';

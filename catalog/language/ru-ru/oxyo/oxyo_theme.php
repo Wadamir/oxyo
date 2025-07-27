@@ -108,3 +108,13 @@ $_['oxyo_text_question']             = 'Вопрос:';
 $_['oxyo_cookie_info']               = 'Мы используем файлы cookie, чтобы улучшить ваш опыт на нашем сайте. Продолжая использовать сайт, вы соглашаетесь с нашей политикой cookie.';
 $_['oxyo_cookie_btn_close']          = 'Закрыть';
 $_['oxyo_cookie_btn_more_info']      = 'Подробнее';
+
+
+// Buy One Click
+$_['text_buyoneclick_title']        = 'Купить в один клик';
+$_['text_buyoneclick_name']         = 'Ваше имя';
+$_['text_buyoneclick_phone']        = 'Телефон';
+$_['text_buyoneclick_agree']        = 'Нажимая на кнопку "Отправить", вы подтверждаете своё согласие на обработку персональных данных';
+$_['text_buyoneclick_submit']       = 'Отправить';
+$_['text_buyoneclick_success']      = 'Заявка успешно отправлена!';
+$_['text_buyoneclick_error']        = 'Ошибка отправки заявки. Попробуйте позже.';
