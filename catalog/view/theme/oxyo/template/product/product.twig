@@ -356,7 +356,7 @@
                                     {% if not special %}
                                         <li><span class="live-price">{{ price }}<span></li>
                                     {% else %}
-                                        <li><span class="price-old">{{ price }}</span><span class="live-price-new">{{ special }}<span></li>
+                                        <li><span class="live-price price-old">{{ price }}</span><span class="live-price-new">{{ special }}<span></li>
                                     {% endif %}
                                 </ul>
                                 {% if sale_end_date and product_page_countdown %}
@@ -378,7 +378,11 @@
                             <!-- if price ends -->                            
 
                             <div class="form-group buy catalog_hide">
-                                <input type="number" step="1" min="{{ minimum }}" name="quantity" value="{{ minimum }}" id="input-quantity" class="form-control input-quantity"/>
+                                <div class="input-type-number input-plus-minus">
+                                    <button type="button" class="btn button-minus"></button>
+                                    <input type="number" step="1" min="{{ minimum }}" name="quantity" value="{{ minimum }}" id="input-quantity" class="form-control input-quantity"/>
+                                    <button type="button" class="btn button-plus"></button>
+                                </div>
                                 <input type="hidden" name="product_id" value="{{ product_id }}"/>
                                 <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary">
                                     {% if ((qty < 1) and (stock_badge_status)) %}
@@ -387,6 +391,11 @@
                                         {{ button_cart }}
                                     {% endif %}
                                 </button>
+                                {% if (buyoneclick_status and qty > 0) %}
+                                    <button type="button" id="button-buyoneclick" data-loading-text="{{ text_loading }}" class="btn btn-primary">
+                                        {{ button_buyoneclick }}
+                                    </button>
+                                {% endif %}
                             </div>
                             {% if minimum > 1 %}
                                 <div class="alert alert-sm alert-info"><i class="fa fa-info-circle"></i>{{ text_minimum }}</div>

@@ -345,6 +345,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'oxyo_share_btn',
             'catalog_mode',
             'oxyo_cart_action',
+            'buyoneclick_status',
             'wishlist_status',
             'oxyo_wishlist_action',
             'compare_status',
@@ -640,6 +641,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         if (is_null($this->getConfig('salebadge_status'))) $data['salebadge_status'] = '1';
         if (is_null($this->getConfig('stock_badge_status'))) $data['stock_badge_status'] = '1';
         if (is_null($this->getConfig('countdown_status'))) $data['countdown_status'] = '1';
+        if (is_null($this->getConfig('buyoneclick_status'))) $data['buyoneclick_status'] = '0';
         if (is_null($this->getConfig('wishlist_status'))) $data['wishlist_status'] = '1';
         if (is_null($this->getConfig('compare_status'))) $data['compare_status'] = '1';
         if (is_null($this->getConfig('overwrite_footer_links'))) $data['overwrite_footer_links'] = '0';

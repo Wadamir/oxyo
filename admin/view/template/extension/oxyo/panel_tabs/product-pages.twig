@@ -1,5 +1,6 @@
 <legend>{{ text_product_card }}</legend>
 
+<!-- Hidden block -->
 <legend class="sub d-none hidden">Catalog Mode</legend>
 <div class="form-group new-form-group d-none hidden">
 	<label class="col-sm-2 control-label">
@@ -12,19 +13,22 @@
 		</label>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<div class="new-form-group form-field radio-switcher">
-	<p class="radio-switcher-title">
-		<span class="title">{{ text_product_quickview_status }}</span>
-	</p>
-	<div class="form-radio-switcher-wrapper">
-		<label class="label-switcher label-switcher-pre" for="main_phone_header_0">{{ text_off }}</label>
-		<div class="form-radio form-radio-inline form-radio-switcher">
-			<input type="radio" name="settings[oxyo][quickview_status]" value="0" {% if quickview_status == '0' or quickview_status is not defined %} checked="checked" {% endif %} id="quickview_status_0"/>
-			<input type="radio" name="settings[oxyo][quickview_status]" value="1" {% if quickview_status == '1' %} checked="checked" {% endif %} id="quickview_status_1"/>
-		</div>
-		<label class="label-switcher label-switcher-post" for="main_phone_header_1">{{ text_on }}</label>
-	</div>
+<div class="form-group radio-switcher-group">
+    <div class="col-sm-3">
+        <p class="radio-switcher-title">{{ text_product_quickview_status }}</p>
+    </div>
+    <div class="col-sm-9">
+        <div class="form-radio-switcher-wrapper justify-content-start">
+            <label class="label-switcher label-switcher-pre" for="quickview_status_0">{{ text_off }}</label>
+            <div class="form-radio form-radio-inline form-radio-switcher">
+                <input type="radio" name="settings[oxyo][quickview_status]" value="0" {% if quickview_status == '0' or quickview_status is not defined %} checked="checked" {% endif %} id="quickview_status_0"/>
+                <input type="radio" name="settings[oxyo][quickview_status]" value="1" {% if quickview_status == '1' %} checked="checked" {% endif %} id="quickview_status_1"/>
+            </div>
+            <label class="label-switcher label-switcher-post" for="quickview_status_1">{{ text_on }}</label>
+        </div>
+    </div>
 </div>
 
 <!-- Stickers -->
@@ -163,6 +167,7 @@
 	</div>
 </div>
 
+<!-- Hidden block -->
 <div class="form-group new-form-group hidden d-none">
 	<label class="col-sm-2 control-label">Sale label</label>
 	<div class="col-sm-10">
@@ -190,7 +195,9 @@
 		</label>
 	</div>
 </div>
+<!-- End of hidden block -->
 
+<!-- Hidden block -->
 <legend class="sub d-none hidden">Specials Countdown</legend>
 <div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
@@ -203,35 +210,57 @@
 		</label>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<legend class="sub">Add To Cart</legend>
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Action when an item is successfully added to cart">Add to cart action</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
+<div class="form-group select-group">
+	<div class="col-sm-3">
+        <p class="control-label">
+            <span data-toggle="tooltip" title="{{ text_cart_action_tooltip }}">{{ text_cart_action }}</span>
+        </p>
+	</div>
+	<div class="col-sm-9 toggle-btn">
 		<select name="settings[oxyo][oxyo_cart_action]" class="form-control">
-			<option value="0" {% if oxyo_cart_action == '0' %} selected="selected" {% endif %}>Stay - Notification message</option>
-			<option value="redirect_cart" {% if oxyo_cart_action == 'redirect_cart' %} selected="selected" {% endif %}>Redirect - Shopping cart</option>
-			<option value="redirect_checkout" {% if oxyo_cart_action == 'redirect_checkout' %} selected="selected" {% endif %}>Redirect - Checkout</option>
+			<option value="0" {% if oxyo_cart_action == '0' %} selected="selected" {% endif %}>{{ text_cart_stay_notification }}</option>
+			<option value="redirect_cart" {% if oxyo_cart_action == 'redirect_cart' %} selected="selected" {% endif %}>{{ text_cart_redirect_cart }}</option>
+			<option value="redirect_checkout" {% if oxyo_cart_action == 'redirect_checkout' %} selected="selected" {% endif %}>{{ text_cart_redirect_checkout }}</option>
 		</select>
 	</div>
 </div>
 
-<legend class="sub">Wish List</legend>
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Enable/Disable the wishlist feature globally">Wish List Status</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][wishlist_status]" value="0" {% if wishlist_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][wishlist_status]" value="1" {% if wishlist_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
-		</label>
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ text_buyoneclick_status }}</p>
+	</div>
+    <div class="col-sm-9">
+        <div class="form-radio-switcher-wrapper justify-content-start">
+            <label class="label-switcher label-switcher-pre" for="buyoneclick_status_0">{{ text_disabled }}</label>
+            <div class="form-radio form-radio-inline form-radio-switcher">
+                <input type="radio" name="settings[oxyo][buyoneclick_status]" value="0" {% if buyoneclick_status == '0' %} checked="checked" {% endif %} id="buyoneclick_status_0"/>
+                <input type="radio" name="settings[oxyo][buyoneclick_status]" value="1" {% if buyoneclick_status == '1' %} checked="checked" {% endif %} id="buyoneclick_status_1"/>
+            </div>
+            <label class="label-switcher label-switcher-post" for="buyoneclick_status_1">{{ text_enabled }}</label>
+        </div>
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ text_wishlist_status }}</p>
+	</div>
+    <div class="col-sm-9">
+        <div class="form-radio-switcher-wrapper justify-content-start">
+            <label class="label-switcher label-switcher-pre" for="wishlist_status_0">{{ text_disabled }}</label>
+            <div class="form-radio form-radio-inline form-radio-switcher">
+                <input type="radio" name="settings[oxyo][wishlist_status]" value="0" {% if wishlist_status == '0' %} checked="checked" {% endif %} id="wishlist_status_0"/>
+                <input type="radio" name="settings[oxyo][wishlist_status]" value="1" {% if wishlist_status == '1' %} checked="checked" {% endif %} id="wishlist_status_1"/>
+            </div>
+            <label class="label-switcher label-switcher-post" for="wishlist_status_1">{{ text_enabled }}</label>
+        </div>
+	</div>
+</div>
+
+<!-- Hidden block -->
+<div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
 		<span data-toggle="tooltip" title="Action when an item is successfully added to wish list">Add to wish list action</span>
 	</label>
@@ -242,21 +271,26 @@
 		</select>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<legend class="sub">Product Comparison</legend>
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Enable/Disable the product comparison feature globally">Comparison Status</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][compare_status]" value="0" {% if compare_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][compare_status]" value="1" {% if compare_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
-		</label>
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ text_compare_status }}</p>
+	</div>
+	<div class="col-sm-9">
+        <div class="form-radio-switcher-wrapper justify-content-start">
+            <label class="label-switcher label-switcher-pre" for="compare_status_0">{{ text_disabled }}</label>
+            <div class="form-radio form-radio-inline form-radio-switcher">
+                <input type="radio" name="settings[oxyo][compare_status]" value="0" {% if compare_status == '0' %} checked="checked" {% endif %} id="compare_status_0"/>
+                <input type="radio" name="settings[oxyo][compare_status]" value="1" {% if compare_status == '1' %} checked="checked" {% endif %} id="compare_status_1"/>
+            </div>
+            <label class="label-switcher label-switcher-post" for="compare_status_1">{{ text_enabled }}</label>
+        </div>
 	</div>
 </div>
 
-<div class="form-group">
+<!-- Hidden block -->
+<div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
 		<span data-toggle="tooltip" title="Action when an item is successfully added to wish list">Add to compare action</span>
 	</label>
@@ -267,6 +301,7 @@
 		</select>
 	</div>
 </div>
+<!-- End of hidden block -->
 
 <legend class="sub">Product Images</legend>
 

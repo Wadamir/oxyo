@@ -8371,12 +8371,109 @@ a.button-circle {
     margin-bottom: 12px;
     padding: 0;
     padding-top: 12px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 6px;
 }
 
 .form-group.buy input,
 .form-group.buy button {
     display: inline-block;
     vertical-align: middle;
+}
+
+.form-group.buy input {
+    margin: 0;
+    padding: 0 12px;
+
+    min-height: 38px;
+
+    font-size: 16px;
+    line-height: 1.5;
+
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+
+    box-shadow: none;
+
+    text-align: right;
+}
+
+.form-group.buy input[type='number']::-webkit-inner-spin-button,
+.form-group.buy input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-group.buy input[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.form-group > .input-plus-minus {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+
+    border: 1px solid;
+    border-radius: 8px;
+
+    min-width: 114px;
+}
+
+.form-group > .input-plus-minus > input {
+    padding-top: 4px;
+
+    width: 40px;
+
+    border: none;
+    border-radius: 0;
+
+    font-size: 16px;
+    text-align: center;
+
+    background-color: transparent;
+}
+
+.form-group > .input-plus-minus > .btn,
+.form-group > .input-plus-minus > .btn:focus,
+.form-group > .input-plus-minus > .btn:active {
+    padding: 0 6px;
+    min-height: 38px;
+
+    background-color: transparent;
+    color: var(--primary-black-100, #070709);
+
+    border: none;
+    border-radius: 6px;
+
+    font-family: 'bootstrap-icons';
+    font-size: 24px;
+
+    outline: none;
+    box-shadow: none;
+}
+
+.form-group > .input-plus-minus > .btn:hover {
+    background-color: transparent;
+    color: var(--text-accent-color, #e61f80);
+}
+
+.form-group > .input-plus-minus > .btn.button-minus::before {
+    content: '\f2ea';
+}
+
+.form-group > .input-plus-minus > .btn.button-plus::before {
+    content: '\f4fe';
 }
 
 .form-group.buy .btn.details {

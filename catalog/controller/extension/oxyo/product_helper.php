@@ -21,6 +21,7 @@ $data['oxyo_text_share'] = $this->language->get('oxyo_text_share');
 $data['currency_code'] = $this->session->data['currency'];
 $data['hover_zoom'] = $this->config->get('oxyo_hover_zoom');
 $data['current_href'] = $this->url->link('product/product', 'product_id=' . (int)$this->request->get['product_id']);
+
 $this->document->addLink($data['thumb'], 'image');
 $data['oxyo_share_btn'] = $this->config->get('oxyo_share_btn');
 $data['oxyo_rel_prod_grid'] = $this->config->get('oxyo_rel_prod_grid');
@@ -36,6 +37,10 @@ if ((float)$product_info['special']) {
     $data['special_snippet'] = str_replace(',', '.', $special_snippet);
 }
 if ($this->config->get('product_layout') == 'full-width') $this->document->addScript('catalog/view/theme/oxyo/js/theia-sticky-sidebar.min.js');
+
+// Buyoneclick
+$data['buyoneclick_status'] = $this->config->get('buyoneclick_status');
+$data['button_buyoneclick'] = $this->language->get('button_buyoneclick');
 
 
 $current_language_id = $this->config->get('config_language_id');

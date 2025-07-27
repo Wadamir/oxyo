@@ -32,6 +32,9 @@ $_['text_month']               = 'month';
 $_['text_year']                = 'year';
 $_['text_weight']               = 'Weight:';
 
+$_['button_cart']               = 'Add to Cart';
+$_['button_buyoneclick']        = 'Buy Now';
+
 // Entry
 $_['entry_qty']                = 'Qty';
 $_['entry_name']               = 'Your Name';

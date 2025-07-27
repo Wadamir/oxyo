@@ -32,6 +32,9 @@ $_['text_month']               = 'месяц';
 $_['text_year']                = 'год';
 $_['text_weight']              = 'Вес:';
 
+$_['button_cart']              = 'Добавить в корзину';
+$_['button_buyoneclick']       = 'Купить в 1 клик';
+
 // Entry
 $_['entry_qty']                = 'Количество';
 $_['entry_name']               = 'Ваше имя:';

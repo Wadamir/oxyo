@@ -16,8 +16,8 @@ $_['text_on']             = 'On';
 $_['text_select']         = 'Select';
 $_['text_none']           = 'None';
 
-$_['text_show_in_header'] = 'Show in Header';
-$_['text_show_in_footer'] = 'Show in Footer';
+$_['text_show_in_header']       = 'Show in Header';
+$_['text_show_in_footer']       = 'Show in Footer';
 
 // New vars - tabs
 $_['text_tab_status']            = 'Status';
@@ -79,9 +79,46 @@ $_['option_title_in_extra_tall']    = 'Page Title Inside Breadcrumb + Extra Tall
 
 
 
+
 // Shop settings
 $_['text_theme_status']                 = 'Theme Status';
 $_['text_contacts']                     = 'Contacts';
 $_['text_product_card']                 = 'Product Settings';
 $_['text_product_quickview']            = 'Product Quickview';
+
+
+
+/*** Product-pages ***/
 $_['text_product_quickview_status']     = 'Product quickview Status';
+
+// Stickers
+$_['text_stickers']                     = 'Stickers';
+
+$_['entry_sticker_text']                = 'Text on Sticker';
+$_['entry_sticker_color']               = 'Sticker font Color';
+$_['entry_sticker_bg']                  = 'Sticker Background Color';
+$_['entry_sticker_status']              = 'Sticker Status';
+
+// Sticker Sale
+$_['entry_sticker_title_sale']          = 'Sale Sticker Title';
+$_['entry_sticker_property_sale']       = 'Show Discount';
+
+// Sticker New
+$_['entry_sticker_title_new']           = 'New Sticker Title';
+$_['entry_sticker_property_new']        = 'How many days to consider a product as new';
+
+// Add to Cart
+$_['text_cart_action']                  = 'Add to Cart Action';
+$_['text_cart_action_tooltip']          = 'Action when an item is successfully added to cart';
+$_['text_cart_stay_notification']       = 'Stay - Notification message';
+$_['text_cart_redirect_cart']           = 'Redirect to Shopping cart';
+$_['text_cart_redirect_checkout']       = 'Redirect to Checkout page';
+
+// Buy One Click
+$_['text_buyoneclick_status']           = 'Buy One Click Status';
+
+// Wish List
+$_['text_wishlist_status']              = 'Wishlist Status';
+
+// Compare
+$_['text_compare_status']               = 'Comparison Status';

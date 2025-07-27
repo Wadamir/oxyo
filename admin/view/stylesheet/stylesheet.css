@@ -409,7 +409,8 @@ td.required:before {
 }
 
 .table thead td span[data-toggle='tooltip']:after,
-label.control-label span:after {
+label.control-label span:after,
+.control-label span[data-toggle='tooltip']:after {
     font-family: FontAwesome;
     color: #1e91cf;
     content: '\f059';
@@ -551,7 +552,39 @@ input[type='checkbox']:checked::after,
 }
 
 .form-group + .form-group {
-    border-top: 1px solid #ededed;
+    /* border-top: 1px solid #ededed; */
+}
+
+.form-group.select-group .control-label {
+    padding-top: 0;
+
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Golos Text', sans-serif;
+
+    line-height: 36px;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.form-group.select-group .control-label:after {
+    margin-left: 30px;
+
+    content: '';
+    display: block;
+    width: 100%;
+    border-bottom: 1px dashed #666;
+
+    height: 12px;
 }
 
 /* Panels */

@@ -168,7 +168,7 @@ class ControllerExtensionOxyoLiveOptions extends Controller
 					
 					success: function(json) {
 						if (json.success) {
-							
+							console.log('success: ', json);
 							if ($('{$this->options_container} {$this->tax_price_container}').length > 0 && json.new_price.tax) {
 								animation_on_change_price_with_options('{$this->options_container} {$this->tax_price_container}', json.new_price.tax);
 							}
@@ -193,10 +193,8 @@ class ControllerExtensionOxyoLiveOptions extends Controller
 			}
 
 			$(document).on('change', '{$this->options_container} input[type=\'text\'], {$this->options_container} input[type=\'number\'], {$this->options_container} input[type=\'hidden\'], {$this->options_container} input[type=\'radio\']:checked, {$this->options_container} input[type=\'checkbox\'], {$this->options_container} select, {$this->options_container} textarea, {$this->options_container} input[name=\'quantity\']', function () {
-				
-			price_with_options_ajax_call();
+                price_with_options_ajax_call();
 			});
-		
 HTML;
         echo $js;
         exit;

@@ -1,3 +1,35 @@
+document.addEventListener('DOMContentLoaded', function () {
+	const container = document.querySelector('.input-plus-minus');
+	if (!container) return;
+
+	const input = container.querySelector('input[type="number"]');
+	const minusBtn = container.querySelector('.button-minus');
+	const plusBtn = container.querySelector('.button-plus');
+
+	if (!input || !minusBtn || !plusBtn) return;
+
+	const step = parseInt(input.getAttribute('step')) || 1;
+	const min = parseInt(input.getAttribute('min')) || 1;
+
+	minusBtn.addEventListener('click', function () {
+		let value = parseInt(input.value) || min;
+		if (value > min) {
+			input.value = value - step;
+			input.dispatchEvent(new Event('change'));
+            if (window.jQuery) $(input).trigger('change');
+		}
+	});
+
+	plusBtn.addEventListener('click', function () {
+		let value = parseInt(input.value) || min;
+		input.value = value + step;
+		input.dispatchEvent(new Event('change'));
+        if (window.jQuery) $(input).trigger('change');
+    });
+});
+
+
+
 function getURLVar(key) {
     var value = [];
     var query = String(document.location).split('?');
