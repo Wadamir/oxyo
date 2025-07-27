@@ -25,21 +25,21 @@
 				<div class="table-cell__ left">
                     {% if thumb or video or images %}
                         <div id="gallery" class="image-area {% if not hover_zoom %}hover-zoom-disabled{% endif %}">
+                            {% if (sale_badge or new_badge) %}
+                                <div class="badges-wrapper">                                            
+                                    {% if sale_badge %}
+                                        <span class="badge sale_badge"><i>{{ sale_badge }}</i></span>
+                                    {% endif %}
+                                    {% if new_badge %}
+                                        <span class="badge new_badge"><i>{{ new_badge }}</i></span>
+                                    {% endif %}
+                                    {% if ((qty < 1) and (stock_badge_status)) %}
+                                        <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}                        
                             {% if video  or thumb %}
                                 <div id="main-image-wrapper">
-                                    {% if (sale_badge or new_badge) %}
-                                        <div class="badges-wrapper">                                            
-                                            {% if sale_badge %}
-                                                <span class="badge sale_badge"><i>{{ sale_badge }}</i></span>
-                                            {% endif %}
-                                            {% if new_badge %}
-                                                <span class="badge new_badge"><i>{{ new_badge }}</i></span>
-                                            {% endif %}
-                                            {% if ((qty < 1) and (stock_badge_status)) %}
-                                                <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
-                                            {% endif %}
-                                        </div>
-                                    {% endif %}
                                     {% if video %}
                                         <a href="{{ video }}" id="main-image-link" class="glightbox">
                                             <video id="main-image" class="video-js vjs-default-skin vjs-big-play-centered" controls loop autoplay muted preload="none" width="100%" height="auto" poster="{{ video_placeholder }}">
@@ -54,7 +54,6 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
-
                             <div id="gallery-additional" class="image-additional show-skeleton">
                                 {% if video %}
                                     <div>
@@ -74,7 +73,6 @@
                                         </a>
                                     </div>
                                 {% endif %}
-
                                 {% if thumb and (product_layout != "full-width") %}
                                     <div>
                                         <a class="link glightbox locked{% if not video %} active{% endif %}" 
@@ -89,7 +87,6 @@
                                         </a>
                                     </div>
                                 {% endif %}
-
                                 {% if images %}
                                     {% for image in images %}
                                         <div>

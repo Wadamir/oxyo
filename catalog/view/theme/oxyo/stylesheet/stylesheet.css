@@ -6944,6 +6944,8 @@ a.button-circle {
     justify-content: center;
     align-items: flex-start;
     gap: 5px;
+
+    z-index: 9;
 }
 
 .badges-wrapper > .badge > i {
