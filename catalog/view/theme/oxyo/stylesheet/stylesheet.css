@@ -8368,14 +8368,15 @@ a.button-circle {
     margin-right: 12px;
 }
 
-.form-group.buy {
+/*** Buy wrapper input-quantity, button-card, button-buyoneclick ***/
+.buy-wrapper {
     margin: 0;
     margin-bottom: 12px;
     padding: 0;
     padding-top: 12px;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: flex-start;
@@ -8384,13 +8385,13 @@ a.button-circle {
     gap: 6px;
 }
 
-.form-group.buy input,
-.form-group.buy button {
+.buy-wrapper input,
+.buy-wrapper button {
     display: inline-block;
     vertical-align: middle;
 }
 
-.form-group.buy input {
+.buy-wrapper input {
     margin: 0;
     padding: 0 12px;
 
@@ -8407,15 +8408,36 @@ a.button-circle {
     text-align: right;
 }
 
-.form-group.buy input[type='number']::-webkit-inner-spin-button,
-.form-group.buy input[type='number']::-webkit-outer-spin-button {
+.buy-wrapper input[type='number']::-webkit-inner-spin-button,
+.buy-wrapper input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.form-group.buy input[type='number'] {
+.buy-wrapper input[type='number'] {
     appearance: textfield;
     -moz-appearance: textfield;
+}
+
+.buy-wrapper > .form-group {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 6px;
+
+    width: 100%;
+}
+
+.buy-wrapper .btn {
+    width: 100%;
+    font-size: 14px;
 }
 
 .form-group > .input-plus-minus {
@@ -8433,9 +8455,13 @@ a.button-circle {
 }
 
 .form-group > .input-plus-minus > input {
+    margin: 0;
     padding-top: 4px;
 
-    width: 40px;
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    min-height: 38px;
 
     border: none;
     border-radius: 0;
@@ -8477,9 +8503,40 @@ a.button-circle {
 .form-group > .input-plus-minus > .btn.button-plus::before {
     content: '\f4fe';
 }
-
+/*
 .form-group.buy .btn.details {
     margin-left: 5px;
+}
+*/
+@media (min-width: 380px) {
+    .buy-wrapper .btn {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 560px) {
+    .buy-wrapper {
+        flex-direction: row;
+    }
+
+    .buy-wrapper > .form-group {
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .buy-wrapper {
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .buy-wrapper > .form-group {
+        width: 100%;
+    }
+
+    .buy-wrapper .btn {
+        width: 100%;
+    }
 }
 
 .product-info .table-cell.right p.info {
