@@ -167,6 +167,7 @@
 
 /catalog/language/en-gb/*
 !/catalog/language/en-gb/
+!/catalog/language/en-gb/blog/
 /catalog/language/en-gb/product/*
 !/catalog/language/en-gb/product/
 !/catalog/language/en-gb/product/product.php
@@ -181,6 +182,7 @@
 
 /catalog/language/ru-ru/*
 !/catalog/language/ru-ru/
+!/catalog/language/ru-ru/blog/
 /catalog/language/ru-ru/product/*
 !/catalog/language/ru-ru/product/
 !/catalog/language/ru-ru/product/product.php
