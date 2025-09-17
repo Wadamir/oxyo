@@ -277,5 +277,25 @@
 !/system/library/cart/
 !/system/library/cart/weight.php
 
+# XD Checkout module
+!/system/library/xd_checkout/
+!/system/xd_checkout.ocmod.xml
+!/catalog/controller/extension/xd_checkout/
+!/catalog/language/en-gb/extension/xd_checkout/
+!/catalog/language/ru-ru/extension/xd_checkout/
+!/catalog/view/javascript/jquery/xd_checkout/
+/catalog/view/theme/default/*
+!/catalog/view/theme/default/
+/catalog/view/theme/default/stylesheet/*
+!/catalog/view/theme/default/stylesheet/
+!/catalog/view/theme/default/stylesheet/xd_checkout.css
+!/catalog/view/theme/default/stylesheet/xd_checkout_one.css
+!/catalog/view/theme/default/stylesheet/xd_checkout_two.css
+!/catalog/view/theme/default/stylesheet/xd_checkout_three.css
+/catalog/view/theme/default/template/*
+!/catalog/view/theme/default/template/
+/catalog/view/theme/default/template/extension/*
+!/catalog/view/theme/default/template/extension/
+!/catalog/view/theme/default/template/extension/xd_checkout/
 
 /storage/*
