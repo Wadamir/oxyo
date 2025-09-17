@@ -6387,6 +6387,8 @@ a.btn-outline-light:hover {
 .btn-primary[disabled]:hover {
     background-color: #3e3e3e;
     border-color: transparent;
+    background-color: #ced3d6;
+    color: #737b80;
 }
 
 .btn.btn-text-icon {
