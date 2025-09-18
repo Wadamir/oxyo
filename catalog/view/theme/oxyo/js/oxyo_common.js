@@ -28,6 +28,49 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+	/*** number input ****/
+	const containers = document.querySelectorAll(".number-input");
+	containers.forEach(function (container) {
+		const input = container.querySelector("input");
+		const btnDec = container.querySelector(".btn-decrement");
+		const btnInc = container.querySelector(".btn-increment");
+
+		const min = parseInt(input.min) || 1;
+		const max = parseInt(input.max) || 999999;
+
+		// Increase value
+		btnInc.addEventListener("click", function () {
+			let val = parseInt(input.value) || min;
+			if (val < max) {
+				input.value = val + 1;
+				input.dispatchEvent(new Event("change"));
+			}
+		});
+
+		// Decrease value
+		btnDec.addEventListener("click", function () {
+			let val = parseInt(input.value) || min;
+			if (val > min) {
+				input.value = val - 1;
+				input.dispatchEvent(new Event("change"));
+			}
+		});
+
+		// Validate manual input
+		input.addEventListener("input", function () {
+			let val = parseInt(input.value);
+			if (isNaN(val) || val < min) {
+				input.value = min;
+			} else if (val > max) {
+				input.value = max;
+			}
+		});
+	});
+
+	/*** cart update quantity ***/
+});
+
 
 
 function getURLVar(key) {

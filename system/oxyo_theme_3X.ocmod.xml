@@ -732,7 +732,7 @@
                         }
 
                         // Calculate totals
-                        $this->load->model('extension/extension');
+                        $this->load->model('setting/extension');
                         $totals = array();
                         $taxes = $this->cart->getTaxes();
                         $total = 0;
@@ -744,16 +744,16 @@
                         );
 
                         if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-                            $results = $this->model_extension_extension->getExtensions('total');
+                            $results = $this->model_setting_extension->getExtensions('total');
 
                             $sort_order = array();
                             foreach ($results as $key => $value) {
-                                $sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+                                $sort_order[$key] = $this->config->get('total_' . $value['code'] . '_sort_order');
                             }
                             array_multisort($sort_order, SORT_ASC, $results);
 
                             foreach ($results as $result) {
-                                if ($this->config->get($result['code'] . '_status')) {
+                                if ($this->config->get('total_' . $result['code'] . '_status')) {
                                     $this->load->model('extension/total/' . $result['code']);
                                     $this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
                                 }

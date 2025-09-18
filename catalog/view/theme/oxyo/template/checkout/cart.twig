@@ -194,4 +194,127 @@
 		{{ column_right }}
 	</div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const cartForm = document.querySelector('form[action="{{ action }}"]');
+        const cartQtyInputs = cartForm.querySelectorAll('input[name^="quantity["]');
+
+        // Listen to any input change
+        cartQtyInputs.forEach(function(cartQtyInput) {
+            cartQtyInput.addEventListener('change', function() {
+                console.log('Quantity changed: ' + this.value);
+                cartUpdate();
+            });
+        });
+
+        // Function to update cart via AJAX
+        const cartUpdate = function() {
+            const formData = new FormData(cartForm);
+            console.log('Updating cart with data:', Array.from(formData.entries()));
+            fetch('index.php?route=checkout/cart/ajaxUpdate', { // URL: index.php?route=checkout/cart/edit
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Example: update total price element
+                    console.log('Cart updated', data);
+                    if (data.error_warning) {
+                        // Find existing alert
+                        let alertDiv = document.querySelector('.alert-danger');
+
+                        // If not exists - create it
+                        if (!alertDiv) {
+                            alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-danger';
+
+                            // Add icon
+                            let icon = document.createElement('i');
+                            icon.className = 'fa fa-exclamation-circle';
+                            alertDiv.appendChild(icon);
+                            alertDiv.appendChild(document.createTextNode(' ')); // spacing
+
+                            // Add text container
+                            let textNode = document.createElement('span');
+                            textNode.className = 'alert-text';
+                            alertDiv.appendChild(textNode);
+
+                            // Add close button
+                            let closeBtn = document.createElement('button');
+                            closeBtn.type = 'button';
+                            closeBtn.className = 'close';
+                            closeBtn.setAttribute('data-dismiss', 'alert');
+                            closeBtn.innerHTML = '&times;';
+                            alertDiv.appendChild(closeBtn);
+
+                            // Insert before cartForm
+                            cartForm.parentNode.insertBefore(alertDiv, cartForm);
+                        }
+
+                        // Update message text
+                        let textNode = alertDiv.querySelector('.alert-text');
+                        if (textNode) {
+                            textNode.textContent = data.error_warning;
+                        }
+
+                        // Show alert
+                        alertDiv.style.display = '';
+
+                        // Scroll to top
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // Hide alert if exists
+                        let alertDiv = document.querySelector('.alert-danger');
+                        if (alertDiv) {
+                            alertDiv.style.display = 'none';
+                        }
+                    }
+                    if (data.products) {
+                        for (const [cart_id, product] of Object.entries(data.products)) {
+                            const productRow = document.getElementById('product_' + cart_id);
+                            if (productRow) {
+                                // Update quantity input
+                                const qtyInput = productRow.querySelector('input[name="quantity[' + cart_id + ']"]');
+                                if (qtyInput) {
+                                    qtyInput.value = product.quantity;
+                                }
+                                // Update total price
+                                const totalDiv = productRow.querySelector('.cart-cell-inner.total');
+                                if (totalDiv) {
+                                    totalDiv.textContent = product.total;
+                                }
+                                // Show stock warning if out of stock
+                                const stockWarning = productRow.querySelector('.text-danger');
+                                if (stockWarning) {
+                                    if (!product.stock) {
+                                        stockWarning.style.display = '';
+                                    } else {
+                                        stockWarning.style.display = 'none';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (data.totals) {
+                        for (const [code, total] of Object.entries(data.totals)) {
+                            const totalRow = document.getElementById(code);
+                            if (totalRow) {
+                                const totalTextDiv = totalRow.querySelector('.totals-text');
+                                if (totalTextDiv) {
+                                    totalTextDiv.textContent = total.text;
+                                }
+                            }
+                        }
+                    }
+                })
+                .catch(err => console.error('Cart update error:', err));
+        };
+    });
+</script>
 {{ footer }}
