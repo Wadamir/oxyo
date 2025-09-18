@@ -626,6 +626,8 @@ var cart = {
         });
     },
     'remove': function (key) {
+        console.log('Removing item from cart:', key);
+
         $.ajax({
             url: 'index.php?route=extension/oxyo/oxyo_features/remove_from_cart',
             type: 'post',

@@ -197,6 +197,9 @@
     --primary-white-100: #fcfcfc;
     --secondary-white-100: #ffffff;
 
+    --primary-grey-100: #cccccc;
+    --secondary-grey-100: #999999;
+
     --primary-black-100: #070709;
     --secondary-black-100: #000000;
 
@@ -6946,6 +6949,24 @@ a.button-circle {
     }
 }
 
+#products-wrapper,
+#totals-wrapper {
+    background-color: transparent;
+    transition: background-color 0.5s ease; /* animation */
+}
+
+#products-wrapper.loading {
+    background-color: var(--secondary-grey-100, #999999);
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+#totals-wrapper.loading {
+    background-color: var(--secondary-grey-100, #999999);
+    opacity: 0.25;
+    pointer-events: none;
+}
+
 .cart-table {
     margin-bottom: 24px;
 
@@ -7156,7 +7177,7 @@ a.button-circle {
 }
 
 /* Totals section */
-.totals-wrapper {
+#totals-wrapper {
     margin-bottom: 24px;
 
     display: flex;
