@@ -1,160 +1,197 @@
 {{ header }}
 <div class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  
-  {% if attention %}
-  <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ attention }}
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-  </div>
-  {% endif %}
-  {% if success %}
-  <div class="alert alert-success"><i class="fa fa-check"></i> {{ success }}
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-  </div>
-  {% endif %}
-  {% if error_warning %}
-  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-  </div>
-  {% endif %}
-  
-  <div class="row">
-  
-  {{ column_left }}
-    
-    {% if column_left and column_right %}
-    {% set class = 'col-sm-6' %}
-    {% elseif column_left or column_right %}
-    {% set class = 'col-md-9 col-sm-8' %}
-    {% else %}
-    {% set class = 'col-sm-12' %}
-    {% endif %}
-    
-    <div id="content" class="{{ class }}">
-    {{ content_top }}
-      <h1 id="page-title">{{ heading_title }}{% if weight %} ({{ weight }}){% endif %}</h1>
-      <form action="{{ action }}" method="post" enctype="multipart/form-data">
-        
-          <table class="table table-bordered border-bottom">
-            <thead>
-              <tr>
-                <td class="hidden-xs hidden-sm"></td>
-                <td colspan="2">{{ column_name }}</td>
-                <td class="hidden-xs hidden-sm">{{ column_model }}</td>
-                <td>{{ column_quantity }}</td>
-                <td class="text-end hidden-xs hidden-sm">{{ column_price }}</td>
-                <td class="text-end">{{ column_total }}</td>
-              </tr>
-            </thead>
-            
-            <tbody>
-              {% for product in products %}
-              <tr>
-              <td class="remove-cell hidden-xs hidden-sm text-center">
-			  <a onclick="cart.remove('{{ product.cart_id }}');" data-toggle="tooltip" title="{{ button_remove }}" class="product-remove"><i class="fa fa-times"></i></a>
-			  </td>
-                <td class="image">
-                {% if product.thumb %}
-                  <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /></a>
-                  {% endif %}
-                  </td>
-                <td class="name"><a class="hover_uline" href="{{ product.href }}">{{ product.name }}</a>
-                  {% if not product.stock %}
-                  <span class="text-danger">***</span>
-                  {% endif %}
-                  {% if product.option %}
-                  {% for option in product.option %}
-                  <br />
-                  <small>{{ option.name }}: {{ option.value }}</small>
-                  {% endfor %}
-                  {% endif %}
-                  {% if product.reward %}
-                  <br />
-                  <small>{{ product.reward }}</small>
-                  {% endif %}
-                  {% if product.recurring %}
-                  <br />
-                  <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product.recurring }}</small>
-                  {% endif %}
-                  <small class="hidden-md hidden-lg"><br />{{ column_model }}: {{ product.model }}</small>
-                  <small class="hidden-md hidden-lg"><br />{{ column_price }}: {{ product.price }}</small><br />
-				  <a class="btn btn-default btn-tiny hidden-md hidden-lg" style="margin-top:5px;" onclick="cart.remove('{{ product.cart_id }}');">{{ button_remove }}</a>
-                  </td>
-                <td class="hidden-xs hidden-sm">{{ product.model }}</td>
-                <td>
-                <input type="number" min="1" step="1" name="quantity[{{ product.cart_id }}]" value="{{ product.quantity }}" class="form-control qty-form" />
-                    </td>
-                <td class="text-end price-cell hidden-xs hidden-sm">{{ product.price }}</td>
-                <td class="text-end total-cell">{{ product.total }}</td>
-              </tr>
-              {% endfor %}
-              {% for voucher in vouchers %}
-              <tr>
-                <td class="text-center hidden-xs hidden-sm">
-				<a onclick="voucher.remove('{{ voucher.key }}');" data-toggle="tooltip" title="{{ button_remove }}" class="product-remove"><i class="fa fa-times"></i></a>
-				</td>
-				<td colspan="2" class="text-left">
-				{{ voucher.description }}<br>
-				<a class="btn btn-default btn-tiny hidden-md hidden-lg" style="margin-top:5px;" onclick="voucher.remove('{{ voucher.key }}');">{{ button_remove }}</a>
-				</td>               
-				<td class="hidden-xs hidden-sm"></td>
-				<td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
-					<input type="number" value="1" disabled="disabled" class="form-control qty-form" />
-                    </td>
-				<td class="hidden-xs hidden-sm"></td>
-                
-                <td class="text-end total-cell">{{ voucher.amount }}</td>
-              </tr>
-              {% endfor %}
-              
-            </tbody>
-            
-          </table>
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+			<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+	</ul>
 
-          <div class="row margin-b30">
-          <div class="col-xs-12 text-end"><button type="submit" class="btn btn-primary">{{ button_update }}</button></div>
-          </div>
-          
-          
-        </form>
-        
-        <div class="row">
-        
-        <div class="col-sm-7">
-            <div class="row cart-modules">
+	{% if attention %}
+		<div class="alert alert-info">
+			<i class="fa fa-info-circle"></i> {{ attention }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+
+	{% if success %}
+		<div class="alert alert-success">
+			<i class="fa fa-check"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+
+	{% if error_warning %}
+		<div class="alert alert-danger">
+			<i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+	{% endif %}
+
+	<div class="row">
+		{{ column_left }}
+
+		{% if column_left and column_right %}
+			{% set class = 'col-lg-6' %}
+		{% elseif column_left or column_right %}
+			{% set class = 'col-lg-8' %}
+		{% else %}
+			{% set class = 'col-lg-12' %}
+		{% endif %}
+
+		<div id="content" class="{{ class }}">
+			{{ content_top }}
+            <div class="row">
+                <div class="col-12">			
+                    <h1 id="page-title">{{ heading_title }}{% if weight %} ({{ weight }}){% endif %}</h1>
+                </div>
+                <div class="col-12 col-lg-7 col-xl-8">
+                    <form action="{{ action }}" method="post" enctype="multipart/form-data">
+                        <div class="cart-table">
+                            <!-- Cart Header -->
+                            <div class="cart-header hidden d-none">
+                                <div class="cart-cell remove-cell hidden-xs hidden-sm"></div>
+                                <div class="cart-cell flex-grow-1">{{ column_name }}</div>
+                                <div class="cart-cell hidden-xs hidden-sm">{{ column_model }}</div>
+                                <div class="cart-cell">{{ column_quantity }}</div>
+                                <div class="cart-cell text-end hidden-xs hidden-sm">{{ column_price }}</div>
+                                <div class="cart-cell text-end">{{ column_total }}</div>
+                            </div>
+                            <!-- Cart Body -->
+                            <div class="cart-body">
+                                <!-- Products -->
+                                {% for product in products %}
+                                    <div id="product_{{ product.cart_id }}" class="cart-item">
+                                        <div class="cart-cell-group main-data">
+                                            <div class="cart-cell-inner image" style="max-width: {{ img_width }}px;">
+                                                {% if product.thumb %}
+                                                    <a href="{{ product.href }}">
+                                                        <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" />
+                                                    </a>
+                                                {% endif %}
+                                            </div>     
+                                            <div class="cart-cell-inner data">                           
+                                                <div class="cart-cell-inner name">
+                                                    <a class="product-name" href="{{ product.href }}">{{ product.name }}</a>
+                                                    <span class="text-danger"{{ product.stock ? ' style="display:none;"' : '' }}>***</span>
+
+                                                    <div class="product-options">
+                                                        {% if product.option %}
+                                                            {% for option in product.option %}
+                                                                <span class="small">{{ option.name }}: {{ option.value }}</span>
+                                                            {% endfor %}
+                                                        {% endif %}
+
+                                                        {% if product.reward %}
+                                                            <span class="small">{{ product.reward }}</span>
+                                                        {% endif %}
+
+                                                        {% if product.recurring %}
+                                                            <span class="label label-info small">{{ text_recurring_item }}: <span>{{ product.recurring }}</span></span>
+                                                        {% endif %}
+
+                                                        <span class="hidden-md hidden-lg small">{{ column_model }}: {{ product.model }}</span>
+                                                        <span class="hidden-md hidden-lg small hidden d-none">{{ column_price }}: {{ product.price }}</span>
+                                                    </div>
+
+                                                    <div class="price">{{ column_price }}: {{ product.price }}</div>
+                                                </div>  
+                                            </div>     
+                                        </div> 
+                                        <div class="cart-cell-group price-qty">
+                                            <div class="cart-cell-inner quantity">
+                                                <a onclick="cart.remove('{{ product.cart_id }}');" class="cart-product_remove">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                    </svg>
+                                                </a>
+                                                <div class="number-input">
+                                                    <button type="button" class="btn-decrement"></button>
+                                                    <input
+                                                        type="number"
+                                                        min="1"
+                                                        max="999999"
+                                                        step="1"
+                                                        name="quantity[{{ product.cart_id }}]"
+                                                        value="{{ product.quantity }}"
+                                                        class="form-control qty-form" />
+                                                    <button type="button" class="btn-increment"></button>
+                                                </div>
+                                            </div>
+                                            <div class="cart-cell-inner total">{{ product.total }}</div>
+                                        </div>                                                                                                      
+                                    </div>
+                                {% endfor %}
+                                <!-- Vouchers -->
+                                {% for voucher in vouchers %}
+                                    <div class="cart-row d-flex align-items-center">
+                                        <div class="cart-cell text-center hidden-xs hidden-sm">
+                                            <a onclick="voucher.remove('{{ voucher.key }}');" data-toggle="tooltip" title="{{ button_remove }}" class="product-remove">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="cart-cell flex-grow-1">
+                                            {{ voucher.description }}<br>
+                                            <a class="btn btn-default btn-tiny hidden-md hidden-lg" style="margin-top:5px;" onclick="voucher.remove('{{ voucher.key }}');">{{ button_remove }}</a>
+                                        </div>
+
+                                        <div class="cart-cell hidden-xs hidden-sm"></div>
+                                        <div class="cart-cell">
+                                            <input type="number" value="1" disabled="disabled" class="form-control qty-form" />
+                                        </div>
+                                        <div class="cart-cell hidden-xs hidden-sm"></div>
+                                        <div class="cart-cell text-end total-cell">{{ voucher.amount }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row margin-b30 hidden d-none">
+                            <div class="col-xs-12 text-end">
+                                <button type="submit" class="btn btn-primary">{{ button_update }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12 col-lg-5 col-xl-4">
+                    <div class="totals-wrapper">
+                        <div class="modules-list">
+                            {% if modules %}
+                                {% for key, module in modules %}
+                                    {% if key == 'coupon' or key == 'reward' or key == 'voucher' %}
+                                        <div class="mb-12">
+                                            {{ module }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="totals-list">
+                            {% for total in totals %}
+                                <div id="{{ total.code }}" class="totals-item">
+                                    <div class="totals-title"><b>{{ total.title }}:</b></div>
+                                    <div class="totals-text">{{ total.text }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a href="{{ checkout }}" class="btn btn-contrast btn-block w-100">{{ button_checkout }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row cart-modules hidden d-none">
                 {% if modules %}
                     {% for module in modules %}
-                        <div class="col-sm-6 margin-b30">
-                        	{{ module }}
+                        <div class="col-12 col-md-6 mb-30">
+                            {{ module }}
                         </div>
                     {% endfor %}
                 {% endif %}
             </div>
-        </div>
-        
-        <div class="col-sm-5">
-            <div class="totals-slip">
-            	<div class="table-holder margin-b25">
-                <table class="table table-bordered total-list margin-b0">
-                {% for total in totals %}
-                <tr>
-                <td><b>{{ total.title }}:</b></td>
-                <td class="text-end">{{ total.text }}</td>
-                </tr>
-                {% endfor %}
-                </table>
-                </div>
-                <a href="{{ checkout }}" class="btn btn-lg btn-contrast btn-block">{{ button_checkout }}</a>
-            </div>
-        </div>
-        
-        </div>
-      
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+			{{ content_bottom }}
+		</div>
+
+		{{ column_right }}
+	</div>
 </div>
-{{ footer }} 
+{{ footer }}

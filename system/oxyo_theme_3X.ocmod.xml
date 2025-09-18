@@ -625,12 +625,165 @@
             ]]></add>
         </operation>
     </file>
+
+    <file path="catalog/controller/checkout/cart.php">
+        <operation error="log">
+            <search><![CDATA[
+                $data['modules'][] = $result;
+            ]]></search>
+            <add position="replace"><![CDATA[
+                $data['modules'][basename($file, '.php')] = $result;
+            ]]></add>
+        </operation>
+        <operation error="log">
+            <search><![CDATA[
+                $data['totals'] = array();
+            ]]></search>
+            <add position="before"><![CDATA[
+                $img_size = $this->getCartImageSize();
+                $data['img_width'] = $img_size['width'];
+                $data['img_height'] = $img_size['height'];
+            ]]></add>
+        </operation>
+        <operation error="log">
+            <search><![CDATA[
+                'title' => $total['title'],
+                ]]></search>
+            <add position="before"><![CDATA[
+                'code'  => $total['code'],
+            ]]></add>
+        </operation>
+        <operation error="log">
+            <search><![CDATA[
+                public function edit()
+            ]]></search>
+            <add position="before"><![CDATA[
+                // Oxyo cart image size
+                private function getCartImageSize()
+                {
+                    // Get current theme
+                    $theme = $this->config->get('config_theme');
+                    // Fallback for older OC versions
+                    if (!$theme) {
+                        $theme = $this->config->get('theme_default_directory');
+                    }
+
+                    $width  = (int)$this->config->get('theme_' . $theme . '_image_cart_width');
+                    $height = (int)$this->config->get('theme_' . $theme . '_image_cart_height');
+
+                    // Default fallback if not set
+                    if (!$width || !$height) {
+                        $width  = 50;
+                        $height = 50;
+                    }
+
+                    return [
+                        'width'  => $width,
+                        'height' => $height
+                    ];
+                }            
+
+                // Oxyo cart update
+                public function ajaxUpdate()
+                {
+                    $this->load->language('checkout/cart');
+
+                    $json = array();
+
+                    // Update
+                    if (!empty($this->request->post['quantity'])) {
+                        foreach ($this->request->post['quantity'] as $key => $value) {
+                            $this->cart->update($key, $value);
+                        }
+
+                        if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
+                            $json['error_warning'] = $this->language->get('error_stock');
+                        } elseif (isset($this->session->data['error'])) {
+                            $json['error_warning'] = $this->session->data['error'];
+
+                            unset($this->session->data['error']);
+                        }                        
+
+                        if (isset($this->session->data['success'])) {
+                            unset($this->session->data['success']);
+                        }
+
+                        unset($this->session->data['shipping_method']);
+                        unset($this->session->data['shipping_methods']);
+                        unset($this->session->data['payment_method']);
+                        unset($this->session->data['payment_methods']);
+                        unset($this->session->data['reward']);
+
+                        // $this->response->redirect($this->url->link('checkout/cart'));
+
+                        // Prepare response
+                        $cart_products = $this->cart->getProducts();
+                        $json['products'] = array();
+
+                        foreach ($cart_products as $product) {
+                            $unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
+                            $total_price = $unit_price * $product['quantity'];
+
+                            $json['products'][$product['cart_id']] = array(
+                                'stock'    => $product['stock'],
+                                'quantity' => $product['quantity'],
+                                'total'    => $this->currency->format($total_price, $this->session->data['currency'])
+                            );
+                        }
+
+                        // Calculate totals
+                        $this->load->model('extension/extension');
+                        $totals = array();
+                        $taxes = $this->cart->getTaxes();
+                        $total = 0;
+
+                        $total_data = array(
+                            'totals' => &$totals,
+                            'taxes'  => &$taxes,
+                            'total'  => &$total
+                        );
+
+                        if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
+                            $results = $this->model_extension_extension->getExtensions('total');
+
+                            $sort_order = array();
+                            foreach ($results as $key => $value) {
+                                $sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+                            }
+                            array_multisort($sort_order, SORT_ASC, $results);
+
+                            foreach ($results as $result) {
+                                if ($this->config->get($result['code'] . '_status')) {
+                                    $this->load->model('extension/total/' . $result['code']);
+                                    $this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
+                                }
+                            }
+                        }
+
+                        $json['totals'] = array();
+                        foreach ($totals as $t) {
+                            $json['totals'][$t['code']] = array(
+                                'title' => $t['title'],
+                                'text'  => $this->currency->format($t['value'], $this->session->data['currency'])
+                            );
+                        }
+                    }
+
+                    $this->response->addHeader('Content-Type: application/json');
+                    $this->response->setOutput(json_encode($json));
+                }
+            // End Basel cart update
+            ]]></add>
+        </operation>
+    </file>    
+
     <file path="admin/controller/startup/permission.php">
         <operation>
             <search><![CDATA[$extension = array(]]></search>
             <add position="after"><![CDATA['extension/oxyo','extension/blog',]]></add>
         </operation>
     </file>
+
     <file path="admin/model/customer/customer.php">
         <operation>
             <search index="0"><![CDATA[
