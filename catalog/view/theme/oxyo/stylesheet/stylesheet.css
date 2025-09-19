@@ -7023,6 +7023,10 @@ a.button-circle {
     width: 100%;
 }
 
+.cart-cell-group.main-data {
+    justify-content: flex-start;
+}
+
 .cart-cell {
     /* flex: 1; */
     display: flex;
