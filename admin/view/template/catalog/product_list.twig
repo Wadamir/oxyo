@@ -91,7 +91,7 @@
 					<div class="panel-body">
 						<form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-product">
 							<div class="table-responsive">
-								<table class="table table-bordered table-hover">
+								<table class="table table-bordered table-hover{{ show_attributes ? ' show-attributes' : '' }}">
 									<thead>
 										<tr>
 											<td style="width:1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"/></td>
@@ -102,7 +102,9 @@
 											<td class="text-left">
 												<a href="{{ sort_model }}" class="{{ sort == 'p.model' ? order|lower : '' }}">{{ column_model }}</a>
 											</td>
-											<td class="text-left">{{ column_attributes }}</td>                                            
+											<td class="text-left">
+                                                <a href="javascript:void(0)" class="hide-data">{{ column_attributes }}</a>
+                                            </td>                                            
 											<td class="text-right">
 												<a href="{{ sort_price }}" class="{{ sort == 'p.price' ? order|lower : '' }}">{{ column_price }}</a>
 											</td>
@@ -131,7 +133,7 @@
 													</td>
 													<td class="text-left">{{ product.name }}</td>
 													<td class="text-left">{{ product.model }}</td>
-                                                    <td class="text-left">
+                                                    <td class="text-left td-attributes">
                                                         {% if product.attributes %}
                                                             {% for product_attribute in product.attributes %}
                                                                 <span class="strong">{{ product_attribute.name }}:</span>
@@ -246,6 +248,40 @@
 			}
 		});
 	</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // let currentCookie = getCookie('show_attributes');
+            // console.log('Current show_attributes cookie:', currentCookie);
+            document.querySelectorAll('.hide-data').forEach(function (el) {
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Helper to get cookie by name
+                    function getCookie(name) {
+                        let matches = document.cookie.match(
+                            new RegExp("(?:^|; )" + name.replace(/([.$?*|{}()|[\]\\/+^])/g, '\\$1') + "=([^;]*)")
+                        );
+                        return matches ? decodeURIComponent(matches[1]) : undefined;
+                    }
+
+                    let current = getCookie('show_attributes');
+                    console.log('Toggling show_attributes cookie from:', current);
+
+                    // Toggle cookie
+                    if (current === 'true') {
+                        document.cookie = "show_attributes=false; path=/; max-age=" + (60 * 60 * 24 * 7);
+                    } else {
+                        document.cookie = "show_attributes=true; path=/; max-age=" + (60 * 60 * 24 * 7);
+                    }
+
+                    // Reload page
+                    location.reload();
+                });
+            });
+        });
+    </script>
+
 </div>
 <!-- Modal for Bulk Copy -->
 {{ bulk_copy_modal }}

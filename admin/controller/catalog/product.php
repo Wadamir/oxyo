@@ -399,6 +399,11 @@ class ControllerCatalogProduct extends Controller
             );
         }
 
+        $data['show_attributes'] = false;
+        if (isset($_COOKIE['show_attributes']) && $_COOKIE['show_attributes'] === 'true') {
+            $data['show_attributes'] = true;
+        }
+
         $data['user_token'] = $this->session->data['user_token'];
 
         if (isset($this->error['warning'])) {

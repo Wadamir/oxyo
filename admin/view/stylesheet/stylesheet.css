@@ -541,6 +541,32 @@ input[type='checkbox']:checked::after,
     font-family: FontAwesome;
 }
 
+.table a.hide-data {
+    white-space: nowrap;
+}
+
+.table a.hide-data:after {
+    content: ' \f070';
+    font-family: FontAwesome;
+}
+
+.table.show-attributes a.hide-data:after {
+    content: ' \f06e';
+    font-family: FontAwesome;
+}
+
+.table td.td-attributes {
+    visibility: hidden;
+    overflow: hidden;
+    font-size: 0;
+}
+
+.table.show-attributes td.td-attributes {
+    visibility: visible;
+    overflow: visible;
+    font-size: 13px;
+}
+
 .pagination {
     margin: 0;
 }
