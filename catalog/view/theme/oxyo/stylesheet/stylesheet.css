@@ -369,7 +369,7 @@ body {
 .product-h1,
 .contrast-heading,
 .contrast-font {
-    font-family: 'Nunito', sans-serif;
+    /* font-family: 'Nunito', sans-serif; */
     font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
 }
 
@@ -397,7 +397,7 @@ h6 {
     margin-top: 0;
     line-height: 1.4;
     font-weight: 400;
-    font-family: 'Nunito', sans-serif;
+    /* font-family: 'Nunito', sans-serif; */
     font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
 }
 
@@ -667,19 +667,24 @@ input[type='checkbox'].form-control {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23fcfcfc' class='bi bi-check2' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0'/%3E%3C/svg%3E");
 }
 
-select {
+select, select.form-select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    text-overflow: '';
+    /* text-overflow: ''; */
     cursor: pointer;
-    background-image: url('../image/arrow-down.png');
-    background-repeat: no-repeat;
-    background-position: right 50%;
+    /* background-image: url('../image/arrow-down.png'); */
+    /* background-repeat: no-repeat; */
+    /* background-position: right 50%; */
     padding-right: 25px;
 
     outline: none;
     box-shadow: none;
+
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+
+    color: var(--primary-black-100, #070709);
+    border-color: var(--primary-black-100, #070709);
 }
 
 select.form-select:focus,
@@ -689,7 +694,7 @@ select.form-select:active {
 }
 
 select.form-select {
-    padding: 14px 36px 12px 24px;
+    padding: 12px 36px 12px 24px;
     border-radius: 8px;
 
     line-height: 1;
@@ -1671,7 +1676,7 @@ div.required .control-label:after {
     font-weight: 600;
     text-transform: uppercase;
     margin-right: 0;
-    padding: 14px 18px;
+    padding: 12px 18px;
 }
 
 .nav-tabs > li > a,
@@ -1737,7 +1742,7 @@ div.required .control-label:after {
     height: 14px;
     transform: rotate(25deg);
     vertical-align: middle;
-    margin: 0 14px 0 12px;
+    margin: 0 12px 0 12px;
     background: rgba(0, 0, 0, 0.4);
 }
 
@@ -3800,7 +3805,7 @@ div.required .control-label:after {
 
     #column-left .inner > *,
     #column-right .inner > * {
-        display: none;
+        /* display: none; */
     }
 
     #column-left .inner .filter-container,
@@ -5135,7 +5140,7 @@ div.required .control-label:after {
 }
 
 .cm_item .contrast-caption {
-    padding: 14px 30px 14px;
+    padding: 12px 24px;
     display: inline-block;
     background: rgba(0, 0, 0, 0.6);
     color: var(--primary-white-100, #fcfcfc);
@@ -6117,7 +6122,7 @@ a.scroll-to-top:not(:hover) {
 }
 
 .alert.alert-sm {
-    padding: 14px 50px 14px 18px;
+    padding: 12px 50px 12px 18px;
     margin-bottom: 30px;
 }
 
@@ -6416,15 +6421,15 @@ a.btn-outline-light:hover {
 }
 
 .btn-sm {
-    padding: 12px 24px 10px 24px;
+    padding: 12px 24px 12px 24px;
 }
 
 .btn-md {
-    padding: 14px 24px 12px 24px;
+    padding: 12px 24px 12px 24px;
 }
 
 .btn-lg {
-    padding: 16px 24px 12px 24px;
+    padding: 16px 24px 16px 24px;
 }
 
 .btn-tiny.btn-outline,
@@ -7425,13 +7430,21 @@ a.button-circle {
     }
 }
 
-.filter-trigger-btn {
+#digitalElephantFilter_box .filter-trigger-btn {
     font-size: 16px;
     color: #222222;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
 }
 
-.filter-trigger-btn i {
-    margin-right: 3px;
+#digitalElephantFilter_box .filter-trigger-btn i {
+    margin-right: 6px;
 }
 
 .notransition .btn,
@@ -9943,13 +9956,14 @@ a.label-link:not(:hover) {
 
 @media (max-width: 767px) {
     #digitalElephantFilter_box {
-        padding: 15px;
+        /* padding: 15px; */
     }
 }
 
 #digitalElephantFilter_box .box-content {
     margin: 0;
-    padding: 12px 14px;
+    padding: 0;
+    /* padding: 12px 14px; */
 
     position: fixed;
     z-index: 99999;
@@ -9969,6 +9983,8 @@ a.label-link:not(:hover) {
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: stretch;
+
+    display: none;
 }
 
 @media (min-width: 992px) {
@@ -9977,6 +9993,8 @@ a.label-link:not(:hover) {
 
         height: auto;
         width: 100%;
+
+        display: block;
     }
 }
 #digitalElephantFilter_box .box-content .widget-title {

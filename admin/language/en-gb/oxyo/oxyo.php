@@ -122,3 +122,8 @@ $_['text_wishlist_status']              = 'Wishlist Status';
 
 // Compare
 $_['text_compare_status']               = 'Comparison Status';
+
+// Typography
+$_['text_typography']                   = 'Typography';
+$_['text_override_default_font']        = 'Override Default Font Styles';
+$_['text_google_font_list']             = 'Google Font List';

@@ -30,7 +30,7 @@ $_['text_tab_contact_page']     = 'Контактная страница';
 $_['text_tab_footer']           = 'Футер';
 $_['text_tab_notifications']    = 'Уведомления';
 $_['text_tab_design_colors']    = 'Дизайн и цвета';
-$_['text_tab_typography']       = 'Типографика';
+$_['text_tab_typography']       = 'Шрифты';
 $_['text_tab_image_sizes']      = 'Размеры изображений';
 $_['text_tab_custom_css']       = 'Пользовательский CSS';
 $_['text_tab_custom_js']        = 'Пользовательский JavaScript';
@@ -122,3 +122,7 @@ $_['text_wishlist_status']              = 'Добавить в избранно�
 
 // Compare
 $_['text_compare_status']               = 'Добавить к сравнению';
+
+// Typography
+$_['text_typography']                   = 'Шрифты';
+$_['text_override_default_font']        = 'Переопределить стандартные шрифты';

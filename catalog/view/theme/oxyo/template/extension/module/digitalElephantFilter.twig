@@ -1,7 +1,7 @@
 {% if is_filter_show %}
     <div id="digitalElephantFilter_box" class="widget">
         <div class="d-lg-none">
-            <a href="#" class="btn btn-md btn-primary-outline w-100 filter-trigger-btn">{{ heading_title }}</a>
+            <a href="#" class="btn btn-md btn-primary-outline w-100 filter-trigger-btn"><i class="bi bi-funnel"></i> <span>{{ heading_title }}</span></a>
         </div>
         <div class="box-content digitalElephantFilter">
             <div class="filter-wrapper-top">
@@ -153,7 +153,7 @@
         <script type="text/javascript">
             // Oxyo
             $(document).ready(function () {
-                $('.filter-trigger-btn').addClass('active').html('<i class="icon-line-menu icon"></i> <b> {{ heading_title }}</b>');
+                // $('.filter-trigger-btn').addClass('active').html('<i class="bi bi-funnel"></i> <b> {{ heading_title }}</b>');
                 // Oxyo
                 $(".filter-trigger-btn").click(function (event) {
                     event.preventDefault();
