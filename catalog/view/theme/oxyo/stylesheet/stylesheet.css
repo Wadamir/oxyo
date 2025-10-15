@@ -890,6 +890,9 @@ html.no-scroll body {
 }
 
 .btn-close {
+    margin: 0;
+    padding: 0;
+
     color: var(--text-color-default, #1b1d21);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-x-lg' viewBox='0 0 16 16'%3E%3Cpath d='M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -3457,7 +3460,7 @@ div.required .control-label:after {
     top: 56px;
     bottom: 0;
     transition: left 500ms;
-    z-index: 99;
+    z-index: 999;
     overflow-x: hidden;
 }
 
@@ -6527,6 +6530,10 @@ a.btn-outline-light:hover {
     justify-content: center;
     align-items: center;
     gap: 8px;
+}
+
+.btn.btn-text-icon > span {
+    line-height: 1;
 }
 
 .btn.btn-text-icon > .btn_text {
@@ -9962,7 +9969,7 @@ a.label-link:not(:hover) {
 
 #digitalElephantFilter_box .box-content {
     margin: 0;
-    padding: 0;
+    padding: 24px;
     /* padding: 12px 14px; */
 
     position: fixed;
@@ -9985,6 +9992,10 @@ a.label-link:not(:hover) {
     align-items: stretch;
 
     display: none;
+}
+
+.side-filter-open #digitalElephantFilter_box .box-content {
+    display: flex;
 }
 
 @media (min-width: 992px) {
@@ -10200,7 +10211,7 @@ a.label-link:not(:hover) {
     border-radius: 4px;
     font-family: FontAwesome;
     vertical-align: top;
-    line-height: 17px;
+    line-height: 14px;
 }
 
 #digitalElephantFilter_box input[type='radio'] + span:before {
