@@ -7,8 +7,7 @@
 			<i class="icon-line-cross"></i>
 		</p>
 	</div>
-
-    <div class="sort-select">
+    <div class="sort-select d-none d-lg-block">
         <select id="input-sort" class="form-select" aria-label="{{ heading_title }}" onchange="location = this.value;">
             {% for sorts in sorts %}
                 {% if sorts.active %}
@@ -21,4 +20,54 @@
             {% endfor %}
         </select>
     </div>
+    <div class="sort-select d-lg-none">
+        <a href="#" class="btn btn-md btn-primary-outline w-100 sort-trigger-btn"><i class="bi bi-filter-left"></i> <span>{{ active_sort }}</span></a>
+    </div>    
+    <div class="side-sorting d-lg-none">
+        <div class="widget-title">
+            <h3 class="title">{{ heading_title }}</h3>
+            <a href="#" class="btn-close btn-sorting-close"></a>
+        </div>
+        <div class="side-sorting-content">
+            {% for sorts in sorts %}
+                <label class="sort-option">
+                    <input 
+                        type="radio" 
+                        name="sort" 
+                        value="{{ sorts.href }}"
+                        {% if sorts.active %} checked {% endif %}>
+                    <span>{{ sorts.text }}</span>
+                </label>
+            {% endfor %}
+        </div>
+    </div>
+	<script>
+		// Pure JS sorting modal
+		document.addEventListener('DOMContentLoaded', function() {
+			const html = document.documentElement;
+
+			const openBtn = document.querySelector('.sort-trigger-btn');
+			const closeBtn = document.querySelector('.btn-sorting-close');
+			const radios = document.querySelectorAll('input[name="sort"]');
+
+			// Open modal
+			openBtn.addEventListener('click', (e) => {
+				e.preventDefault();
+                html.classList.add('no-scroll', 'side-sorting-open');
+			});
+
+			// Close modal
+			closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+				html.classList.remove('no-scroll', 'side-sorting-open');
+			});
+
+			// When a radio is selected → trigger redirect like select
+			radios.forEach(radio => {
+				radio.addEventListener('change', () => {
+					window.location = radio.value;
+				});
+			});
+		});
+	</script>
 </div>

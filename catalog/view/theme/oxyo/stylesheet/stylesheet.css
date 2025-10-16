@@ -7437,8 +7437,13 @@ a.button-circle {
     }
 }
 
+select.form-select {
+    font-size: 14px;
+}
+
+#widgetOxyoSorting .sort-trigger-btn,
 #digitalElephantFilter_box .filter-trigger-btn {
-    font-size: 16px;
+    font-size: 14px;
     color: #222222;
 
     display: flex;
@@ -7450,8 +7455,17 @@ a.button-circle {
     gap: 6px;
 }
 
+@media screen and (min-width: 768px) {
+    select.form-select, #widgetOxyoSorting .sort-trigger-btn, #digitalElephantFilter_box .filter-trigger-btn {
+        font-size: 16px;
+    }
+}
+
+#widgetOxyoSorting .sort-trigger-btn i,
 #digitalElephantFilter_box .filter-trigger-btn i {
     margin-right: 6px;
+
+    font-size: 16px;
 }
 
 .notransition .btn,
@@ -7523,7 +7537,7 @@ a.button-circle {
     align-items: flex-start;
     gap: 5px;
 
-    z-index: 9;
+    z-index: 8;
 }
 
 .badges-wrapper > .badge > i {
@@ -10000,6 +10014,8 @@ a.label-link:not(:hover) {
 
 @media (min-width: 992px) {
     #digitalElephantFilter_box .box-content {
+        padding: 0;
+
         position: static;
 
         height: auto;
@@ -10273,6 +10289,77 @@ a.label-link:not(:hover) {
     opacity: 0.3;
     cursor: default;
 }
+
+
+
+/* sorting */
+#widgetOxyoSorting .side-sorting {
+    margin: 0;
+    padding: 24px;
+    /* padding: 12px 14px; */
+    position: absolute;
+    z-index: 99999;
+    top: 56px;
+    right: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100%;
+    background: var(--primary-white-100, #fcfcfc);
+    transition: left 500ms;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    /* justify-content: space-between; */
+    /* align-items: stretch; */
+    display: none;
+}
+
+.side-sorting-open #widgetOxyoSorting .side-sorting {
+    display: flex;
+}
+
+#widgetOxyoSorting .side-sorting .widget-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#widgetOxyoSorting .side-sorting .title {
+    margin: 0;
+    padding: 0;
+
+    font-size: 24px;
+    font-weight: 600;
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+}
+
+.side-sorting-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.side-sorting-content > .sort-option {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+
+    gap: 12px;
+
+        cursor: pointer;
+    line-height: 16px;
+    font-family: var(--font-family-text, 'Philosopher'), sans-serif;
+}
+
 
 /*! jQuery UI - v1.11.4 - 2015-10-19
 * http://jqueryui.com

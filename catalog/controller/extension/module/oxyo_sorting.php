@@ -52,6 +52,7 @@ class ControllerExtensionModuleOxyoSorting extends Controller
             'value' => 'pd.name-ASC',
             'href'  => $this->url->link($link, $path . '&sort=pd.name&order=ASC' . $url),
             'active' => (isset($this->request->get['sort']) && $this->request->get['sort'] == 'pd.name' && isset($this->request->get['order']) && $this->request->get['order'] == 'ASC') ? true : false
+            // 'active' => false
         );
 
         // $data['sorts'][] = array(
@@ -100,6 +101,12 @@ class ControllerExtensionModuleOxyoSorting extends Controller
         //     'value' => 'p.model-DESC',
         //     'href'  => $this->url->link($link, $path . '&sort=p.model&order=DESC' . $url)
         // );
+        $data['active_sort'] = $this->language->get('text_name_asc');
+        foreach ($data['sorts'] as $sort) {
+            if ($sort['active']) {
+                $data['active_sort'] = $sort['text'];
+            }
+        }
 
         return $this->load->view('extension/module/oxyo_sorting', $data);
     }
