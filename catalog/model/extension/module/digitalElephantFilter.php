@@ -2,7 +2,7 @@
 
 class ModelExtensionModuleDigitalElephantFilter extends Model
 {
-//    private $DEF_settings;
+    //    private $DEF_settings;
     private $storageSort = null;
     private $storageAttribute = null;
 
@@ -174,7 +174,6 @@ class ModelExtensionModuleDigitalElephantFilter extends Model
             foreach (explode(':', $row['text']) as $text) {
                 if (!in_array($text, $attributes[$row['attribute_group_id']]['attribute_values'][$row['attribute_id']]['values'])) {
                     $attributes[$row['attribute_group_id']]['attribute_values'][$row['attribute_id']]['values'][] = htmlspecialchars($text, ENT_COMPAT);
-
                 }
             }
         }
@@ -309,9 +308,11 @@ class ModelExtensionModuleDigitalElephantFilter extends Model
         $options = array();
         foreach ($query->rows as $row) {
             if (!isset($options[$row['option_id']])) {
-                $options[$row['option_id']] = array('option_id' => $row['option_id'],
+                $options[$row['option_id']] = array(
+                    'option_id' => $row['option_id'],
                     'name' => $row['option_name'],
-                    'option_values' => array());
+                    'option_values' => array()
+                );
             }
 
             $options[$row['option_id']]['option_values'][] = array('option_value_id' => $row['option_value_id'], 'name' => $row['name'], 'image' => $row['image']);
@@ -391,19 +392,19 @@ class ModelExtensionModuleDigitalElephantFilter extends Model
 
     private function generalizeAttribute($data, $query)
     {
-//        if ($this->storageAttribute == null) {
+        //        if ($this->storageAttribute == null) {
 
-            $this->storageAttribute = false;
-            //ATTRIBUTES
-            if ($data['attributes']) {
+        $this->storageAttribute = false;
+        //ATTRIBUTES
+        if ($data['attributes']) {
 
-                $without_attr_product_ids = [];
-                foreach ($query->rows as $row) {
-                    $without_attr_product_ids[] = "'" . $row['product_id'] . "'";
-                }
+            $without_attr_product_ids = [];
+            foreach ($query->rows as $row) {
+                $without_attr_product_ids[] = "'" . $row['product_id'] . "'";
+            }
 
-                if ($without_attr_product_ids) {
-                    $sql = "SELECT
+            if ($without_attr_product_ids) {
+                $sql = "SELECT
                           DISTINCT(pa.product_id),
                           p.price,
                           (SELECT AVG(rating) AS total
@@ -434,42 +435,42 @@ class ModelExtensionModuleDigitalElephantFilter extends Model
                                    LIMIT 1) AS special
                         FROM " . DB_PREFIX . "product_attribute pa";
 
-                    $attribute_ids = array();
-                    foreach ($data['attributes'] as $key => $attribute_values) {
-                        foreach ($attribute_values as $attribute_value) {
-                            if ($attribute_value) {
-                                $attribute_ids[$key][] = "'" . $attribute_value . "'";
-                            }
-                        }
-
-                        if (!empty($attribute_ids[$key])) {
-                            $sql .= " LEFT JOIN " . DB_PREFIX . "product_attribute pa" . $key . " ON (pa.product_id = pa" . $key . ".product_id)";
-//                    $sql .= " AND text IN (" . implode(',', $attribute_value_ids) . ")";
+                $attribute_ids = array();
+                foreach ($data['attributes'] as $key => $attribute_values) {
+                    foreach ($attribute_values as $attribute_value) {
+                        if ($attribute_value) {
+                            $attribute_ids[$key][] = "'" . $attribute_value . "'";
                         }
                     }
 
-                    $sql .= " LEFT JOIN (SELECT price, product_id FROM " . DB_PREFIX . "product_discount) AS pd2 ON (pd2.product_id = pa.product_id)
+                    if (!empty($attribute_ids[$key])) {
+                        $sql .= " LEFT JOIN " . DB_PREFIX . "product_attribute pa" . $key . " ON (pa.product_id = pa" . $key . ".product_id)";
+                        //                    $sql .= " AND text IN (" . implode(',', $attribute_value_ids) . ")";
+                    }
+                }
+
+                $sql .= " LEFT JOIN (SELECT price, product_id FROM " . DB_PREFIX . "product_discount) AS pd2 ON (pd2.product_id = pa.product_id)
                     LEFT JOIN (SELECT price, product_id FROM " . DB_PREFIX . "product_special) AS ps ON (ps.product_id = pa.product_id)
                     LEFT JOIN (SELECT price, sort_order, model, product_id FROM " . DB_PREFIX . "product) AS p ON (p.product_id = pa.product_id)
                     LEFT JOIN (SELECT name, product_id FROM " . DB_PREFIX . "product_description) AS pd ON (pd.product_id = pa.product_id)";
 
-                    $sql .= " WHERE pa.product_id IN (" . implode(',', $without_attr_product_ids) . ")";
+                $sql .= " WHERE pa.product_id IN (" . implode(',', $without_attr_product_ids) . ")";
 
-                    if ($attribute_ids) {
-                        foreach ($attribute_ids as $key => $ids) {
-                            $sql .= " AND pa" . $key . ".text IN (" . implode(',', $ids) . ")";
-                        }
+                if ($attribute_ids) {
+                    foreach ($attribute_ids as $key => $ids) {
+                        $sql .= " AND pa" . $key . ".text IN (" . implode(',', $ids) . ")";
                     }
-
-                    $sql .= $this->generalizeSort($data);
-
-                    $query = $this->db->query($sql);
-
-
-                    $this->storageAttribute = $query;
                 }
+
+                $sql .= $this->generalizeSort($data);
+
+                $query = $this->db->query($sql);
+
+
+                $this->storageAttribute = $query;
             }
-//        }
+        }
+        //        }
         return $this->storageAttribute;
     }
 
@@ -738,7 +739,10 @@ class ModelExtensionModuleDigitalElephantFilter extends Model
                 'p.date_added'
             );
 
-            if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+            if (!empty($data['sort']) && $data['sort'] == 'p.sale') {
+                // Sort by special products first (those with active discount)
+                $sql .= " ORDER BY (special IS NOT NULL) DESC, special";
+            } elseif (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
                 if ($data['sort'] == 'pd.name' || $data['sort'] == 'p.model') {
                     $sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
                 } elseif ($data['sort'] == 'p.price') {
@@ -762,7 +766,8 @@ class ModelExtensionModuleDigitalElephantFilter extends Model
         return $this->storageSort;
     }
 
-    public function getAllCategoryIds() {
+    public function getAllCategoryIds()
+    {
         $query = $this->db->query("SELECT DISTINCT category_id FROM " . DB_PREFIX . "category WHERE status = '1' ORDER BY sort_order");
         $output = [];
 

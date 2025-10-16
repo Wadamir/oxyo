@@ -132,6 +132,20 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
     private function getProducts($data_filter)
     {
 
+        $current_language_id = $this->config->get('config_language_id');
+
+        $sticker_sale = $this->config->get('sticker_sale');
+        $sticker_sale_status = isset($sticker_sale['status']) ? $sticker_sale['status'] : 0;
+        $data['sticker_sale_text'] = isset($sticker_sale['text'][$current_language_id]) ? $sticker_sale['text'][$current_language_id] : '';
+
+        $sticker_new = $this->config->get('sticker_new');
+        $sticker_new_status = isset($sticker_new['status']) ? $sticker_new['status'] : 0;
+        $data['sticker_new_text'] = isset($sticker_new['text'][$current_language_id]) ? $sticker_new['text'][$current_language_id] : '';
+
+        $sticker_stock = $this->config->get('sticker_stock');
+        $sticker_stock_status = isset($sticker_stock['status']) ? $sticker_stock['status'] : 0;
+        $data['sticker_stock_text'] = isset($sticker_stock['text'][$current_language_id]) ? $sticker_stock['text'][$current_language_id] : '';
+
         $results = $this->model_extension_module_digitalElephantFilter->getProducts($data_filter);
 
         $products = array();
@@ -189,15 +203,20 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
             }
 
             $current_language_id = $this->config->get('config_language_id');
+
             $sale_badge = false;
-            if ((float)$result['special'] && ($this->config->get('sticker_sale'))) {
-                $sticker_sale = $this->config->get('sticker_sale');
-                if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
-                    if ($sticker_sale['discount_status'] == 1) {
-                        $sale_badge = '-' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
-                    } else {
-                        $sale_badge = $sticker_sale['text'][$current_language_id];
-                    }
+            if ((float)$result['special'] && $sticker_sale_status) {
+                if ($sticker_sale['discount_status'] == 1) {
+                    $sale_badge = $data['sticker_sale_text'] . ' -' . number_format(((($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) - ($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')))) / (($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))) / 100)), 0, ',', '.') . '%';
+                } else {
+                    $sale_badge = $data['sticker_sale_text'];
+                }
+            }
+
+            $new_badge = false;
+            if ($sticker_new_status) {
+                if (strtotime($result['date_available']) > strtotime('-' . $sticker_new['days'] . ' day')) {
+                    $new_badge = $data['sticker_new_text'];
                 }
             }
 
@@ -235,12 +254,13 @@ class ControllerExtensionModuleDigitalElephantFilterGetProduct extends Controlle
                 'product_id'  => $result['product_id'],
                 'thumb'       => $image,
                 'thumb2'      => $this->model_tool_image->resize($image2, $image_width, $image_height),
-                'sale_end_date'  => $date_end['date_end'],
+                'sale_end_date'  => $date_end === false ? false : $date_end['date_end'],
                 'name'        => $result['name'],
                 'quantity'  => $result['quantity'],
                 'description' => $description,
                 'price'       => $price,
                 'sale_badge'  => $sale_badge,
+                'new_badge'   => $new_badge,
                 'new_label'   => $is_new,
                 'special'     => $special,
                 'tax'         => $tax,

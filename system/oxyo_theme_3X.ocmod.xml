@@ -811,4 +811,18 @@
             ]]></add>
         </operation>
     </file>
+    <file path="catalog/model/catalog/product.php">
+        <operation>
+            <search><![CDATA[
+                if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+            ]]></search>
+            <add position="replace"><![CDATA[
+                if (!empty($data['sort']) && $data['sort'] == 'p.sale') {
+                    // Sort by special products first (those with active discount)
+                    $sql .= " ORDER BY (special IS NOT NULL) DESC, special";
+                } elseif (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+                ]]>
+            </add>
+        </operation>
+    </file>
 </modification>

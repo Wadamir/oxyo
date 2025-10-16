@@ -35,7 +35,7 @@
                 {% if product.new_badge %}
                     <span class="badge new_badge"><i>{{ product.new_badge }}</i></span>
                 {% endif %}
-                {% if ((qty < 1) and (stock_badge_status)) %}
+                {% if ((product.quantity < 1) and (stock_badge_status)) %}
                     <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
                 {% endif %}
             </div>

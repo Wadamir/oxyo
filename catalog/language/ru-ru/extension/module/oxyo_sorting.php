@@ -5,3 +5,4 @@ $_['text_name_asc']         = 'По имени';
 $_['text_price_asc']        = 'Дешевле';
 $_['text_price_desc']       = 'Дороже';
 $_['text_rating_desc']      = 'По рейтингу';
+$_['text_sale']             = 'Акция';

@@ -34,7 +34,7 @@ function DigitalElephantFilterContainerProducts() {
             url: filterAction + $_GET_string + '&path=' + this.config.categoryPath,
             dataType: 'HTML',
             success: function (html) {
-
+                console.log('Products uploaded', $(html).find($this.selector).html());
                 var productsContent = $(html).find($this.selector).html();
 
                 if (productsContent) {

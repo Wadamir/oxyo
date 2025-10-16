@@ -90,6 +90,13 @@ class ControllerExtensionModuleOxyoSorting extends Controller
             // );
         }
 
+        $data['sorts'][] = array(
+            'text'  => $this->language->get('text_sale'),
+            'value' => 'p.sale',
+            'href'  => $this->url->link($link, $path . '&sort=p.sale' . $url),
+            'active' => (isset($this->request->get['sort']) && $this->request->get['sort'] == 'p.sale') ? true : false
+        );
+
         // $data['sorts'][] = array(
         //     'text'  => $this->language->get('text_model_asc'),
         //     'value' => 'p.model-ASC',
