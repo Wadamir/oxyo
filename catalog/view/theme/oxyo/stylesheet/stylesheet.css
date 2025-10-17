@@ -7504,7 +7504,6 @@ select.form-select {
     font-size: 14px;
 }
 
-#widgetOxyoSorting .sort-trigger-btn,
 #digitalElephantFilter_box .filter-trigger-btn {
     font-size: 14px;
     color: #222222;
@@ -7519,12 +7518,11 @@ select.form-select {
 }
 
 @media screen and (min-width: 768px) {
-    select.form-select, #widgetOxyoSorting .sort-trigger-btn, #digitalElephantFilter_box .filter-trigger-btn {
+    select.form-select, #digitalElephantFilter_box .filter-trigger-btn {
         font-size: 16px;
     }
 }
 
-#widgetOxyoSorting .sort-trigger-btn i,
 #digitalElephantFilter_box .filter-trigger-btn i {
     margin-right: 6px;
 
@@ -10356,11 +10354,44 @@ a.label-link:not(:hover) {
 
 
 /* sorting */
+#widgetOxyoSorting .sort-trigger-btn {
+    margin: 0;
+    padding: 12px 36px 12px 24px;
+
+    font-size: 14px;
+    color: #222222;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
+}
+
+#widgetOxyoSorting .sort-trigger-btn::after {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    #widgetOxyoSorting .sort-trigger-btn {
+        font-size: 16px;
+    }
+}
+
+#widgetOxyoSorting .sort-trigger-btn i {
+    margin-right: 6px;
+
+    font-size: 16px;
+}
+
 #widgetOxyoSorting .side-sorting {
     margin: 0;
     padding: 24px;
-    /* padding: 12px 14px; */
-    position: absolute;
+    padding: 12px 14px;
+    position: fixed;
     z-index: 99999;
     top: 56px;
     right: 0;
@@ -10371,9 +10402,13 @@ a.label-link:not(:hover) {
     transition: left 500ms;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    /* justify-content: space-between; */
-    /* align-items: stretch; */
+    flex-wrap: nowrap; 
+    justify-content: space-between;
+    align-items: stretch;
+    display: none;
+}
+
+#widgetOxyoSorting .dropdown-menu {
     display: none;
 }
 
@@ -10418,9 +10453,55 @@ a.label-link:not(:hover) {
 
     gap: 12px;
 
-        cursor: pointer;
+    cursor: pointer;
     line-height: 16px;
     font-family: var(--font-family-text, 'Philosopher'), sans-serif;
+
+    width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+    #widgetOxyoSorting .sort-trigger-btn {
+        justify-content: flex-start;
+    }
+
+    #widgetOxyoSorting .sort-trigger-btn::after {
+        display: inline-block;
+        position: absolute;
+        right: 24px;
+    }
+
+    .side-sorting-content { 
+        gap: 0;
+    }
+
+    #widgetOxyoSorting .side-sorting {
+        display: none;
+    }
+
+    #widgetOxyoSorting .dropdown-menu.show {
+        display: block;
+        inset: -12px auto auto 0px!important;
+        width: 100%;
+        padding: 24px 0 ;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-top: none;
+        border-color: var(--primary-black-100, #070709);
+        background-color: var(--primary-white-100, #fcfcfc);
+        /* box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); */
+    }
+
+    #widgetOxyoSorting .dropdown-menu.show label {
+        padding: 6px 24px
+    }
+
+    #widgetOxyoSorting .dropdown-menu.show label:hover {
+        background-color: var(--text-accent-color-dark, #d81b73);
+        color: var(--primary-white-100, #fcfcfc);   
+    }
 }
 
 

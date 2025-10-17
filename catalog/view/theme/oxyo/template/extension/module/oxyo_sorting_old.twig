@@ -1,14 +1,44 @@
 <div id="widgetOxyoSorting" class="widget dropdown">
+	<div class="widget-title hidden d-none">
+		<p class="main-title">
+			<span>{{ heading_title }}</span>
+		</p>
+		<p class="widget-title-separator">
+			<i class="icon-line-cross"></i>
+		</p>
+	</div>
 
-	<!-- Sorting button -->
+	<!-- Desktop sorting select -->
+	<div class="sort-select d-none d-lg-block__">
+		<select 
+			id="input-sort" 
+			class="form-select" 
+			aria-label="{{ heading_title }}" 
+			onchange="location = this.value;"
+		>
+			{% for sorts in sorts %}
+				{% if sorts.active %}
+					<option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+				{% else %}
+					<option value="{{ sorts.href }}">{{ sorts.text }}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+	</div>
+
+	<!-- Mobile sorting button -->
     <a href="#" class="btn btn-md btn-primary-outline w-100 sort-trigger-btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-filter-left"></i> 
         <span>{{ active_sort }}</span>
     </a>
 
-    <!-- Desktop sorting panel -->
-	<div id="side-sorting-desktop" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-		<div class="side-sorting-content">     
+	<!-- Mobile sorting panel -->
+	<div class="side-sorting d-lg-none__ dropdown-menu" aria-labelledby="dropdownMenuButton1">
+		<div class="side-sorting-content">
+            <div class="widget-title">
+                <h3 class="title">{{ heading_title }}</h3>
+                <a href="#" class="btn-close btn-sorting-close"></a>
+            </div>        
 			{% for sorts in sorts %}
 				<label class="sort-option">
 					<input 
@@ -23,8 +53,7 @@
 		</div>
 	</div>
 
-	<!-- Mobile sorting panel -->
-	<div id="side-sorting-mobile" class="side-sorting d-lg-none">
+	<div class="side-sorting d-lg-none__ dropdown-menu" aria-labelledby="dropdownMenuButton1">
 		<div class="side-sorting-content">
             <div class="widget-title">
                 <h3 class="title">{{ heading_title }}</h3>
@@ -55,20 +84,20 @@
 			// Open modal
 			openBtn.addEventListener('click', (e) => {
 				e.preventDefault();
-				html.classList.add('no-scroll', 'side-sorting-open');
+				// html.classList.add('no-scroll', 'side-sorting-open');
 			});
 
 			// Close modal
 			closeBtn.addEventListener('click', (e) => {
 				e.preventDefault();
-				html.classList.remove('no-scroll', 'side-sorting-open');
+				// html.classList.remove('no-scroll', 'side-sorting-open');
 			});
 
 			// Trigger redirect when a radio is selected
 			radios.forEach(radio => {
 				radio.addEventListener('change', () => {
 					// Optional UX improvement: close panel before redirect
-					// html.classList.remove('no-scroll', 'side-sorting-open');
+					html.classList.remove('no-scroll', 'side-sorting-open');
 					window.location = radio.value;
 				});
 			});
