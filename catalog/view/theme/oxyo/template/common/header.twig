@@ -3,97 +3,104 @@
 <!--[if IE 8 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie8"><![endif]-->
 <!--[if IE 9 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie9"><![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!-->
-<html dir="{{ direction }}" lang="{{ lang }}">
-<!--<![endif]-->
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>{{ title }}</title>
-<base href="{{ base }}" />
-{% if description %}<meta name="description" content="{{ description }}" />{% endif %}
-{% if keywords %}<meta name="keywords" content= "{{ keywords }}" />{% endif %}
-<!-- Load essential resources -->
-<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
-<link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
-<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
-<script src="catalog/view/theme/oxyo/js/slick.min.js"></script>
-<script src="catalog/view/theme/oxyo/js/oxyo_common.js"></script>
-<!-- Main stylesheet -->
-<link href="catalog/view/theme/oxyo/stylesheet/stylesheet.css" rel="stylesheet">
-<!-- Mandatory Theme Settings CSS -->
-<style id="oxyo-mandatory-css">{{ oxyo_mandatory_css }}</style>
-<!-- Plugin Stylesheet(s) -->
-{% for style in styles %}
-<link href="{{ style.href }}" rel="{{ style.rel }}" media="{{ style.media }}" />
-{% endfor %}
-{% if direction == 'rtl' %}
-<link href="catalog/view/theme/oxyo/stylesheet/rtl.css" rel="stylesheet">
-{% endif %}
-<!-- Pluing scripts(s) -->
-{% for script in scripts %}
-<script src="{{ script }}"></script>
-{% endfor %}
-<!-- Page specific meta information -->
-{% for link in links %}
-{% if link.rel == 'image' %}
-<meta property="og:image" content="{{ link.href }}" />
-{% else %}
-<link href="{{ link.href }}" rel="{{ link.rel }}" />
-{% endif %}
-{% endfor %}
-<!-- Analytic tools -->
-{% for analytic in analytics %}
-{{ analytic }}
-{% endfor %}
-{% if oxyo_styles_status %}
-<!-- Custom Color Scheme -->
-<style id="oxyo-color-scheme">{{ oxyo_styles_cache }};</style>
-{% endif %}
-{% if oxyo_typo_status %}
-<!-- Custom Fonts -->
-<style id="oxyo-fonts">{{ oxyo_fonts_cache }}</style>
-{% endif %}
-{% if oxyo_custom_css_status %}
-<!-- Custom CSS -->
-<style id="oxyo-custom-css">
-{{ oxyo_custom_css }}
-</style>
-{% endif %}
-{% if oxyo_custom_js_status %}
-<!-- Custom Javascript -->
-<script>
-{{ oxyo_custom_js }}
-</script>
-{% endif %}
-</head>
-<body class="{{ class }}{{ oxyo_body_class }}">
-{% include 'oxyo/template/common/mobile-nav.twig' %}
-<div class="outer-container main-wrapper">
-{% if notification_status %}
-<div class="top_notificaiton">
-  <div class="container{% if top_promo_close %} has-close{% endif %} {{ top_promo_width }} {{ top_promo_align }}">
-    <div class="table">
-    <div class="table-cell w100"><div class="ellipsis-wrap">{{ top_promo_text }}</div></div>
-    {% if top_promo_close %}
-    <div class="table-cell text-end">
-    <a onClick="addCookie('oxyo_top_promo', 1, 30);$(this).closest('.top_notificaiton').slideUp();" class="top_promo_close">&times;</a>
-    </div>
-    {% endif %}
-    </div>
-  </div>
-</div>
-{% endif %}
-{% include 'oxyo/template/common/headers/' ~ oxyo_header ~ '.twig' %}
-<!-- breadcrumb -->
-<div class="breadcrumb-holder">
-<div class="container">
-<span id="title-holder">&nbsp;</span>
-<div class="links-holder">
-<a class="oxyo-back-btn" onClick="history.go(-1); return false;"><i></i></a><span>&nbsp;</span>
-</div>
-</div>
-</div>
-<div class="container">
-{{ position_top }}
-</div>
+<html dir="{{ direction }}" lang="{{ lang }}"> <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{{ title }}</title>
+        <base href="{{ base }}"/>
+        {% if description %}<meta name="description" content="{{ description }}"/>
+        {% endif %}
+        {% if keywords %}<meta name="keywords" content="{{ keywords }}"/>
+        {% endif %}
+        <!-- Load essential resources -->
+        <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
+        <link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+        <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+        <script src="catalog/view/theme/oxyo/js/slick.min.js"></script>
+        <script src="catalog/view/theme/oxyo/js/oxyo_common.js"></script>
+        <!-- Main stylesheet -->
+        <link
+        href="catalog/view/theme/oxyo/stylesheet/stylesheet.css" rel="stylesheet">
+        <!-- Mandatory Theme Settings CSS -->
+        <style id="oxyo-mandatory-css">{{oxyo_mandatory_css}}</style>
+        <!-- Plugin Stylesheet(s) -->
+        {% for style in styles %}
+            <link href="{{ style.href }}" rel="{{ style.rel }}" media="{{ style.media }}"/>
+        {% endfor %}
+        {% if direction == 'rtl' %}
+            <link href="catalog/view/theme/oxyo/stylesheet/rtl.css" rel="stylesheet">
+        {% endif %}
+        <!-- Plugin scripts(s) -->
+        {% for script in scripts %}
+            <script src="{{ script }}"></script>
+        {% endfor %}
+        <!-- Page specific meta information -->
+        {% for link in links %}
+            {% if link.rel == 'image' %}
+                <meta property="og:image" content="{{ link.href }}"/>
+            {% else %}
+                <link href="{{ link.href }}" rel="{{ link.rel }}"/>
+            {% endif %}
+        {% endfor %}
+        <!-- Analytic tools -->
+        {% for analytic in analytics %}
+            {{ analytic }}
+        {% endfor %}
+        {% if oxyo_styles_status %}
+            <!-- Custom Color Scheme -->
+            <style id="oxyo-color-scheme">
+                {{oxyo_styles_cache}};
+            </style>
+        {% endif %}
+        {% if oxyo_typo_status %}
+            <!-- Custom Fonts -->
+            <style id="oxyo-fonts">{{oxyo_fonts_cache}}</style>
+        {% endif %}
+        {% if oxyo_custom_css_status %}
+            <!-- Custom CSS -->
+            <style id="oxyo-custom-css">
+                {{oxyo_custom_css}}</style>
+        {% endif %}
+        {% if oxyo_custom_js_status %}
+            <!-- Custom Javascript -->
+            <script>
+                {{ oxyo_custom_js }}</script>
+        {% endif %}
+    </head>
+    <body class="{{ class }}{{ oxyo_body_class }}">
+        {% include 'oxyo/template/common/mobile-nav.twig' %}
+        <div class="outer-container main-wrapper">
+            {% if notification_status %}
+                <div class="top_notificaiton">
+                    <div class="container{% if top_promo_close %} has-close{% endif %} {{ top_promo_width }} {{ top_promo_align }}">
+                        <div class="table">
+                            <div class="table-cell w100">
+                                <div class="ellipsis-wrap">{{ top_promo_text }}</div>
+                            </div>
+                            {% if top_promo_close %}
+                                <div class="table-cell text-end">
+                                    <a onclick="addCookie('oxyo_top_promo', 1, 30);$(this).closest('.top_notificaiton').slideUp();" class="top_promo_close">&times;</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% include 'oxyo/template/common/headers/' ~ oxyo_header ~ '.twig' %}
+            <!-- breadcrumb -->
+            <div class="breadcrumb-holder">
+                <div class="container">
+                    <span id="title-holder">&nbsp;</span>
+                    <div class="links-holder">
+                        <a class="oxyo-back-btn" onclick="history.go(-1); return false;">
+                            <i></i>
+                        </a>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                {{ position_top }}
+            </div>

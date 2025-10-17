@@ -116,7 +116,7 @@ $(document).ready(function () {
     }
 
     // Move breadcrumb to header //
-    $('ul.breadcrumb').appendTo($('.links-holder span').empty());
+    $('ul.breadcrumb').appendTo($('.links-holder div').empty());
 
     // Sticky header
     var sticky_to_top = $('.sticky-header').offset().top;

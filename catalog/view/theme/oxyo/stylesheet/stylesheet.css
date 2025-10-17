@@ -4089,6 +4089,69 @@ div.required .control-label:after {
     width: 35px;
 }
 
+/* breadcrumb new style */
+.breadcrumb-holder .breadcrumb {
+	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	white-space: nowrap;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+}
+
+.breadcrumb-holder .breadcrumb::-webkit-scrollbar {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.breadcrumb-holder .breadcrumb li {
+		display: none;
+	}
+	
+	/* Показываем первую (домик), предпоследнюю и последнюю */
+	.breadcrumb-holder .breadcrumb li:first-child,
+	.breadcrumb-holder .breadcrumb li:nth-last-child(2),
+	.breadcrumb-holder .breadcrumb li:last-child {
+		display: inline-block;
+	}
+	
+	/* Добавляем троеточие между первой и предпоследней */
+	.breadcrumb-holder .breadcrumb li:first-child::after {
+		content: '...';
+		margin: 0 5px;
+		color: #999;
+	}
+	
+	/* Если хлебных крошек мало (2 или 3), убираем "..." */
+	.breadcrumb-holder .breadcrumb li:nth-last-child(2):first-child::after,
+	.breadcrumb-holder .breadcrumb li:nth-last-child(3):first-child::after {
+		content: '';
+	}
+	
+	.breadcrumb-holder .breadcrumb {
+		white-space: nowrap;
+		overflow-x: auto;
+		scroll-behavior: smooth;
+		-webkit-overflow-scrolling: touch;
+
+        width: 100%;
+	}
+	
+	.breadcrumb-holder .breadcrumb::-webkit-scrollbar {
+		display: none;
+	}
+
+    .breadcrumb-holder .breadcrumb li:last-child {
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+    }
+}
+
+
+
 /* Grid System */
 .grid-holder {
     font-size: 0;
