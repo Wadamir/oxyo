@@ -547,25 +547,19 @@
                     {% if attribute_groups %}
                         <div class="tab-pane" id="tab-specification" role="tabpanel" aria-labelledby="specification-tab-btn">
                             <h3 class="tab-title">{{ tab_attribute }}</h3>
-                            <table class="table table-borderless table-striped specification">
+                            <div class="table__ table-borderless__   table-striped__ table-specification__ specification">
                                 {% for attribute_group in attribute_groups %}
-                                    <thead class="d-none">
-                                        <tr>
-                                            <td colspan="2">{{ attribute_group.name }}</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                    <div class="d-none">{{ attribute_group.name }}</div>
+                                    <ul class="dotted list-specification">
                                         {% for attribute in attribute_group.attribute %}
-                                            <tr>
-                                                <td class="text-left">
-                                                    <b>{{ attribute.name }}</b>
-                                                </td>
-                                                <td class="text-end">{{ attribute.text }}</td>
-                                            </tr>
+                                            <li>
+                                                <span class="spec-name">{{ attribute.name }}</span>
+                                                <span class="spec-value">{{ attribute.text }}</span>
+                                            </li>
                                         {% endfor %}
-                                    </tbody>
+                                    </ul>
                                 {% endfor %}
-                            </table>
+                            </div>
                         </div>
                     {% endif %}
                     <!-- if attribute_groups ends -->
@@ -1403,7 +1397,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		glightboxInstance = GLightbox({
 			elements,
 			autoplayVideos: true,
-			zoomable: false,
+			zoomable: true,
 			loop: true,
 			touchNavigation: true
 		});

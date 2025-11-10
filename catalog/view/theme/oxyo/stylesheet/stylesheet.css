@@ -383,7 +383,7 @@ ul {
     padding: 0;
 }
 
-.product-tabs-wrapper ul:not(.nav-tabs) {
+.product-tabs-wrapper ul:not(.nav-tabs):not(.list-specification) {
     list-style: disc;
 }
 
@@ -9490,14 +9490,19 @@ select.form-select {
 
 /* Specifications */
 .table.specification {
+    margin: 0;
     max-width: 650px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
+}
+
+.table.specification > tbody > tr {
+    border: none;
 }
 
 .table.specification > tbody > tr > td,
 .table.specification > thead > tr > td {
-    padding: 12px 5px;
-    border-top: 1px solid #eeeeee;
+    padding: 12px 6px 0 6px;
+    /* border-top: 1px solid #eeeeee; */
 }
 
 .table.specification > tbody > tr > td b {
@@ -9513,6 +9518,92 @@ select.form-select {
 
 .table.specification > thead:first-child > tr:first-child > td {
     padding-top: 0px;
+}
+
+/* Specification table with dotted leader between name and value */
+.table-specification {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+}
+
+.table-specification td {
+    padding: 6px 0;
+    border: none;
+    vertical-align: top;
+}
+
+.table-specification .spec-group-name {
+    font-weight: 600;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.table-specification .spec-name {
+    position: relative;
+    padding-right: 12px;
+    width: 50%;
+    white-space: nowrap;
+}
+
+.table-specification .spec-name::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    border-bottom: 1px dotted #ccc;
+    z-index: 0;
+}
+
+.table-specification .spec-value {
+    text-align: right;
+    padding-left: 12px;
+    white-space: nowrap;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Cover dotted line under text (so dots don't cross through letters) */
+.table-specification .spec-name b,
+.table-specification .spec-name,
+.table-specification .spec-value {
+    position: relative;
+    /* background-color: #fff; */
+    background-color: #f9f9f9;
+    z-index: 1;
+}
+
+.list-specification.dotted {
+    margin: 0;
+
+    list-style: none;
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+    max-width: 650px;
+}
+.dotted li {
+    margin-bottom: 12px;
+    border-bottom: 2px #404b51 dotted;
+    /* font-size: 26px; */
+    line-height: 1;
+}
+.dotted li span:nth-child(odd) {
+    padding-right: 6px;
+    /* color: #404b51; */
+}
+.dotted li span:nth-child(even) {
+    float: right;
+    padding-left: 6px;
+    color: var(--text-color-default, #1b1d21);
+}
+.dotted span {
+    background: #fcfcfc;
+    position: relative;
+    bottom: -6px;
 }
 
 .widget.widget-related {
