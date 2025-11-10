@@ -667,7 +667,8 @@ input[type='checkbox'].form-control {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23fcfcfc' class='bi bi-check2' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0'/%3E%3C/svg%3E");
 }
 
-select, select.form-select {
+select,
+select.form-select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -924,8 +925,6 @@ html.no-scroll body {
     z-index: 9;
 }
 
-
-
 /* Input group button adjustments */
 .input-group-btn > .btn {
     border-top-left-radius: 0;
@@ -952,11 +951,6 @@ html.no-scroll body {
 
     fill: var(--primary-white-100, #fcfcfc);
 }
-
-
-
-
-
 
 /* Bootstrap Addons */
 .margin-b0 {
@@ -4091,66 +4085,63 @@ div.required .control-label:after {
 
 /* breadcrumb new style */
 .breadcrumb-holder .breadcrumb {
-	display: flex;
-	flex-wrap: nowrap;
-	overflow-x: auto;
-	white-space: nowrap;
-	scroll-behavior: smooth;
-	-webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 .breadcrumb-holder .breadcrumb::-webkit-scrollbar {
-	display: none;
+    display: none;
 }
 
 @media (max-width: 767px) {
-	.breadcrumb-holder .breadcrumb li {
-		display: none;
-	}
-	
-	/* Показываем первую (домик), предпоследнюю и последнюю */
-	.breadcrumb-holder .breadcrumb li:first-child,
-	.breadcrumb-holder .breadcrumb li:nth-last-child(2),
-	.breadcrumb-holder .breadcrumb li:last-child {
-		display: inline-block;
-	}
-	
-	/* Добавляем троеточие между первой и предпоследней */
-	.breadcrumb-holder .breadcrumb li:first-child::after {
-		content: '...';
-		margin: 0 5px;
-		color: #999;
-	}
-	
-	/* Если хлебных крошек мало (2 или 3), убираем "..." */
-	.breadcrumb-holder .breadcrumb li:nth-last-child(2):first-child::after,
-	.breadcrumb-holder .breadcrumb li:nth-last-child(3):first-child::after {
-		content: '';
-	}
-	
-	.breadcrumb-holder .breadcrumb {
-		white-space: nowrap;
-		overflow-x: auto;
-		scroll-behavior: smooth;
-		-webkit-overflow-scrolling: touch;
+    .breadcrumb-holder .breadcrumb li {
+        display: none;
+    }
+
+    /* Показываем первую (домик), предпоследнюю и последнюю */
+    .breadcrumb-holder .breadcrumb li:first-child,
+    .breadcrumb-holder .breadcrumb li:nth-last-child(2),
+    .breadcrumb-holder .breadcrumb li:last-child {
+        display: inline-block;
+    }
+
+    /* Добавляем троеточие между первой и предпоследней */
+    .breadcrumb-holder .breadcrumb li:first-child::after {
+        content: '...';
+        margin: 0 5px;
+        color: #999;
+    }
+
+    /* Если хлебных крошек мало (2 или 3), убираем "..." */
+    .breadcrumb-holder .breadcrumb li:nth-last-child(2):first-child::after,
+    .breadcrumb-holder .breadcrumb li:nth-last-child(3):first-child::after {
+        content: '';
+    }
+
+    .breadcrumb-holder .breadcrumb {
+        white-space: nowrap;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
 
         width: 100%;
-	}
-	
-	.breadcrumb-holder .breadcrumb::-webkit-scrollbar {
-		display: none;
-	}
+    }
+
+    .breadcrumb-holder .breadcrumb::-webkit-scrollbar {
+        display: none;
+    }
 
     .breadcrumb-holder .breadcrumb li:last-child {
         max-width: 50%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
     }
 }
-
-
 
 /* Grid System */
 .grid-holder {
@@ -7185,7 +7176,6 @@ a.button-circle {
     line-height: 1;
 }
 
-
 .cart-cell-group.price-qty {
     align-items: flex-end;
 }
@@ -7302,8 +7292,6 @@ a.button-circle {
     text-align: right;
 }
 
-
-
 .modules-list {
     display: flex;
     flex-wrap: nowrap;
@@ -7312,7 +7300,6 @@ a.button-circle {
 
     gap: 12px;
 }
-
 
 /*
 .btn-checkout {
@@ -7383,21 +7370,21 @@ a.button-circle {
     }
 }
 
-@media screen and (min-width: 992px) { 
+@media screen and (min-width: 992px) {
     .cart-item {
         flex-direction: column;
     }
 }
 
-@media screen and (min-width: 1200px) { 
+@media screen and (min-width: 1200px) {
     .cart-item {
         flex-direction: row;
     }
     .cart-item > .main-data {
-        flex:3;
+        flex: 3;
     }
     .cart-item > .price-qty {
-        flex:1;
+        flex: 1;
         flex-direction: column;
     }
 }
@@ -7518,7 +7505,8 @@ select.form-select {
 }
 
 @media screen and (min-width: 768px) {
-    select.form-select, #digitalElephantFilter_box .filter-trigger-btn {
+    select.form-select,
+    #digitalElephantFilter_box .filter-trigger-btn {
         font-size: 16px;
     }
 }
@@ -10351,8 +10339,6 @@ a.label-link:not(:hover) {
     cursor: default;
 }
 
-
-
 /* sorting */
 #widgetOxyoSorting .sort-trigger-btn {
     margin: 0;
@@ -10402,7 +10388,7 @@ a.label-link:not(:hover) {
     transition: left 500ms;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: stretch;
     display: none;
@@ -10471,7 +10457,7 @@ a.label-link:not(:hover) {
         right: 24px;
     }
 
-    .side-sorting-content { 
+    .side-sorting-content {
         gap: 0;
     }
 
@@ -10481,7 +10467,7 @@ a.label-link:not(:hover) {
 
     #widgetOxyoSorting .dropdown-menu.show {
         display: block;
-        inset: -12px auto auto 0px!important;
+        inset: -12px auto auto 0px !important;
         width: 100%;
         padding: 12px 0;
         border-top-left-radius: 0;
@@ -10495,15 +10481,14 @@ a.label-link:not(:hover) {
     }
 
     #widgetOxyoSorting .dropdown-menu.show label {
-        padding: 6px 24px
+        padding: 6px 24px;
     }
 
     #widgetOxyoSorting .dropdown-menu.show label:hover {
         background-color: var(--text-accent-color-dark, #d81b73);
-        color: var(--primary-white-100, #fcfcfc);   
+        color: var(--primary-white-100, #fcfcfc);
     }
 }
-
 
 /*! jQuery UI - v1.11.4 - 2015-10-19
 * http://jqueryui.com
@@ -13132,4 +13117,70 @@ ul.sitemap > li > ul > li > ul > li > a {
 .plyr__video-embed,
 .plyr__video-wrapper--fixed-ratio {
     aspect-ratio: 2 / 3 !important;
+}
 
+/* Thumbnails bar inside GLightbox overlay */
+.glightbox-thumbs {
+    position: absolute;
+    left: 50%;
+    right: auto;
+    bottom: 0;
+    padding: 8px 8px 24px 8px;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 9999;
+    pointer-events: auto;
+    transform: translateX(-50%);
+    text-align: center;
+
+    height: 140px;
+}
+
+.glightbox-thumbs button {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+
+    height: 100%;
+    width: auto;
+}
+
+.glightbox-thumbs img {
+    width: 72px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    opacity: 0.7;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        outline-color 0.2s;
+    outline: 2px solid transparent;
+}
+
+.glightbox-thumbs button.is-active img {
+    opacity: 1;
+    outline-color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Make room for thumbs bar in the lightbox layout */
+.glightbox-container .gcontainer {
+    padding-bottom: 84px; /* room for thumbnails bar */
+}
+@media (min-width: 768px) {
+    .glightbox-thumbs img {
+        /* width: 96px; */
+        /* height: 64px; */
+        height: 100%;
+        width: auto;
+    }
+    .glightbox-container .gcontainer {
+        padding-bottom: 132px;
+    }
+}

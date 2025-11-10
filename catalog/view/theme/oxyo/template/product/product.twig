@@ -1259,83 +1259,215 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mainImageWrapper = document.getElementById('main-image-wrapper');
-        const mainImageLink = document.getElementById('main-image-link');
-        const additionalLinks = Array.from(document.querySelectorAll('.image-additional a.link'));
-        let glightboxInstance;
+document.addEventListener('DOMContentLoaded', function () {
+	// --- Guard: GLightbox availability
+	if (typeof GLightbox !== 'function') {
+		console.warn('[GLightbox] Not loaded');
+		return;
+	}
 
-        // Initialize GLightbox instance
-        function initGlightbox() {
-            if (glightboxInstance) {
-                glightboxInstance.destroy();
-            }
+	const mainImageLink = document.getElementById('main-image-link');
 
-            glightboxInstance = GLightbox({
-                elements: additionalLinks.map(link => {
-                    const type = link.dataset.type || 'image';
-                    const href = link.getAttribute('href');
-                    const poster = link.dataset.poster || '';
-                    const source = link.dataset.source || href;
+	// Collect only real thumbnails (skip Slick clones)
+	const additionalLinks = Array.from(document.querySelectorAll('.image-additional a.link')).filter(a => {
+		const slide = a.closest('.slick-slide');
+		return !(slide && slide.classList.contains('slick-cloned'));
+	});
 
-                    if (type === 'video') {
-                        return {
-                            href: source,
-                            type: 'video',
-                            source: 'local',
-                            poster: poster,
-                            width: '100%',
-                            height: 'auto'
-                        };
-                    } else {
-                        return {
-                            href: href,
-                            type: 'image'
-                        };
-                    }
-                }),
-                autoplayVideos: true,
-                zoomable: false,
-                loop: false,
-                touchNavigation: true
-            });
-        }
+	let glightboxInstance;
 
-        initGlightbox();
+	// Build GLightbox elements from thumbnails (images + local videos)
+	function buildElements() {
+		return additionalLinks.map(link => {
+			const type   = link.dataset.type || 'image';
+			const href   = link.getAttribute('href');
+			const poster = link.dataset.poster || '';
+			const source = link.dataset.source || href;
 
-        // On click of main image → open GLightbox at correct index
-        mainImageLink.addEventListener('click', function (e) {
-            e.preventDefault();
+			if (type === 'video') {
+				return { href: source, type: 'video', source: 'local', poster, width: '100%', height: 'auto' };
+			}
+			return { href, type: 'image' };
+		});
+	}
 
-            const currentSrcEl = mainImageLink.querySelector('img, video source');
-            if (!currentSrcEl) return;
+	// Create thumbs bar DOM
+	function createThumbsBar(elements) {
+		const bar = document.createElement('div');
+		bar.className = 'glightbox-thumbs';
+		elements.forEach((el, idx) => {
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.dataset.index = String(idx);
 
-            const currentSrc = currentSrcEl.getAttribute('src') || '';
-            if (!currentSrc) return;
+			const img = document.createElement('img');
+			img.src = el.type === 'video' ? (el.poster || el.href) : el.href;
+			img.alt = 'thumbnail ' + (idx + 1);
 
-            // Find index of currentSrc among the additional thumbnails
-            const matchedIndex = additionalLinks.findIndex(link => {
-                const href = link.getAttribute('href');
-                const type = link.dataset.type || 'image';
-                const poster = link.dataset.poster || '';
-                const source = link.dataset.source || href;
+			btn.appendChild(img);
+			bar.appendChild(btn);
+		});
+		return bar;
+	}
 
-                if (type === 'video') {
-                    return source === currentSrc || href === currentSrc || poster === currentSrc;
-                } else {
-                    return href === currentSrc;
-                }
-            });
+	// Highlight active thumb
+	function setActiveThumb(bar, index) {
+		Array.from(bar.querySelectorAll('button')).forEach((b, i) => {
+			b.classList.toggle('is-active', i === index);
+		});
+	}
 
-            const openAt = matchedIndex !== -1 ? matchedIndex : 0;
+	// Safe slide navigation for different GLightbox builds
+	function goToIndexSafe(i) {
+		if (!glightboxInstance) return;
+		if (typeof glightboxInstance.goTo === 'function')   { glightboxInstance.goTo(i);   return; }
+		if (typeof glightboxInstance.slide === 'function')  { glightboxInstance.slide(i);  return; }
+		if (typeof glightboxInstance.openAt === 'function'){ glightboxInstance.openAt(i); return; }
+	}
 
-            glightboxInstance.openAt(openAt);
-        });
+	// Inject thumbs bar when .glightbox-container appears
+	function ensureThumbsInjected(elements, activeIndex) {
+		const tryInject = () => {
+			const container = document.querySelector('.glightbox-container');
+			if (!container) return false;
 
-        // Optional: Re-init GLightbox if DOM changes dynamically
-        // MutationObserver or re-run initGlightbox() when needed
-    });
+			// Avoid duplicates
+			if (!container.querySelector('.glightbox-thumbs')) {
+				const bar = createThumbsBar(elements);
+				container.appendChild(bar);
+
+				// Block overlay handlers early to prevent modal closing before goTo()
+				bar.addEventListener('pointerdown', (e) => {
+					const btn = e.target.closest('button[data-index]');
+					if (!btn) return;
+					e.preventDefault();
+					e.stopPropagation();
+					e.stopImmediatePropagation();
+				});
+
+				// Click on thumb => go to slide (with full event shielding)
+				bar.addEventListener('click', (e) => {
+					const btn = e.target.closest('button[data-index]');
+					if (!btn) return;
+					e.preventDefault();
+					e.stopPropagation();
+					e.stopImmediatePropagation();
+
+					const idx = parseInt(btn.dataset.index, 10) || 0;
+					// Defer to next frame to avoid racing overlay handlers
+					requestAnimationFrame(() => goToIndexSafe(idx));
+				});
+
+				setActiveThumb(bar, activeIndex || 0);
+
+				// Keep thumbs in sync; evt can be null on some builds
+				glightboxInstance.on('slide_changed', (evt) => {
+					const idx =
+						(evt && evt.current && typeof evt.current.slideIndex === 'number')
+							? evt.current.slideIndex
+							: (glightboxInstance && typeof glightboxInstance.index === 'number'
+								? glightboxInstance.index
+								: 0);
+
+					setActiveThumb(bar, idx);
+
+					// Auto-scroll active thumb into view
+					const activeBtn = bar.querySelector('button.is-active');
+					if (activeBtn) {
+						const { left, right } = activeBtn.getBoundingClientRect();
+						const br = bar.getBoundingClientRect();
+						if (left < br.left)  bar.scrollBy({ left: left - br.left - 16, behavior: 'smooth' });
+						if (right > br.right) bar.scrollBy({ left: right - br.right + 16, behavior: 'smooth' });
+					}
+				});
+
+				// Cleanup on close
+				glightboxInstance.on('close', () => {
+					if (bar.parentNode) bar.parentNode.removeChild(bar);
+				});
+			}
+			return true;
+		};
+
+		// Try now, otherwise wait for container via MutationObserver
+		if (tryInject()) return;
+		const obs = new MutationObserver(() => { if (tryInject()) obs.disconnect(); });
+		obs.observe(document.body, { childList: true, subtree: true });
+	}
+
+	// Init GLightbox
+	function initGlightbox() {
+		if (glightboxInstance) glightboxInstance.destroy();
+		const elements = buildElements();
+
+		glightboxInstance = GLightbox({
+			elements,
+			autoplayVideos: true,
+			zoomable: false,
+			loop: false,
+			touchNavigation: true
+		});
+
+		// Don't destructure here; evt can be null
+		glightboxInstance.on('open', (evt) => {
+			const idx =
+				(evt && evt.current && typeof evt.current.slideIndex === 'number')
+					? evt.current.slideIndex
+					: (glightboxInstance && typeof glightboxInstance.index === 'number'
+						? glightboxInstance.index
+						: 0);
+			ensureThumbsInjected(elements, idx);
+		});
+	}
+
+	initGlightbox();
+
+	// Helper: open at specific index
+	function openAtIndex(i) {
+		goToIndexSafe(i >= 0 ? i : 0);
+	}
+
+	// Main image click => open lightbox at current item
+	if (mainImageLink) {
+		mainImageLink.addEventListener('click', function (e) {
+			e.preventDefault();
+			const currentSrcEl = mainImageLink.querySelector('img, video source');
+			if (!currentSrcEl) return openAtIndex(0);
+
+			const currentSrc = currentSrcEl.getAttribute('src') || '';
+			const index = additionalLinks.findIndex(link => {
+				const href   = link.getAttribute('href');
+				const type   = link.dataset.type || 'image';
+				const poster = link.dataset.poster || '';
+				const source = link.dataset.source || href;
+				return type === 'video'
+					? (source === currentSrc || href === currentSrc || poster === currentSrc)
+					: (href === currentSrc);
+			});
+
+			openAtIndex(index);
+		});
+	}
+
+	// Optional: Ctrl/⌘-click on a page thumbnail opens lightbox at that index
+	additionalLinks.forEach((link, i) => {
+		link.addEventListener('click', function (e) {
+			if (e.ctrlKey || e.metaKey) {
+				e.preventDefault();
+				openAtIndex(i);
+			}
+		});
+	});
+
+	// Re-init after Slick reflow (e.g., resize)
+	let resizeTimer;
+	window.addEventListener('resize', () => {
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(initGlightbox, 250);
+	});
+});
 </script>
+
 <script type="application/ld+json">
     {
         "@context": "http://schema.org",
