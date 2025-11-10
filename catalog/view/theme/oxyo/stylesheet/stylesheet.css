@@ -13173,6 +13173,11 @@ ul.sitemap > li > ul > li > ul > li > a {
 .glightbox-container .gcontainer {
     padding-bottom: 84px; /* room for thumbnails bar */
 }
+
+.gslide .gslide-image img.zoomable {
+    cursor: auto;
+}
+
 @media (min-width: 768px) {
     .glightbox-thumbs img {
         /* width: 96px; */
