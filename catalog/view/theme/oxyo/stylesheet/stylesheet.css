@@ -13218,7 +13218,7 @@ ul.sitemap > li > ul > li > ul > li > a {
     left: 50%;
     right: auto;
     bottom: 0;
-    padding: 8px 8px 24px 8px;
+    padding: 12px 8px 24px 8px;
     background: rgba(0, 0, 0, 0.45);
     display: flex;
     gap: 8px;
@@ -13276,6 +13276,17 @@ ul.sitemap > li > ul > li > ul > li > a {
 
 .gslide .gslide-image img.zoomable {
     /* cursor: auto; */
+    height: calc(100% - 164px);
+}
+
+.glightbox-container .gslide {
+    padding-bottom: 140px;
+}
+
+.zoomed .gslide-image img.zoomable {
+    max-width: 150% !important;
+    max-height: 150% !important;
+    /* transform: none !important; */
 }
 
 @media (min-width: 768px) {
@@ -13286,7 +13297,8 @@ ul.sitemap > li > ul > li > ul > li > a {
         width: auto;
     }
     .glightbox-container .gcontainer {
-        padding: 0;
-        /* padding-bottom: 132px; */
+        /* padding: 0; */
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
 }
