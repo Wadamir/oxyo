@@ -1252,6 +1252,7 @@
     });
 </script>
 
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 	// --- Guard: GLightbox availability
@@ -1330,27 +1331,25 @@ document.addEventListener('DOMContentLoaded', function () {
 				const bar = createThumbsBar(elements);
 				container.appendChild(bar);
 
-				// Block overlay handlers early to prevent modal closing before goTo()
+				// Prevent overlay close before goTo()
 				bar.addEventListener('pointerdown', (e) => {
 					const btn = e.target.closest('button[data-index]');
 					if (!btn) return;
 					e.preventDefault();
 					e.stopPropagation();
 					e.stopImmediatePropagation();
-				});
+				}, { capture: true });
 
-				// Click on thumb => go to slide (with full event shielding)
+				// Click on thumb => go to slide (with full shielding)
 				bar.addEventListener('click', (e) => {
 					const btn = e.target.closest('button[data-index]');
 					if (!btn) return;
 					e.preventDefault();
 					e.stopPropagation();
 					e.stopImmediatePropagation();
-
 					const idx = parseInt(btn.dataset.index, 10) || 0;
-					// Defer to next frame to avoid racing overlay handlers
 					requestAnimationFrame(() => goToIndexSafe(idx));
-				});
+				}, { capture: true });
 
 				setActiveThumb(bar, activeIndex || 0);
 
@@ -1399,10 +1398,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			autoplayVideos: true,
 			zoomable: true,
 			loop: true,
-			touchNavigation: true
+			touchNavigation: true,
+			closeOnOutsideClick: false, // close only by ✕ or Esc
+			dragToleranceY: 9999        // keep vertical drag usable; we'll shield close gesture below
 		});
 
-		// Don't destructure here; evt can be null
+		// Inject thumbs and install vertical-drag shield on open
 		glightboxInstance.on('open', (evt) => {
 			const idx =
 				(evt && evt.current && typeof evt.current.slideIndex === 'number')
@@ -1410,8 +1411,60 @@ document.addEventListener('DOMContentLoaded', function () {
 					: (glightboxInstance && typeof glightboxInstance.index === 'number'
 						? glightboxInstance.index
 						: 0);
+
 			ensureThumbsInjected(elements, idx);
+			installVerticalCloseShield(); // prevent close on downward swipe, keep panning
 		});
+
+		// Block only the "close by downward swipe" gesture (not panning)
+        function installVerticalCloseShield() {
+            const container = document.querySelector('.glightbox-container');
+            if (!container) return;
+
+            const THRESHOLD = 20; // небольшой порог, чтобы не ловить микродвижения
+
+            // TOUCH
+            let touchStartY = 0;
+            container.addEventListener('touchstart', (e) => {
+                if (!e.touches || !e.touches.length) return;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true }); // без capture!
+
+            container.addEventListener('touchmove', (e) => {
+                if (!e.touches || !e.touches.length) return;
+                const deltaY = e.touches[0].clientY - touchStartY;
+
+                // Блокируем "закрытие жестом" в ОБОИХ направлениях, но не мешаем панораме:
+                if (Math.abs(deltaY) > THRESHOLD) {
+                // даём отработать target-обработчикам (панорама), но не пропускаем дальше
+                e.stopPropagation();      // без stopImmediatePropagation
+                // и без preventDefault — чтобы не ломать скролл/панорамирование
+                }
+            }, { passive: false }); // без capture!
+
+            // MOUSE
+            let mouseDown = false;
+            let mouseStartY = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                mouseDown = true;
+                mouseStartY = e.clientY || 0;
+            }); // без capture!
+
+            container.addEventListener('mousemove', (e) => {
+                if (!mouseDown) return;
+                const deltaY = (e.clientY || 0) - mouseStartY;
+
+                if (Math.abs(deltaY) > THRESHOLD) {
+                e.stopPropagation(); // не даём всплыть до обработчиков закрытия
+                }
+            }, { passive: false }); // без capture!
+
+            container.addEventListener('mouseup', () => {
+                mouseDown = false;
+            }, { passive: true });
+        }
+
 	}
 
 	initGlightbox();
@@ -1461,6 +1514,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 </script>
+
 
 <script type="application/ld+json">
     {

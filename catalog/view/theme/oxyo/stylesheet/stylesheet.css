@@ -13154,7 +13154,7 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 
 .glightbox-container .gslide {
-    height: 80vh;
+    /* height: 80vh; */
 }
 
 .gslide > .gslide-inner-content {
@@ -13277,6 +13277,7 @@ ul.sitemap > li > ul > li > ul > li > a {
         width: auto;
     }
     .glightbox-container .gcontainer {
-        padding-bottom: 132px;
+        padding: 0;
+        /* padding-bottom: 132px; */
     }
 }
