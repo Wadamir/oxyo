@@ -755,6 +755,7 @@
             nextArrow: "<a class=\"arrow-right icon-arrow-right\"></a>",
             dots: true,
             respondTo: 'min',
+            infinite: true,
             {% if oxyo_rel_prod_grid == '5' %}
                 slidesToShow: 5,
                 slidesToScroll: 5,
@@ -1215,7 +1216,7 @@
                 nextArrow: "<a class=\"icon-arrow-right\"></a>",
                 appendArrows: '.image-additional .slick-list',
                 arrows: true,
-                infinite: false,
+                infinite: true,
                 {% if product_layout == "images-left" %}
                     slidesToShow: {{ (img_h / img_a_h)|round(0, 'floor') }},
                     vertical: true,
