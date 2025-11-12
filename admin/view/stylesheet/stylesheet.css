@@ -69,6 +69,22 @@ a:focus {
     text-decoration: none;
 }
 
+a.editor-toggle {
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+
+    cursor: pointer;
+    color: #fff;
+}
+
+a.editor-toggle.active {
+    background-color: #f00;
+}
+
+a.editor-toggle.active:hover {
+    background-color: #d00;
+}
+
 #container {
     min-height: 100%;
     width: 100%;

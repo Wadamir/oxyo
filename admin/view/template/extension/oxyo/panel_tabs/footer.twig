@@ -1,323 +1,493 @@
-<legend>Footer</legend>
+<legend>{{ text_footer_settings }}</legend>
 
-<legend class="sub">Footer Custom Block (top)</legend>
+<legend class="sub">{{ text_footer_custom_block_top }}</legend>
+<br/>
+
 <ul class="nav nav-tabs language-tabs">
 	{% for language in languages %}
-		<li>
-			<a href="#footer-block1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
-				{{ language.name }}</a>
-		</li>
+        <li>
+            <a href="#footer-block1-language{{ language.language_id }}" data-toggle="tab">
+                <img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
+                {{ language.name }}
+            </a>
+        </li>
 	{% endfor %}
 </ul>
+
 <div class="tab-content">
 	{% for language in languages %}
-		<div class="tab-pane" id="footer-block1{{ language.language_id }}">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">
-					<span data-toggle="tooltip" title="Custom block which will take place above the footer links">Footer custom block (top)</span><br/><a class="editor-toggle" id="enable-editor-footer1-{{ language.language_id }}" onclick="enable_editor('footer1','{{ language.language_id }}')">Enable HTML editor</a>
-				</label>
-				<div class="col-sm-10">
-					<textarea id="editor-textarea-footer1-{{ language.language_id }}" name="settings[oxyo][footer_block_1][{{ language.language_id }}]" class="form-control code">{{ footer_block_1[language.language_id] ? footer_block_1[language.language_id] }}</textarea>
-				</div>
-			</div>
-		</div>
+        <div class="tab-pane" id="footer-block1-language{{ language.language_id }}">
+            <div>{{ text_footer_custom_block_top_tooltip }}</div>
+
+            <div>
+                <a
+                    class="editor-toggle btn btn-primary"
+                    id="enable-editor-footer1-{{ language.language_id }}"
+                    onclick="enable_editor('footer1','{{ language.language_id }}')"
+                >{{ text_enable_editor }}</a>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <textarea
+                        id="editor-textarea-footer1-{{ language.language_id }}"
+                        name="settings[oxyo][footer_block_1][{{ language.language_id }}]"
+                        class="form-control code"
+                    >{{ footer_block_1[language.language_id] ? footer_block_1[language.language_id] }}</textarea>
+                </div>
+            </div>
+        </div>
 	{% endfor %}
 </div>
 
+{# Footer links switcher #}
+<legend class="sub">{{ text_footer_links }}</legend>
 
-<legend class="sub">Footer Links</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Enable to use custom footer links instead of the default ones in Opencart">Overwrite default links</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][overwrite_footer_links]" class="footer-custom-links-select" value="0" {% if overwrite_footer_links == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+	<div class="col-sm-3">
+		<label class="control-label text-right p-0 w-100">
+			<span data-toggle="tooltip" title="{{ help_overwrite_footer_links }}">{{ entry_overwrite_footer_links }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][overwrite_footer_links]" class="footer-custom-links-select" value="1" {% if overwrite_footer_links == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
-		</label>
+	</div>
+
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="overwrite_footer_links_0">
+				{{ text_off is defined ? text_off : (text_disabled is defined ? text_disabled : 'Off') }}
+			</label>
+
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input
+					type="radio"
+					id="overwrite_footer_links_0"
+					name="settings[oxyo][overwrite_footer_links]"
+					value="0"
+					{% if overwrite_footer_links is not defined or overwrite_footer_links == '0' %}checked="checked"{% endif %}
+				/>
+				<input
+					type="radio"
+					id="overwrite_footer_links_1"
+					name="settings[oxyo][overwrite_footer_links]"
+					value="1"
+					{% if overwrite_footer_links is defined and overwrite_footer_links == '1' %}checked="checked"{% endif %}
+				/>
+			</div>
+
+			<label class="label-switcher label-switcher-post" for="overwrite_footer_links_1">
+				{{ text_on is defined ? text_on : (text_enabled is defined ? text_enabled : 'On') }}
+			</label>
+		</div>
 	</div>
 </div>
 
-<div id="custom_footer_links_holder" {% if overwrite_footer_links %} style="display:block" {% else %} style="display:none" {% endif %}>
+<div id="custom_footer_links_holder" {% if overwrite_footer_links is defined and overwrite_footer_links == '1' %}style="display:block"{% else %}style="display:none"{% endif %}>
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>
+
 		<div class="col-sm-10">
 			<ul class="nav content-tabs" id="footer-column-tabs">
 				{% set footer_column_row = 1 %}
-				{% for oxyo_footer_column in oxyo_footer_columns %}
-					<li>
-						<a href="#footer-column-{{ footer_column_row }}" data-toggle="tab">
-							<i class="fa fa-minus-circle" onclick="$('a[href=\'#footer-column-{{ footer_column_row }}\']').parent().remove(); $('#footer-column-{{ footer_column_row }}').remove(); $('#footer-column-tabs a:first').tab('show');"></i>
-							Column
-							{{ footer_column_row }}
+                {% for oxyo_footer_column in oxyo_footer_columns %}
+                    <li>
+                        <a href="#footer-column-{{ footer_column_row }}" data-toggle="tab">
+                            <i class="fa fa-minus-circle" onclick="$('a[href=\'#footer-column-{{ footer_column_row }}\']').parent().remove(); $('#footer-column-{{ footer_column_row }}').remove(); $('#footer-column-tabs a:first').tab('show');"></i>
+                            {{ text_column }} {{ footer_column_row }}
                         </a>
-					</li>
-					{% set footer_column_row = footer_column_row + 1 %}
+                    </li>
+                    {% set footer_column_row = footer_column_row + 1 %}
 				{% endfor %}
+
 				<li id="column-add" style="cursor:pointer;">
 					<a onclick="addFooterColumn();">
 						<i class="fa fa-plus-circle"></i>
-						Add Column
-                    </a>
+						{{ button_add_column }}
+					</a>
 				</li>
 			</ul>
+
 			<div class="tab-content" id="footer-columns-holder">
 				{% set footer_column_row = 1 %}
+
 				{% if oxyo_footer_columns is defined %}
-					{% for oxyo_footer_column in oxyo_footer_columns %}
-						<div class="tab-pane" id="footer-column-{{ footer_column_row }}">
-							<div class="tab-content">
-								<table class="table table-clean table-footer-column">
-									<thead>
-										<tr>
-											<td width="96%">
-												<h4>Column Heading</h4>
-											</td>
-											<td width="4%">Sort Order</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr id="column-row{{ footer_column_row }}">
-											<td class="first">
-												{% for language in languages %}
-													<div class="input-group">
-														<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.language_id }}"/></span>
-														<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][title][{{ language.language_id }}]" value="{{ oxyo_footer_column.title[language.language_id] ? oxyo_footer_column.title[language.language_id] }}"/>
-													</div>
-												{% endfor %}
-											</td>
-											<td class="text-end">
-												<input type="text" class="form-control" style="width:60px" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][sort]" value="{{ oxyo_footer_column.sort ? oxyo_footer_column.sort : '99' }}"/>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<table id="links-holder-{{ footer_column_row }}" class="table table-clean">
-									<thead>
-										<tr>
-											<td width="48%">
-												<h4>Column Links</h4>
-											</td>
-											<td width="48%">
-												<span data-toggle="tooltip" title="Include http:// when linking to external targets">Link Target</span>
-											</td>
-											<td width="4%">
-												<span style="white-space:nowrap">Sort Order</span>
-											</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr></tr>
-										{% set footer_link_row = 1 %}
-										{% if oxyo_footer_column.links is defined %}
-											{% for link in oxyo_footer_column.links %}
-												<tr id="footer-link-row-{{ footer_column_row }}-{{ footer_link_row }}">
-													<td class="first">
-														{% for language in languages %}
-															<div class="input-group">
-																<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.language_id }}"/></span>
-																<input class="form-control" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][title][{{ language.language_id }}]" value="{{ link.title[language.language_id] ? link.title[language.language_id] }}"/>
-															</div>
-														{% endfor %}
-													</td>
-													<td class="first">
-														<input class="form-control" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][target]" value="{{ link.target ? link.target }}"/>
-													</td>
-													<td class="first">
-														<input type="text" class="form-control" style="width:60px" name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][sort]" value="{{ link.sort ? link.sort : '1' }}"/>
-													</td>
-													<td class="text-end">
-														<button type="button" onclick="$('#footer-link-row-{{ footer_column_row }}-{{ footer_link_row }}').remove();" class="btn btn-danger">Remove</button>
-													</td>
-												</tr>
-												{% set footer_link_row = footer_link_row + 1 %}
-											{% endfor %}
-											<!-- foreach groups ends -->
-										{% endif %}
-									</tbody>
-									<tfoot>
-										<tr>
-											<td colspan="3"></td>
-											<td class="text-end">
-												<button type="button" onclick="addFooterLink({{ footer_column_row }});" class="btn btn-primary">Add Link</button>
-											</td>
-										</tr>
-									</tfoot>
-								</table>
-							</div>
-						</div>
-						<!-- #footer-columns--->
-						{% set footer_column_row = footer_column_row + 1 %}
-					{% endfor %}
+				{% for oxyo_footer_column in oxyo_footer_columns %}
+				<div class="tab-pane" id="footer-column-{{ footer_column_row }}">
+					<div class="tab-content">
+						<table class="table table-clean table-footer-column">
+							<thead>
+								<tr>
+									<td width="96%"><h4>{{ text_column_heading }}</h4></td>
+									<td width="4%">{{ column_sort_order }}</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="column-row{{ footer_column_row }}">
+									<td class="first">
+										{% for language in languages %}
+										<div class="input-group">
+											<span class="input-group-addon">
+												<img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.language_id }}"/>
+											</span>
+											<input
+												type="text"
+												class="form-control"
+												name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][title][{{ language.language_id }}]"
+												value="{{ oxyo_footer_column.title[language.language_id] ? oxyo_footer_column.title[language.language_id] }}"
+											/>
+										</div>
+										{% endfor %}
+									</td>
+									<td class="text-end">
+										<input
+											type="text"
+											class="form-control"
+											style="width:60px"
+											name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][sort]"
+											value="{{ oxyo_footer_column.sort ? oxyo_footer_column.sort : '99' }}"
+										/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<table id="links-holder-{{ footer_column_row }}" class="table table-clean">
+							<thead>
+								<tr>
+									<td width="48%"><h4>{{ text_column_links }}</h4></td>
+									<td width="48%">
+										<span data-toggle="tooltip" title="{{ help_link_target }}">{{ text_link_target }}</span>
+									</td>
+									<td width="4%">
+										<span style="white-space:nowrap">{{ column_sort_order }}</span>
+									</td>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr></tr>
+
+								{% set footer_link_row = 1 %}
+								{% if oxyo_footer_column.links is defined %}
+								{% for link in oxyo_footer_column.links %}
+								<tr id="footer-link-row-{{ footer_column_row }}-{{ footer_link_row }}">
+									<td class="first">
+										{% for language in languages %}
+										<div class="input-group">
+											<span class="input-group-addon">
+												<img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.language_id }}"/>
+											</span>
+											<input
+												class="form-control"
+												name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][title][{{ language.language_id }}]"
+												value="{{ link.title[language.language_id] ? link.title[language.language_id] }}"
+											/>
+										</div>
+										{% endfor %}
+									</td>
+
+									<td class="first">
+										<input
+											class="form-control"
+											name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][target]"
+											value="{{ link.target ? link.target }}"
+										/>
+									</td>
+
+									<td class="first">
+										<input
+											type="text"
+											class="form-control"
+											style="width:60px"
+											name="settings[oxyo][oxyo_footer_columns][{{ footer_column_row }}][links][{{ footer_link_row }}][sort]"
+											value="{{ link.sort ? link.sort : '1' }}"
+										/>
+									</td>
+
+									<td class="text-end">
+										<button
+											type="button"
+											onclick="$('#footer-link-row-{{ footer_column_row }}-{{ footer_link_row }}').remove();"
+											class="btn btn-danger"
+										>{{ button_remove }}</button>
+									</td>
+								</tr>
+								{% set footer_link_row = footer_link_row + 1 %}
+								{% endfor %}
+								{% endif %}
+							</tbody>
+
+							<tfoot>
+								<tr>
+									<td colspan="3"></td>
+									<td class="text-end">
+										<button
+											type="button"
+											onclick="addFooterLink({{ footer_column_row }});"
+											class="btn btn-primary"
+										>{{ button_add_link }}</button>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+				{% set footer_column_row = footer_column_row + 1 %}
+				{% endfor %}
 				{% endif %}
 			</div>
-			<!-- #footer-columns-holder-->
 		</div>
 	</div>
 </div>
-<div class="d-none hidden">
-    <legend class="sub">Footer Custom Block (right)</legend>
-    <ul class="nav nav-tabs language-tabs">
-        {% for language in languages %}
+
+<div class="d-none__ hidden__">
+	<legend class="sub">{{ text_footer_custom_block_right }}</legend>
+    <br />
+
+	<ul class="nav nav-tabs language-tabs">
+		{% for language in languages %}
             <li>
-                <a href="#footer-block2-language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
-                    {{ language.name }}</a>
+                <a href="#footer-block2-language{{ language.language_id }}" data-toggle="tab">
+                    <img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
+                    {{ language.name }}
+                </a>
             </li>
-        {% endfor %}
-    </ul>
-    <div class="tab-content">
-        {% for language in languages %}
+		{% endfor %}
+	</ul>
+
+	<div class="tab-content">
+		{% for language in languages %}
             <div class="tab-pane" id="footer-block2-language{{ language.language_id }}">
+                <div>{{ text_footer_custom_block_right_tooltip }}</div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Heading</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" name="settings[oxyo][footer_block_title][{{ language.language_id }}]" value="{{ footer_block_title[language.language_id] ? footer_block_title[language.language_id] }}"/>
+                    <label class="col-sm-3 control-label">{{ entry_heading }}</label>
+                    <div class="col-sm-9">
+                        <input
+                            class="form-control"
+                            name="settings[oxyo][footer_block_title][{{ language.language_id }}]"
+                            value="{{ footer_block_title[language.language_id] ? footer_block_title[language.language_id] }}"
+                        />
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        <span data-toggle="tooltip" title="Custom block which will take place as a column right by the footer links">Footer custom block (top)</span><br/><a class="editor-toggle" id="enable-editor-footer2-{{ language.language_id }}" onclick="enable_editor('footer2','{{ language.language_id }}')">Enable HTML editor</a>
-                    </label>
-                    <div class="col-sm-10">
-                        <textarea id="editor-textarea-footer2-{{ language.language_id }}" name="settings[oxyo][footer_block_2][{{ language.language_id }}]" class="form-control code">{{ footer_block_2[language.language_id] ? footer_block_2[language.language_id] }}</textarea>
-                    </div>
+                <div>
+                    <a
+                        class="editor-toggle btn btn-primary"
+                        id="enable-editor-footer2-{{ language.language_id }}"
+                        onclick="enable_editor('footer2','{{ language.language_id }}')"
+                    >{{ text_enable_editor }}</a>
                 </div>
 
                 <div class="form-group">
+                    <div class="col-sm-12">
+                        <textarea
+                            id="editor-textarea-footer2-{{ language.language_id }}"
+                            name="settings[oxyo][footer_block_2][{{ language.language_id }}]"
+                            class="form-control code"
+                        >{{ footer_block_2[language.language_id] ? footer_block_2[language.language_id] }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group hidden d-none">
                     <label class="col-sm-2 control-label">
-                        <span data-toggle="tooltip" title="Contact detail lines will take place below the custom block">Contact details</span>
+                        <span data-toggle="tooltip" title="{{ help_contact_details }}">
+                            {{ text_contact_details }}
+                        </span>
                     </label>
+
                     <div class="col-sm-10">
                         <input class="form-control" name="settings[oxyo][footer_infoline_1][{{ language.language_id }}]" value="{{ footer_infoline_1[language.language_id] ? footer_infoline_1[language.language_id] }}"/>
                         <input class="form-control" name="settings[oxyo][footer_infoline_2][{{ language.language_id }}]" value="{{ footer_infoline_2[language.language_id] ? footer_infoline_2[language.language_id] }}"/>
                         <input class="form-control" name="settings[oxyo][footer_infoline_3][{{ language.language_id }}]" value="{{ footer_infoline_3[language.language_id] ? footer_infoline_3[language.language_id] }}"/>
                     </div>
                 </div>
-
             </div>
-        {% endfor %}
-    </div>
-</div>
-
-<div class="form-group hidden d-none">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="If an image is uploaded, it will take place below the contact details">Payment icons</span>
-	</label>
-	<div class="col-sm-10">
-		<a href="" id="thumb-payment-img" data-toggle="image" class="img-thumbnail"><img src="{{ payment_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/></a>
-		<input type="hidden" name="settings[oxyo][oxyo_payment_img]" value="{{ oxyo_payment_img }}" id="input-payment-img"/>
-	</div>
-</div>
-
-<legend class="sub">Footer Copyright Text</legend>
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Use {year} to add the current year">Footer Copyright Text</span>
-	</label>
-	<div class="col-sm-10">
-		{% for language in languages %}
-			<div class="input-group">
-				<span class="input-group-addon">
-					<img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.language_id }}"/></span>
-				<input class="form-control" name="settings[oxyo][oxyo_copyright][{{ language.language_id }}]" value="{{ oxyo_copyright[language.language_id] ? oxyo_copyright[language.language_id] }}"/>
-			</div>
 		{% endfor %}
 	</div>
 </div>
 
-<script>
-$('#footer-column-tabs a:first').tab('show');
-var footer_column_row = {{ footer_column_row }};
-function addFooterColumn() {
-    let html = '<div class="tab-pane" id="footer-column-' + footer_column_row + '">';
-    html += '<div class="tab-content">';
-    html += '<table id="footer_column-' + footer_column_row + '" class="table table-clean table-footer-column">';
-    html += '<thead>';
-    html += '<tr>';
-    html += '<td width="96%"><h4>Column Heading</h4></td>';
-    html += '<td width="4%">Sort Order</td>';
-    html += '</tr>';
-    html += '</thead>';
-    html += '<tbody>';
-    html += '<tr id="link-row' + footer_column_row + '">';
-    html += '<td class="first">';
-    {% for language in languages %}
-        html += '<div class="input-group">';
-        html += '<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>';
-        html += '<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][title][{{ language.language_id }}]" />';
-        html += '</div>';
-    {% endfor %}
-    html += '</td>';
-    html += '<td class="text-end">';
-    html += '<input type="text" class="form-control" style="width:60px" value="' + footer_column_row + '" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][sort]" />';
-    html += '</td>';
-    html += '</tr>';
-    html += '</tbody>';
-    html += '</table>';
+<div class="form-group hidden d-none">
+	<label class="col-sm-2 control-label">
+		<span data-toggle="tooltip" title="{{ help_payment_icons }}">
+			{{ entry_payment_icons }}
+		</span>
+	</label>
 
-    html += '<table id="links-holder-' + footer_column_row + '" class="table table-clean">';
-    html += '<thead>';
-    html += '<tr>';
-    html += '<td width="48%"><h4>Column Links</h4></td>';
-    html += '<td width="48%"><span data-toggle="tooltip" title="Include http:// when linking to external targets">Link Target</span></td>';
-    html += '<td width="4%"><span style="white-space:nowrap">Sort Order</span></td>';
-    html += '</tr>';
-    html += '</thead>';
-    html += '<tbody>';
-    html += '<tr></tr>';
-    html += '</tbody>';
-    html += '<tfoot>';
-    html += '<tr>';
-    html += '<td colspan="3"></td>';
-    html += '<td class="text-end"><button type="button" onclick="addFooterLink(' + footer_column_row + ');" class="btn btn-primary">Add Link</button></td>';
-    html += '</tr>';
-    html += '</tfoot>';
-    html += '</table>';
-    html += '</div>';
-    html += '</div>';
+	<div class="col-sm-10">
+		<a href="" id="thumb-payment-img" data-toggle="image" class="img-thumbnail">
+			<img src="{{ payment_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/>
+		</a>
+		<input type="hidden" name="settings[oxyo][oxyo_payment_img]" value="{{ oxyo_payment_img }}" id="input-payment-img"/>
+	</div>
+</div>
 
-    $('#footer-columns-holder').append(html);
-    $('#column-add').before(
-        '<li><a href="#footer-column-' + footer_column_row + '" data-toggle="tab">' +
-        '<i class="fa fa-minus-circle" onclick="$(\'a[href=\\\'#footer-column-' + footer_column_row + '\\\']\').parent().remove(); $(\'#footer-column-' + footer_column_row + '\').remove(); $(\'#footer-column-tabs a:first\').tab(\'show\');"></i> ' +
-        'Column ' + footer_column_row + '</a></li>'
-    );
+<legend class="sub">{{ text_footer_copyright_legend }}</legend>
 
-    $('#footer-column-tabs a[href=\'#footer-column-' + footer_column_row + '\']').tab('show');
+<div class="form-group">
+	<label class="col-sm-2 control-label">
+		<span data-toggle="tooltip" title="{{ help_footer_copyright }}">
+			{{ entry_footer_copyright }}
+		</span>
+	</label>
 
-    footer_column_row++;
-    $('[data-toggle=\'tooltip\']').tooltip({ container: 'body' });
-}
-</script>
+	<div class="col-sm-10">
+		{% for language in languages %}
+		<div class="input-group">
+			<span class="input-group-addon">
+				<img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.language_id }}"/>
+			</span>
+			<input
+				class="form-control"
+				name="settings[oxyo][oxyo_copyright][{{ language.language_id }}]"
+				value="{{ oxyo_copyright[language.language_id] ? oxyo_copyright[language.language_id] }}"
+			/>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
 
 <script>
-function addFooterLink(footer_column_row) {
-    let link_row = $('#links-holder-' + footer_column_row + ' tbody tr').length;
+	$('#footer-column-tabs a:first').tab('show');
 
-    let html = '<tr id="footer-link-row-' + footer_column_row + '-' + link_row + '">';
-    html += '<td class="first">';
-    {% for language in languages %}
-        html += '<div class="input-group">';
-        html += '<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>';
-        html += '<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][links][' + link_row + '][title][{{ language.language_id }}]" />';
-        html += '</div>';
-    {% endfor %}
-    html += '</td>';
-    html += '<td class="first">';
-    html += '<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][links][' + link_row + '][target]" />';
-    html += '</td>';
-    html += '<td class="first">';
-    html += '<input type="text" style="width:60px" class="form-control" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][links][' + link_row + '][sort]" value="' + link_row + '" />';
-    html += '</td>';
-    html += '<td class="text-end">';
-    html += '<button type="button" onclick="$(\'#footer-link-row-' + footer_column_row + '-' + link_row + '\').remove();" class="btn btn-danger">Remove</button>';
-    html += '</td>';
-    html += '</tr>';
+	var footer_column_row = {{ footer_column_row }};
 
-    $('#links-holder-' + footer_column_row + ' tbody').append(html);
+	function addFooterColumn() {
+		let html = '<div class="tab-pane" id="footer-column-' + footer_column_row + '">';
+		html += '<div class="tab-content">';
 
-    link_row++;
-}
+		html += '<table id="footer_column-' + footer_column_row + '" class="table table-clean table-footer-column">';
+		html += '<thead>';
+		html += '<tr>';
+		html += '<td width="96%"><h4>{{ text_column_heading }}</h4></td>';
+		html += '<td width="4%">{{ column_sort_order }}</td>';
+		html += '</tr>';
+		html += '</thead>';
+		html += '<tbody>';
+		html += '<tr id="link-row' + footer_column_row + '">';
+		html += '<td class="first">';
+
+		{% for language in languages %}
+            html += '<div class="input-group">';
+            html += '<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/></span>';
+            html += '<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][title][{{ language.language_id }}]"/>';
+            html += '</div>';
+		{% endfor %}
+
+		html += '</td>';
+		html += '<td class="text-end">';
+		html += '<input type="text" class="form-control" style="width:60px" value="' + footer_column_row + '" name="settings[oxyo][oxyo_footer_columns][' + footer_column_row + '][sort]"/>';
+		html += '</td>';
+		html += '</tr>';
+		html += '</tbody>';
+		html += '</table>';
+
+		html += '<table id="links-holder-' + footer_column_row + '" class="table table-clean">';
+		html += '<thead>';
+		html += '<tr>';
+		html += '<td width="48%"><h4>{{ text_column_links }}</h4></td>';
+		html += '<td width="48%"><span data-toggle="tooltip" title="{{ help_link_target }}">{{ text_link_target }}</span></td>';
+		html += '<td width="4%"><span style="white-space:nowrap">{{ column_sort_order }}</span></td>';
+		html += '</tr>';
+		html += '</thead>';
+		html += '<tbody>';
+		html += '<tr></tr>';
+		html += '</tbody>';
+		html += '<tfoot>';
+		html += '<tr>';
+		html += '<td colspan="3"></td>';
+		html += '<td class="text-end"><button type="button" onclick="addFooterLink(' + footer_column_row + ');" class="btn btn-primary">{{ button_add_link }}</button></td>';
+		html += '</tr>';
+		html += '</tfoot>';
+		html += '</table>';
+
+		html += '</div>';
+		html += '</div>';
+
+		$('#footer-columns-holder').append(html);
+
+		$('#column-add').before('<li><a href="#footer-column-' + footer_column_row + '" data-toggle="tab">' + '<i class="fa fa-minus-circle" onclick="$(\'a[href=\\\'#footer-column-' + footer_column_row + '\\\']\').parent().remove(); $(\'#footer-column-' + footer_column_row + '\').remove(); $(\'#footer-column-tabs a:first\').tab(\'show\');"></i> ' + '{{ text_column }} ' + footer_column_row + '</a></li>');
+
+
+		$('#footer-column-tabs a[href=\'#footer-column-' + footer_column_row + '\']').tab('show');
+
+		footer_column_row++;
+		$('[data-toggle=\'tooltip\']').tooltip({ container: 'body' });
+	}
+
+    /* Delegated remove handler (executed once for the whole document) */
+    $(document)
+        .off('click', '.btn-remove-footer-link')
+        .on('click', '.btn-remove-footer-link', function (e) {
+            e.preventDefault();
+            const rowId = $(this).data('rowId');
+            $('#' + rowId).remove();
+        });
+
+    /* Function to dynamically add a new footer link row */
+    function addFooterLink(footer_column_row) {
+        const $tbody = $('#links-holder-' + footer_column_row + ' tbody');
+
+        // Count only real link rows (ignore empty <tr></tr>)
+        const link_row = $tbody.find('tr[id^="footer-link-row-' + footer_column_row + '-"]').length + 1;
+
+        const rowId = 'footer-link-row-' + footer_column_row + '-' + link_row;
+
+        // Build row HTML dynamically with Twig variables
+        let html = '<tr id="' + rowId + '">';
+        html += '<td class="first">';
+        {% for language in languages %}
+            html += '<div class="input-group">';
+            html +=
+                '<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/></span>';
+            html +=
+                '<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][' +
+                footer_column_row +
+                '][links][' +
+                link_row +
+                '][title][{{ language.language_id }}]"/>';
+            html += '</div>';
+        {% endfor %}
+        html += '</td>';
+
+        html += '<td class="first">';
+        html +=
+            '<input type="text" class="form-control" name="settings[oxyo][oxyo_footer_columns][' +
+            footer_column_row +
+            '][links][' +
+            link_row +
+            '][target]"/>';
+        html += '</td>';
+
+        html += '<td class="first">';
+        html +=
+            '<input type="text" class="form-control" style="width:60px" name="settings[oxyo][oxyo_footer_columns][' +
+            footer_column_row +
+            '][links][' +
+            link_row +
+            '][sort]" value="' +
+            link_row +
+            '"/>';
+        html += '</td>';
+
+        html += '<td class="text-end">';
+        html +=
+            '<button type="button" class="btn btn-danger btn-remove-footer-link" data-row-id="' +
+            rowId +
+            '">{{ button_remove }}</button>';
+        html += '</td>';
+        html += '</tr>';
+
+        // Append the new row to the table body
+        $tbody.append(html);
+    }
+
+    (function(){
+        var sel = 'input[name="settings[oxyo][overwrite_footer_links]"]';
+        $(document).on('change', sel, function () {
+            $('#custom_footer_links_holder').toggle(this.value === '1');
+        });
+        // initial toggle on load (на случай, если серверный рендер без inline-стиля)
+        var checked = $(sel + ':checked').val();
+        if (checked) $('#custom_footer_links_holder').toggle(checked === '1');
+    })();    
 </script>

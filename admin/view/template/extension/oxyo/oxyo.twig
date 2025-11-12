@@ -241,10 +241,10 @@
             const textarea = $('#editor-textarea-' + area + '-' + lang_id);
 
             if (editorToggle.hasClass('active')) {
-                editorToggle.text('Enable HTML editor').removeClass('active');
+                editorToggle.text('{{ text_enable_editor }}').removeClass('active');
                 textarea.summernote('destroy');
             } else {
-                editorToggle.text('Disable HTML editor').addClass('active');
+                editorToggle.text('{{ text_disable_editor }}').addClass('active');
                 textarea.summernote({
                     disableDragAndDrop: true,
                     styleWithSpan: false,

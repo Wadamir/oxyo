@@ -16,6 +16,9 @@ $_['text_on']             = 'On';
 $_['text_select']         = 'Select';
 $_['text_none']           = 'None';
 
+$_['text_enable_editor']       = 'Enable HTML editor';
+$_['text_disable_editor']      = 'Disable HTML editor';
+
 $_['text_show_in_header']       = 'Show in Header';
 $_['text_show_in_footer']       = 'Show in Footer';
 
@@ -127,3 +130,40 @@ $_['text_compare_status']               = 'Comparison Status';
 $_['text_typography']                   = 'Typography';
 $_['text_override_default_font']        = 'Override Default Font Styles';
 $_['text_google_font_list']             = 'Google Font List';
+
+// Footer settings
+$_['button_add_column']                   = 'Add Column';
+$_['button_add_link']                     = 'Add Link';
+$_['button_remove']                       = 'Remove';
+$_['entry_heading']                       = 'Heading';
+
+// Footer links section
+$_['text_footer_links']                   = 'Footer Links';
+$_['entry_overwrite_footer_links']        = 'Overwrite default links';
+$_['help_overwrite_footer_links']         = 'Enable to use custom footer links instead of the default OpenCart links.';
+
+$_['text_column']                         = 'Column';
+$_['text_column_heading']                 = 'Column Heading';
+$_['column_sort_order']                   = 'Sort Order';
+$_['text_column_links']                   = 'Column Links';
+$_['text_link_target']                    = 'Link Target';
+$_['help_link_target']                    = 'When linking to external sites, include the full URL (including http:// or https://).';
+
+// Contacts / payment / copyright
+$_['text_contact_details']                = 'Contact Details';
+$_['help_contact_details']                = 'Contact detail lines will appear below the custom block.';
+
+$_['entry_payment_icons']                 = 'Payment Icons';
+$_['help_payment_icons']                  = 'If you upload an image, it will appear below the contact details.';
+
+$_['text_footer_copyright_legend']        = 'Footer Copyright Text';
+$_['entry_footer_copyright']              = 'Footer Copyright Text';
+$_['help_footer_copyright']               = 'Use {year} to insert the current year.';
+
+$_['text_footer_settings']                = 'Footer Settings';
+$_['text_footer_custom_block_top']        = 'Footer Custom Block (top)';
+$_['text_footer_custom_block_top_tooltip'] = 'This block appears at the top of the footer on all site pages.';
+$_['text_footer_custom_block_bottom']     = 'Footer Custom Block (bottom)';
+$_['text_footer_custom_block_bottom_tooltip'] = 'This block appears at the bottom of the footer on all site pages.';
+$_['text_footer_custom_block_right']      = 'Footer Custom Block (right)';
+$_['text_footer_custom_block_right_tooltip'] = 'The custom block will appear to the right of the footer links.';
