@@ -1212,9 +1212,9 @@
         $(document).ready(function () {
             // Initialize slick slider for additional images
             $('.image-additional').slick({
-                prevArrow: "<a class=\"icon-arrow-left\"></a>",
-                nextArrow: "<a class=\"icon-arrow-right\"></a>",
-                appendArrows: '.image-additional .slick-list',
+                prevArrow: "<a class=\"arrow-left\"><i class=\"bi bi-chevron-compact-left\"></i></a>",
+                nextArrow: "<a class=\"arrow-right\"><i class=\"bi bi-chevron-compact-right\"></i></a>",
+                // appendArrows: '.image-additional .slick-list',
                 arrows: true,
                 infinite: true,
                 {% if product_layout == "images-left" %}
