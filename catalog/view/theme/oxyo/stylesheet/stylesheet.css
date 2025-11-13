@@ -13326,8 +13326,8 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 
 .zoomed .gslide-image img.zoomable {
-    max-width: 150% !important;
-    max-height: 150% !important;
+    max-width: 130vw !important;
+    max-height: 130vh !important;
     /* transform: none !important; */
 }
 
