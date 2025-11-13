@@ -8616,15 +8616,15 @@ select.form-select {
 
 .image-additional .arrow-left,
 .image-additional .arrow-right {
-    /* height: 34px; */
-    /* width: 38px; */
+    display: none;
     text-align: center;
+
     line-height: 34px;
     font-size: 50px;
+
     background: transparent;
     color: var(--text-accent-color, #e61f80);
-    /* color: #0101ff; */
-    display: block;
+
     position: absolute;
     z-index: 2;
     top: 50%;
@@ -8764,6 +8764,11 @@ select.form-select {
 
     .images-left .image-additional .arrow-right:before {
         content: '\e604';
+    }
+
+    .image-additional .arrow-left,
+    .image-additional .arrow-right {
+        display: block;
     }
 
     .image-additional .arrow-left {
@@ -9241,8 +9246,10 @@ select.form-select {
     /* color: #666666; */
 }
 
-.wishlist_compare > p > a {
+.wishlist_compare > p > a,
+.wishlist_compare > p > button {
     display: inline-block;
+    border: none;
 }
 
 .wishlist_compare > p i {

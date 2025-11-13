@@ -92,13 +92,13 @@
                                         <div>
                                             <a class="link glightbox locked" 
                                                 href="{{ image.popup }}" 
-                                                data-source="{{ image.thumb }}"
+                                                data-source="{{ image.thumb_lg }}"
                                                 data-type="image"
                                                 data-width="100%"
                                                 data-height="100%"
                                                 data-zoomable="false"
                                                 data-draggable="false">
-                                                <img src="{{ image.popup }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
+                                                <img src="{{ image.thumb_lg }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
                                             </a>
                                         </div>
                                     {% endfor %}
@@ -113,10 +113,29 @@
 					<div class="inner">
                         <div class="wishlist_compare">
                             <p class="info is_wishlist">
-                                <a onclick="wishlist.add('{{ product_id }}');"><i class="icon-heart"></i></a>
+                                <button
+                                    type="button"
+                                    class="btn btn-icon btn-wishlist"
+                                    data-product-id="{{ product_id }}"
+                                    aria-label="{{ button_wishlist is defined ? button_wishlist : 'Add to wishlist' }}"
+                                    title="{{ button_wishlist is defined ? button_wishlist : 'Add to wishlist' }}"
+                                >
+                                    <i class="icon-heart" aria-hidden="true"></i>
+                                    <span class="visually-hidden">{{ button_wishlist is defined ? button_wishlist : 'Add to wishlist' }}</span>
+                                </button>
                             </p>
+
                             <p class="info is_compare">
-                                <a onclick="compare.add('{{ product_id }}');"><i class="icon-refresh"></i></a>
+                                <button
+                                    type="button"
+                                    class="btn btn-icon btn-compare"
+                                    data-product-id="{{ product_id }}"
+                                    aria-label="{{ button_compare is defined ? button_compare : 'Add to compare' }}"
+                                    title="{{ button_compare is defined ? button_compare : 'Add to compare' }}"
+                                >
+                                    <i class="icon-refresh" aria-hidden="true"></i>
+                                    <span class="visually-hidden">{{ button_compare is defined ? button_compare : 'Add to compare' }}</span>
+                                </button>
                             </p>
                         </div>
 						<div class="product-h1">
@@ -441,9 +460,6 @@
                                             <a class="icon twitter twitter_share external" rel="nofollow">
                                                 <i class="fa fa-twitter"></i>
                                             </a>
-                                            <a class="icon google google_share external" rel="nofollow">
-                                                <i class="icon-google-plus"></i>
-                                            </a>
                                             <a class="icon pinterest pinterest_share external" rel="nofollow">
                                                 <i class="fa fa-pinterest"></i>
                                             </a>
@@ -460,9 +476,6 @@
                                         </a>
                                         <a class="single_share twitter_share external" rel="nofollow">
                                             <i class="fa fa-twitter"></i>
-                                        </a>
-                                        <a class="single_share google_share external" rel="nofollow">
-                                            <i class="icon-google-plus"></i>
                                         </a>
                                         <a class="single_share pinterest_share external" rel="nofollow">
                                             <i class="fa fa-pinterest"></i>
@@ -1092,7 +1105,6 @@
             {% endif %}
             $('.fb_share').attr("href", 'https://www.facebook.com/sharer/sharer.php?u=' + share_url + '');
             $('.twitter_share').attr("href", 'https://twitter.com/intent/tweet?source=' + share_url + '&text=' + page_title + ': ' + share_url + '');
-            $('.google_share').attr("href", 'https://plus.google.com/share?url=' + share_url + '');
             $('.pinterest_share').attr("href", 'http://pinterest.com/pin/create/button/?url=' + share_url + '&media=' + thumb + '&description=' + page_title + '');
             $('.vk_share').attr("href", 'http://vkontakte.ru/share.php?url=' + share_url + '');
         {% endif %}
@@ -1217,15 +1229,10 @@
                 // appendArrows: '.image-additional .slick-list',
                 arrows: true,
                 infinite: true,
-                {% if product_layout == "images-left" %}
-                    slidesToShow: {{ (img_h / img_a_h)|round(0, 'floor') }},
-                    vertical: true,
-                    verticalSwiping: true,
-                {% else %}
-                    slidesToShow: {{ (img_w / img_a_w)|round }},
-                {% endif %}
                 centerMode: false,
                 {% if product_layout == "images-left" %}
+                    vertical: true,
+                    verticalSwiping: true,                
                     slidesToShow: 2,
                 {% else %}
                     slidesToShow: 3,
@@ -1235,6 +1242,7 @@
                     {
                         breakpoint: 992,
                         settings: {
+                            arrows: false,
                             vertical: false,
                             verticalSwiping: false,
                             slidesToShow: 1,
@@ -1514,54 +1522,33 @@ document.addEventListener('DOMContentLoaded', function () {
 		resizeTimer = setTimeout(initGlightbox, 250);
 	});
 });
-</script>
 
+/* Delegate clicks for wishlist/compare icon buttons */
+document.addEventListener('click', function (e) {
+	// Handle wishlist button
+	const wlBtn = e.target.closest('.btn-wishlist');
+	if (wlBtn) {
+		e.preventDefault();
+		const id = wlBtn.getAttribute('data-product-id');
+		if (window.wishlist && typeof window.wishlist.add === 'function') {
+			window.wishlist.add(id);
+		}
+		return;
+	}
 
-<script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "Product",
-        "image": [
-            {% if thumb %}
-                "{{ thumb }}"
-            {% endif %}
-        ],
-        "description": "{{ meta_description }}",
-        {% if review_qty %}
-            "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "{{ rating }}",
-            "reviewCount": "{{ review_qty }}"},
-        {% endif %}
-        "name": "{{ heading_title }}",
-        "sku": "{{ model }}",
-        {% if manufacturer %}
-            "brand": "{{ manufacturer }}",
-        {% endif %}
-        "offers": {
-        "@type": "Offer",
-        {% if qty > 0 %}
-            "availability": "http://schema.org/InStock",
-        {% else %}
-            "availability": "http://schema.org/OutOfStock",
-        {% endif %}
-        {% if price %}
-            {% if special %}
-                "price": "{{ special_snippet }}",
-            {% else %}
-                "price": "{{ price_snippet }}",
-            {% endif %}
-            "priceCurrency": "{{ currency_code }}"
-        {% endif %}
-        }
-    }
+	// Handle compare button
+	const cmpBtn = e.target.closest('.btn-compare');
+	if (cmpBtn) {
+		e.preventDefault();
+		const id = cmpBtn.getAttribute('data-product-id');
+		if (window.compare && typeof window.compare.add === 'function') {
+			window.compare.add(id);
+		}
+	}
+});
 </script>
 {% if product_layout == "images-left" or product_layout == "images-right" %}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setGalleryHeight();
-            window.addEventListener('resize', setGalleryHeight);
-        });
         const setGalleryHeight = () => {
             console.log('Setting gallery height');
             const productLayout = document.getElementById('product-layout');
@@ -1569,7 +1556,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Product layout is not images-left or images-right, skipping height adjustment');
                 return;
             }
-            const mainImage = document.getElementById('main-img');
+            const mainImage = document.getElementById('main-image');
             const additionalImages = document.querySelector('.image-additional');
             setTimeout(() => {                
                 if (mainImage && additionalImages) {
@@ -1578,7 +1565,42 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log(`Set additional images height to ${mainImageHeight}px`);
                 }
             }, 100); // Delay to ensure images are loaded
-        };
+        };    
+        document.addEventListener('DOMContentLoaded', function () {
+            setGalleryHeight();
+            window.addEventListener('resize', setGalleryHeight);
+        });
     </script>
 {% endif %}
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ heading_title }}",
+    "sku": "{{ model }}",
+    {% if manufacturer %}"brand": "{{ manufacturer }}",{% endif %}
+    {% set images_ld = [] %}
+    {% if thumb %}{% set images_ld = images_ld|merge([thumb]) %}{% endif %}
+    {% if images %}
+        {% for image in images %}
+            {% set images_ld = images_ld|merge([image.popup]) %}
+        {% endfor %}
+    {% endif %}
+    "image": [{{ images_ld|map(i => '"' ~ i ~ '"')|join(',') }}],
+    "description": "{{ meta_description|e('js') }}",
+    {% if review_qty %}
+        "aggregateRating": {"@type":"AggregateRating","ratingValue":"{{ rating }}","reviewCount":"{{ review_qty }}"},
+    {% endif %}
+    "offers": {
+        "@type": "Offer",
+        "availability": "{{ qty > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' }}",
+        {% if price %}
+            "price": "{{ special ? special_snippet : price_snippet }}",
+            "priceCurrency": "{{ currency_code }}"
+        {% endif %}
+    }
+}
+</script>
+
 {{ footer }}
