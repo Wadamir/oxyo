@@ -8623,7 +8623,7 @@ select.form-select {
     font-size: 50px;
     background: transparent;
     color: var(--text-accent-color, #e61f80);
-    color: #0101ff;
+    /* color: #0101ff; */
     display: block;
     position: absolute;
     z-index: 2;
