@@ -748,14 +748,7 @@
 
 </div>
 
-{#
-<script src="catalog/view/theme/oxyo/js/lightgallery/js/lightgallery.min.js"></script>
-<script src="catalog/view/theme/oxyo/js/lightgallery/js/lg-zoom.min.js"></script>
-<script src="catalog/view/theme/oxyo/js/cloudzoom/cloud-zoom.1.0.2.min.js"></script>
-<!-- В HEAD -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-#}
+
 
 {% if oxyo_price_update %}
     <script src="index.php?route=extension/oxyo/live_options/js&product_id={{ product_id }}"></script>
@@ -763,6 +756,7 @@
 
 {% if products %}
     <script>
+        // Related products slider
         $('.grid-holder.related').slick({
             prevArrow: "<a class=\"arrow-left icon-arrow-left\"></a>",
             nextArrow: "<a class=\"arrow-right icon-arrow-right\"></a>",
@@ -907,6 +901,7 @@
 </script>
 
 <script>
+    // Add to Cart
     $('#button-cart').on('click', function () {
         $.ajax({
             url: 'index.php?route=extension/oxyo/oxyo_features/add_to_cart',
@@ -1108,421 +1103,536 @@
             $('.pinterest_share').attr("href", 'http://pinterest.com/pin/create/button/?url=' + share_url + '&media=' + thumb + '&description=' + page_title + '');
             $('.vk_share').attr("href", 'http://vkontakte.ru/share.php?url=' + share_url + '');
         {% endif %}
-    });
-</script>
 
-{% if product_layout != "full-width" %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const additionalLinks = document.querySelectorAll('.image-additional a.link');
-            const mainImageWrapper = document.getElementById('main-image-wrapper');
-            const mainImageLink = document.getElementById('main-image-link');
-            const mainImage = document.getElementById('main-image');
-
-            additionalLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    console.log('Link clicked:', this);
-                    e.preventDefault();
-
-                    if (this.classList.contains('active')) {
-                        e.stopImmediatePropagation();
-                        return;
-                    }
-
-                    // Remove 'active' class from all and set to current
-                    additionalLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const href = this.getAttribute('href');
-                    const type = this.dataset.type || 'image';
-                    const poster = this.dataset.poster || '';
-
-                    let newContent = '';
-
-                    if (type === 'video') {
-                        newContent = `
-                            <video id="main-image" class="video-js vjs-default-skin vjs-big-play-centered" controls loop autoplay muted preload="none" width="100%" height="auto" poster="{{ video_placeholder }}">
-                                <source src="${href}" type="video/mp4">
-                                <p class="vjs-no-js">{{ text_no_js }}</p>
-                            </video>
-                        `;
-                    } else {
-                        newContent = `
-                            <img id="main-image" src="${href}" title="{{ heading_title }}" alt="{{ heading_title }}" />
-                        `;
-                    }
-
-                    // Fix height and hide with visibility/opacity
-                    const currentHeight = mainImageWrapper.offsetHeight;
-                    mainImageWrapper.style.height = currentHeight + 'px';
-                    mainImageWrapper.style.visibility = 'hidden';
-                    mainImageWrapper.style.opacity = '0';
-
-                    setTimeout(() => {
-                        mainImageLink.innerHTML = newContent;
-                        mainImageLink.href = href;
-                        // mainImageLink.setAttribute('data-type', type);
-
-                        const img = mainImageWrapper.querySelector('img');
-                        const video = mainImageWrapper.querySelector('video');
-
-                        const animateToHeight = (targetHeight) => {
-                            const startHeight = mainImageWrapper.offsetHeight;
-                            const duration = 200;
-                            const startTime = performance.now();
-
-                            const step = (timestamp) => {
-                                const elapsed = timestamp - startTime;
-                                const progress = Math.min(elapsed / duration, 1);
-                                const newHeight = startHeight + (targetHeight - startHeight) * progress;
-                                mainImageWrapper.style.height = newHeight + 'px';
-
-                                if (progress < 1) {
-                                    requestAnimationFrame(step);
-                                } else {
-                                    mainImageWrapper.style.height = '';
-                                    mainImageWrapper.style.visibility = 'visible';
-                                    mainImageWrapper.style.transition = 'opacity 0.15s';
-                                    mainImageWrapper.style.opacity = '1';
-                                }
-                            };
-                            requestAnimationFrame(step);
-                        };
-
-                        if (img) {
-                            const tempImg = new Image();
-                            tempImg.src = img.src;
-                            tempImg.onload = () => {
-                                const wrapper = document.createElement('div');
-                                wrapper.style.position = 'absolute';
-                                wrapper.style.visibility = 'hidden';
-                                wrapper.style.width = mainImageWrapper.offsetWidth + 'px';
-                                wrapper.appendChild(tempImg);
-                                document.body.appendChild(wrapper);
-
-                                const newHeight = tempImg.height;
-                                document.body.removeChild(wrapper);
-                                animateToHeight(newHeight);
-                            };
-                        } else if (video) {
-                            video.onloadedmetadata = () => {
-                                const ratio = video.videoHeight / video.videoWidth;
-                                const newHeight = mainImageWrapper.offsetWidth * ratio;
-                                animateToHeight(newHeight);
-                                video.play().catch(() => {});
-                            };
-                        } else {
-                            mainImageWrapper.style.visibility = 'visible';
-                            mainImageWrapper.style.opacity = '1';
-                            mainImageWrapper.style.height = '';
-                        }
-                    }, 50);
-                });
-            });
-        });
-
-        $(document).ready(function () {
-            // Initialize slick slider for additional images
-            $('.image-additional').slick({
-                prevArrow: "<a class=\"arrow-left\"><i class=\"bi bi-chevron-compact-left\"></i></a>",
-                nextArrow: "<a class=\"arrow-right\"><i class=\"bi bi-chevron-compact-right\"></i></a>",
-                // appendArrows: '.image-additional .slick-list',
-                arrows: true,
-                infinite: true,
-                centerMode: false,
-                {% if product_layout == "images-left" %}
-                    vertical: true,
-                    verticalSwiping: true,                
-                    slidesToShow: 2,
-                {% else %}
-                    slidesToShow: 3,
-                {% endif %}
-                slidesToScroll: 1,
-                responsive: [
-                    {
-                        breakpoint: 992,
-                        settings: {
-                            arrows: false,
-                            vertical: false,
-                            verticalSwiping: false,
-                            slidesToShow: 1,
-                            slidesToScroll: 1
-                        },
-                    }
-                ]
-            });
-        });
-    </script>
-{% endif %}
-
-<script>
-    $(document).ready(function () { // Image Gallery
-        // $("#gallery").lightGallery({selector: '.link', download: false, hideBarsDelay: 99999});
-    });
+        // Initialize slick slider for additional images
+        $('.image-additional').slick({
+            prevArrow: "<a class=\"arrow-left\"><i class=\"bi bi-chevron-compact-left\"></i></a>",
+            nextArrow: "<a class=\"arrow-right\"><i class=\"bi bi-chevron-compact-right\"></i></a>",
+            // appendArrows: '.image-additional .slick-list',
+            arrows: true,
+            infinite: true,
+            centerMode: false,
+            {% if product_layout == "images-left" %}
+                vertical: true,
+                verticalSwiping: true,                
+                slidesToShow: 2,
+            {% else %}
+                slidesToShow: 3,
+            {% endif %}
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 992,
+                    settings: {
+                        arrows: false,
+                        vertical: false,
+                        verticalSwiping: false,
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    },
+                }
+            ]
+        }); 
+    });    
 </script>
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-	// --- Guard: GLightbox availability
-	if (typeof GLightbox !== 'function') {
-		console.warn('[GLightbox] Not loaded');
-		return;
-	}
+    // --- Helper functions ---
+    function isMobileGalleryMode() {
+        return window.matchMedia('(max-width: 991.98px)').matches;
+    }
 
-	const mainImageLink = document.getElementById('main-image-link');
+    // Set additional gallery height equal to main image height (for images-left/right layouts)
+    const setGalleryHeight = () => {
+        console.log('Setting gallery height');
+        const productLayout = document.getElementById('product-layout');
+        if (!productLayout) return;
 
-	// Collect only real thumbnails (skip Slick clones)
-	const additionalLinks = Array.from(document.querySelectorAll('.image-additional a.link')).filter(a => {
-		const slide = a.closest('.slick-slide');
-		return !(slide && slide.classList.contains('slick-cloned'));
-	});
-
-	let glightboxInstance;
-
-	// Build GLightbox elements from thumbnails (images + local videos)
-	function buildElements() {
-		return additionalLinks.map(link => {
-			const type   = link.dataset.type || 'image';
-			const href   = link.getAttribute('href');
-			const poster = link.dataset.poster || '';
-			const source = link.dataset.source || href;
-
-			if (type === 'video') {
-				return { href: source, type: 'video', source: 'local', poster, width: '100%', height: 'auto' };
-			}
-			return { href, type: 'image' };
-		});
-	}
-
-	// Create thumbs bar DOM
-	function createThumbsBar(elements) {
-		const bar = document.createElement('div');
-		bar.className = 'glightbox-thumbs';
-		elements.forEach((el, idx) => {
-			const btn = document.createElement('button');
-			btn.type = 'button';
-			btn.dataset.index = String(idx);
-
-			const img = document.createElement('img');
-			img.src = el.type === 'video' ? (el.poster || el.href) : el.href;
-			img.alt = 'thumbnail ' + (idx + 1);
-
-			btn.appendChild(img);
-			bar.appendChild(btn);
-		});
-		return bar;
-	}
-
-	// Highlight active thumb
-	function setActiveThumb(bar, index) {
-		Array.from(bar.querySelectorAll('button')).forEach((b, i) => {
-			b.classList.toggle('is-active', i === index);
-		});
-	}
-
-	// Safe slide navigation for different GLightbox builds
-	function goToIndexSafe(i) {
-		if (!glightboxInstance) return;
-		if (typeof glightboxInstance.goTo === 'function')   { glightboxInstance.goTo(i);   return; }
-		if (typeof glightboxInstance.slide === 'function')  { glightboxInstance.slide(i);  return; }
-		if (typeof glightboxInstance.openAt === 'function'){ glightboxInstance.openAt(i); return; }
-	}
-
-	// Inject thumbs bar when .glightbox-container appears
-	function ensureThumbsInjected(elements, activeIndex) {
-		const tryInject = () => {
-			const container = document.querySelector('.glightbox-container');
-			if (!container) return false;
-
-			// Avoid duplicates
-			if (!container.querySelector('.glightbox-thumbs')) {
-				const bar = createThumbsBar(elements);
-				container.appendChild(bar);
-
-				// Prevent overlay close before goTo()
-				bar.addEventListener('pointerdown', (e) => {
-					const btn = e.target.closest('button[data-index]');
-					if (!btn) return;
-					e.preventDefault();
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-				}, { capture: true });
-
-				// Click on thumb => go to slide (with full shielding)
-				bar.addEventListener('click', (e) => {
-					const btn = e.target.closest('button[data-index]');
-					if (!btn) return;
-					e.preventDefault();
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-					const idx = parseInt(btn.dataset.index, 10) || 0;
-					requestAnimationFrame(() => goToIndexSafe(idx));
-				}, { capture: true });
-
-				setActiveThumb(bar, activeIndex || 0);
-
-				// Keep thumbs in sync; evt can be null on some builds
-				glightboxInstance.on('slide_changed', (evt) => {
-					const idx =
-						(evt && evt.current && typeof evt.current.slideIndex === 'number')
-							? evt.current.slideIndex
-							: (glightboxInstance && typeof glightboxInstance.index === 'number'
-								? glightboxInstance.index
-								: 0);
-
-					setActiveThumb(bar, idx);
-
-					// Auto-scroll active thumb into view
-					const activeBtn = bar.querySelector('button.is-active');
-					if (activeBtn) {
-						const { left, right } = activeBtn.getBoundingClientRect();
-						const br = bar.getBoundingClientRect();
-						if (left < br.left)  bar.scrollBy({ left: left - br.left - 16, behavior: 'smooth' });
-						if (right > br.right) bar.scrollBy({ left: right - br.right + 16, behavior: 'smooth' });
-					}
-				});
-
-				// Cleanup on close
-				glightboxInstance.on('close', () => {
-					if (bar.parentNode) bar.parentNode.removeChild(bar);
-				});
-			}
-			return true;
-		};
-
-		// Try now, otherwise wait for container via MutationObserver
-		if (tryInject()) return;
-		const obs = new MutationObserver(() => { if (tryInject()) obs.disconnect(); });
-		obs.observe(document.body, { childList: true, subtree: true });
-	}
-
-	// Init GLightbox
-	function initGlightbox() {
-		if (glightboxInstance) glightboxInstance.destroy();
-		const elements = buildElements();
-
-		glightboxInstance = GLightbox({
-			elements,
-			autoplayVideos: true,
-			zoomable: true,
-			loop: true,
-			touchNavigation: true,
-			closeOnOutsideClick: false, // close only by ✕ or Esc
-			dragToleranceY: 9999        // keep vertical drag usable; we'll shield close gesture below
-		});
-
-		// Inject thumbs and install vertical-drag shield on open
-		glightboxInstance.on('open', (evt) => {
-			const idx =
-				(evt && evt.current && typeof evt.current.slideIndex === 'number')
-					? evt.current.slideIndex
-					: (glightboxInstance && typeof glightboxInstance.index === 'number'
-						? glightboxInstance.index
-						: 0);
-
-			ensureThumbsInjected(elements, idx);
-			installVerticalCloseShield(); // prevent close on downward swipe, keep panning
-		});
-
-		// Block only the "close by downward swipe" gesture (not panning)
-        function installVerticalCloseShield() {
-            const container = document.querySelector('.glightbox-container');
-            if (!container) return;
-
-            const THRESHOLD = 20; // небольшой порог, чтобы не ловить микродвижения
-
-            // TOUCH
-            let touchStartY = 0;
-            container.addEventListener('touchstart', (e) => {
-                if (!e.touches || !e.touches.length) return;
-                touchStartY = e.touches[0].clientY;
-            }, { passive: true }); // без capture!
-
-            container.addEventListener('touchmove', (e) => {
-                if (!e.touches || !e.touches.length) return;
-                const deltaY = e.touches[0].clientY - touchStartY;
-
-                // Блокируем "закрытие жестом" в ОБОИХ направлениях, но не мешаем панораме:
-                if (Math.abs(deltaY) > THRESHOLD) {
-                // даём отработать target-обработчикам (панорама), но не пропускаем дальше
-                e.stopPropagation();      // без stopImmediatePropagation
-                // и без preventDefault — чтобы не ломать скролл/панорамирование
-                }
-            }, { passive: false }); // без capture!
-
-            // MOUSE
-            let mouseDown = false;
-            let mouseStartY = 0;
-
-            container.addEventListener('mousedown', (e) => {
-                mouseDown = true;
-                mouseStartY = e.clientY || 0;
-            }); // без capture!
-
-            container.addEventListener('mousemove', (e) => {
-                if (!mouseDown) return;
-                const deltaY = (e.clientY || 0) - mouseStartY;
-
-                if (Math.abs(deltaY) > THRESHOLD) {
-                e.stopPropagation(); // не даём всплыть до обработчиков закрытия
-                }
-            }, { passive: false }); // без capture!
-
-            container.addEventListener('mouseup', () => {
-                mouseDown = false;
-            }, { passive: true });
+        if (
+            !productLayout.classList.contains('images-left') &&
+            !productLayout.classList.contains('images-right')
+        ) {
+            console.log('Product layout is not images-left or images-right, skipping height adjustment');
+            return;
         }
 
-	}
+        const mainImage = document.getElementById('main-image');
+        const additionalImages = document.querySelector('.image-additional');
 
-	initGlightbox();
+        setTimeout(() => {
+            if (mainImage && additionalImages) {
+                const mainImageHeight = mainImage.offsetHeight;
+                additionalImages.style.height = mainImageHeight + 'px';
+                console.log('Set additional images height to ' + mainImageHeight + 'px');
+            }
+        }, 100); // Delay to ensure images are loaded
+    };
 
-	// Helper: open at specific index
-	function openAtIndex(i) {
-		goToIndexSafe(i >= 0 ? i : 0);
-	}
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initial height and resize handler
+        setGalleryHeight();
+        window.addEventListener('resize', setGalleryHeight);
 
-	// Main image click => open lightbox at current item
-	if (mainImageLink) {
-		mainImageLink.addEventListener('click', function (e) {
-			e.preventDefault();
-			const currentSrcEl = mainImageLink.querySelector('img, video source');
-			if (!currentSrcEl) return openAtIndex(0);
+        // --- Common DOM references ---
+        const mainImageWrapper = document.getElementById('main-image-wrapper');
+        const mainImageLink = document.getElementById('main-image-link');
 
-			const currentSrc = currentSrcEl.getAttribute('src') || '';
-			const index = additionalLinks.findIndex(link => {
-				const href   = link.getAttribute('href');
-				const type   = link.dataset.type || 'image';
-				const poster = link.dataset.poster || '';
-				const source = link.dataset.source || href;
-				return type === 'video'
-					? (source === currentSrc || href === currentSrc || poster === currentSrc)
-					: (href === currentSrc);
-			});
+        // Collect only real thumbnails (skip Slick clones)
+        const additionalLinks = Array
+            .from(document.querySelectorAll('.image-additional a.link'))
+            .filter(a => {
+                const slide = a.closest('.slick-slide');
+                return !(slide && slide.classList.contains('slick-cloned'));
+            });
 
-			openAtIndex(index);
-		});
-	}
+        let glightboxInstance = null;
 
-	// Optional: Ctrl/⌘-click on a page thumbnail opens lightbox at that index
-	additionalLinks.forEach((link, i) => {
-		link.addEventListener('click', function (e) {
-			if (e.ctrlKey || e.metaKey) {
-				e.preventDefault();
-				openAtIndex(i);
-			}
-		});
-	});
+        // Safe slide navigation for different GLightbox builds
+        function goToIndexSafe(i) {
+            if (!glightboxInstance) return;
+            if (typeof glightboxInstance.goTo === 'function')   { glightboxInstance.goTo(i);   return; }
+            if (typeof glightboxInstance.slide === 'function')  { glightboxInstance.slide(i);  return; }
+            if (typeof glightboxInstance.openAt === 'function'){ glightboxInstance.openAt(i); return; }
+        }
 
-	// Re-init after Slick reflow (e.g., resize)
-	let resizeTimer;
-	window.addEventListener('resize', () => {
-		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout(initGlightbox, 250);
-	});
-});
+        // Helper: open at specific index
+        function openAtIndex(i) {
+            goToIndexSafe(i >= 0 ? i : 0);
+        }
 
+        // --- Thumbnail click: switch main image + mobile popup + Ctrl/⌘ behavior ---
+
+        additionalLinks.forEach((link, i) => {
+            link.addEventListener('click', function (e) {
+                console.log('Link clicked:', this);
+                e.preventDefault();
+
+                const href   = this.getAttribute('href');
+                const type   = this.dataset.type || 'image';
+                const poster = this.dataset.poster || '';
+
+                // Ctrl/⌘ + click: open GLightbox at this index (desktop style)
+                if (e.ctrlKey || e.metaKey) {
+                    openAtIndex(i);
+                    return;
+                }
+
+                // On desktop: if already active, do nothing
+                if (this.classList.contains('active') && !isMobileGalleryMode()) {
+                    e.stopImmediatePropagation();
+                    return;
+                }
+
+                // Remove 'active' class from all and set to current
+                additionalLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+
+                let newContent = '';
+
+                if (type === 'video') {
+                    newContent = `
+                        <video id="main-image" class="video-js vjs-default-skin vjs-big-play-centered"
+                            controls loop autoplay muted preload="none"
+                            width="100%" height="auto" poster="{{ video_placeholder }}">
+                            <source src="${href}" type="video/mp4">
+                            <p class="vjs-no-js">{{ text_no_js }}</p>
+                        </video>
+                    `;
+                } else {
+                    newContent = `
+                        <img id="main-image" src="${href}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+                    `;
+                }
+
+                // Helper to update main image content and href
+                function updateMainContent() {
+                    if (!mainImageLink) return;
+                    mainImageLink.innerHTML = newContent;
+                    mainImageLink.href = href;
+                }
+
+                // Mobile mode: just update main image and open popup
+                if (isMobileGalleryMode()) {
+                    updateMainContent();
+                    setGalleryHeight();
+
+                    // Simulate click on main image link to open GLightbox popup (if initialized)
+                    if (mainImageLink) {
+                        const evt = new MouseEvent('click', {
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        mainImageLink.dispatchEvent(evt);
+                    }
+                    return;
+                }
+
+                // Desktop behavior: animate main image height change
+                if (!mainImageWrapper) {
+                    updateMainContent();
+                    setGalleryHeight();
+                    return;
+                }
+
+                // Fix height and hide with visibility/opacity
+                const currentHeight = mainImageWrapper.offsetHeight;
+                mainImageWrapper.style.height = currentHeight + 'px';
+                mainImageWrapper.style.visibility = 'hidden';
+                mainImageWrapper.style.opacity = '0';
+
+                setTimeout(() => {
+                    updateMainContent();
+
+                    const img   = mainImageWrapper.querySelector('img');
+                    const video = mainImageWrapper.querySelector('video');
+
+                    const animateToHeight = (targetHeight) => {
+                        const startHeight = mainImageWrapper.offsetHeight;
+                        const duration = 200;
+                        const startTime = performance.now();
+
+                        const step = (timestamp) => {
+                            const elapsed  = timestamp - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const newHeight = startHeight + (targetHeight - startHeight) * progress;
+                            mainImageWrapper.style.height = newHeight + 'px';
+
+                            if (progress < 1) {
+                                requestAnimationFrame(step);
+                            } else {
+                                mainImageWrapper.style.height = '';
+                                mainImageWrapper.style.visibility = 'visible';
+                                mainImageWrapper.style.transition = 'opacity 0.15s';
+                                mainImageWrapper.style.opacity = '1';
+                                setGalleryHeight();
+                            }
+                        };
+
+                        requestAnimationFrame(step);
+                    };
+
+                    if (img) {
+                        const tempImg = new Image();
+                        tempImg.src = img.src;
+                        tempImg.onload = () => {
+                            const wrapper = document.createElement('div');
+                            wrapper.style.position = 'absolute';
+                            wrapper.style.visibility = 'hidden';
+                            wrapper.style.width = mainImageWrapper.offsetWidth + 'px';
+                            wrapper.appendChild(tempImg);
+                            document.body.appendChild(wrapper);
+
+                            const newHeight = tempImg.height;
+                            document.body.removeChild(wrapper);
+                            animateToHeight(newHeight);
+                        };
+                    } else if (video) {
+                        video.onloadedmetadata = () => {
+                            const ratio = video.videoHeight / video.videoWidth;
+                            const newHeight = mainImageWrapper.offsetWidth * ratio;
+                            animateToHeight(newHeight);
+                            video.play().catch(() => {});
+                        };
+                    } else {
+                        mainImageWrapper.style.visibility = 'visible';
+                        mainImageWrapper.style.opacity = '1';
+                        mainImageWrapper.style.height = '';
+                        setGalleryHeight();
+                    }
+                }, 50);
+            });
+        });
+
+        // --- GLightbox part ---
+
+        if (typeof GLightbox !== 'function') {
+            console.warn('[GLightbox] Not loaded');
+            return;
+        }
+
+        // Build GLightbox elements from thumbnails (images + local videos)
+        function buildElements() {
+            return additionalLinks.map(link => {
+                const type   = link.dataset.type || 'image';
+                const href   = link.getAttribute('href');
+                const poster = link.dataset.poster || '';
+                const source = link.dataset.source || href;
+
+                if (type === 'video') {
+                    return {
+                        href: source,
+                        type: 'video',
+                        source: 'local',
+                        poster: poster,
+                        width: '100%',
+                        height: 'auto'
+                    };
+                }
+                return { href: href, type: 'image' };
+            });
+        }
+
+        // Create thumbs bar DOM
+        function createThumbsBar(elements) {
+            const bar = document.createElement('div');
+            bar.className = 'glightbox-thumbs';
+
+            elements.forEach((el, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.dataset.index = String(idx);
+
+                const img = document.createElement('img');
+                img.src = el.type === 'video' ? (el.poster || el.href) : el.href;
+                img.alt = 'thumbnail ' + (idx + 1);
+
+                btn.appendChild(img);
+                bar.appendChild(btn);
+            });
+
+            return bar;
+        }
+
+        // Highlight active thumb
+        function setActiveThumb(bar, index) {
+            Array.from(bar.querySelectorAll('button')).forEach((b, i) => {
+                b.classList.toggle('is-active', i === index);
+            });
+        }
+
+        // Inject thumbs bar when .glightbox-container appears
+        function ensureThumbsInjected(elements, activeIndex) {
+            const tryInject = () => {
+                const container = document.querySelector('.glightbox-container');
+                if (!container) return false;
+
+                // Avoid duplicates
+                if (!container.querySelector('.glightbox-thumbs')) {
+                    const bar = createThumbsBar(elements);
+                    container.appendChild(bar);
+
+                    // Prevent overlay close before goTo()
+                    bar.addEventListener('pointerdown', (e) => {
+                        const btn = e.target.closest('button[data-index]');
+                        if (!btn) return;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                    }, { capture: true });
+
+                    // Click on thumb => go to slide (with full shielding)
+                    bar.addEventListener('click', (e) => {
+                        const btn = e.target.closest('button[data-index]');
+                        if (!btn) return;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        const idx = parseInt(btn.dataset.index, 10) || 0;
+                        requestAnimationFrame(() => goToIndexSafe(idx));
+                    }, { capture: true });
+
+                    setActiveThumb(bar, activeIndex || 0);
+
+                    // Keep thumbs in sync; evt can be null on some builds
+                    glightboxInstance.on('slide_changed', (evt) => {
+                        const idx =
+                            (evt && evt.current && typeof evt.current.slideIndex === 'number')
+                                ? evt.current.slideIndex
+                                : (glightboxInstance && typeof glightboxInstance.index === 'number'
+                                    ? glightboxInstance.index
+                                    : 0);
+
+                        setActiveThumb(bar, idx);
+
+                        // Auto-scroll active thumb into view
+                        const activeBtn = bar.querySelector('button.is-active');
+                        if (activeBtn) {
+                            const rectBtn = activeBtn.getBoundingClientRect();
+                            const rectBar = bar.getBoundingClientRect();
+                            if (rectBtn.left < rectBar.left) {
+                                bar.scrollBy({ left: rectBtn.left - rectBar.left - 16, behavior: 'smooth' });
+                            } else if (rectBtn.right > rectBar.right) {
+                                bar.scrollBy({ left: rectBtn.right - rectBar.right + 16, behavior: 'smooth' });
+                            }
+                        }
+                    });
+
+                    // Cleanup on close
+                    glightboxInstance.on('close', () => {
+                        if (bar.parentNode) {
+                            bar.parentNode.removeChild(bar);
+                        }
+                    });
+                }
+                return true;
+            };
+
+            // Try now, otherwise wait for container via MutationObserver
+            if (tryInject()) return;
+            const obs = new MutationObserver(() => {
+                if (tryInject()) obs.disconnect();
+            });
+            obs.observe(document.body, { childList: true, subtree: true });
+        }
+
+        // Init GLightbox
+        function initGlightbox() {
+            if (glightboxInstance) {
+                glightboxInstance.destroy();
+            }
+
+            const elements = buildElements();
+
+            glightboxInstance = GLightbox({
+                elements: elements,
+                autoplayVideos: true,
+                zoomable: true,
+                loop: true,
+                touchNavigation: true,
+                closeOnOutsideClick: false,
+                dragToleranceY: 9999 // keep vertical drag usable; close gesture is shielded below on desktop
+            });
+
+            // Install tap-to-zoom for mobile
+            function installTapToZoom() {
+                console.log('Installing tap-to-zoom');
+                const container = document.querySelector('.glightbox-container');
+                if (!container) return;
+
+                // Avoid double-binding
+                if (container.__tapZoomBound) return;
+                container.__tapZoomBound = true;
+
+                container.addEventListener('click', function (e) {
+                    // Only run in mobile gallery mode
+                    if (!isMobileGalleryMode()) return;
+
+                    // Ignore clicks on controls / thumbs / close / arrows
+                    const control = e.target.closest('.gbtn, .glightbox-thumbs, .gprev, .gnext, .gclose');
+                    if (control) return;
+
+                    const currentSlide = container.querySelector('.gslide.current');
+                    if (!currentSlide) return;
+
+                    // Toggle zoomed state on current slide
+                    currentSlide.classList.toggle('zoomed');
+                });
+
+                // Clear zoom on slide change
+                glightboxInstance.on('slide_changed', () => {
+                    const container2 = document.querySelector('.glightbox-container');
+                    if (!container2) return;
+                    const zoomedSlides = container2.querySelectorAll('.gslide.zoomed');
+                    zoomedSlides.forEach(slide => slide.classList.remove('zoomed'));
+                });
+            }
+
+            glightboxInstance.on('open', (evt) => {
+                const idx =
+                    (evt && evt.current && typeof evt.current.slideIndex === 'number')
+                        ? evt.current.slideIndex
+                        : (glightboxInstance && typeof glightboxInstance.index === 'number'
+                            ? glightboxInstance.index
+                            : 0);
+
+                ensureThumbsInjected(elements, idx);
+
+                // Desktop: shield vertical close gesture
+                if (!isMobileGalleryMode()) {
+                    installVerticalCloseShield();
+                }
+
+                // Mobile: enable tap-to-zoom logic
+                if (isMobileGalleryMode()) {
+                    installTapToZoom();
+                }
+            });
+
+            // Block only the "close by downward swipe" gesture (not panning) – desktop only
+            function installVerticalCloseShield() {
+                const container = document.querySelector('.glightbox-container');
+                if (!container) return;
+
+                const THRESHOLD = 20; // small tolerance to ignore micro gestures
+
+                // TOUCH
+                let touchStartY = 0;
+                container.addEventListener('touchstart', (e) => {
+                    if (!e.touches || !e.touches.length) return;
+                    touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                container.addEventListener('touchmove', (e) => {
+                    if (!e.touches || !e.touches.length) return;
+                    const deltaY = e.touches[0].clientY - touchStartY;
+
+                    if (Math.abs(deltaY) > THRESHOLD) {
+                        e.stopPropagation();
+                    }
+                }, { passive: false });
+
+                // MOUSE
+                let mouseDown = false;
+                let mouseStartY = 0;
+
+                container.addEventListener('mousedown', (e) => {
+                    mouseDown = true;
+                    mouseStartY = e.clientY || 0;
+                });
+
+                container.addEventListener('mousemove', (e) => {
+                    if (!mouseDown) return;
+                    const deltaY = (e.clientY || 0) - mouseStartY;
+                    if (Math.abs(deltaY) > THRESHOLD) {
+                        e.stopPropagation();
+                    }
+                }, { passive: false });
+
+                container.addEventListener('mouseup', () => {
+                    mouseDown = false;
+                }, { passive: true });
+            }
+        }
+
+        initGlightbox();
+
+        // Main image click => open lightbox at current item
+        if (mainImageLink) {
+            mainImageLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                const currentSrcEl = mainImageLink.querySelector('img, video source');
+                if (!currentSrcEl) {
+                    openAtIndex(0);
+                    return;
+                }
+
+                const currentSrc = currentSrcEl.getAttribute('src') || '';
+                const index = additionalLinks.findIndex(link => {
+                    const href   = link.getAttribute('href');
+                    const type   = link.dataset.type || 'image';
+                    const poster = link.dataset.poster || '';
+                    const source = link.dataset.source || href;
+
+                    return type === 'video'
+                        ? (source === currentSrc || href === currentSrc || poster === currentSrc)
+                        : (href === currentSrc);
+                });
+
+                openAtIndex(index);
+            });
+        }
+
+        // Re-init after Slick reflow / resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(initGlightbox, 250);
+        });
+    });
+</script>
+
+<script>
 /* Delegate clicks for wishlist/compare icon buttons */
 document.addEventListener('click', function (e) {
 	// Handle wishlist button
@@ -1547,31 +1657,6 @@ document.addEventListener('click', function (e) {
 	}
 });
 </script>
-{% if product_layout == "images-left" or product_layout == "images-right" %}
-    <script>
-        const setGalleryHeight = () => {
-            console.log('Setting gallery height');
-            const productLayout = document.getElementById('product-layout');
-            if (!productLayout.classList.contains('images-left') && !productLayout.classList.contains('images-right')) {
-                console.log('Product layout is not images-left or images-right, skipping height adjustment');
-                return;
-            }
-            const mainImage = document.getElementById('main-image');
-            const additionalImages = document.querySelector('.image-additional');
-            setTimeout(() => {                
-                if (mainImage && additionalImages) {
-                    const mainImageHeight = mainImage.offsetHeight;
-                    additionalImages.style.height = `${mainImageHeight}px`;
-                    console.log(`Set additional images height to ${mainImageHeight}px`);
-                }
-            }, 100); // Delay to ensure images are loaded
-        };    
-        document.addEventListener('DOMContentLoaded', function () {
-            setGalleryHeight();
-            window.addEventListener('resize', setGalleryHeight);
-        });
-    </script>
-{% endif %}
 
 <script type="application/ld+json">
 {

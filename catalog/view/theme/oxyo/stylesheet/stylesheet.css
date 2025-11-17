@@ -13300,11 +13300,14 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 
 .glightbox-thumbs img {
-    width: 72px;
-    height: 48px;
+    /* width: 72px; */
+    /* height: 48px; */
+    height: 100%;
+    width: auto;
+
     object-fit: cover;
     border-radius: 6px;
-    opacity: 0.7;
+    opacity: 1;
     transition:
         opacity 0.2s ease,
         transform 0.2s ease,
@@ -13323,9 +13326,15 @@ ul.sitemap > li > ul > li > ul > li > a {
     padding-bottom: 84px; /* room for thumbnails bar */
 }
 
+.glightbox-container .gcontainer {
+    /* padding: 0; */
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
 .gslide .gslide-image img.zoomable {
     /* cursor: auto; */
-    height: calc(100% - 164px);
+    height: calc(100% - 24px);
 }
 
 .glightbox-container .gslide {
@@ -13339,15 +13348,8 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 
 @media (min-width: 768px) {
-    .glightbox-thumbs img {
-        /* width: 96px; */
-        /* height: 64px; */
-        height: 100%;
-        width: auto;
-    }
-    .glightbox-container .gcontainer {
-        /* padding: 0; */
-        padding-top: 12px;
-        padding-bottom: 12px;
+    .gslide .gslide-image img.zoomable {
+        /* cursor: auto; */
+        height: calc(100% - 164px);
     }
 }
