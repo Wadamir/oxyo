@@ -13359,8 +13359,8 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 
 .zoomed .gslide-image img.zoomable {
-    max-width: 150vw !important;
-    max-height: 150vh !important;
+    max-width: 175vw !important;
+    max-height: 175vh !important;
     /* transform: none !important; */
 }
 
