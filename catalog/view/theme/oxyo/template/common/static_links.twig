@@ -5,7 +5,7 @@
 		</li>
 	{% endfor %}
 {% else %}
-	<li class="static-link">
+	<li class="static-link d-none hidden">
 		<a class="anim-underline" href="{{ account }}" title="{{ text_account }}">{{ text_account }}</a>
 	</li>
 	<li class="static-link is_wishlist d-none">
@@ -13,7 +13,7 @@
 			<span>{{ text_wishlist }}</span>
 		</a>
 	</li>
-	<li class="static-link">
+	<li class="static-link d-none hidden">
 		<a class="anim-underline" href="{{ shopping_cart }}" title="{{ text_shopping_cart }}">{{ text_shopping_cart }}</a>
 	</li>
 	<li class="static-link d-none">
