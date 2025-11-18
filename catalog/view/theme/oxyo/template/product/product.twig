@@ -64,7 +64,7 @@
                                             data-poster="{{ video_placeholder }}"
                                             data-width="100%"
                                             data-height="100%"
-                                            data-zoomable="false"
+                                            data-zoomable="true"
                                             data-draggable="false">
                                             <video class="video-js vjs-default-skin vjs-big-play-centered" autoplay loop muted preload="none" width="100%" height="auto" poster="{{ video_placeholder }}">
                                                 <source src="{{ video }}" type="video/mp4">
@@ -81,7 +81,7 @@
                                             data-source="{{ thumb }}"
                                             data-width="100%"
                                             data-height="100%"
-                                            data-zoomable="false"
+                                            data-zoomable="true"
                                             data-draggable="false">
                                             <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
                                         </a>
@@ -96,7 +96,7 @@
                                                 data-type="image"
                                                 data-width="100%"
                                                 data-height="100%"
-                                                data-zoomable="false"
+                                                data-zoomable="true"
                                                 data-draggable="false">
                                                 <img src="{{ image.thumb_lg }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
                                             </a>
@@ -1202,7 +1202,6 @@
         }
 
         // --- Thumbnail click: switch main image + mobile popup + Ctrl/⌘ behavior ---
-
         additionalLinks.forEach((link, i) => {
             link.addEventListener('click', function (e) {
                 console.log('Link clicked:', this);
@@ -1345,7 +1344,6 @@
         });
 
         // --- GLightbox part ---
-
         if (typeof GLightbox !== 'function') {
             console.warn('[GLightbox] Not loaded');
             return;
@@ -1436,12 +1434,37 @@
 
                     // Keep thumbs in sync; evt can be null on some builds
                     glightboxInstance.on('slide_changed', (evt) => {
+                        console.log('GLightbox slide_changed event:', evt);
                         const idx =
                             (evt && evt.current && typeof evt.current.slideIndex === 'number')
                                 ? evt.current.slideIndex
                                 : (glightboxInstance && typeof glightboxInstance.index === 'number'
                                     ? glightboxInstance.index
                                     : 0);
+
+                        // Remove zoom class from all slides on every slide change
+                        const container2 = document.querySelector('.glightbox-container');
+                        if (container2) {
+                            const zoomedSlides = container2.querySelectorAll('.gslide');
+
+                            zoomedSlides.forEach(slide => {
+                                console.log('Resetting zoom on slide:', slide);
+                                // 1. Remove zoom class
+                                slide.classList.remove('zoomed');
+
+                                // 2. Reset inline styles on all media inside this slide
+                                const media = slide.querySelectorAll('img, video');
+
+                                media.forEach(el => {
+                                    let dataStyle = el.getAttribute('data-style');
+                                    if (dataStyle) {
+                                        el.setAttribute('style', dataStyle);
+                                    } else {
+                                        el.removeAttribute('style');
+                                    }
+                                });
+                            });
+                        }                                    
 
                         setActiveThumb(bar, idx);
 
@@ -1478,6 +1501,7 @@
 
         // Init GLightbox
         function initGlightbox() {
+            console.log('Initializing GLightbox');
             if (glightboxInstance) {
                 glightboxInstance.destroy();
             }
@@ -1493,40 +1517,6 @@
                 closeOnOutsideClick: false,
                 dragToleranceY: 9999 // keep vertical drag usable; close gesture is shielded below on desktop
             });
-
-            // Install tap-to-zoom for mobile
-            function installTapToZoom() {
-                console.log('Installing tap-to-zoom');
-                const container = document.querySelector('.glightbox-container');
-                if (!container) return;
-
-                // Avoid double-binding
-                if (container.__tapZoomBound) return;
-                container.__tapZoomBound = true;
-
-                container.addEventListener('click', function (e) {
-                    // Only run in mobile gallery mode
-                    if (!isMobileGalleryMode()) return;
-
-                    // Ignore clicks on controls / thumbs / close / arrows
-                    const control = e.target.closest('.gbtn, .glightbox-thumbs, .gprev, .gnext, .gclose');
-                    if (control) return;
-
-                    const currentSlide = container.querySelector('.gslide.current');
-                    if (!currentSlide) return;
-
-                    // Toggle zoomed state on current slide
-                    currentSlide.classList.toggle('zoomed');
-                });
-
-                // Clear zoom on slide change
-                glightboxInstance.on('slide_changed', () => {
-                    const container2 = document.querySelector('.glightbox-container');
-                    if (!container2) return;
-                    const zoomedSlides = container2.querySelectorAll('.gslide.zoomed');
-                    zoomedSlides.forEach(slide => slide.classList.remove('zoomed'));
-                });
-            }
 
             glightboxInstance.on('open', (evt) => {
                 const idx =
@@ -1548,6 +1538,11 @@
                     installTapToZoom();
                 }
             });
+
+            // Install tap-to-zoom for mobile
+            function installTapToZoom() {
+                console.log('[TapZoom] Installing tap-to-zoom');
+            }            
 
             // Block only the "close by downward swipe" gesture (not panning) – desktop only
             function installVerticalCloseShield() {
@@ -1633,29 +1628,29 @@
 </script>
 
 <script>
-/* Delegate clicks for wishlist/compare icon buttons */
-document.addEventListener('click', function (e) {
-	// Handle wishlist button
-	const wlBtn = e.target.closest('.btn-wishlist');
-	if (wlBtn) {
-		e.preventDefault();
-		const id = wlBtn.getAttribute('data-product-id');
-		if (window.wishlist && typeof window.wishlist.add === 'function') {
-			window.wishlist.add(id);
-		}
-		return;
-	}
+    /* Delegate clicks for wishlist/compare icon buttons */
+    document.addEventListener('click', function (e) {
+        // Handle wishlist button
+        const wlBtn = e.target.closest('.btn-wishlist');
+        if (wlBtn) {
+            e.preventDefault();
+            const id = wlBtn.getAttribute('data-product-id');
+            if (window.wishlist && typeof window.wishlist.add === 'function') {
+                window.wishlist.add(id);
+            }
+            return;
+        }
 
-	// Handle compare button
-	const cmpBtn = e.target.closest('.btn-compare');
-	if (cmpBtn) {
-		e.preventDefault();
-		const id = cmpBtn.getAttribute('data-product-id');
-		if (window.compare && typeof window.compare.add === 'function') {
-			window.compare.add(id);
-		}
-	}
-});
+        // Handle compare button
+        const cmpBtn = e.target.closest('.btn-compare');
+        if (cmpBtn) {
+            e.preventDefault();
+            const id = cmpBtn.getAttribute('data-product-id');
+            if (window.compare && typeof window.compare.add === 'function') {
+                window.compare.add(id);
+            }
+        }
+    });
 </script>
 
 <script type="application/ld+json">

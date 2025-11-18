@@ -13339,6 +13339,17 @@ ul.sitemap > li > ul > li > ul > li > a {
 
 .glightbox-container .gslide {
     padding-bottom: 140px;
+
+    height: 100vh;
+}
+
+.glightbox-container .gslide.zoomed .ginner-container {
+    width: auto;
+    height: auto;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
 }
 
 .zoomed .gslide-image img.zoomable {
