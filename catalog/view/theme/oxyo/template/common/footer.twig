@@ -102,51 +102,56 @@
                                 {% if custom_links %}
                                     {% for column in oxyo_footer_columns %}
                                         <div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
-                                            {% if column.title %}
-                                                <h5>{{ column.title }}</h5>
-                                            {% endif %}
-                                            {% if column.links is defined %}
-                                                <ul class="list-unstyled">
-                                                    {% for link in column.links %}
-                                                        <li><a href="{{ link.target }}">{{ link.title }}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% endif %}
+                                            <div class="dropdown_mobile">
+                                                {% if column.title %}
+                                                    <h5>{{ column.title }}</h5>
+                                                {% endif %}
+                                                {% if column.links is defined %}
+                                                    <ul class="list-unstyled">
+                                                        {% for link in column.links %}
+                                                            <li><a href="{{ link.target }}">{{ link.title }}</a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                     {% endfor %}
                                 {% else %}
                                     {% if informations %}
                                         <div class="footer-column col-12 col-xl-6 eq_height">
-                                            <h5>{{ text_information }}</h5>
-                                            <ul class="list-unstyled">
-                                                {% for information in informations %}
-                                                    <li><a href="{{ information.href }}">{{ information.title }}</a></li>
-                                                {% endfor %}
-                                                <li><a href="{{ contact }}">{{ text_contact }}</a></li>
-                                            </ul>
+                                            <div class="dropdown_mobile">
+                                                <h5>{{ text_information }}</h5>
+                                                <ul class="list-unstyled">
+                                                    {% for information in informations %}
+                                                        <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+                                                    {% endfor %}
+                                                    <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     {% endif %}
 
                                     <div class="footer-column col-12 col-xl-6 eq_height">
-                                        <h5>{{ text_extra }}</h5>
-                                        <ul class="list-unstyled">
-                                            <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-                                            <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
-                                            <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-                                            <li><a href="{{ special }}">{{ text_special }}</a></li>
-                                            <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
-                                        </ul>
-
-                                        <br/>
-
-                                        <h5>{{ text_account }}</h5>
-                                        <ul class="list-unstyled">
-                                            <li><a href="{{ account }}">{{ text_account }}</a></li>
-                                            <li><a href="{{ order }}">{{ text_order }}</a></li>
-                                            <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
-                                            <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-                                            <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
-                                        </ul>
+                                        <div class="dropdown_mobile">
+                                            <h5>{{ text_extra }}</h5>
+                                            <ul class="list-unstyled">
+                                                <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+                                                <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+                                                <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
+                                                <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
+                                                <li><a href="{{ special }}">{{ text_special }}</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="dropdown_mobile">
+                                            <h5>{{ text_account }}</h5>
+                                            <ul class="list-unstyled">
+                                                <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
+                                                <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
+                                                <li><a href="{{ account }}">{{ text_account }}</a></li>
+                                                <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
+                                                <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 {% endif %}
                             </div>
@@ -246,7 +251,6 @@
                                         <div class="text-end mt-3">
                                             <button type="submit" class="btn btn-sm btn-contrast">{{ text_callback_submit }}</button>
                                         </div>
-
                                         <div id="callbackError" class="mt-2 d-none text-danger">{{ text_callback_error }}</div>
                                     </form>
                                 </div>

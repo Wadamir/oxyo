@@ -1081,7 +1081,7 @@ div:hover > .hover-slidein-top {
 }
 
 .list-unstyled li {
-    margin-bottom: 9px;
+    margin-bottom: 6px;
 }
 
 /* Fix some bootstrap issues */
@@ -6023,16 +6023,23 @@ h4.follow-title {
     text-decoration: underline;
 }
 
-#footer h5 {
+#footer .footer-column {
+    margin-top: 24px;
+    margin-top: 0;
+}
+
+#footer .footer-column h5 {
+    margin: 24px 0 6px 0;
+    /* margin-bottom: 12px; */
+
     color: var(--primary-white-100, #fcfcfc);
     font-size: 16px;
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 1px;
-    margin-bottom: 24px;
 }
 
-#footer h5:after {
+#footer .footer-column h5:after {
     content: '';
     display: block;
     width: 30px;
@@ -6041,12 +6048,20 @@ h4.follow-title {
     margin-top: 2px;
 }
 
+#footer .footer-column > .dropdown_mobile {
+    margin-bottom: 0;
+}
+
 #footer p {
     margin-bottom: 23px;
 }
 
+#footer ul.list-unstyled > li:last-child {
+    margin-bottom: 0;
+}
+
 #footer .footer-top-block {
-    margin-bottom: 40px;
+    margin-bottom: 0;
 }
 
 #footer .footer-top-block p:last-child {
@@ -6134,6 +6149,18 @@ h4.follow-title {
     top: 0;
     left: 0;
     right: 0;
+}
+
+@media screen and (min-width: 992px) {
+    #footer .footer-top-block {
+        margin-bottom: 0;
+    }
+
+    #footer h5 {
+        margin: 0;
+        margin-top: 36px;
+        margin-bottom: 12px;
+    }
 }
 
 a.scroll-to-top {
@@ -13368,5 +13395,51 @@ ul.sitemap > li > ul > li > ul > li > a {
     .gslide .gslide-image img.zoomable {
         /* cursor: auto; */
         height: calc(100% - 164px);
+    }
+}
+
+/* Collapse only on mobile */
+
+.dropdown_mobile ul {
+    display: none; /* hidden by default */
+}
+
+.dropdown_mobile h5 {
+    cursor: pointer;
+    position: relative;
+    padding-right: 20px;
+
+    display: inline-block;
+}
+
+/* маленькая стрелочка справа */
+.dropdown_mobile h5::before {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    content: '\f282';
+
+    position: absolute;
+    right: -6px;
+}
+
+.dropdown_mobile.opened h5::before {
+    transform: rotate(180deg);
+}
+
+.dropdown_mobile.opened > ul {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .dropdown_mobile h5 {
+        cursor: default;
+    }
+
+    .dropdown_mobile h5::before {
+        display: none;
+    }
+
+    .dropdown_mobile ul {
+        display: block !important; /* always show on desktop */
     }
 }
