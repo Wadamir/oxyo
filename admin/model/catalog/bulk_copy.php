@@ -161,22 +161,30 @@ class ModelCatalogBulkCopy extends Model
             $data['status'] = (int)$products_status;
 
             $product_attribute = $this->getProductAttributes($product_id);
+            // var_dump($product_attribute); // Debugging line, can be removed later
             $data['product_attribute'] = [];
             foreach ($product_attribute as $attribute) {
                 if ($attribute['attribute_id'] == $attribute_id) {
-                    $new_attribute_value = $this->getAttributeValueDescription($attribute_value);
-                    if ($new_attribute_value) {
-                        $data['product_attribute'][] = [
-                            'attribute_id' => $attribute['attribute_id'],
-                            'product_attribute_description' => $new_attribute_value
-                        ];
-                    }
+                    // $new_attribute_value = $this->getAttributeValueDescription($attribute_value);
+                    // if ($new_attribute_value) {
+                    //     $data['product_attribute'][] = [
+                    //         'attribute_id' => $attribute['attribute_id'],
+                    //         'product_attribute_description' => $new_attribute_value
+                    //     ];
+                    // }
                 } else {
                     $data['product_attribute'][] = [
                         'attribute_id' => $attribute['attribute_id'],
                         'product_attribute_description' => $attribute['product_attribute_description']
                     ];
                 }
+            }
+            $new_attribute_value = $this->getAttributeValueDescription($attribute_value);
+            if ($new_attribute_value) {
+                $data['product_attribute'][] = [
+                    'attribute_id' => $attribute_id,
+                    'product_attribute_description' => $new_attribute_value
+                ];
             }
             // return $data['product_attribute'];
 
@@ -195,13 +203,13 @@ class ModelCatalogBulkCopy extends Model
                         'meta_keyword' => $description['meta_keyword'],
                         'tag' => $description['tag']
                     ];
-                    if (isset($new_attribute_description[$language_id])) {
-                        $new_product_description[$language_id]['name'] .= ', ' . $new_attribute_description[$language_id]['name'];
-                        $new_product_description[$language_id]['meta_title'] .= ', ' . $new_attribute_description[$language_id]['name'];
-                    }
+                    // if (isset($new_attribute_description[$language_id])) {
+                    //     $new_product_description[$language_id]['name'] .= ', ' . $new_attribute_description[$language_id]['name'];
+                    //     $new_product_description[$language_id]['meta_title'] .= ', ' . $new_attribute_description[$language_id]['name'];
+                    // }
                     if (isset($new_attribute_value[$language_id])) {
-                        $new_product_description[$language_id]['name'] .= ': ' . $new_attribute_value[$language_id]['text'];
-                        $new_product_description[$language_id]['meta_title'] .= ': ' . $new_attribute_value[$language_id]['text'];
+                        $new_product_description[$language_id]['name'] .= ', ' . $new_attribute_value[$language_id]['text'];
+                        $new_product_description[$language_id]['meta_title'] .= ', ' . $new_attribute_value[$language_id]['text'];
                     }
                 }
                 $data['product_description'] = $new_product_description;

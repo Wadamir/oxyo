@@ -48,7 +48,9 @@ class ControllerCatalogBulkCopy extends Controller
 
                 // Get product attributes
                 $this->load->model('catalog/attribute');
-                $attributes_raw = $this->model_catalog_product->getProductAttributes($product_id);
+                // $attributes_raw = $this->model_catalog_product->getProductAttributes($product_id);
+                $attributes_raw = $this->model_catalog_attribute->getAttributes();
+                // var_dump($attributes_raw); // Debugging line, can be removed later                
                 $product_attributes = [];
 
                 foreach ($attributes_raw as $attribute) {
@@ -62,7 +64,7 @@ class ControllerCatalogBulkCopy extends Controller
                             'attribute_id'                  => $attribute['attribute_id'],
                             'name'                          => $attribute_info['name'],
                             'type'                          => $attribute_info['type'],
-                            'product_attribute_description' => $attribute['product_attribute_description'],
+                            // 'product_attribute_description' => $attribute['product_attribute_description'],
                             'product_attribute_values'      => $product_attribute_values
                         );
                     }
@@ -160,7 +162,7 @@ class ControllerCatalogBulkCopy extends Controller
             $copy_product_result = $this->model_catalog_bulk_copy->copyProduct($product_id, $attribute_id, $value, $products_status, $products_title);
             $new_products[] = $copy_product_result;
         }
-        
+
         if (empty($new_products)) {
             $json['error'] = $this->language->get('error_fetching_data');
         } else {

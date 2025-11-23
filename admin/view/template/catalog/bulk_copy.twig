@@ -247,7 +247,7 @@
 
                     let list = '<div class="list-unstyled list-rounded">';
                     data.attribute_values.forEach(value => {
-                        list += `<div class="checkbox-item"><input type="checkbox" id="attribute_value_${value.value_id}" class="checkbox-input attribute_values" name="attribute_value" value="${value.value_id}" checked /><label for="attribute_value_${value.value_id}" class="checkbox-label">${productName}, ${attributeName}: ${value.name}</label></div>`;
+                        list += `<div class="checkbox-item"><input type="checkbox" id="attribute_value_${value.value_id}" class="checkbox-input attribute_values" name="attribute_value" value="${value.value_id}" checked /><label for="attribute_value_${value.value_id}" class="checkbox-label">${productName}, ${value.name}</label></div>`;
                     });
                     list += '</div>';
 
