@@ -58,6 +58,11 @@
     padding: 1rem;
 }
 
+#bulkCopyModal hr.strong {
+    border-color: #000;
+    border-width: 2px;
+}
+
 #bulkCopyModal input[type='checkbox']:checked::after,
 #bulkCopyModal .checkbox input[type='checkbox']:checked::after,
 #bulkCopyModal .checkbox-inline input[type='checkbox']:checked::after {

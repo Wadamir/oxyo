@@ -46,36 +46,45 @@ class ControllerCatalogBulkCopy extends Controller
                     ? $product_description[$this->config->get('config_language_id')]['name']
                     : $product['name'];
 
-                // Get product attributes
-                $this->load->model('catalog/attribute');
-                // $attributes_raw = $this->model_catalog_product->getProductAttributes($product_id);
-                $attributes_raw = $this->model_catalog_attribute->getAttributes();
-                // var_dump($attributes_raw); // Debugging line, can be removed later                
-                $product_attributes = [];
-
-                foreach ($attributes_raw as $attribute) {
-                    $attribute_info = $this->model_catalog_attribute->getAttribute($attribute['attribute_id']);
-
-                    if ($attribute_info && $attribute_info['type'] == 'select') {
-                        $product_attribute_values = $this->model_catalog_attribute->getAttributeValueDescriptions($attribute['attribute_id']);
-                        // var_dump($product_attribute_values); // Debugging line, can be removed later
-
-                        $product_attributes[] = array(
-                            'attribute_id'                  => $attribute['attribute_id'],
-                            'name'                          => $attribute_info['name'],
-                            'type'                          => $attribute_info['type'],
-                            // 'product_attribute_description' => $attribute['product_attribute_description'],
-                            'product_attribute_values'      => $product_attribute_values
-                        );
-                    }
-                }
-
                 $json['product'] = [
                     'product_id' => $product_id,
                     'name' => $name,
-                    'attributes' => $product_attributes
                 ];
             }
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function getAttributes()
+    {
+        $this->load->language('catalog/bulk_copy');
+        $json = [];
+
+        if (!$this->user->hasPermission('access', 'catalog/bulk_copy')) {
+            $json['error'] = $this->language->get('error_permission');
+        } else {
+            // Get all attributes
+            $this->load->model('catalog/attribute');
+            $attributes_raw = $this->model_catalog_attribute->getAttributes();
+            $attributes_select = [];
+
+            foreach ($attributes_raw as $attribute) {
+                $attribute_info = $this->model_catalog_attribute->getAttribute($attribute['attribute_id']);
+
+                if ($attribute_info && $attribute_info['type'] == 'select') {
+                    $attributes_select_values = $this->model_catalog_attribute->getAttributeValueDescriptions($attribute['attribute_id']);
+
+                    $attributes_select[] = array(
+                        'attribute_id'      => $attribute['attribute_id'],
+                        'name'              => $attribute_info['name'],
+                        'type'              => $attribute_info['type'],
+                        'attribute_values'  => $attributes_select_values
+                    );
+                }
+            }
+            $json['attributes'] = $attributes_select;
         }
 
         $this->response->addHeader('Content-Type: application/json');
@@ -118,6 +127,7 @@ class ControllerCatalogBulkCopy extends Controller
         $this->load->language('catalog/bulk_copy');
         $json = [];
 
+        // Check permissions
         if (!$this->user->hasPermission('modify', 'catalog/bulk_copy')) {
             $json['error'] = $this->language->get('error_permission');
             $this->response->addHeader('Content-Type: application/json');
@@ -125,64 +135,128 @@ class ControllerCatalogBulkCopy extends Controller
             return;
         }
 
-        $product_id = isset($this->request->post['product_id']) ? (int)$this->request->post['product_id'] : 0;
-        if (!$product_id) {
-            $json['error'] = $this->language->get('error_missing_product_id');
-            $this->response->addHeader('Content-Type: application/json');
-            $this->response->setOutput(json_encode($json));
-            return;
-        }
-        $attribute_id = isset($this->request->post['attribute_id']) ? (int)$this->request->post['attribute_id'] : 0;
+        // Get attribute ID (selected in the modal)
+        $attribute_id = isset($this->request->post['bulk_copy_attribute'])
+            ? (int)$this->request->post['bulk_copy_attribute']
+            : 0;
+
         if (!$attribute_id) {
             $json['error'] = $this->language->get('error_missing_attribute_id');
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode($json));
             return;
         }
-        $attribute_values = isset($this->request->post['attribute_values']) ? json_decode($this->request->post['attribute_values']) : [];
-        if (empty($attribute_values)) {
+
+        // Get product IDs (array of selected products)
+        $product_ids = isset($this->request->post['product_id'])
+            ? (array)$this->request->post['product_id']
+            : [];
+
+        if (empty($product_ids)) {
+            $json['error'] = $this->language->get('error_missing_product_id');
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($json));
+            return;
+        }
+
+        // Get attribute values per product:
+        // product_attribute_values[product_id] = [value_id1, value_id2, ...]
+        $product_attribute_values = isset($this->request->post['product_attribute_values'])
+            ? $this->request->post['product_attribute_values']
+            : [];
+
+        // Validate that we have at least one attribute value overall
+        $total_values = 0;
+        foreach ($product_ids as $pid) {
+            if (!empty($product_attribute_values[$pid]) && is_array($product_attribute_values[$pid])) {
+                $total_values += count($product_attribute_values[$pid]);
+            }
+        }
+
+        if ($total_values === 0) {
             $json['error'] = $this->language->get('error_no_attribute_values');
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode($json));
             return;
         }
-        $products_status = isset($this->request->post['products_status']) ? (int)$this->request->post['products_status'] : 0;
-        $products_title = isset($this->request->post['products_title']) ? (int)$this->request->post['products_title'] : 0;
-        $bulk_add_type = isset($this->request->post['bulk_add_type']) ? (int)$this->request->post['bulk_add_type'] : 0;
 
+        // Additional options
+        $products_status = isset($this->request->post['products_status'])
+            ? (int)$this->request->post['products_status']
+            : 0;
+
+        $products_title = isset($this->request->post['products_title'])
+            ? (int)$this->request->post['products_title']
+            : 0;
+
+        $bulk_add_type = isset($this->request->post['bulk_add_type'])
+            ? (int)$this->request->post['bulk_add_type']
+            : 0;
+
+        // Debug payload (optional, can be removed in production)
         $json['data'] = [
-            'product_id' => $product_id,
-            'attribute_id' => $attribute_id,
-            'attribute_values' => $attribute_values,
-            'products_status' => $products_status,
-            'products_title' => $products_title,
-            'bulk_add_type' => $bulk_add_type
+            'product_ids'            => $product_ids,
+            'attribute_id'           => $attribute_id,
+            'product_attribute_values' => $product_attribute_values,
+            'products_status'        => $products_status,
+            'products_title'         => $products_title,
+            'bulk_add_type'          => $bulk_add_type
         ];
 
         $this->load->model('catalog/bulk_copy');
+        $this->load->model('catalog/product');
 
         $new_products = [];
-        foreach ($attribute_values as $value) {
-            $copy_product_result = $this->model_catalog_bulk_copy->copyProduct($product_id, $attribute_id, $value, $products_status, $products_title);
-            $new_products[] = $copy_product_result;
+
+        // Loop over each selected product and its attribute values
+        foreach ($product_ids as $product_id) {
+            // Skip products without selected attribute values
+            if (empty($product_attribute_values[$product_id]) || !is_array($product_attribute_values[$product_id])) {
+                continue;
+            }
+
+            foreach ($product_attribute_values[$product_id] as $value_id) {
+                $value_id = (int)$value_id;
+                if (!$value_id) {
+                    continue;
+                }
+
+                // copyProduct should handle cloning base product with new attribute value
+                $copy_product_result = $this->model_catalog_bulk_copy->copyProduct(
+                    (int)$product_id,
+                    $attribute_id,
+                    $value_id,
+                    $products_status,
+                    $products_title
+                );
+
+                if ($copy_product_result) {
+                    $new_products[] = $copy_product_result;
+                }
+            }
         }
 
         if (empty($new_products)) {
             $json['error'] = $this->language->get('error_fetching_data');
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($json));
+            return;
         }
 
+        // bulk_add_type === 0: delete original products after copy
         if ($bulk_add_type === 0) {
-            $this->load->model('catalog/product');
-            $this->model_catalog_product->deleteProduct($product_id);
+            foreach ($product_ids as $product_id) {
+                $this->model_catalog_product->deleteProduct((int)$product_id);
+            }
         }
 
+        // Success message with count of new products
         $json['success'] = sprintf($this->language->get('text_success'), count($new_products));
-
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
-        return;
     }
+
 
     protected function validate()
     {

@@ -6,6 +6,7 @@ $_['heading_title']             = 'Bulk copy products by attributes';
 $_['text_loading']              = 'Loading... Please wait.';
 $_['text_no_products']          = 'No products selected!';
 $_['text_two_products']         = 'More than one product selected. For bulk copying by attributes, please select only one product.';
+$_['text_max_10_products']      = 'You have selected more than 10 products. For better performance, please select 1 - 10 products for bulk copying by attributes.';
 $_['text_selected_product']     = 'Selected product:';
 $_['text_choose_attributes']    = 'Please choose attributes to copy:';
 $_['text_new_products']         = 'New products will be created with the selected attributes:';
