@@ -10,9 +10,13 @@ $_['text_selected_product']     = 'Selected product:';
 $_['text_choose_attributes']    = 'Please choose attributes to copy:';
 $_['text_new_products']         = 'New products will be created with the selected attributes:';
 $_['text_select_all_values']    = 'Select all attribute values';
+$_['text_no_attributes']        = 'No attributes with type "select" were found. Please add attributes first.';
 $_['text_no_values']            = 'No attribute values found for this attribute. Please add values first.';
 $_['text_products_status']      = 'All new products will have the enabled status by default.';
-$_['text_products_title']       = 'All new products will have the title & meta title with the attribute name & value.';
+$_['text_products_title']       = 'All new products will have the title & meta title with the attribute\'s value.';
+$_['text_add_type']             = 'Add type:';
+$_['text_remove_and_add']       = 'Remove selected product and add new ones with selected attributes';
+$_['text_add_only']             = 'Add new products only with selected attributes';
 $_['text_success']              = 'Success: %s new products have been created with the selected attributes.';
 
 // Buttons

@@ -148,11 +148,15 @@ class ControllerCatalogBulkCopy extends Controller
         }
         $products_status = isset($this->request->post['products_status']) ? (int)$this->request->post['products_status'] : 0;
         $products_title = isset($this->request->post['products_title']) ? (int)$this->request->post['products_title'] : 0;
+        $bulk_add_type = isset($this->request->post['bulk_add_type']) ? (int)$this->request->post['bulk_add_type'] : 0;
 
         $json['data'] = [
             'product_id' => $product_id,
             'attribute_id' => $attribute_id,
-            'attribute_values' => $attribute_values
+            'attribute_values' => $attribute_values,
+            'products_status' => $products_status,
+            'products_title' => $products_title,
+            'bulk_add_type' => $bulk_add_type
         ];
 
         $this->load->model('catalog/bulk_copy');
@@ -165,9 +169,14 @@ class ControllerCatalogBulkCopy extends Controller
 
         if (empty($new_products)) {
             $json['error'] = $this->language->get('error_fetching_data');
-        } else {
-            $json['success'] = sprintf($this->language->get('text_success'), count($new_products));
         }
+
+        if ($bulk_add_type === 0) {
+            $this->load->model('catalog/product');
+            $this->model_catalog_product->deleteProduct($product_id);
+        }
+
+        $json['success'] = sprintf($this->language->get('text_success'), count($new_products));
 
 
         $this->response->addHeader('Content-Type: application/json');

@@ -63,7 +63,13 @@
 </div>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-		document.getElementById('btnBulkCopyModal').addEventListener('click', function () {
+        const bulkCopyBtn = document.getElementById('btnBulkCopyModal');
+
+        if (!bulkCopyBtn) {
+            console.error('Button with id "btnBulkCopyModal" not found.');
+            return;
+        }        
+		bulkCopyBtn.addEventListener('click', function () {
 			console.log('Bulk Copy Modal Button Clicked');
 
 			let formProduct = document.getElementById('form-product');
@@ -90,7 +96,12 @@
 				.then(productInfo => {
 					if (!productInfo) return;
 
-					let modalBody = document.querySelector('#bulkCopyModal .modal-body');
+                    if (!productInfo.attributes || productInfo.attributes.length === 0) {
+                        document.querySelector('#bulkCopyModalError .modal-body .text-danger').textContent = '{{ text_no_attributes }}';
+                        $('#bulkCopyModalError').modal('show');
+                        return;
+                    }
+
                     let formBulkCopy = document.querySelector('#bulkCopyModal form');
 
                     formBulkCopy.innerHTML      = '<input type="hidden" name="product_id" value="' + productInfo.product_id + '">';
@@ -117,6 +128,16 @@
                     formBulkCopy.innerHTML     += `<hr class="my-1">`;
 
                     formBulkCopy.innerHTML     += `<div class="checkbox-item"><input type="checkbox" id="products_title" class="checkbox-input" name="products_title" value="1" checked /><label for="products_title" class="checkbox-label">{{ text_products_title }}</label></div>`;
+                    formBulkCopy.innerHTML     += `<hr class="my-1">`;
+
+                    formBulkCopy.innerHTML     += `<p class="text-description small">{{ text_add_type }}</p>`;
+
+                    let bulkTypeSelectHtml      = `<select name="bulk_add_type" id="bulk_add_type" class="form-control w-100">`;
+                    bulkTypeSelectHtml          += `<option value="0">{{ text_remove_and_add }}</option>`;
+                    bulkTypeSelectHtml          += `<option value="1">{{ text_add_only }}</option>`;
+                    bulkTypeSelectHtml          += `</select>`;
+
+                    formBulkCopy.innerHTML     += bulkTypeSelectHtml;
 
 					$('#bulkCopyModal').modal('show');
 
@@ -162,6 +183,7 @@
             let selectedAttributeValues = Array.from(document.querySelectorAll('#newProductsList input[name="attribute_value"]:checked')).map(input => parseInt(input.value));
             let productsStatus = formBulkCopy.querySelector('input[name="products_status"]').checked ? 1 : 0;
             let productsTitle = formBulkCopy.querySelector('input[name="products_title"]').checked ? 1 : 0;
+            let bulkAddType = formBulkCopy.querySelector('select[name="bulk_add_type"]').value;
 
             let formData = new FormData();
             formData.append('product_id', productId);
@@ -169,6 +191,7 @@
             formData.append('attribute_values', JSON.stringify(selectedAttributeValues));
             formData.append('products_status', productsStatus);
             formData.append('products_title', productsTitle);
+            formData.append('bulk_add_type', bulkAddType);
 
             fetch('index.php?route=catalog/bulk_copy/bulkCopyProduct&user_token={{ user_token }}', {
                 method: 'POST',
