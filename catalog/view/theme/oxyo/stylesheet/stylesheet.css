@@ -11762,11 +11762,15 @@ html.fl-anim .featherlight .featherlight-content {
     top: 25px;
     right: 25px;
     z-index: 1061;
+
     background: var(--primary-white-100, #fcfcfc);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     animation: note 6500ms forwards;
+
     width: 320px;
     max-width: 85%;
+
+    border-radius: 12px;
 }
 
 .popup-note .inner {
