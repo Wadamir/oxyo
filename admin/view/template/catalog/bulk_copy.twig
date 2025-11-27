@@ -74,8 +74,6 @@
 
 
         btnBulkCopyModal.addEventListener('click', async function () {
-            console.log('Bulk Copy Modal Button Clicked');
-
             // Get main product list form (admin product list)
             const formProduct = document.getElementById('form-product');
             if (!formProduct) {
@@ -321,11 +319,8 @@
 
             // Attach change handler AFTER the select exists in DOM
             const attributeSelect = document.getElementById('bulk_copy_attribute');
-            console.log('Attribute Select Element:', attributeSelect);
             if (attributeSelect) {
                 attributeSelect.addEventListener('change', function () {
-                    console.log('Attribute changed to:', this.value);
-                    // Rebuild per-product preview when attribute changes
                     updateNewProductsList();
                 });
             }            
@@ -414,8 +409,6 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Response Data:', data);
-
                     if (data.error) {
                         console.error('Error:', data.error || data);
 
@@ -437,8 +430,6 @@
                     }
 
                     if (data.success) {
-                        console.log('Success:', data.success);
-
                         $('#bulkCopyModal').modal('hide');
 
                         if (bulkCopyModalSuccessEl) {
@@ -502,7 +493,6 @@
             console.error('No selected products found.');
             return;
         }
-        console.log('Selected Products:', selectedProducts);
         const productIds = selectedProducts;
 
         // Get submit button and global container for attribute values
@@ -513,9 +503,6 @@
             bulkCopyBtn.disabled = true;
             bulkCopyBtn.classList.add('disabled');
         }
-
-        // Debug log (optional)
-        console.log('Updating new products list for attribute:', attributeId, 'products:', productIds);
 
         // If no attribute selected, show message and re-enable button
         if (!attributeId) {
@@ -531,8 +518,6 @@
         fetch('index.php?route=catalog/bulk_copy/getAttributeValues&user_token={{ user_token }}&attribute_id=' + attributeId)
             .then(response => response.json())
             .then(data => {
-                console.log('Fetched Attribute Values:', data);
-
                 // Handle error from backend
                 if (data.error) {
                     console.error('Error:', data.error);
@@ -558,8 +543,7 @@
                     let listHtml = `<p class="text-description small">{{ text_new_products }}</p>`;
 
                     // Select / deselect all checkbox
-                    listHtml += `<div class="checkbox-item my-2 d-none hidden"><input type="checkbox" id="select_all_attribute_values_${productId}" class="checkbox-input" name="select_all_attribute_values_${productId}" value="1" checked /><label for="select_all_attribute_values_${productId}" class="checkbox-label text-description">{{ text_select_all_values }}</label></div>`;
-
+                    listHtml += `<div class="checkbox-item my-2"><input type="checkbox" id="select_all_attribute_values_${productId}" class="checkbox-input" name="select_all_attribute_values_${productId}" value="1" checked /><label for="select_all_attribute_values_${productId}" class="checkbox-label text-description">{{ text_select_all_values }}</label></div>`;
                     listHtml += '<div class="list-unstyled list-rounded">';
                     data.attribute_values.forEach(value => {
                         listHtml += `<div class="checkbox-item"><input type="checkbox" id="attribute_value_${value.value_id}_product_${productId}" class="checkbox-input attribute_values" name="product_attribute_values[${productId}][]" value="${value.value_id}" checked /><label for="attribute_value_${value.value_id}_product_${productId}" class="checkbox-label">${productName}, ${value.name}</label></div>`;
@@ -571,10 +555,9 @@
                     const valuesContainer = document.getElementById(valuesContainerId);
                     if (valuesContainer) {
                         valuesContainer.innerHTML = listHtml;
-
                         // Add event listener for select all checkbox
                         document.getElementById(`select_all_attribute_values_${productId}`).addEventListener('change', function () {
-                            let checkboxes = valuesContainer.querySelectorAll('input[name="attribute_value"]');
+                            let checkboxes = valuesContainer.querySelectorAll('input[name="product_attribute_values[' + productId + '][]"]');
                             checkboxes.forEach(checkbox => {
                                 checkbox.checked = this.checked;
                             });
