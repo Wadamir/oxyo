@@ -18,6 +18,7 @@
 !/admin/controller/catalog/
 !/admin/controller/catalog/product.php
 !/admin/controller/catalog/bulk_copy.php
+!/admin/controller/catalog/manager_product.php
 
 /admin/controller/common/*
 !/admin/controller/common/
@@ -89,6 +90,7 @@
 !/admin/model/catalog/
 !/admin/model/catalog/product.php
 !/admin/model/catalog/bulk_copy.php
+!/admin/model/catalog/manager_product.php
 
 /admin/model/tool/*
 !/admin/model/tool/

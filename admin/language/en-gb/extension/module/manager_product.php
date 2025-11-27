@@ -1,0 +1,151 @@
+<?php
+// Heading
+$_['heading_title']                    	= 'Mass Edit Products';
+$_['heading_license']                   = 'Activation module';
+
+// Text
+$_['text_module']                       = 'Modules';
+$_['text_success']                     	= 'Module settings updated successfully!';
+$_['text_success_license']      		= 'Module "Mass Edit Products" - has been successfully activated!';
+$_['text_success_data']                 = 'Success: Settings updated!';
+$_['text_license_activate']             = 'Activation module "Mass Edit Products"';
+$_['text_edit']                        	= 'Module settings';
+$_['text_secret_key']              		= 'Manual to activation, you can read the article <a href="http://maxystore.com/license-product-info.html" target="_blanck" class="btn btn-default">Rules for the purchase of licensed products</a>';
+$_['text_license_info'] 				= 'After receiving the activation data, enter the following data in the appropriate fields:<br /><ol><li>Order ID;</li><li>Product Code;</li><li>Activation Key;</li></ol>Remember that the module will only work on the domain that you specified when you received the activation key!';
+$_['text_site_info']                	= 'If you have any questions about obtaining activation data, please contact our technical support team:<ol><li>support@maxystore.com</li><li>maxystore.com@gmail.com</li></ol>Official website: <a href="https://maxystore.com" target="_blanck" class="btn btn-default">https://maxystore.com</a>';
+$_['text_clipboard']                 	= 'Copy Clipboard';
+$_['text_manager_product']              = 'Product Manager';
+$_['text_setting']                      = 'Manager settings';
+$_['text_goto_manager']               	= 'Module "Mass Edit Products" - successfully installed! You can go to';
+$_['text_default_data']      			= 'Select the General product settings that will be applied by default.';
+$_['text_item_edit_data']         		= 'Select the data that will be available when you edit the product individually in the list.';
+$_['text_mass_edit_data']         		= 'Select the data that will be available when you edit products in bulk.';
+$_['text_mass_delete_data']         	= 'Select the data that will be available when you delete data from products in bulk.';
+$_['text_hidden_data']       			= 'Select the data to be hidden in the product editing form.';
+$_['text_column_view']       			= 'Select the columns with the data that will be available for editing in the list of products.';
+$_['text_confirm_limit']       			= 'Attention! \n\nYou have set a limit of more than 100 items in the list of products, which creates a large load on the database and its processor on weak servers. In this regard, such a large page may not load and you will not be able to enter the module settings and edit products, and the server will fall into a timeout for some time.\n\nIf you do not have a powerful server, click " No "and reduce the limit in the list of products, but if you have a VDS or a dedicated server, then you can click" Yes " and continue working.\n\nPerhaps you are confident in the power of your server and want to set a limit of more than 100 products in the list, then please note that if the page does not load, then you can only change the limit of products through the database.\n\nDo you really want to continue?';
+$_['text_other']       					= 'Set the mathematical signs that will be applied in the product options. You can add to the standard + and - such as:*,=,/,%, and others.';
+
+// Column
+$_['column_status']          			= 'Value';
+$_['column_setting']         			= 'Data';
+$_['column_sign_name']         			= 'Name';
+
+// Entry
+$_['entry_activation_secret_key']       = 'Secret Key';
+$_['entry_order_id']        			= 'Order ID';
+$_['entry_product_license_code']        = 'Product Code';
+$_['entry_license_key']        			= 'Activation Key';
+$_['entry_limit']        				= 'Limit Products';
+$_['entry_limits']            			= 'Limit Products (<i class="text-danger">Do not specify more than 100 products, because on a weak hosting page may not load.</i>)';
+$_['entry_default_quantity']          	= 'Quantity products default';
+$_['entry_default_min_quantity']        = 'Minimum quantity products default';
+$_['entry_product_model_required']  	= 'Model Required';
+$_['entry_product_meta_title_required'] = 'Meta Tag Title Required';
+$_['entry_default_stock']        		= 'Stock default';
+$_['entry_default_shipping']        	= 'Shipping default';
+$_['entry_image']            			= 'Image';
+$_['entry_name']             			= 'Product Name';
+$_['entry_product_category']            = 'Categories';
+$_['entry_manufacturer']     			= 'Manufacturer';
+$_['entry_model']            			= 'Model';
+$_['entry_sku']              			= 'SKU';
+$_['entry_upc']              			= 'UPC';
+$_['entry_ean']              			= 'EAN';
+$_['entry_jan']              			= 'JAN';
+$_['entry_isbn']             			= 'ISBN';
+$_['entry_mpn']              			= 'MPN';
+$_['entry_location']         			= 'Location';
+$_['entry_price']            			= 'Price';
+$_['entry_quantity']         			= 'Quantity';
+$_['entry_sort_order']       			= 'Sort Order';
+$_['entry_status']           			= 'Status';
+$_['entry_general']      	 			= 'General Data';
+$_['entry_code']      	 	 			= 'Codes';
+$_['entry_tax']      		 			= 'Tax Class';
+$_['entry_stock']      	 	 			= 'Min. quantity, Stock, Shipping';
+$_['entry_seo_url']          			= 'SEO URL';
+$_['entry_date_available']   			= 'Date Available';
+$_['entry_size']    			 		= 'Dimensions, Weight';
+$_['entry_filter']           			= 'Filters';
+$_['entry_store']            			= 'Stores';
+$_['entry_download']         			= 'Downloads';
+$_['entry_related']          			= 'Related Products';
+$_['entry_attributes']        			= 'Attributes';
+$_['entry_options']           			= 'Options';
+$_['entry_discount']           			= 'Discount';
+$_['entry_special']           			= 'Special Price';
+$_['entry_additional_image'] 			= 'Additional Images';
+$_['entry_reward']           			= 'Reward Points';
+$_['entry_layout']           			= 'Layout Override';
+$_['entry_view']           				= 'Product View';
+$_['entry_description']      			= 'Description';
+$_['entry_meta_title']       			= 'Meta Tag Title';
+$_['entry_meta_h1'] 	     			= 'Meta Tag H1';
+$_['entry_meta_description'] 			= 'Meta Tag Description';
+$_['entry_meta_keyword']     			= 'Meta Tag Keywords';
+$_['entry_tag']              			= 'Product Tags';
+$_['entry_minimum']          			= 'Minimum Quantity';
+$_['entry_mass_model']           		= 'Model, Location, Taxes';
+$_['entry_mass_status']           		= 'Date Available, Status';
+$_['entry_mass_shipping']           	= 'Stock Status, Shipping';
+$_['entry_add_discount']           		= 'Discount Management';
+$_['entry_edit_discount']           	= 'Change Current Discounts';
+$_['entry_add_special']           		= 'Special Price Management';
+$_['entry_edit_special']           		= 'Change Current Special Price';
+$_['entry_tax_class']        			= 'Tax Class';
+$_['entry_dimension']        			= 'Dimensions (L x W x H)';
+$_['entry_weight']           			= 'Weight';
+$_['entry_subtract']         			= 'Subtract Stock';
+$_['entry_stock_status']     			= 'Out Of Stock Status';
+$_['entry_shipping']         			= 'Requires Shipping';
+$_['entry_length_class']     			= 'Length Class';
+$_['entry_weight_class']     			= 'Weight Class';
+$_['entry_recurring']        			= 'Recurring Profile';
+$_['entry_view_message']        		= 'Do not show a message about exceeding the product limit';
+
+// Help
+$_['help_mage_view_list']          		= 'Show the Image in the product list';
+$_['help_category_view_list']          	= 'Show the Categories in the product list';
+$_['help_manufacturer_view_list']       = 'Show the Manufacturer in the product list';
+$_['help_model_view_list']          	= 'Show the Model in the product list';
+$_['help_sku_view_list']          		= 'Show the SKU in the product list';
+$_['help_upc_view_list']          		= 'Show the UPC in the product list';
+$_['help_ean_view_list']          		= 'Show the EAN in the product list';
+$_['help_jan_view_list']          		= 'Show the JAN in the product list';
+$_['help_isbn_view_list']          		= 'Show the ISBN in the product list';
+$_['help_mpn_view_list']          		= 'Show the MPN in the product list';
+$_['help_location_view_list']          	= 'Show the Location in the product list';
+$_['help_price_view_list']          	= 'Show the Price in the product list';
+$_['help_quantity_view_list']          	= 'Show the Quantity in the product list';
+$_['help_sort_order_view_list']         = 'Show the Sort Order in the product list';
+$_['help_status_view_list']          	= 'Show the Status in the product list';
+$_['help_minimum_view_list']          	= 'Show the Minimum Quantity in the product list';
+$_['help_subtract_view_list']          	= 'Show the Subtract in the product list';
+$_['help_stock_status_view_list']      	= 'Show the Stock Status in the product list';
+$_['help_shipping_view_list']      		= 'Show the Shipping in the product list';
+$_['help_date_available_view_list']     = 'Show the Date Available in the product list';
+$_['help_dimension_view_list']     		= 'Show the Dimension in the product list';
+$_['help_length_class_view_list']     	= 'Show the Length Class in the product list';
+$_['help_weight_view_list']     		= 'Show the Weight in the product list';
+$_['help_weight_class_view_list']     	= 'Show the Weight Class in the product list';
+$_['help_default_quantity']          	= 'When you add a new product, the \'Quantity\' field will automatically be filled with the specified value.';
+$_['help_default_min_quantity']         = 'When you add a new product, the \'Minimum quantity\' field will automatically be filled with the specified value.';
+$_['help_default_stock']         		= 'When you add a new product, option \'Subtract Stock\' default.';
+$_['help_default_shipping']         	= 'When you add a new product, option \'Requires Shipping\' default.';
+$_['help_sign_name']     				= 'How the icon will be displayed in the drop-down list. Example: + or Plus (+)';
+$_['help_sign_value']     				= 'Set the sign action. For the plus sign, it is +, for the minus sign, it is -, for the division sign, it is /, for the multiplication sign, it is * , etc. Other characters and combinations of characters are allowed that are specifically required for your tasks.';
+
+// Tab
+$_['tab_info']   						= 'Information';
+$_['tab_license']   					= 'Activation';
+$_['tab_item_edit']          			= 'Item Edit';
+$_['tab_mass_edit']          			= 'Mass Edit';
+$_['tab_mass_delete']          			= 'Mass Delete';
+$_['tab_hide_data']          			= 'Hidden Data';
+$_['tab_column']          				= 'Column';
+$_['tab_other']          				= 'Other';
+
+// Error
+$_['error_permission']                 	= 'Warning: You do not have permission to modify settings Admin Quick Edit Pro!';
+$_['error_license']    					= 'The license key does not belong to this domain or incorrect order ID or product code or secret key!';

@@ -1,0 +1,2147 @@
+<div class="modal-header">
+  <div class="zoom-actions pull-right">
+    <button type="button" onclick="expand();" class="btn btn-primary btn-sm btn-zoom btn-expand"><i class="fa fa-expand"></i></button>
+	<button type="button" onclick="compress();"class="btn btn-primary btn-sm btn-zoom btn-compress hidden"><i class="fa fa-compress"></i></button>
+	<button type="button" class="btn btn-danger btn-sm btn-zoom" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+  </div>
+  <h4 class="modal-title">{{ text_setting }}</h4>
+</div>
+<div class="modal-body modal-body-setting">
+  <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-manager-product-setting">	
+	<ul class="nav nav-tabs">
+      <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+	  <li><a href="#tab-item-edit" data-toggle="tab">{{ tab_item_edit }}</a></li>
+      <li><a href="#tab-mass-edit" data-toggle="tab">{{ tab_mass_edit }}</a></li>
+	  <li><a href="#tab-mass-delete" data-toggle="tab">{{ tab_mass_delete }}</a></li>
+	  <li><a href="#tab-hide-data" data-toggle="tab">{{ tab_hide_data }}</a></li>
+	  <li><a href="#tab-column" data-toggle="tab">{{ tab_column }}</a></li>
+	   <li><a href="#tab-other" data-toggle="tab">{{ tab_other }}</a></li>
+    </ul>
+	<div class="tab-content">
+      <div class="tab-pane active" id="tab-general">
+	    <div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_default_data }}</div>
+		<div class="table-responsive">
+		  <table class="table table-hover table-bordered">
+			<thead>
+			  <tr>
+				<td style="width: 100px;" class="text-center">{{ column_status }}</td>
+				<td class="text-left">{{ column_setting }}</td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td class="text-center">
+				  <input type="text" name="manager_product_default_limit" value="{{ manager_product_default_limit }}" class="form-control text-center" />
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_limits }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <input type="text" name="manager_product_default_quantity" value="{{ manager_product_default_quantity }}" class="form-control text-center" />
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_default_quantity }}">{{ entry_default_quantity }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <input type="text" name="manager_product_default_min_quantity" value="{{ manager_product_default_min_quantity }}" class="form-control text-center" />
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_default_min_quantity }}">{{ entry_default_min_quantity }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_model_required"{{ manager_product_model_required ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_product_model_required }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_meta_title_required"{{ manager_product_meta_title_required ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_product_meta_title_required }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_default_stock"{{ manager_product_default_stock ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_default_stock }}">{{ entry_default_stock }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_default_shipping"{{ manager_product_default_shipping ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_default_shipping }}">{{ entry_default_shipping }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_view_message"{{ manager_product_view_message ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_view_message }}">{{ entry_view_message }}</span></label></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	  <div class="tab-pane" id="tab-item-edit">
+		<div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_item_edit_data }}</div>
+		<div class="table-responsive">
+		  <table class="table table-hover table-bordered">
+			<thead>
+			  <tr>
+				<td style="width: 100px;" class="text-center">{{ column_status }}</td>
+				<td class="text-left">{{ column_setting }}</td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr{{ manager_product_image_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_image"{{ manager_product_image ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_name"{{ manager_product_name ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_name }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_category_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_category"{{ manager_product_category ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_product_category }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_manufacturer_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_manufacturer"{{ manager_product_manufacturer ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_manufacturer }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_model_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_model"{{ manager_product_model ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_model }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_sku_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_sku"{{ manager_product_sku ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_sku }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_upc_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_upc"{{ manager_product_upc ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_upc }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_ean_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_ean"{{ manager_product_ean ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_ean }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_jan_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_jan"{{ manager_product_jan ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_jan }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_isbn_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_isbn"{{ manager_product_isbn ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_isbn }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_mpn_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mpn"{{ manager_product_mpn ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_mpn }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_location_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_location"{{ manager_product_location ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_location }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_price_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_price"{{ manager_product_price ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_price }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_tax_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_tax"{{ manager_product_tax ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_tax }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_quantity_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_quantity"{{ manager_product_quantity ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_quantity }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_minimum_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_minimum"{{ manager_product_minimum ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_minimum }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_subtract_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_subtract"{{ manager_product_subtract ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_subtract }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_stock_status_id_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_stock_status_id"{{ manager_product_stock_status_id ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_stock_status }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_shipping_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_shipping"{{ manager_product_shipping ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_shipping }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_dimension_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_dimension"{{ manager_product_dimension ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_dimension }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_length_class_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_length_class"{{ manager_product_length_class ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_length_class }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_weight_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_weights"{{ manager_product_weights ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_weight }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_weight_class_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_weight_class"{{ manager_product_weight_class ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_weight_class }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_sort_order_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_sort_order"{{ manager_product_sort_order ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_sort_order }}</label></td>
+			  </tr>
+			  <tr{{ manager_product_status_view ? '' : ' class="hidden"' }}>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_status"{{ manager_product_status ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_status }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_general"{{ manager_product_general ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_general }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_code"{{ manager_product_code ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_code }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_stock"{{ manager_product_stock ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_stock }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_date"{{ manager_product_date ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_date_available }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_seo_url"{{ manager_product_seo_url ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_seo_url }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_weight"{{ manager_product_weight ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_size }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_filter"{{ manager_product_filter ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_filter }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_store"{{ manager_product_store ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_store }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_download"{{ manager_product_download ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_download }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_related"{{ manager_product_related ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_related }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_attribute"{{ manager_product_attribute ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_attributes }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_option"{{ manager_product_option ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_options }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_discount"{{ manager_product_discount ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_discount }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_special"{{ manager_product_special ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_special }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_images"{{ manager_product_images ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_additional_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_reward"{{ manager_product_reward ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_reward }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_design"{{ manager_product_design ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_layout }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_view"{{ manager_product_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_view }}</label></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	  <div class="tab-pane" id="tab-mass-edit">
+		<div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_mass_edit_data }}</div>
+		<div class="table-responsive">
+		  <table class="table table-hover table-bordered">
+			<thead>
+			  <tr>
+				<td style="width: 100px;" class="text-center">{{ column_status }}</td>
+				<td class="text-left">{{ column_setting }}</td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_name"{{ manager_product_mass_name ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_name }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_description"{{ manager_product_mass_description ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_description }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_meta_title"{{ manager_product_mass_meta_title ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_title }}</label></td>
+			  </tr>
+			  {% if presence_column_meta_h1 != 'meta-tag-h1-not-in-opencart' %}
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_meta_h1"{{ manager_product_mass_meta_h1 ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_h1 }}</label></td>
+			  </tr>
+			  {% endif %}
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_meta_description"{{ manager_product_mass_meta_description ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_description }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_meta_keyword"{{ manager_product_mass_meta_keyword ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_keyword }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_tag"{{ manager_product_mass_tag ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_tag }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_image"{{ manager_product_mass_image ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_price"{{ manager_product_mass_price ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_price }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_quantity"{{ manager_product_mass_quantity ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_quantity }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_minimum"{{ manager_product_mass_minimum ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_minimum }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_model"{{ manager_product_mass_model ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_mass_model }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_seo_url"{{ manager_product_mass_seo_url ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_seo_url }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_code"{{ manager_product_mass_code ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_code }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_date_available"{{ manager_product_mass_date_available ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_mass_status }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_shipping"{{ manager_product_mass_shipping ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_mass_shipping }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_size"{{ manager_product_mass_size ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_size }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_sort_order"{{ manager_product_mass_sort_order ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_sort_order }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_manufacturer"{{ manager_product_mass_manufacturer ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_manufacturer }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_category"{{ manager_product_mass_category ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_product_category }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_filter"{{ manager_product_mass_filter ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_filter }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_store"{{ manager_product_mass_store ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_store }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_download"{{ manager_product_mass_download ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_download }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_related"{{ manager_product_mass_related ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_related }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_add_discount"{{ manager_product_mass_add_discount ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_add_discount }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_edit_discount"{{ manager_product_mass_edit_discount ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_edit_discount }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_add_special"{{ manager_product_mass_add_special ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_add_special }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_edit_special"{{ manager_product_mass_edit_special ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_edit_special }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_attribute"{{ manager_product_mass_attribute ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_attributes }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_option"{{ manager_product_mass_option ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_options }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_images"{{ manager_product_mass_images ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_additional_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_reward"{{ manager_product_mass_reward ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_reward }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_design"{{ manager_product_mass_design ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_layout }}</label></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	  <div class="tab-pane" id="tab-mass-delete">
+		<div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_mass_delete_data }}</div>
+		<div class="table-responsive">
+		  <table class="table table-hover table-bordered">
+			<thead>
+			  <tr>
+				<td style="width: 100px;" class="text-center">{{ column_status }}</td>
+				<td class="text-left">{{ column_setting }}</td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_name"{{ manager_product_mass_delete_name ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_name }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_description"{{ manager_product_mass_delete_description ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_description }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_meta_title"{{ manager_product_mass_delete_meta_title ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_title }}</label></td>
+			  </tr>
+			  {% if presence_column_meta_h1 != 'meta-tag-h1-not-in-opencart' %}
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_meta_h1"{{ manager_product_mass_delete_meta_h1 ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_h1 }}</label></td>
+			  </tr>
+			  {% endif %}
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_meta_description"{{ manager_product_mass_delete_meta_description ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_description }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_meta_keyword"{{ manager_product_mass_delete_meta_keyword ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_meta_keyword }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_tag"{{ manager_product_mass_delete_tag ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_tag }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_image"{{ manager_product_mass_delete_image ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_model"{{ manager_product_mass_delete_model ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_model }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_sku"{{ manager_product_mass_delete_sku ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_sku }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_upc"{{ manager_product_mass_delete_upc ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_upc }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_ean"{{ manager_product_mass_delete_ean ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_ean }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_jan"{{ manager_product_mass_delete_jan ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_jan }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_isbn"{{ manager_product_mass_delete_isbn ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_isbn }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_mpn"{{ manager_product_mass_delete_mpn ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_mpn }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_location"{{ manager_product_mass_delete_location ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_location }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_price"{{ manager_product_mass_delete_price ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_price }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_tax_class"{{ manager_product_mass_delete_tax_class ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_tax_class }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_quantity"{{ manager_product_mass_delete_quantity ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_quantity }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_minimum"{{ manager_product_mass_delete_minimum ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_minimum }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_seo_url"{{ manager_product_mass_delete_seo_url ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_seo_url }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_date_available"{{ manager_product_mass_delete_date_available ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_date_available }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_size"{{ manager_product_mass_delete_size ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_dimension }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_weight"{{ manager_product_mass_delete_weight ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_weight }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_sort_order"{{ manager_product_mass_delete_sort_order ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_sort_order }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_manufacturer"{{ manager_product_mass_delete_manufacturer ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_manufacturer }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_category"{{ manager_product_mass_delete_category ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_product_category }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_filter"{{ manager_product_mass_delete_filter ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_filter }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_store"{{ manager_product_mass_delete_store ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_store }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_download"{{ manager_product_mass_delete_download ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_download }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_related"{{ manager_product_mass_delete_related ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_related }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_attribute"{{ manager_product_mass_delete_attribute ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_attributes }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_option"{{ manager_product_mass_delete_option ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_options }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_discount"{{ manager_product_mass_delete_discount ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_discount }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_special"{{ manager_product_mass_delete_special ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_special }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_images"{{ manager_product_mass_delete_images ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_additional_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_reward"{{ manager_product_mass_delete_reward ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_reward }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mass_delete_design"{{ manager_product_mass_delete_design ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_layout }}</label></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	  <div class="tab-pane" id="tab-hide-data">
+		<div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_hidden_data }}</div>
+		<div class="table-responsive">
+		  <table class="table table-hover table-bordered">
+			<thead>
+			  <tr>
+				<td style="width: 100px;" class="text-center">{{ column_status }}</td>
+				<td class="text-left">{{ column_setting }}</td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_codes"{{ manager_product_hide_codes ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_code }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_model"{{ manager_product_hide_model ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_model }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_price"{{ manager_product_hide_price ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_price }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_tax_class"{{ manager_product_hide_tax_class ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_tax_class }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_quantity"{{ manager_product_hide_quantity ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_quantity }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_minimum"{{ manager_product_hide_minimum ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_minimum }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_subtract"{{ manager_product_hide_subtract ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_subtract }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_stock_status"{{ manager_product_hide_stock_status ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_stock_status }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_shipping"{{ manager_product_hide_shipping ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_shipping }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_seo_url"{{ manager_product_hide_seo_url ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_seo_url }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_date_available"{{ manager_product_hide_date_available ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_date_available }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_dimension"{{ manager_product_hide_dimension ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_dimension }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_length_class"{{ manager_product_hide_length_class ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_length_class }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_weight"{{ manager_product_hide_weight ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_weight }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_weight_class"{{ manager_product_hide_weight_class ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_weight_class }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_status"{{ manager_product_hide_status ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_status }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_sort_order"{{ manager_product_hide_sort_order ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_sort_order }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_manufacturer"{{ manager_product_hide_manufacturer ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_manufacturer }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_filter"{{ manager_product_hide_filter ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_filter }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_store"{{ manager_product_hide_store ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_store }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_download"{{ manager_product_hide_download ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_download }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_related"{{ manager_product_hide_related ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_related }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_attribute"{{ manager_product_hide_attribute ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_attributes }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_option"{{ manager_product_hide_option ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_options }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_recurring"{{ manager_product_hide_recurring ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_recurring }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_discount"{{ manager_product_hide_discount ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_discount }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_special"{{ manager_product_hide_special ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_special }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_additional_image"{{ manager_product_hide_additional_image ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_additional_image }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_reward"{{ manager_product_hide_reward ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_reward }}</label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_hide_layout"{{ manager_product_hide_layout ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label">{{ entry_layout }}</label></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	  <div class="tab-pane" id="tab-column">
+		<div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_column_view }}</div>
+		<div class="table-responsive">
+		  <table class="table table-hover table-bordered">
+			<thead>
+			  <tr>
+				<td style="width: 100px;" class="text-center">{{ column_status }}</td>
+				<td class="text-left">{{ column_setting }}</td>
+			  </tr>
+			</thead>
+			<tbody>			  
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_image_view"{{ manager_product_image_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_mage_view_list }}">{{ entry_image }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_category_view"{{ manager_product_category_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_category_view_list }}">{{ entry_product_category }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_manufacturer_view"{{ manager_product_manufacturer_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_manufacturer_view_list }}">{{ entry_manufacturer }}</span></label></td>
+			  </tr>	 
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_model_view"{{ manager_product_model_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_model_view_list }}">{{ entry_model }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_sku_view"{{ manager_product_sku_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_sku_view_list }}">{{ entry_sku }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_upc_view"{{ manager_product_upc_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_upc_view_list }}">{{ entry_upc }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_ean_view"{{ manager_product_ean_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_ean_view_list }}">{{ entry_ean }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_jan_view"{{ manager_product_jan_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_jan_view_list }}">{{ entry_jan }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_isbn_view"{{ manager_product_isbn_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_isbn_view_list }}">{{ entry_isbn }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_mpn_view"{{ manager_product_mpn_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_mpn_view_list }}">{{ entry_mpn }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_location_view"{{ manager_product_location_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_location_view_list }}">{{ entry_location }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_price_view"{{ manager_product_price_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_price_view_list }}">{{ entry_price }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_tax_view"{{ manager_product_tax_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_tax_view_list }}">{{ entry_tax }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_quantity_view"{{ manager_product_quantity_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_quantity_view_list }}">{{ entry_quantity }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_minimum_view"{{ manager_product_minimum_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_minimum_view_list }}">{{ entry_minimum }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_subtract_view"{{ manager_product_subtract_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_subtract_view_list }}">{{ entry_subtract }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_stock_status_id_view"{{ manager_product_stock_status_id_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_stock_status_view_list }}">{{ entry_stock_status }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_shipping_view"{{ manager_product_shipping_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_shipping_view_list }}">{{ entry_shipping }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_date_available_view"{{ manager_product_date_available_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_date_available_view_list }}">{{ entry_date_available }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_dimension_view"{{ manager_product_dimension_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_dimension_view_list }}">{{ entry_dimension }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_length_class_view"{{ manager_product_length_class_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_length_class_view_list }}">{{ entry_length_class }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_weight_view"{{ manager_product_weight_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_weight_view_list }}">{{ entry_weight }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_weight_class_view"{{ manager_product_weight_class_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_weight_class_view_list }}">{{ entry_weight_class }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_sort_order_view"{{ manager_product_sort_order_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_sort_order_view_list }}">{{ entry_sort_order }}</span></label></td>
+			  </tr>
+			  <tr>
+				<td class="text-center">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox" name="manager_product_status_view"{{ manager_product_status_view ? ' checked="checked"' : '' }} />
+					  <i class="fa fa-2x icon-checkbox"></i>
+					</label>
+				  </div>
+				</td>
+				<td class="text-left"><label class="control-label"><span data-toggle="tooltip" title="{{ help_status_view_list }}">{{ entry_status }}</span></label></td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	  <div class="tab-pane" id="tab-other">
+		<div class="alert alert-info alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_other }}</div>
+		<div class="form-group">
+		  <table id="option_sign" class="table table-striped table-bordered table-hover">
+			<thead>
+			  <tr>
+				<td class="text-left"><span data-toggle="tooltip" title="{{ help_sign_name }}">{{ column_sign_name }}</span></td>
+				<td class="text-left"><span data-toggle="tooltip" title="{{ help_sign_value }}">{{ column_status }}</span></td>
+				<td class="text-center">{{ column_action }}</td>
+			  </tr>
+			</thead>
+			<tbody>
+			  {% set option_sign_row = 0 %}
+			  {% if manager_product_option_signs %}
+				{% for manager_product_option_sign in manager_product_option_signs %}
+				  <tr id="option_sign-row-{{ option_sign_row }}">
+					<td class="text-left"><input type="text" name="manager_product_option_signs[{{ option_sign_row }}][name]" value="{% if manager_product_option_sign.name %}{{ manager_product_option_sign.name }}{% endif %}" class="form-control" /></td>
+					<td class="text-left"><input type="text" name="manager_product_option_signs[{{ option_sign_row }}][value]" value="{% if manager_product_option_sign.value %}{{ manager_product_option_sign.value }}{% endif %}" class="form-control" /></td>
+					<td class="text-center"><button type="button" onclick="$('#option_sign-row-{{ option_sign_row }}').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+				  </tr>
+				  {% set option_sign_row = option_sign_row + 1 %}
+				{% endfor %}
+			  {% endif %}
+			</tbody>
+			<tfoot>
+			  <tr>
+				<td colspan="2"></td>
+				<td class="text-center" width="1%"><button type="button" onclick="addSigns();" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+			  </tr>
+			</tfoot>
+		  </table>
+		</div>
+	  </div>
+	</div>
+  </form>
+</div>
+<div class="modal-footer">
+  <div class="text-right">
+    <a data-form="form-manager-product-setting" class="button-save btn btn-success"><i class="fa fa-save"></i> {{ button_save }}</a>
+	<a class="btn btn-default" data-dismiss="modal" aria-hidden="true"><i class="fa fa-reply"></i> {{ button_cancel }}</a>
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('.button-save').on('click', function() {	
+	confirm_limit = $('input[name=\'manager_product_default_limit\']').val();
+	
+	$.ajax({
+		url: $('#' + $(this).data('form')).attr('action'),
+		type: 'post',
+		dataType: 'json',
+		data: $('#' + $(this).data('form') + ' input[type=\'text\'], #' + $(this).data('form') + ' input[type=\'hidden\'], #' + $(this).data('form') + ' input[type=\'checkbox\']:checked, #' + $(this).data('form') + ' select'),
+		success: function(json) {									
+			$('.alert-success, .alert-danger').remove();
+
+			if (json['error']) {
+				$('.modal-body').animate({scrollTop: $('#form-manager-product-setting').offset().top}, 100);
+				
+				$('#form-manager-product-setting').before('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+				
+				$('.alert-danger').delay(1500).fadeOut(500);	
+			}
+
+			if (json['success']) {
+				{% if manager_product_view_message != "on" %}	
+					if (confirm_limit > 100) {				
+						if (!confirm('{{ text_confirm_limit }}')) return;
+					}
+				{% endif %}
+				
+				$('.modal-body').animate({scrollTop: $('#form-manager-product-setting').offset().top}, 100);
+				
+				$('#form-manager-product-setting').before('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+				
+				$('#button-filter').trigger('click');
+				
+				setTimeout(function(){
+					$('#modal-edit-product').modal('hide');
+				}, 1000)
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+//--></script>
+  <script type="text/javascript"><!--
+var option_sign_row = {{ option_sign_row }};
+
+function addSigns() {
+    html  = '<tr id="option_sign-row-' + option_sign_row + '">';
+	html += '  <td class="text-left"><input type="text" value="" name="manager_product_option_signs[' + option_sign_row + '][name]" class="form-control" /></td>';
+	html += '  <td class="text-left"><input type="text" value="" name="manager_product_option_signs[' + option_sign_row + '][value]" class="form-control" /></td>';
+	html += '  <td class="text-center"><button type="button" onclick="$(\'#option_sign-row-' + option_sign_row + '\').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '</tr>';
+	
+	$('#option_sign tbody').append(html);
+	
+	option_sign_row++;
+}
+//--></script>
