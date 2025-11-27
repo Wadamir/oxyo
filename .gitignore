@@ -49,6 +49,7 @@
 !/admin/language/en-gb/catalog/
 !/admin/language/en-gb/catalog/product.php
 !/admin/language/en-gb/catalog/bulk_copy.php
+!/admin/language/en-gb/catalog/manager_product.php
 
 /admin/language/en-gb/extension/*
 !/admin/language/en-gb/extension/
@@ -70,6 +71,7 @@
 !/admin/language/ru-ru/catalog/
 !/admin/language/ru-ru/catalog/product.php
 !/admin/language/ru-ru/catalog/bulk_copy.php
+!/admin/language/ru-ru/catalog/manager_product.php
 
 /admin/language/ru-ru/extension/*
 !/admin/language/ru-ru/extension/
