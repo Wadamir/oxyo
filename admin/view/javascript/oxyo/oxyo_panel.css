@@ -505,10 +505,14 @@ legend.third {
     margin: 0;
     padding: 0;
 
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 24px;
     white-space: nowrap;
+}
+
+.form-group.select-group .control-label {
+    font-size: 14px;
 }
 
 .radio-switcher-title::after {

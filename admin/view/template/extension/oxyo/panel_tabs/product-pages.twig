@@ -1,10 +1,10 @@
 <legend>{{ text_product_card }}</legend>
 
 <!-- Hidden block -->
-<legend class="sub d-none hidden">Catalog Mode</legend>
+<legend class="sub d-none hidden">{{ text_oxyo_legend_catalog_mode }}</legend>
 <div class="form-group new-form-group d-none hidden">
 	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Disable the product purchase options globally">Catalog Mode</span>
+		<span data-toggle="tooltip" title="{{ help_oxyo_catalog_mode }}">{{ entry_oxyo_catalog_mode }}</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
 		<label><input type="radio" name="settings[oxyo][catalog_mode]" value="0" {% if catalog_mode == '0' %} checked="checked" {% endif %}/><span>{{ text_off }}</span>
@@ -16,19 +16,19 @@
 <!-- End of hidden block -->
 
 <div class="form-group radio-switcher-group">
-    <div class="col-sm-3">
-        <p class="radio-switcher-title">{{ text_product_quickview_status }}</p>
-    </div>
-    <div class="col-sm-9">
-        <div class="form-radio-switcher-wrapper justify-content-start">
-            <label class="label-switcher label-switcher-pre" for="quickview_status_0">{{ text_off }}</label>
-            <div class="form-radio form-radio-inline form-radio-switcher">
-                <input type="radio" name="settings[oxyo][quickview_status]" value="0" {% if quickview_status == '0' or quickview_status is not defined %} checked="checked" {% endif %} id="quickview_status_0"/>
-                <input type="radio" name="settings[oxyo][quickview_status]" value="1" {% if quickview_status == '1' %} checked="checked" {% endif %} id="quickview_status_1"/>
-            </div>
-            <label class="label-switcher label-switcher-post" for="quickview_status_1">{{ text_on }}</label>
-        </div>
-    </div>
+	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ text_product_quickview_status }}</p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="quickview_status_0">{{ text_off }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][quickview_status]" value="0" {% if quickview_status == '0' or quickview_status is not defined %} checked="checked" {% endif %} id="quickview_status_0"/>
+				<input type="radio" name="settings[oxyo][quickview_status]" value="1" {% if quickview_status == '1' %} checked="checked" {% endif %} id="quickview_status_1"/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="quickview_status_1">{{ text_on }}</label>
+		</div>
+	</div>
 </div>
 
 <!-- Stickers -->
@@ -54,28 +54,28 @@
 							<div class="input-group pull-left">
 								<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
 								</span>
-								<input type="text" name="settings[oxyo][sticker_sale][text][{{ language.language_id }}]" value="{% if sticker_sale.text[cur_language_id] is defined %}{{sticker_sale.text[cur_language_id]}}{% endif %}" placeholder="{{entry_sticker_text}}" class="form-control"/>
+								<input type="text" name="settings[oxyo][sticker_sale][text][{{ language.language_id }}]" value="{% if sticker_sale.text[cur_language_id] is defined %}{{ sticker_sale.text[cur_language_id] }}{% endif %}" placeholder="{{ entry_sticker_text }}" class="form-control"/>
 							</div>
 						{% endfor %}
 					</td>
 					<td class="text-left" style="width: 15%;">
 						<div class="color_input">
-                            <div class="input-group form-inline colorfield">
-                                <span class="input-group-addon">
-                                    <i style="background:{{ sticker_sale.color ? sticker_sale.color : '#FFFFFF' }}"></i>
-                                </span>
-                                <input class="form-control" name="settings[oxyo][sticker_sale][color]" value="{{ sticker_sale.color ? sticker_sale.color : '#FFFFFF' }}"/>
-                            </div>
+							<div class="input-group form-inline colorfield">
+								<span class="input-group-addon">
+									<i style="background:{{ sticker_sale.color ? sticker_sale.color : '#FFFFFF' }}"></i>
+								</span>
+								<input class="form-control" name="settings[oxyo][sticker_sale][color]" value="{{ sticker_sale.color ? sticker_sale.color : '#FFFFFF' }}"/>
+							</div>
 						</div>
 					</td>
 					<td class="text-left" style="width: 15%;">
 						<div class="color_input">
-                            <div class="input-group form-inline colorfield">
-                                <span class="input-group-addon">
-                                    <i style="background:{{ sticker_sale.bg ? sticker_sale.bg : '#FF0000' }}"></i>
-                                </span>
-                                <input class="form-control" name="settings[oxyo][sticker_sale][bg]" value="{{ sticker_sale.bg ? sticker_sale.bg : '#FF0000' }}"/>
-                            </div>
+							<div class="input-group form-inline colorfield">
+								<span class="input-group-addon">
+									<i style="background:{{ sticker_sale.bg ? sticker_sale.bg : '#FF0000' }}"></i>
+								</span>
+								<input class="form-control" name="settings[oxyo][sticker_sale][bg]" value="{{ sticker_sale.bg ? sticker_sale.bg : '#FF0000' }}"/>
+							</div>
 						</div>
 					</td>
 					<td class="text-right" style="width: 15%;">
@@ -123,32 +123,32 @@
 							<div class="input-group pull-left">
 								<span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
 								</span>
-								<input type="text" name="settings[oxyo][sticker_new][text][{{ language.language_id }}]" value="{% if sticker_new.text[cur_language_id] is defined %}{{sticker_new.text[cur_language_id]}}{% endif %}" placeholder="{{entry_sticker_text}}" class="form-control"/>
+								<input type="text" name="settings[oxyo][sticker_new][text][{{ language.language_id }}]" value="{% if sticker_new.text[cur_language_id] is defined %}{{ sticker_new.text[cur_language_id] }}{% endif %}" placeholder="{{ entry_sticker_text }}" class="form-control"/>
 							</div>
 						{% endfor %}
 					</td>
 					<td class="text-left" style="width: 15%;">
 						<div class="color_input">
-                            <div class="input-group form-inline colorfield">
-                                <span class="input-group-addon">
-                                    <i style="background:{{ sticker_new.color ? sticker_new.color : '#FFFFFF' }}"></i>
-                                </span>
-                                <input class="form-control" name="settings[oxyo][sticker_new][color]" value="{{ sticker_new.color ? sticker_new.color : '#FFFFFF' }}"/>
-                            </div>
+							<div class="input-group form-inline colorfield">
+								<span class="input-group-addon">
+									<i style="background:{{ sticker_new.color ? sticker_new.color : '#FFFFFF' }}"></i>
+								</span>
+								<input class="form-control" name="settings[oxyo][sticker_new][color]" value="{{ sticker_new.color ? sticker_new.color : '#FFFFFF' }}"/>
+							</div>
 						</div>
 					</td>
 					<td class="text-left" style="width: 15%;">
 						<div class="color_input">
-                            <div class="input-group form-inline colorfield">
-                                <span class="input-group-addon">
-                                    <i style="background:{{ sticker_new.bg ? sticker_new.bg : '#0000FF' }}"></i>
-                                </span>
-                                <input class="form-control" name="settings[oxyo][sticker_new][bg]" value="{{ sticker_new.bg ? sticker_new.bg : '#0000FF' }}"/>
-                            </div>
+							<div class="input-group form-inline colorfield">
+								<span class="input-group-addon">
+									<i style="background:{{ sticker_new.bg ? sticker_new.bg : '#0000FF' }}"></i>
+								</span>
+								<input class="form-control" name="settings[oxyo][sticker_new][bg]" value="{{ sticker_new.bg ? sticker_new.bg : '#0000FF' }}"/>
+							</div>
 						</div>
 					</td>
 					<td class="text-right" style="width: 15%;">
-                        <input type="text" name="settings[oxyo][sticker_new][days]" value="{{ sticker_new.days ? sticker_new.days : '0' }}" placeholder="Days to show" class="form-control"/>
+						<input type="text" name="settings[oxyo][sticker_new][days]" value="{{ sticker_new.days ? sticker_new.days : '0' }}" placeholder="Days to show" class="form-control"/>
 					</td>
 					<td class="text-right" style="width: 15%;">
 						<select name="settings[oxyo][sticker_new][status]" class="form-control">
@@ -163,31 +163,31 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>        
+		</table>
 	</div>
 </div>
 
 <!-- Hidden block -->
 <div class="form-group new-form-group hidden d-none">
-	<label class="col-sm-2 control-label">Sale label</label>
+	<label class="col-sm-2 control-label">{{ entry_oxyo_sale_label }}</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][salebadge_status]" class="form-control">
 			<option value="0" {% if salebadge_status == '0' %} selected="selected" {% endif %}>{{ text_disabled }}</option>
-			<option value="1" {% if salebadge_status == '1' %} selected="selected" {% endif %}>Enabled - Sale Text</option>
-			<option value="2" {% if salebadge_status == '2' %} selected="selected" {% endif %}>Enabled - Discount Percentage</option>
+			<option value="1" {% if salebadge_status == '1' %} selected="selected" {% endif %}>{{ text_oxyo_sale_label_text }}</option>
+			<option value="2" {% if salebadge_status == '2' %} selected="selected" {% endif %}>{{ text_oxyo_sale_label_percent }}</option>
 		</select>
 	</div>
 </div>
 <div class="form-group new-form-group hidden d-none">
 	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Set how many days to show the new-label on new products. Set it as 0 to disable">New label period</span>
+		<span data-toggle="tooltip" title="{{ help_oxyo_new_label_period }}">{{ entry_oxyo_new_label_period }}</span>
 	</label>
 	<div class="col-sm-10">
 		<input class="form-control" name="settings[oxyo][newlabel_status]" value="{{ newlabel_status ? newlabel_status : '0' }}"/>
 	</div>
 </div>
 <div class="form-group new-form-group hidden d-none">
-	<label class="col-sm-2 control-label">Out of stock label</label>
+	<label class="col-sm-2 control-label">{{ entry_oxyo_out_of_stock_label }}</label>
 	<div class="col-sm-10 toggle-btn">
 		<label><input type="radio" name="settings[oxyo][stock_badge_status]" value="0" {% if stock_badge_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
@@ -198,10 +198,10 @@
 <!-- End of hidden block -->
 
 <!-- Hidden block -->
-<legend class="sub d-none hidden">Specials Countdown</legend>
+<legend class="sub d-none hidden">{{ text_oxyo_legend_specials_countdown }}</legend>
 <div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="View time left on (time limited) special prices. Please note tat the Product groups module has its own setting for this.">Specials countdown status</span>
+		<span data-toggle="tooltip" title="{{ help_oxyo_specials_countdown_status }}">{{ entry_oxyo_specials_countdown_status }}</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
 		<label><input type="radio" name="settings[oxyo][countdown_status]" value="0" {% if countdown_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
@@ -214,9 +214,9 @@
 
 <div class="form-group select-group">
 	<div class="col-sm-3">
-        <p class="control-label">
-            <span data-toggle="tooltip" title="{{ text_cart_action_tooltip }}">{{ text_cart_action }}</span>
-        </p>
+		<p class="control-label">
+			<span data-toggle="tooltip" title="{{ text_cart_action_tooltip }}">{{ text_cart_action }}</span>
+		</p>
 	</div>
 	<div class="col-sm-9 toggle-btn">
 		<select name="settings[oxyo][oxyo_cart_action]" class="form-control">
@@ -231,15 +231,15 @@
 	<div class="col-sm-3">
 		<p class="radio-switcher-title">{{ text_buyoneclick_status }}</p>
 	</div>
-    <div class="col-sm-9">
-        <div class="form-radio-switcher-wrapper justify-content-start">
-            <label class="label-switcher label-switcher-pre" for="buyoneclick_status_0">{{ text_disabled }}</label>
-            <div class="form-radio form-radio-inline form-radio-switcher">
-                <input type="radio" name="settings[oxyo][buyoneclick_status]" value="0" {% if buyoneclick_status == '0' %} checked="checked" {% endif %} id="buyoneclick_status_0"/>
-                <input type="radio" name="settings[oxyo][buyoneclick_status]" value="1" {% if buyoneclick_status == '1' %} checked="checked" {% endif %} id="buyoneclick_status_1"/>
-            </div>
-            <label class="label-switcher label-switcher-post" for="buyoneclick_status_1">{{ text_enabled }}</label>
-        </div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="buyoneclick_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][buyoneclick_status]" value="0" {% if buyoneclick_status == '0' %} checked="checked" {% endif %} id="buyoneclick_status_0"/>
+				<input type="radio" name="settings[oxyo][buyoneclick_status]" value="1" {% if buyoneclick_status == '1' %} checked="checked" {% endif %} id="buyoneclick_status_1"/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="buyoneclick_status_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
@@ -247,212 +247,263 @@
 	<div class="col-sm-3">
 		<p class="radio-switcher-title">{{ text_wishlist_status }}</p>
 	</div>
-    <div class="col-sm-9">
-        <div class="form-radio-switcher-wrapper justify-content-start">
-            <label class="label-switcher label-switcher-pre" for="wishlist_status_0">{{ text_disabled }}</label>
-            <div class="form-radio form-radio-inline form-radio-switcher">
-                <input type="radio" name="settings[oxyo][wishlist_status]" value="0" {% if wishlist_status == '0' %} checked="checked" {% endif %} id="wishlist_status_0"/>
-                <input type="radio" name="settings[oxyo][wishlist_status]" value="1" {% if wishlist_status == '1' %} checked="checked" {% endif %} id="wishlist_status_1"/>
-            </div>
-            <label class="label-switcher label-switcher-post" for="wishlist_status_1">{{ text_enabled }}</label>
-        </div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="wishlist_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][wishlist_status]" value="0" {% if wishlist_status == '0' %} checked="checked" {% endif %} id="wishlist_status_0"/>
+				<input type="radio" name="settings[oxyo][wishlist_status]" value="1" {% if wishlist_status == '1' %} checked="checked" {% endif %} id="wishlist_status_1"/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="wishlist_status_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
 <!-- Hidden block -->
 <div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Action when an item is successfully added to wish list">Add to wish list action</span>
+		<span data-toggle="tooltip" title="{{ help_oxyo_wishlist_action }}">{{ entry_oxyo_wishlist_action }}</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
 		<select name="settings[oxyo][oxyo_wishlist_action]" class="form-control">
-			<option value="0" {% if oxyo_wishlist_action == '0' %} selected="selected" {% endif %}>Stay - Notification message</option>
-			<option value="redirect" {% if oxyo_wishlist_action == 'redirect' %} selected="selected" {% endif %}>Redirect - Wish List Page</option>
+			<option value="0" {% if oxyo_wishlist_action == '0' %} selected="selected" {% endif %}>{{ text_oxyo_wishlist_action_stay }}</option>
+			<option value="redirect" {% if oxyo_wishlist_action == 'redirect' %} selected="selected" {% endif %}>{{ text_oxyo_wishlist_action_redirect }}</option>
 		</select>
 	</div>
 </div>
 <!-- End of hidden block -->
+
 
 <div class="form-group radio-switcher-group">
 	<div class="col-sm-3">
 		<p class="radio-switcher-title">{{ text_compare_status }}</p>
 	</div>
 	<div class="col-sm-9">
-        <div class="form-radio-switcher-wrapper justify-content-start">
-            <label class="label-switcher label-switcher-pre" for="compare_status_0">{{ text_disabled }}</label>
-            <div class="form-radio form-radio-inline form-radio-switcher">
-                <input type="radio" name="settings[oxyo][compare_status]" value="0" {% if compare_status == '0' %} checked="checked" {% endif %} id="compare_status_0"/>
-                <input type="radio" name="settings[oxyo][compare_status]" value="1" {% if compare_status == '1' %} checked="checked" {% endif %} id="compare_status_1"/>
-            </div>
-            <label class="label-switcher label-switcher-post" for="compare_status_1">{{ text_enabled }}</label>
-        </div>
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="compare_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][compare_status]" value="0" {% if compare_status == '0' %} checked="checked" {% endif %} id="compare_status_0"/>
+				<input type="radio" name="settings[oxyo][compare_status]" value="1" {% if compare_status == '1' %} checked="checked" {% endif %} id="compare_status_1"/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="compare_status_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
+
 
 <!-- Hidden block -->
 <div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Action when an item is successfully added to wish list">Add to compare action</span>
+		<span data-toggle="tooltip" title="{{ help_oxyo_compare_action }}">{{ entry_oxyo_compare_action }}</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
 		<select name="settings[oxyo][oxyo_compare_action]" class="form-control">
-			<option value="0" {% if oxyo_compare_action == '0' %} selected="selected" {% endif %}>Stay - Notification message</option>
-			<option value="redirect" {% if oxyo_compare_action == 'redirect' %} selected="selected" {% endif %}>Redirect - Product Comparison Page</option>
+			<option value="0" {% if oxyo_compare_action == '0' %} selected="selected" {% endif %}>{{ text_oxyo_compare_action_stay }}</option>
+			<option value="redirect" {% if oxyo_compare_action == 'redirect' %} selected="selected" {% endif %}>{{ text_oxyo_compare_action_redirect }}</option>
 		</select>
 	</div>
 </div>
 <!-- End of hidden block -->
 
-<legend class="sub">Product Images</legend>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">Images layout</label>
+<!-- Hidden block -->
+<legend class="sub d-none hidden">{{ text_oxyo_legend_product_images }}</legend>
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_images_layout }}</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][product_layout]" class="form-control">
-			<option value="images-left" {% if product_layout == 'images-left' %} selected="selected" {% endif %}>Additional images left of main image</option>
-			<option value="images-bottom" {% if product_layout == 'images-bottom' %} selected="selected" {% endif %}>Additional images below main image</option>
-			<option value="full-width" {% if product_layout == 'full-width' %} selected="selected" {% endif %}>Stacked images - (Full width layout)</option>
+			<option value="images-left" {% if product_layout == 'images-left' %} selected="selected" {% endif %}>{{ text_oxyo_images_left }}</option>
+			<option value="images-bottom" {% if product_layout == 'images-bottom' %} selected="selected" {% endif %}>{{ text_oxyo_images_bottom }}</option>
+			<option value="full-width" {% if product_layout == 'full-width' %} selected="selected" {% endif %}>{{ text_oxyo_images_full_width }}</option>
 		</select>
 	</div>
 </div>
-<div class="form-group">
-	<label class="col-sm-2 control-label">Zoom main image on hover</label>
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_hover_zoom }}</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_hover_zoom]" value="0" {% if oxyo_hover_zoom == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_hover_zoom]" value="0" {% if oxyo_hover_zoom == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_hover_zoom]" value="1" {% if oxyo_hover_zoom == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_hover_zoom]" value="1" {% if oxyo_hover_zoom == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<legend class="sub">Product Details</legend>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Show the product meta description among the product details">View meta description</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][meta_description_status]" value="0" {% if meta_description_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][meta_description_status]" value="1" {% if meta_description_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
-		</label>
+<!-- Hidden block -->
+<legend class="sub d-none hidden">{{ text_oxyo_legend_product_details }}</legend>
+<!-- End of hidden block -->
+
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title">
+			<span data-toggle="tooltip" title="{{ help_oxyo_view_meta_description }}">{{ entry_oxyo_view_meta_description }}</span>
+		</p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="meta_description_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][meta_description_status]" value="0" id="meta_description_status_0" {% if meta_description_status == '0' %}checked="checked"{% endif %}/>
+				<input type="radio" name="settings[oxyo][meta_description_status]" value="1" id="meta_description_status_1" {% if meta_description_status == '1' %}checked="checked"{% endif %}/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="meta_description_status_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Show a countdown until special prices expires. Please note that there is a separate setting to show countdown on product listings in the Shop tab">Specials countdown</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][product_page_countdown]" value="0" {% if product_page_countdown == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][product_page_countdown]" value="1" {% if product_page_countdown == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
-		</label>
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title"><span data-toggle="tooltip" title="{{ help_oxyo_product_page_countdown }}">{{ entry_oxyo_product_page_countdown }}</span></p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="product_page_countdown_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][product_page_countdown]" value="0" id="product_page_countdown_0" {% if product_page_countdown == '0' %}checked="checked"{% endif %}/>
+				<input type="radio" name="settings[oxyo][product_page_countdown]" value="1" id="product_page_countdown_1" {% if product_page_countdown == '1' %}checked="checked"{% endif %}/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="product_page_countdown_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">Share buttons</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_share_btn]" value="0" {% if oxyo_share_btn == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_share_btn]" value="1" {% if oxyo_share_btn == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
-		</label>
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ entry_oxyo_share_buttons }}</p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="oxyo_share_btn_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][oxyo_share_btn]" value="0" id="oxyo_share_btn_0" {% if oxyo_share_btn == '0' %}checked="checked"{% endif %}/>
+				<input type="radio" name="settings[oxyo][oxyo_share_btn]" value="1" id="oxyo_share_btn_1" {% if oxyo_share_btn == '1' %}checked="checked"{% endif %}/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="oxyo_share_btn_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">Sharing buttons style</label>
+
+<!-- Hidden block -->
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_sharing_style }}</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][oxyo_sharing_style]" class="form-control">
-			<option value="small" {% if oxyo_sharing_style == 'small' %} selected="selected" {% endif %}>Default (small)</option>
-			<option value="large" {% if oxyo_sharing_style == 'large' %} selected="selected" {% endif %}>Large</option>
+			<option value="small" {% if oxyo_sharing_style == 'small' %} selected="selected" {% endif %}>{{ text_oxyo_sharing_style_default }}</option>
+			<option value="large" {% if oxyo_sharing_style == 'large' %} selected="selected" {% endif %}>{{ text_oxyo_sharing_style_large }}</option>
 		</select>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Enable/Disable price excluding tax on product pages and in list view">View ex tax price</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][ex_tax_status]" value="0" {% if ex_tax_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][ex_tax_status]" value="1" {% if ex_tax_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
-		</label>
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title"><span data-toggle="tooltip" title="{{ help_oxyo_ex_tax_status }}">{{ entry_oxyo_ex_tax_status }}</span></p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="ex_tax_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][ex_tax_status]" value="0" id="ex_tax_status_0" {% if ex_tax_status == '0' %}checked="checked"{% endif %}/>
+				<input type="radio" name="settings[oxyo][ex_tax_status]" value="1" id="ex_tax_status_1" {% if ex_tax_status == '1' %}checked="checked"{% endif %}/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="ex_tax_status_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Enable/Disable the price to be updated after selecting options and quantities">Live price update</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_price_update]" value="0" {% if oxyo_price_update == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_price_update]" value="1" {% if oxyo_price_update == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
-		</label>
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title"><span data-toggle="tooltip" title="{{ help_oxyo_live_price_update }}">{{ entry_oxyo_live_price_update }}</span></p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="oxyo_price_update_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][oxyo_price_update]" value="0" id="oxyo_price_update_0" {% if oxyo_price_update == '0' %}checked="checked"{% endif %}/>
+				<input type="radio" name="settings[oxyo][oxyo_price_update]" value="1" id="oxyo_price_update_1" {% if oxyo_price_update == '1' %}checked="checked"{% endif %}/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="oxyo_price_update_1">{{ text_enabled }}</label>
+		</div>
 	</div>
 </div>
 
-<legend class="sub">Product Information Tabs</legend>
-<div class="form-group">
-	<label class="col-sm-2 control-label">Tabs layout</label>
+
+<!-- Hidden block -->
+<legend class="sub d-none hidden">{{ text_oxyo_legend_product_tabs }}</legend>
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_tabs_layout }}</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][full_width_tabs]" class="form-control">
-			<option value="1" {% if full_width_tabs == '1' %} selected="selected" {% endif %}>Full width with contrast background</option>
-			<option value="0" {% if full_width_tabs == '0' %} selected="selected" {% endif %}>Inline</option>
+			<option value="1" {% if full_width_tabs == '1' %} selected="selected" {% endif %}>{{ text_oxyo_tabs_full_width }}</option>
+			<option value="0" {% if full_width_tabs == '0' %} selected="selected" {% endif %}>{{ text_oxyo_tabs_inline }}</option>
 		</select>
 	</div>
 </div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label">Tabs Style</label>
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_tabs_style }}</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][product_tabs_style]" class="form-control">
-			<option value="" {% if product_tabs_style == '' %} selected="selected" {% endif %}>Default Style</option>
-			<option value="nav-tabs-lg text-center" {% if product_tabs_style == 'nav-tabs-lg text-center' %} selected="selected" {% endif %}>Centered (Large)</option>
-			<option value="nav-tabs-sm text-center" {% if product_tabs_style == 'nav-tabs-sm text-center' %} selected="selected" {% endif %}>Centered (Small)</option>
+			<option value="" {% if product_tabs_style == '' %} selected="selected" {% endif %}>{{ text_oxyo_tabs_style_default }}</option>
+			<option value="nav-tabs-lg text-center" {% if product_tabs_style == 'nav-tabs-lg text-center' %} selected="selected" {% endif %}>{{ text_oxyo_tabs_style_centered_lg }}</option>
+			<option value="nav-tabs-sm text-center" {% if product_tabs_style == 'nav-tabs-sm text-center' %} selected="selected" {% endif %}>{{ text_oxyo_tabs_style_centered_sm }}</option>
 		</select>
 	</div>
 </div>
+<!-- End of hidden block -->
 
 
-<legend class="sub">Product Questions &amp; Answers</legend>
-<div class="form-group">
+<!-- Hidden block -->
+<legend class="sub d-none hidden">{{ text_oxyo_legend_product_questions }}</legend>
+<div class="form-group d-none hidden">
 	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Allow customers to ask questions/see previously asked questions about products directly on product pages">Product Questions Status</span>
+		<span data-toggle="tooltip" title="{{ help_oxyo_product_question_status }}">{{ entry_oxyo_product_question_status }}</span>
 	</label>
 	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][product_question_status]" value="0" {% if product_question_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+		<label><input type="radio" name="settings[oxyo][product_question_status]" value="0" {% if product_question_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][product_question_status]" value="1" {% if product_question_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][product_question_status]" value="1" {% if product_question_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label">Questions Per Page</label>
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_questions_per_page }}</label>
 	<div class="col-sm-10">
 		<input class="form-control" name="settings[oxyo][questions_per_page]" value="{{ questions_per_page ? questions_per_page : '5' }}"/>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Set the status on new questions asked. If set to published, not yet answered questions will be visible">Status On New Questions</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][questions_new_status]" value="0" {% if questions_new_status == '0' %} checked="checked" {% endif %}/><span>Not Published</span>
-		</label>
-		<label><input type="radio" name="settings[oxyo][questions_new_status]" value="1" {% if questions_new_status == '1' %} checked="checked" {% endif %}/><span>Published</span>
-		</label>
+
+<!-- Hidden block -->
+<div class="form-group radio-switcher-group d-none hidden">
+	<div class="col-sm-3">
+		<p class="radio-switcher-title"><span data-toggle="tooltip" title="{{ help_oxyo_questions_new_status }}">{{ entry_oxyo_questions_new_status }}</span></p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="questions_new_status_0">{{ text_oxyo_questions_not_published }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][questions_new_status]" value="0" id="questions_new_status_0" {% if questions_new_status == '0' %}checked="checked"{% endif %}/>
+				<input type="radio" name="settings[oxyo][questions_new_status]" value="1" id="questions_new_status_1" {% if questions_new_status == '1' %}checked="checked"{% endif %}/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="questions_new_status_1">{{ text_oxyo_questions_published }}</label>
+		</div>
 	</div>
 </div>
+<!-- End of hidden block -->
 
-<legend class="sub">Related Products</legend>
-<div class="form-group">
-	<label class="col-sm-2 control-label">Products per row</label>
+
+<!-- Hidden block -->
+<legend class="sub d-none hidden">{{ text_oxyo_legend_related_products }}</legend>
+<div class="form-group d-none hidden">
+	<label class="col-sm-2 control-label">{{ entry_oxyo_related_products_per_row }}</label>
 	<div class="col-sm-10">
 		<select name="settings[oxyo][oxyo_rel_prod_grid]" class="form-control">
 			<option value="2" {% if oxyo_rel_prod_grid == '2' %} selected="selected" {% endif %}>2</option>
@@ -462,21 +513,31 @@
 		</select>
 	</div>
 </div>
+<!-- End of hidden block -->
+
+
 <script>
-	$(document).ready(function () {
-        $('.color_input input').ColorPicker({
-            onChange: function (hsb, hex, rgb, el) {
-                $(el).val("#" + hex);
-                $(el).parent().find('.fa').css("color", "#" + hex);
-            },
-            onShow: function (colpkr) {
-                $(colpkr).show();
-                return false;
-            },
-            onHide: function (colpkr) {
-                $(colpkr).hide();
-                return false;
-            }
-        });
-    });
+	$(function () {
+		// Guard: check if ColorPicker plugin is loaded
+		if (typeof $.fn.ColorPicker !== 'function') {
+			// Plugin is not available, skip initialization
+			return;
+		}
+
+		$('.color_input input').ColorPicker({
+			onChange: function (hsb, hex, rgb, el) {
+				$(el).val('#' + hex);
+				$(el).parent().find('i').css('background', '#' + hex);
+			},
+			onShow: function (colpkr) {
+				$(colpkr).show();
+				return false;
+			},
+			onHide: function (colpkr) {
+				$(colpkr).hide();
+				return false;
+			}
+		});
+	});
 </script>
+

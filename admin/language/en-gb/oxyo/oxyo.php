@@ -86,12 +86,13 @@ $_['option_title_in_extra_tall']    = 'Page Title Inside Breadcrumb + Extra Tall
 // Shop settings
 $_['text_theme_status']                 = 'Theme Status';
 $_['text_contacts']                     = 'Contacts';
+
+
+
+// Product card settings - new language entries
+
+// Product Settings
 $_['text_product_card']                 = 'Product Settings';
-$_['text_product_quickview']            = 'Product Quickview';
-
-
-
-/*** Product-pages ***/
 $_['text_product_quickview_status']     = 'Product quickview Status';
 
 // Stickers
@@ -125,6 +126,97 @@ $_['text_wishlist_status']              = 'Wishlist Status';
 
 // Compare
 $_['text_compare_status']               = 'Comparison Status';
+
+// Legends
+$_['text_oxyo_legend_catalog_mode']          = 'Catalog Mode';
+$_['text_oxyo_legend_specials_countdown']    = 'Specials Countdown';
+$_['text_oxyo_legend_product_images']        = 'Product Images';
+$_['text_oxyo_legend_product_details']       = 'Product Details';
+$_['text_oxyo_legend_product_tabs']          = 'Product Information Tabs';
+$_['text_oxyo_legend_product_questions']     = 'Product Questions & Answers';
+$_['text_oxyo_legend_related_products']      = 'Related Products';
+
+// Catalog mode
+$_['entry_oxyo_catalog_mode']                = 'Catalog Mode';
+$_['help_oxyo_catalog_mode']                 = 'Disable the product purchase options globally';
+
+// Sale / new / stock labels
+$_['entry_oxyo_sale_label']                  = 'Sale label';
+$_['text_oxyo_sale_label_text']              = 'Enabled - Sale Text';
+$_['text_oxyo_sale_label_percent']           = 'Enabled - Discount Percentage';
+
+$_['entry_oxyo_new_label_period']            = 'New label period';
+$_['help_oxyo_new_label_period']             = 'Set how many days to show the new-label on new products. Set it as 0 to disable';
+
+$_['entry_oxyo_out_of_stock_label']          = 'Out of stock label';
+
+// Specials countdown (global hidden block)
+$_['entry_oxyo_specials_countdown_status']   = 'Specials countdown status';
+$_['help_oxyo_specials_countdown_status']    = 'View time left on (time limited) special prices. Please note that the Product groups module has its own setting for this.';
+
+// Wishlist / compare actions
+$_['entry_oxyo_wishlist_action']             = 'Add to wish list action';
+$_['text_oxyo_wishlist_action_stay']         = 'Stay - Notification message';
+$_['text_oxyo_wishlist_action_redirect']     = 'Redirect - Wish List Page';
+$_['help_oxyo_wishlist_action']              = 'Action when an item is successfully added to wish list';
+
+$_['entry_oxyo_compare_action']              = 'Add to compare action';
+$_['text_oxyo_compare_action_stay']          = 'Stay - Notification message';
+$_['text_oxyo_compare_action_redirect']      = 'Redirect - Product Comparison Page';
+$_['help_oxyo_compare_action']               = 'Action when an item is successfully added to comparison list';
+
+// Product Images
+$_['entry_oxyo_images_layout']               = 'Images layout';
+$_['text_oxyo_images_left']                  = 'Additional images left of main image';
+$_['text_oxyo_images_bottom']                = 'Additional images below main image';
+$_['text_oxyo_images_full_width']            = 'Stacked images - (Full width layout)';
+
+$_['entry_oxyo_hover_zoom']                  = 'Zoom main image on hover';
+
+// Product Details
+$_['entry_oxyo_view_meta_description']       = 'View meta description';
+$_['help_oxyo_view_meta_description']        = 'Show the product meta description among the product details';
+
+$_['entry_oxyo_product_page_countdown']      = 'Specials countdown';
+$_['help_oxyo_product_page_countdown']       = 'Show a countdown until special prices expires. Please note that there is a separate setting to show countdown on product listings in the Shop tab';
+
+$_['entry_oxyo_share_buttons']               = 'Share buttons';
+
+$_['entry_oxyo_sharing_style']               = 'Sharing buttons style';
+$_['text_oxyo_sharing_style_default']        = 'Default (small)';
+$_['text_oxyo_sharing_style_large']          = 'Large';
+
+$_['entry_oxyo_ex_tax_status']               = 'View ex tax price';
+$_['help_oxyo_ex_tax_status']                = 'Enable/Disable price excluding tax on product pages and in list view';
+
+$_['entry_oxyo_live_price_update']           = 'Live price update';
+$_['help_oxyo_live_price_update']            = 'Enable/Disable the price to be updated after selecting options and quantities';
+
+// Tabs
+$_['entry_oxyo_tabs_layout']                 = 'Tabs layout';
+$_['text_oxyo_tabs_full_width']              = 'Full width with contrast background';
+$_['text_oxyo_tabs_inline']                  = 'Inline';
+
+$_['entry_oxyo_tabs_style']                  = 'Tabs Style';
+$_['text_oxyo_tabs_style_default']           = 'Default Style';
+$_['text_oxyo_tabs_style_centered_lg']       = 'Centered (Large)';
+$_['text_oxyo_tabs_style_centered_sm']       = 'Centered (Small)';
+
+// Product questions
+$_['entry_oxyo_product_question_status']     = 'Product Questions Status';
+$_['help_oxyo_product_question_status']      = 'Allow customers to ask questions/see previously asked questions about products directly on product pages';
+
+$_['entry_oxyo_questions_per_page']          = 'Questions Per Page';
+
+$_['entry_oxyo_questions_new_status']        = 'Status On New Questions';
+$_['help_oxyo_questions_new_status']         = 'Set the status on new questions asked. If set to published, not yet answered questions will be visible';
+$_['text_oxyo_questions_not_published']      = 'Not Published';
+$_['text_oxyo_questions_published']          = 'Published';
+
+// Related products
+$_['entry_oxyo_related_products_per_row']    = 'Products per row';
+
+
 
 // Typography
 $_['text_typography']                   = 'Typography';
