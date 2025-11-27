@@ -1,0 +1,1289 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+		<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ text_filter }}" id="button-act-filter" class="btn btn-info"><i class="fa fa-filter"></i></button>
+		{% if product_mass %}
+		<span id="option-mass-update">
+		  <div class="btn-group">
+			<a href="#" class="btn btn-success dropdown-toggle disabled" data-toggle="dropdown"><i class="fa fa-edit"></i></a>
+		    <ul class="dropdown-menu dropdown-menu-header noclose with-arrow dropdown-menu-right dropdown-menu-right-arrow header-top dropdown-list-edit">
+			  <li class="dropdown-header-arrow"><i class="fa fa-edit fa-fw"></i> {{ text_mass_edit }}</li>
+			  {% if product_general %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-general"><i class="fa fa-list-alt fa-fw"></i> {{ text_general }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-general">
+				<ul class="child-menu">
+				  {% if manager_product_mass_name %}<li><a onclick="massEdit('name');" class="btn-hover-list">{{ entry_name }}</a></li>{% endif %}
+				  {% if manager_product_mass_description %}<li><a onclick="massEdit('description');" class="btn-hover-list">{{ entry_description }}</a></li>{% endif %}
+				  {% if manager_product_mass_meta_title %}<li><a onclick="massEdit('meta_title');" class="btn-hover-list">{{ entry_meta_title }}</a></li>{% endif %}
+				  {% if presence_column_meta_h1 != 'meta-tag-h1-not-in-opencart' %}{% if manager_product_mass_meta_h1 %}<li><a onclick="massEdit('meta_h1');" class="btn-hover-list">{{ entry_meta_h1 }}</a></li>{% endif %}{% endif %}
+				  {% if manager_product_mass_meta_description %} <li><a onclick="massEdit('meta_description');" class="btn-hover-list">{{ entry_meta_description }}</a></li>{% endif %}
+				  {% if manager_product_mass_meta_keyword %}<li><a onclick="massEdit('meta_keyword');" class="btn-hover-list">{{ entry_meta_keyword }}</a></li>{% endif %}
+				  {% if manager_product_mass_tag %}<li><a onclick="massEdit('tag');" class="btn-hover-list">{{ entry_tag }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_data %}
+			  {% if product_general %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-data"><i class="fa fa-edit fa-fw"></i> {{ text_data }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-data">
+				<ul class="child-menu">
+				  {% if manager_product_mass_image %}<li><a onclick="massEdit('image');" class="btn-hover-list">{{ entry_image }}</a></li>{% endif %}
+				  {% if manager_product_mass_price %}<li><a onclick="massEdit('price');" class="btn-hover-list">{{ entry_price }}</a></li>{% endif %}
+				  {% if manager_product_mass_quantity %}<li><a onclick="massEdit('quantity');" class="btn-hover-list">{{ entry_quantity }}</a></li>{% endif %}
+				  {% if manager_product_mass_minimum %}<li><a onclick="massEdit('minimum');" class="btn-hover-list">{{ entry_minimum }}</a></li>{% endif %}
+				  {% if manager_product_mass_model %}<li><a onclick="massEdit('mass_model');" class="btn-hover-list">{{ entry_mass_model }}</a></li>{% endif %}
+				  {% if manager_product_mass_code %}<li><a onclick="massEdit('code');" class="btn-hover-list">{{ entry_code }}</a></li>{% endif %}
+				  {% if manager_product_mass_date_available %}<li><a onclick="massEdit('mass_status');" class="btn-hover-list">{{ entry_mass_status }}</a></li>{% endif %}
+				  {% if manager_product_mass_shipping %}<li><a onclick="massEdit('mass_shipping');" class="btn-hover-list">{{ entry_mass_shipping }}</a></li>{% endif %}
+				  {% if manager_product_mass_size %}<li><a onclick="massEdit('size');" class="btn-hover-list">{{ entry_size }}</a></li>{% endif %}
+				  {% if manager_product_mass_sort_order %}<li><a onclick="massEdit('sort_order');" class="btn-hover-list">{{ entry_sort_order }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_link %}
+			  {% if product_general or product_data %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-link"><i class="fa fa-link fa-fw"></i> {{ text_link }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-link">
+				<ul class="child-menu">
+				  {% if manager_product_mass_manufacturer %}<li><a onclick="massEdit('manufacturer');" class="btn-hover-list">{{ entry_manufacturer }}</a></li>{% endif %}
+				  {% if manager_product_mass_category %}<li><a onclick="massEdit('product_category');" class="btn-hover-list">{{ entry_product_category }}</a></li>{% endif %}
+				  {% if manager_product_mass_filter %}<li><a onclick="massEdit('filter');" class="btn-hover-list">{{ entry_filter }}</a></li>{% endif %}
+				  {% if manager_product_mass_store %}<li><a onclick="massEdit('store');" class="btn-hover-list">{{ entry_store }}</a></li>{% endif %}
+				  {% if manager_product_mass_download %}<li><a onclick="massEdit('download');" class="btn-hover-list">{{ entry_download }}</a></li>{% endif %}
+				  {% if manager_product_mass_related %}<li><a onclick="massEdit('related');" class="btn-hover-list">{{ entry_related }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_sale %}
+			  {% if product_general or product_data or product_link %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-sale"><i class="fa fa-tags fa-fw"></i> {{ text_sales }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-sale">
+				<ul class="child-menu">
+				  {% if manager_product_mass_add_discount %}<li><a onclick="massEdit('add_discount');" class="btn-hover-list">{{ entry_add_discount }}</a></li>{% endif %}
+				  {% if manager_product_mass_edit_discount %}<li><a onclick="massEdit('edit_discount');" class="btn-hover-list">{{ entry_edit_discount }}</a></li>{% endif %}
+				  {% if manager_product_mass_add_special %}<li><a onclick="massEdit('add_special');" class="btn-hover-list">{{ entry_add_special }}</a></li>{% endif %}
+				  {% if manager_product_mass_edit_special %}<li><a onclick="massEdit('edit_special');" class="btn-hover-list">{{ entry_edit_special }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_attribute_option %}
+			  {% if product_general or product_data or product_link or product_sale %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-attribute-option"><i class="fa fa-cubes fa-fw"></i> {{ text_attribute_option }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-attribute-option">
+				<ul class="child-menu">
+				  {% if manager_product_mass_attribute %}<li><a onclick="massEdit('attributes');" class="btn-hover-list">{{ entry_attributes }}</a></li>{% endif %}
+				  {% if manager_product_mass_option %}<li><a onclick="massEdit('options');" class="btn-hover-list">{{ entry_options }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_other %}
+			  {% if product_general or product_data or product_link or product_sale or product_attribute_option %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-other"><i class="fa fa-image fa-fw"></i> {{ text_other }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-other">
+				<ul class="child-menu">
+				  {% if manager_product_mass_images %}<li><a onclick="massEdit('additional_image');" class="btn-hover-list">{{ entry_additional_image }}</a></li>{% endif %}
+				  {% if manager_product_mass_reward %}<li><a onclick="massEdit('reward');" class="btn-hover-list">{{ entry_reward }}</a></li>{% endif %}
+				  {% if manager_product_mass_seo_url %}<li><a onclick="massEdit('keyword');" class="btn-hover-list">{{ entry_keyword }}</a></li>{% endif %}
+				  {% if manager_product_mass_design %}<li><a onclick="massEdit('layout');" class="btn-hover-list">{{ entry_layout }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			</ul>
+		  </div>
+		</span>
+		{% endif %}
+		{% if product_mass_delete %}
+		<span id="option-mass-delete">
+		  <div class="btn-group animate" id="selector-mass-delete">
+			<a href="#" class="btn btn-danger dropdown-toggle disabled" data-toggle="dropdown"><i class="fa fa-remove"></i></a>
+		    <ul class="dropdown-menu dropdown-menu-header noclose with-arrow dropdown-menu-right dropdown-menu-right-arrow header-top dropdown-list-edit animate littleFadeInUp">
+			  <li class="dropdown-header-arrow"><i class="fa fa-trash-o fa-fw"></i> {{ text_mass_delete }}</li>
+			  {% if product_delete_general %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-delete-general"><i class="fa fa-list-alt fa-fw"></i> {{ text_general }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-delete-general">
+				<ul class="child-menu">
+				  {% if manager_product_mass_delete_name %}<li><a onclick="massDelete('name');" class="btn-hover-list">{{ entry_name }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_description %}<li><a onclick="massDelete('description');" class="btn-hover-list">{{ entry_description }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_meta_title %}<li><a onclick="massDelete('meta_title');" class="btn-hover-list">{{ entry_meta_title }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_meta_h1 %}<li><a onclick="massDelete('meta_h1');" class="btn-hover-list">{{ entry_meta_h1 }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_meta_description %} <li><a onclick="massDelete('meta_description');" class="btn-hover-list">{{ entry_meta_description }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_meta_keyword %}<li><a onclick="massDelete('meta_keyword');" class="btn-hover-list">{{ entry_meta_keyword }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_tag %}<li><a onclick="massDelete('tag');" class="btn-hover-list">{{ entry_tag }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_delete_data %}
+			  {% if product_delete_general %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-delete-data"><i class="fa fa-edit fa-fw"></i> {{ text_data }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-delete-data">
+				<ul class="child-menu">
+				  {% if manager_product_mass_delete_image %}<li><a onclick="massDelete('image');" class="btn-hover-list">{{ entry_image }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_model %}<li><a onclick="massDelete('model');" class="btn-hover-list">{{ entry_model }}</a></li>{% endif %}				  
+				  {% if manager_product_mass_delete_sku %}<li><a onclick="massDelete('sku');" class="btn-hover-list">{{ entry_sku }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_upc %}<li><a onclick="massDelete('upc');" class="btn-hover-list">{{ entry_upc }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_ean %}<li><a onclick="massDelete('ean');" class="btn-hover-list">{{ entry_ean }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_jan %}<li><a onclick="massDelete('jan');" class="btn-hover-list">{{ entry_jan }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_isbn %}<li><a onclick="massDelete('isbn');" class="btn-hover-list">{{ entry_isbn }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_mpn %}<li><a onclick="massDelete('mpn');" class="btn-hover-list">{{ entry_mpn }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_location %}<li><a onclick="massDelete('location');" class="btn-hover-list">{{ entry_location }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_price %}<li><a onclick="massDelete('price');" class="btn-hover-list">{{ entry_price }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_tax_class %}<li><a onclick="massDelete('tax_class');" class="btn-hover-list">{{ entry_tax_class }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_quantity %}<li><a onclick="massDelete('quantity');" class="btn-hover-list">{{ entry_quantity }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_minimum %}<li><a onclick="massDelete('minimum');" class="btn-hover-list">{{ entry_minimum }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_date_available %}<li><a onclick="massDelete('date_available');" class="btn-hover-list">{{ entry_date_available }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_size %}<li><a onclick="massDelete('dimension');" class="btn-hover-list">{{ entry_dimension }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_weight %}<li><a onclick="massDelete('weight');" class="btn-hover-list">{{ entry_weight }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_sort_order %}<li><a onclick="massDelete('sort_order');" class="btn-hover-list">{{ entry_sort_order }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_delete_link %}
+			  {% if product_delete_general or product_delete_data %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-delete-link"><i class="fa fa-link fa-fw"></i> {{ text_link }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-delete-link">
+				<ul class="child-menu">
+				  {% if manager_product_mass_delete_manufacturer %}<li><a onclick="massDelete('manufacturer');" class="btn-hover-list">{{ entry_manufacturer }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_category %}<li><a onclick="massDelete('category');" class="btn-hover-list">{{ entry_product_category }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_filter %}<li><a onclick="massDelete('filter');" class="btn-hover-list">{{ entry_filter }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_store %}<li><a onclick="massDelete('store');" class="btn-hover-list">{{ entry_store }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_download %}<li><a onclick="massDelete('download');" class="btn-hover-list">{{ entry_download }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_related %}<li><a onclick="massDelete('related');" class="btn-hover-list">{{ entry_related }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_delete_sale %}
+			  {% if product_delete_general or product_delete_data or product_delete_link %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-delete-sale"><i class="fa fa-tags fa-fw"></i> {{ text_sales }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-delete-sale">
+				<ul class="child-menu">
+				  {% if manager_product_mass_delete_discount %}<li><a onclick="massDelete('discount');" class="btn-hover-list">{{ entry_discount }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_special %}<li><a onclick="massDelete('special');" class="btn-hover-list">{{ entry_special }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_delete_attribute_option %}
+			  {% if product_delete_general or product_delete_data or product_delete_link or product_delete_sale %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-attribute-delete-option"><i class="fa fa-cubes fa-fw"></i> {{ text_attribute_option }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-attribute-delete-option">
+				<ul class="child-menu">
+				  {% if manager_product_mass_delete_attribute %}<li><a onclick="massDelete('attribute');" class="btn-hover-list">{{ entry_attributes }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_option %}<li><a onclick="massDelete('option');" class="btn-hover-list">{{ entry_options }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			  {% if product_delete_other %}
+			  {% if product_delete_general or product_delete_data or product_delete_link or product_delete_sale or product_delete_attribute_option %}<li class="divider"></li>{% endif %}
+			  <li class="dropdown-header parent-menu"><span class="parent-menu-header"><a class="btn-hover-list" data-toggle="collapse" data-target="#toggle-product-delete-other"><i class="fa fa-image fa-fw"></i> {{ text_other }}</a></span></li>
+			  <li class="dropdown-header parent-menu collapse" id="toggle-product-delete-other">
+				<ul class="child-menu">
+				  {% if manager_product_mass_delete_images %}<li><a onclick="massDelete('images');" class="btn-hover-list">{{ entry_additional_image }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_reward %}<li><a onclick="massDelete('reward');" class="btn-hover-list">{{ entry_reward }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_seo_url %}<li><a onclick="massDelete('seo_url');" class="btn-hover-list">{{ entry_keyword }}</a></li>{% endif %}
+				  {% if manager_product_mass_delete_design %}<li><a onclick="massDelete('layout');" class="btn-hover-list">{{ entry_layout }}</a></li>{% endif %}
+				</ul>
+			  </li>
+			  {% endif %}
+			</ul>
+		  </div>
+		</span>
+		{% endif %}
+		<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ button_add }}" onclick="getForm('');" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+		<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ button_copy }}" onclick="copyProduct();" class="btn btn-warning"><i class="fa fa-copy"></i></button>
+		<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ button_delete }}" onclick="deleteProduct();" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+		<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ text_setting }}" onclick="editSetting('');" class="btn btn-info"><i class="fa fa-cog"></i></button>
+	  </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div id="messages"></div>
+    <div class="panel panel-default panel-manager">
+      <div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+      </div>
+      <div class="panel-body">
+		<div class="maxy-backdrop"></div>
+	    <div class="messages-body"></div>
+		<input type="hidden" id="pagination-page" class="form-control" />
+		<input type="hidden" id="filter-value" class="form-control" />
+		<div id="product-filter" style="display: none;">
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+			</div>
+			<div class="panel-body">
+			  <div class="row">
+				<div class="col-md-3">
+				  <div class="form-group">
+					<label class="ontrol-label" for="input-image">{{ entry_image }}</label>
+				    <select name="filter_image" class="form-control" id="input-image">
+					  <option value=""></option>
+					  {% if filter_image == '1' %}
+					    <option value="1" selected="selected">{{ text_yes }}</option>
+					    {% else %}
+					    <option value="1">{{ text_yes }}</option>
+					  {% endif %}
+					  {% if filter_image == '0' %}
+					    <option value="0" selected="selected">{{ text_no }}</option>
+					    {% else %}
+					    <option value="0">{{ text_no }}</option>
+					  {% endif %}
+				    </select>
+				  </div>
+				  <div class="form-group">
+				    <label class="ontrol-label" for="input-name">{{ entry_name }}</label>
+				    <input type="text" name="filter_name" value="{{ filter_name }}" class="form-control" id="input-name" />
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label" for="input-category">{{ entry_categories }}</label>
+				    <input type="text" name="filter_category" value="{{ filter_category }}" class="form-control" id="input-category" />	
+					<input type="hidden" name="filter_category_id" value="{{ filter_category_id }}" />
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label" for="input-manufacturer">{{ entry_manufacturer }}</label>
+				    <input type="text" name="filter_manufacturer" value="{{ filter_manufacturer }}" class="form-control" id="input-manufacturer" />
+					<input type="hidden" name="filter_manufacturer_id" value="{{ filter_manufacturer_id }}" />
+				  </div>
+				  <div class="form-group">
+				    <label class="ontrol-label" for="input-filter">{{ entry_filters }}</label>
+				    <input type="text" name="filter_filter" value="{{ filter_filter }}" id="input-filter" class="form-control" />	
+				    <input type="hidden" name="filter_filter_id" value="{{ filter_filter_id }}" />
+				  </div>
+			    </div>
+				<div class="col-md-3">
+				  <div class="form-group">
+				    <label class="control-label" for="input-model">{{ entry_model }}</label>
+				    <input type="text" name="filter_model" value="{{ filter_model }}" id="input-model" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label" for="input-sku">{{ entry_sku }}</label>
+				    <input type="text" name="filter_sku" value="{{ filter_sku }}" id="input-sku" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label" for="input-location">{{ entry_location }}</label>
+				    <input type="text" name="filter_location" value="{{ filter_location }}" id="input-location" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <div class="row">
+                      <div class="col-md-6">
+						<label class="control-label" for="input-attribute">{{ entry_attribute }}</label>
+						<input type="text" name="filter_attribute" value="{{ filter_attribute }}" id="input-attribute" class="form-control" />	
+						<input type="hidden" name="filter_attribute_id" value="{{ filter_attribute_id }}" />
+					  </div>
+					  <div class="col-md-6">
+						<label class="control-label" for="input-attribute-value">{{ entry_attribute_value }}</label>
+						<input type="text" name="filter_attribute_value" value="{{ filter_attribute_value }}" id="input-attribute-value" class="form-control" />
+					  </div>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="ontrol-label" for="input-discount">{{ entry_discount }}</label>
+					<select name="filter_discount" class="form-control" id="input-discount">
+					  <option value=""></option>
+					  {% if filter_discount == '1' %}
+					  <option value="1" selected="selected">{{ text_yes_discount }}</option>
+					  {% else %}
+					  <option value="1">{{ text_yes_discount }}</option>
+					  {% endif %}
+					  {% if filter_discount == '0' %}
+					  <option value="0" selected="selected">{{ text_no_discount }}</option>
+					  {% else %}
+					  <option value="0">{{ text_no_discount }}</option>
+					  {% endif %}
+					</select>
+				  </div>
+			    </div>
+				<div class="col-md-3">
+				  <div class="form-group">
+				    <label class="control-label" for="input-price">{{ entry_price }}</label>
+				    <input type="text" name="filter_price" value="{{ filter_price }}" id="input-price" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <div class="row">
+                      <div class="col-md-6">
+					    <label class="control-label" for="input-price-min">{{ entry_price_min }}</label>
+				        <input type="text" name="filter_price_min" value="{{ filter_price_min }}" id="input-price-min" class="form-control" />
+					  </div>
+					  <div class="col-md-6">
+						<label class="control-label" for="input-price-max">{{ entry_price_max }}</label>
+						<input type="text" name="filter_price_max" value="{{ filter_price_max }}" id="input-price-max" class="form-control" />
+					  </div>
+				    </div>
+				  </div>
+				  <div class="form-group">
+					<label class="ontrol-label" for="input-special">{{ entry_special }}</label>
+					<select name="filter_special" class="form-control" id="input-special">
+					  <option value=""></option>
+					  {% if filter_special == '1' %}
+					  <option value="1" selected="selected">{{ text_yes_special }}</option>
+					  {% else %}
+					  <option value="1">{{ text_yes_special }}</option>
+					  {% endif %}
+					  {% if filter_special == '0' %}
+					  <option value="0" selected="selected">{{ text_no_special }}</option>
+					  {% else %}
+					  <option value="0">{{ text_no_special }}</option>
+					  {% endif %}
+					</select>
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label" for="input-special-price">{{ entry_special_price }}</label>
+				    <input type="text" name="filter_special_price" value="{{ filter_special_price }}" id="input-special-price" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <div class="row">
+                      <div class="col-md-6">
+					    <label class="control-label" for="input-special-price-min">{{ entry_special_price_min }}</label>
+				        <input type="text" name="filter_special_price_min" value="{{ filter_special_price_min }}" id="input-special-price-min" class="form-control" />
+					  </div>
+					  <div class="col-md-6">
+						<label class="control-label" for="input-special-price-max">{{ entry_special_price_max }}</label>
+						<input type="text" name="filter_special_price_max" value="{{ filter_special_price_max }}" id="input-special-price-max" class="form-control" />
+					  </div>
+				    </div>
+				  </div>
+			    </div>
+				<div class="col-md-3">
+				  <div class="form-group">
+				    <label class="ontrol-label" for="input-quantity">{{ entry_quantity }}</label>
+					<input type="text" name="filter_quantity" value="{{ filter_quantity }}" id="input-quantity" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <div class="row">
+                      <div class="col-md-6">
+					    <label class="control-label" for="input-quantity-min">{{ entry_quantity_min }}</label>
+				    <input type="text" name="filter_quantity_min" value="{{ filter_quantity_min }}" id="input-quantity-min" class="form-control" />
+					  </div>
+					  <div class="col-md-6">
+						<label class="control-label" for="input-quantity-max">{{ entry_quantity_max }}</label>
+						<input type="text" name="filter_quantity_max" value="{{ filter_quantity_max }}" id="input-quantity-max" class="form-control" />
+					  </div>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="control-label" for="input-sort-order">{{ entry_sort_order }}</label>
+				    <input type="text" name="filter_sort_order" value="{{ filter_sort_order }}" id="input-sort-order" class="form-control" />
+				  </div>
+				  <div class="form-group">
+				    <div class="row">
+                      <div class="col-md-6">
+					    <label class="control-label" for="input-sort-order-min">{{ entry_sort_order_min }}</label>
+						<input type="text" name="filter_sort_order_min" value="{{ filter_sort_order_min }}" id="input-sort-order-min" class="form-control" />
+					  </div>
+					  <div class="col-md-6">
+						<label class="control-label" for="input-sort-order-max">{{ entry_sort_order_max }}</label>
+				    <input type="text" name="filter_sort_order_max" value="{{ filter_sort_order_max }}" id="input-sort-order-max" class="form-control" />
+					  </div>
+				    </div>
+				  </div>
+				  <div class="form-group">
+					<label class="ontrol-label" for="input-status">{{ entry_status }}</label>
+					<select name="filter_status" class="form-control" id="input-status">
+					  <option value=""></option>
+					  {% if filter_status == '1' %}
+					  <option value="1" selected="selected">{{ text_enabled }}</option>
+					  {% else %}
+					  <option value="1">{{ text_enabled }}</option>
+					  {% endif %}
+					  {% if filter_status == '0' %}
+					  <option value="0" selected="selected">{{ text_disabled }}</option>
+					  {% else %}
+					  <option value="0">{{ text_disabled }}</option>
+					  {% endif %}
+					</select>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="panel-footer">
+			  <div class="text-right">
+				<button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> {{ button_filter }}</button>
+				<button type="button" id="button-clear-filter" class="btn btn-danger"><i class="fa fa-eraser"></i> {{ button_clear }}</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+        <div id="products"></div>
+      </div>
+    </div>
+  </div>
+  <div id="modal-edit-product" class="modal fade">
+    <div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+	    <div id="modal-product-content"></div>
+	  </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('#products').delegate('.sort-name a, .sort-category a, .sort-manufacturer a, .sort-model a, .sort-sku a, .sort-upc a, .sort-ean a, .sort-jan a, .sort-isbn a, .sort-mpn a, .sort-location a, .sort-price a, .sort-tax a, .sort-quantity a, .sort-minimum a, .sort-subtract a, .sort-stock-status a, .sort-shipping a, .sort-date-available a, .sort-length-class a, .sort-weight a, .sort-weight-class a, .sort-sort-order a, .sort-status a', 'click', function(e) {
+	e.preventDefault();
+	
+	var filter_value = $('#filter-value').val();
+
+	$('#products').load(this.href + filter_value);
+	
+	$('#pagination-page').val(this.href);
+});
+  
+$('#products').delegate('.pagination a', 'click', function(e) {
+	e.preventDefault();
+	
+	var filter_value = $('#filter-value').val();
+
+	$('#products').load(this.href + filter_value);
+	
+	$('#pagination-page').val(this.href);
+});
+  
+$('#products').load('index.php?route=catalog/manager_product/product&user_token={{ user_token }}');
+
+$('#button-filter').on('click', function() {
+	url = '';
+	
+	var filter_image = $('select[name=\'filter_image\']').val();
+
+	if (filter_image != '') {
+		url += '&filter_image=' + encodeURIComponent(filter_image);
+	}
+	
+	var filter_name = $('input[name=\'filter_name\']').val();
+	
+	if (filter_name) {
+		url += '&filter_name=' + encodeURIComponent(filter_name);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_category_id = $('input[name=\'filter_category_id\']').val();
+
+	if (filter_category_id) {
+		url += '&filter_category_id=' + encodeURIComponent(filter_category_id);
+	
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_manufacturer_id = $('input[name=\'filter_manufacturer_id\']').val();
+
+	if (filter_manufacturer_id) {
+		url += '&filter_manufacturer_id=' + encodeURIComponent(filter_manufacturer_id);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_model = $('input[name=\'filter_model\']').val();
+	
+	if (filter_model) {
+		url += '&filter_model=' + encodeURIComponent(filter_model);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_sku = $('input[name=\'filter_sku\']').val();
+	
+	if (filter_sku) {
+		url += '&filter_sku=' + encodeURIComponent(filter_sku);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_attribute_id = $('input[name=\'filter_attribute_id\']').val();
+
+	if (filter_attribute_id) {
+		url += '&filter_attribute_id=' + encodeURIComponent(filter_attribute_id);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_attribute_value = $('input[name=\'filter_attribute_value\']').val();
+
+	if (filter_attribute_value) {
+		url += '&filter_attribute_value=' + encodeURIComponent(filter_attribute_value);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_price = $('input[name=\'filter_price\']').val();
+
+	if (filter_price) {
+		url += '&filter_price=' + encodeURIComponent(filter_price);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_price_min = $('input[name=\'filter_price_min\']').val();
+
+	if (filter_price_min) {
+		url += '&filter_price_min=' + encodeURIComponent(filter_price_min);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_price_max = $('input[name=\'filter_price_max\']').val();
+
+	if (filter_price_max) {
+		url += '&filter_price_max=' + encodeURIComponent(filter_price_max);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_special = $('select[name=\'filter_special\']').val();
+
+	if (filter_special != '') {
+		url += '&filter_special=' + encodeURIComponent(filter_special);
+	}
+	
+	var filter_special_price = $('input[name=\'filter_special_price\']').val();
+
+	if (filter_special_price) {
+		url += '&filter_special_price=' + encodeURIComponent(filter_special_price);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_special_price_min = $('input[name=\'filter_special_price_min\']').val();
+
+	if (filter_special_price_min) {
+		url += '&filter_special_price_min=' + encodeURIComponent(filter_special_price_min);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_special_price_max = $('input[name=\'filter_special_price_max\']').val();
+
+	if (filter_special_price_max) {
+		url += '&filter_special_price_max=' + encodeURIComponent(filter_special_price_max);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_quantity = $('input[name=\'filter_quantity\']').val();
+
+	if (filter_quantity) {
+		url += '&filter_quantity=' + encodeURIComponent(filter_quantity);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_quantity_min = $('input[name=\'filter_quantity_min\']').val();
+
+	if (filter_quantity_min) {
+		url += '&filter_quantity_min=' + encodeURIComponent(filter_quantity_min);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_quantity_max = $('input[name=\'filter_quantity_max\']').val();
+
+	if (filter_quantity_max) {
+		url += '&filter_quantity_max=' + encodeURIComponent(filter_quantity_max);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_location = $('input[name=\'filter_location\']').val();
+	
+	if (filter_location) {
+		url += '&filter_location=' + encodeURIComponent(filter_location);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_filter_id = $('input[name=\'filter_filter_id\']').val();
+
+	if (filter_filter_id) {
+		url += '&filter_filter_id=' + encodeURIComponent(filter_filter_id);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_sort_order = $('input[name=\'filter_sort_order\']').val();
+	
+	if (filter_sort_order) {
+		url += '&filter_sort_order=' + encodeURIComponent(filter_sort_order);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_sort_order_min = $('input[name=\'filter_sort_order_min\']').val();
+	
+	if (filter_sort_order_min) {
+		url += '&filter_sort_order_min=' + encodeURIComponent(filter_sort_order_min);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_sort_order_max = $('input[name=\'filter_sort_order_max\']').val();
+	
+	if (filter_sort_order_max) {
+		url += '&filter_sort_order_max=' + encodeURIComponent(filter_sort_order_max);
+		
+		var page = '';
+	} else {
+		var page = $('#pagination-page').val();
+	}
+	
+	var filter_status = $('select[name=\'filter_status\']').val();
+
+	if (filter_status != '') {
+		url += '&filter_status=' + encodeURIComponent(filter_status);
+	}
+	
+	var filter_discount = $('select[name=\'filter_discount\']').val();
+
+	if (filter_discount != '') {
+		url += '&filter_discount=' + encodeURIComponent(filter_discount);
+	}
+	
+	$('#filter-value').val(url);
+	
+	if (page == '') {
+		$('#products').load('index.php?route=catalog/manager_product/product&user_token={{ user_token }}' + url);
+	} else {
+		$('#products').load(page + url);
+	}
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('#button-act-filter').on('click', function() {	
+	$('#product-filter').slideToggle(300);
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('#button-clear-filter').on('click', function() { 
+	$('#product-filter input, #product-filter select').val('');	
+	$('#pagination-page').val('');	
+	$('#button-filter').trigger('click');
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('#product-filter select').on('change', function() {
+	$('#pagination-page').val('');
+	$('#button-filter').trigger('click');
+});
+//--></script>
+  <script type="text/javascript"><!--
+var data_filter_input = $('#product-filter input').val();
+var data_filter_select = $('#product-filter select').val();
+
+if ((data_filter_input != '') || (data_filter_select != '') {
+	$('#product-filter').show();
+}
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'filter_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_name\']').val(item['label']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_category\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_category&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				json.unshift({
+					category_id: '*',
+					name: '{{ text_no_category }}'
+				});	
+					
+				json.unshift({
+					category_id: 0,
+					name: '{{ text_all_categories }}'
+				});	
+					
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['category_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_category\']').val(item['label']);
+		$('input[name=\'filter_category_id\']').val(item['value']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_manufacturer\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_manufacturer&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {					
+				json.unshift({
+					manufacturer_id: '*',
+					name: '{{ text_no_brand }}'
+				});	
+				
+				json.unshift({
+					manufacturer_id: 0,
+					name: '{{ text_all_brands }}'
+				});	
+					
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['manufacturer_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_manufacturer\']').val(item['label']);
+		$('input[name=\'filter_manufacturer_id\']').val(item['value']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_model\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_model&user_token={{ user_token }}&filter_model=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['model'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_model\']').val(item['label']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_sku\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_sku&user_token={{ user_token }}&filter_sku=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['sku'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_sku\']').val(item['label']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_attribute\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_attribute&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				json.unshift({
+					attribute_id: '*',
+					name: '{{ text_no_attribute }}'
+				});	
+					
+				json.unshift({
+					attribute_id: 0,
+					name: '{{ text_all_attributes }}'
+				});	
+					
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['attribute_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_attribute\']').val(item['label']);
+		$('input[name=\'filter_attribute_id\']').val(item['value']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_attribute_value\']').autocomplete({	
+	'source': function(request, response) {
+		var filter_attribute_id = $('input[name=\'filter_attribute_id\']').val();
+		
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_attribute_value&user_token={{ user_token }}&filter_attribute_id=' +  filter_attribute_id + '&filter_attribute_value=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['text'],
+						value: item['text']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_attribute_value\']').val(item['label']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_location\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_location&user_token={{ user_token }}&filter_location=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['location'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_location\']').val(item['label']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+
+$('input[name=\'filter_filter\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/manager_product/autocomplete_filter&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				json.unshift({
+					filter_id: '*',
+					name: '{{ text_no_filter }}'
+				});	
+				
+				json.unshift({
+					filter_id: 0,
+					name: '{{ text_all_filters }}'
+				});	
+					
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['filter_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_filter\']').val(item['label']);
+		$('input[name=\'filter_filter_id\']').val(item['value']);
+		$('#pagination-page').val('');
+		
+		$('#button-filter').trigger('click');
+	}
+});
+//--></script>
+  <script type="text/javascript"><!--
+function getForm(product_id) {
+	$('#modal-edit-product').modal('show');
+	
+	$('#modal-edit-product').on('hide.bs.modal', function() {
+		$('#modal-edit-product').removeClass('modal-fullscreen');
+		$('#modal-product-content').empty();
+	});
+	
+	if (product_id == '') {
+		$('#modal-product-content').load('index.php?route=catalog/manager_product/getForm&user_token={{ user_token }}');
+	} else {
+		$('#modal-product-content').load('index.php?route=catalog/manager_product/getForm&user_token={{ user_token }}&product_id=' + product_id);
+	}
+}
+//--></script>
+  <script type="text/javascript"><!--
+function copyProduct() {
+	$.ajax({
+		url: 'index.php?route=catalog/manager_product/copyProduct&user_token={{ user_token }}',
+		type: 'post',
+		dataType: 'json',
+		data: $('#product-list input[type=\'checkbox\']:checked'),
+		success: function(json) {									
+			if (json['error']) {								
+				$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-check-circle"></i> ' + json['error'] + '</div>');$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
+			}
+									
+			if (json['success']) {
+				$('.messages-body').html('<div class="alert alert-success alert-messages"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');$('.maxy-backdrop, .messages-body').show().delay(1000).fadeOut(500);
+				
+				$('#button-filter').trigger('click');
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+}
+//--></script>
+  <script type="text/javascript"><!--
+function deleteProduct() {
+	if (!confirm('{{ text_confirm }}')) return;
+	
+	$.ajax({
+		url: 'index.php?route=catalog/manager_product/deleteProduct&user_token={{ user_token }}',
+		type: 'post',
+		dataType: 'json',
+		data: $('#product-list input[type=\'checkbox\']:checked'),
+		success: function(json) {									
+			if (json['error']) {								
+				$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-check-circle"></i> ' + json['error'] + '</div>');$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
+			}
+									
+			if (json['success']) {
+				$('.messages-body').html('<div class="alert alert-success alert-messages"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');$('.maxy-backdrop, .messages-body').show().delay(1000).fadeOut(500);
+				
+				$('#button-filter').trigger('click');
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+}
+//--></script>
+  <script type="text/javascript"><!--
+function editSetting() {
+	$('#modal-edit-product').modal('show');
+		
+	$('#modal-edit-product').on('hide.bs.modal', function() {
+		$('#modal-edit-product').removeClass('modal-fullscreen');
+		$('#modal-product-content').empty();
+	});
+	
+	$('#modal-product-content').load('index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&type=manager_setting');
+}
+//--></script>
+  <script type="text/javascript"><!--
+function editData(product_id, type_data) {
+	if (type_data == 'image') {
+		var value_data = $('#product-current-image-' + product_id).val();
+		
+		if (value_data == '') {
+			if (!confirm('{{ error_image }}')) return;
+		}
+	} else if (type_data == 'status') {
+		var status = $('#product-' + type_data + '-' + product_id).find('input[name=\'statuses\']').val();		
+		if (status == 0) value_data = 1; else value_data = 0;
+	} else if (type_data == 'subtract') {
+		var subtract = $('#product-' + type_data + '-' + product_id).find('input[name=\'subtractes\']').val();		
+		if (subtract == 0) value_data = 1; else value_data = 0;
+	} else if (type_data == 'shipping') {
+		var shipping = $('#product-' + type_data + '-' + product_id).find('input[name=\'shippinges\']').val();		
+		if (shipping == 0) value_data = 1; else value_data = 0;
+	} else if (type_data == 'dimension') {
+		var length_data = $('#input-length-' + product_id).val();
+		var width_data = $('#input-width-' + product_id).val();
+		var height_data = $('#input-height-' + product_id).val();
+	} else {
+		var value_data = $('#input-' + type_data + '-' + product_id).val();
+	}
+							
+	$.ajax({
+		url: 'index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&product_id=' + product_id + '&type=product_list_data&type_data=' + type_data + '&value_data=' + value_data  + '&length_data=' + length_data  + '&width_data=' + width_data + '&height_data=' + height_data,
+		type: 'post',
+		dataType: 'json',
+		success: function(json) {									
+			if (json['error']) {								
+				$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-check-circle"></i> ' + json['error'] + '</div>');$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
+			}
+									
+			if (json['success']) {
+				$('.messages-body').html('<div class="alert alert-success alert-messages"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');$('.maxy-backdrop, .messages-body').show().delay(1000).fadeOut(500);
+				
+				$('#button-filter').trigger('click');
+				
+				$('#close-' + type_data + '-' + product_id).trigger('click');
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+}
+
+function clearData(product_id, type_data) {	
+	if (type_data == 'image') {
+		$('#product-image-' + product_id).find('a').find('img').attr('src', '{{ placeholder }}');
+		$('#product-current-image-' + product_id).attr('value', '');
+	} else if (type_data == 'manufacturer_id') {
+		$('#input-manufacturer-' + product_id).val('');
+		$('#input-' + type_data + '-' + product_id).val('');
+	} else if (type_data == 'tax_class_id' || type_data == 'quantity' || type_data == 'minimum') {
+		$('#input-' + type_data + '-' + product_id).val(0);
+	} else if (type_data == 'dimension') {
+		$('#input-length-' + product_id).val(0);
+		$('#input-width-' + product_id).val(0);
+		$('#input-height-' + product_id).val(0);
+	} else {
+		$('#input-' + type_data + '-' + product_id).val('');
+	}
+}
+
+function currentDate(product_id, type_data) {	
+	if (type_data == 'date_available') {
+		Data = new Date();
+		year = Data.getFullYear();
+		month = Data.getMonth() + 1;
+		day = Data.getDate();
+		
+		if (month < 10) month = '0' + month;
+		if (day < 10) day = '0' + day;
+		
+		$('#input-' + type_data + '-' + product_id).val(year + '-' + month + '-' + day);
+	}
+}
+//--></script>
+  <script type="text/javascript"><!--
+function linkImage(product_id) {	
+	var element = $('#product-image-' + product_id);
+	
+	$('#modal-image').remove();
+	$.ajax({
+		url: 'index.php?route=common/filemanager&user_token={{ user_token }}&target=' + $(element).find('input').attr('id') + '&thumb=' + $(element).attr('id'),
+		dataType: 'html',
+		success: function(html) {
+			$('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+
+			$('#modal-image').modal('show');
+		}
+	});
+}
+//--></script>
+  <script type="text/javascript"><!--
+function editItem(product_id, type_data) {
+	$('#product-more-' + product_id).popoverMaxy('hide');
+	$('#modal-edit-product').modal('show');
+			
+	$('#modal-edit-product').on('hide.bs.modal', function() {
+		$('#modal-edit-product').removeClass('modal-fullscreen');
+		$('#modal-product-content').empty();
+	});
+		
+	$('#modal-product-content').load('index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&product_id=' + product_id + '&type=product_item_data&type_data=' + type_data);
+}
+//--></script>
+  <script type="text/javascript"><!--
+function massEdit(type_data) {
+	var error_select_product = '{{ error_select_product }}';
+
+	if ($('#product-list input[type=\'checkbox\']:checked').val()) {
+		$('#option-mass-update').find('ul').removeClass('noclose');
+		$('#option-mass-delete').find('ul').removeClass('noclose');
+		$('#modal-edit-product').modal('show');
+				
+		$('#modal-edit-product').on('hide.bs.modal', function() {
+			$('#modal-edit-product').removeClass('modal-fullscreen');
+			$('#product-list-title input[type=\'checkbox\']').prop('checked', false);
+			$('#product-list input[type=\'checkbox\']').prop('checked', false);
+			$('#option-mass-update').find('a').addClass('disabled');
+			$('#option-mass-update').find('ul').addClass('noclose');
+			$('#option-mass-update .collapse').removeClass('in');
+			$('#option-mass-delete').find('a').addClass('disabled');
+			$('#option-mass-delete').find('ul').addClass('noclose');
+			$('#option-mass-delete .collapse').removeClass('in');
+			$('#modal-product-content').empty();
+		});
+			
+		$('#modal-product-content').load('index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
+	} else {;
+		$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-exclamation-circle"></i> ' + error_select_product + '</div>');
+		$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
+		
+		setTimeout(function(){
+			$('#option-mass-update').find('a').addClass('disabled');
+			$('#option-mass-update').find('ul').addClass('noclose');
+			$('#option-mass-update .collapse').removeClass('in');
+		}, 300)
+	}
+}
+//--></script>
+  <script type="text/javascript"><!--
+function massDelete(type_data) {
+	var error_select_product = '{{ error_select_product }}';
+
+	if ($('#product-list input[type=\'checkbox\']:checked').val()) {
+		$('#option-mass-delete').find('ul').removeClass('noclose');
+		$('#option-mass-update').find('ul').removeClass('noclose');
+		
+		if (!confirm('{{ text_confirm }}')) return;
+			
+		$.ajax({
+			url: 'index.php?route=extension/module/manager_product/edit&user_token=' + getURLVar('user_token') + '&type_data=' + type_data + '&type=mass_delete',
+			type: 'post',
+			dataType: 'json',
+			data: $('#product-list input[type=\'checkbox\']:checked'),
+			success: function(json) {
+				if (json['error']) {
+					$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-check-circle"></i> ' + json['error'] + '</div>');
+					$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
+				}
+
+				if (json['success']) {
+					$('.messages-body').html('<div class="alert alert-success alert-messages"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+					$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);						
+															
+					if ((type_data == 'name') || (type_data == 'image') || (type_data == 'model') || (type_data == 'sku') || (type_data == 'price') || (type_data == 'quantity') || (type_data == 'status') || (type_data == 'sort_order') || (type_data == 'manufacturer') || (type_data == 'category') || (type_data == 'special')) {
+						$('#button-filter').trigger('click');
+						$('#product-list-title input[type=\'checkbox\']').prop('checked', false);
+						$('#product-list-bottom input[type=\'checkbox\']').prop('checked', false);
+						$('#product-list input[type=\'checkbox\']').prop('checked', false);
+						$('#option-mass-delete').find('a').addClass('disabled');
+						$('#option-mass-delete').find('ul').addClass('noclose');
+						$('#option-mass-delete .collapse').removeClass('in');
+						$('#option-mass-update').find('a').addClass('disabled');
+						$('#option-mass-update').find('ul').addClass('noclose');
+						$('#option-mass-update .collapse').removeClass('in');
+					} else {
+						$('#product-list-title input[type=\'checkbox\']').prop('checked', false);
+						$('#product-list-bottom input[type=\'checkbox\']').prop('checked', false);
+						$('#product-list input[type=\'checkbox\']').prop('checked', false);
+						$('#option-mass-delete').find('a').addClass('disabled');
+						$('#option-mass-delete').find('ul').addClass('noclose');
+						$('#option-mass-delete .collapse').removeClass('in');
+						$('#option-mass-update').find('a').addClass('disabled');
+						$('#option-mass-update').find('ul').addClass('noclose');
+						$('#option-mass-update .collapse').removeClass('in');
+					}
+				}
+			}
+		});
+	} else {
+		$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-exclamation-circle"></i> ' + error_select_product + '</div>');
+		$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
+		
+		setTimeout(function(){
+			$('#option-mass-delete').find('a').addClass('disabled');
+			$('#option-mass-delete').find('ul').addClass('noclose');
+			$('#option-mass-delete .collapse').removeClass('in');
+		}, 300)
+	}
+}
+//--></script>
+  <script type="text/javascript"><!--
+$(document).ready(function() {
+	$(window).scroll(function() {			
+		if ($(window).scrollTop() <= 60) {
+            if ($('.page-header').hasClass('fixed-page-header')) {
+                $('.page-header').removeClass('fixed-page-header');
+            }
+			
+			$('.panel-manager').css('margin-top', '0');
+        } else { 
+            if (!$('.page-header').hasClass('fixed-page-header')) {
+                $('.page-header').addClass('fixed-page-header');
+            }
+			
+			$('.panel-manager').css('margin-top', '80px');
+        }
+	});
+});
+//--></script> 
+  <script type="text/javascript"><!--
+function expand() {
+	$('#modal-edit-product').addClass('modal-fullscreen');
+	$('.btn-expand').addClass('hidden');
+	$('.btn-compress').removeClass('hidden');
+}
+
+function compress() {
+	$('#modal-edit-product').removeClass('modal-fullscreen');
+	$('.btn-compress').addClass('hidden');
+	$('.btn-expand').removeClass('hidden');;
+}
+//--></script></div>
+{{ footer }}

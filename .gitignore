@@ -111,12 +111,14 @@
 !/admin/view/javascript/
 !/admin/view/javascript/oxyo/
 !/admin/view/javascript/oxyo_megamenu/
+!/admin/view/javascript/manager_product/
 
 /admin/view/stylesheet/*
 !/admin/view/stylesheet/
 !/admin/view/stylesheet/bootstrap.colorpickersliders.min.css
 !/admin/view/stylesheet/stylesheet.css
 !/admin/view/stylesheet/bulk_copy.css
+!/admin/view/stylesheet/manager_product/
 
 /admin/view/template/*
 !/admin/view/template/
@@ -126,6 +128,8 @@
 !/admin/view/template/catalog/product_form.twig
 !/admin/view/template/catalog/product_list.twig
 !/admin/view/template/catalog/bulk_copy.twig
+
+!/admin/view/template/catalog/manager_product/
 
 /admin/view/template/common/*
 !/admin/view/template/common/

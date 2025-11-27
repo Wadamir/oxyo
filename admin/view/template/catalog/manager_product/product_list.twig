@@ -1,0 +1,793 @@
+<div class="row pagination-top">
+  <div class="col-sm-6 text-left">{{ pagination }}</div>
+  <div class="col-sm-6 text-right">{{ results }}</div>
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr id="product-list-title">
+        <td style="width: 40px;" class="text-center">
+		  <div class="checkbox">
+			<label>
+			  <input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" />
+			  <i class="fa fa-2x icon-checkbox"></i>
+			</label>
+		  </div>
+		</td>
+		{% if image_view %}<td style="min-width: 100px; width: 100px;" class="text-center">{{ column_image }}</td>{% endif %}
+		<td class="text-left sort-name">{% if sort == 'pd.name' %}<a href="{{ sort_name }}" class="{{ order|lower }}">{{ column_name }}</a>{% else %}<a href="{{ sort_name }}">{{ column_name }}</a>{% endif %}</td>
+		{% if category_view %}<td class="text-left sort-category">{% if sort == 'p2c.category_id' %} <a href="{{ sort_category }}" class="{{ order|lower }}">{{ column_category }}</a> {% else %} <a href="{{ sort_category }}">{{ column_category }}</a> {% endif %}</td>{% endif %}
+		{% if manufacturer_view %}<td class="text-left sort-manufacturer">{% if sort == 'm.name' %} <a href="{{ sort_manufacturer }}" class="{{ order|lower }}">{{ column_manufacturer }}</a> {% else %} <a href="{{ sort_manufacturer }}">{{ column_manufacturer }}</a> {% endif %}</td>{% endif %}
+		{% if model_view %}<td class="text-left sort-model">{% if sort == 'p.model' %} <a href="{{ sort_model }}" class="{{ order|lower }}">{{ column_model }}</a> {% else %} <a href="{{ sort_model }}">{{ column_model }}</a> {% endif %}</td>{% endif %}
+		{% if sku_view %}<td class="text-left sort-sku">{% if sort == 'p.sku' %} <a href="{{ sort_sku }}" class="{{ order|lower }}">{{ column_sku }}</a> {% else %} <a href="{{ sort_sku }}">{{ column_sku }}</a> {% endif %}</td>{% endif %}
+		{% if upc_view %}<td class="text-left sort-upc">{% if sort == 'p.upc' %} <a href="{{ sort_upc }}" class="{{ order|lower }}">{{ column_upc }}</a> {% else %} <a href="{{ sort_upc }}">{{ column_upc }}</a> {% endif %}</td>{% endif %}
+		{% if ean_view %}<td class="text-left sort-ean">{% if sort == 'p.ean' %} <a href="{{ sort_ean }}" class="{{ order|lower }}">{{ column_ean }}</a> {% else %} <a href="{{ sort_ean }}">{{ column_ean }}</a> {% endif %}</td>{% endif %}
+		{% if jan_view %}<td class="text-left sort-jan">{% if sort == 'p.jan' %} <a href="{{ sort_jan }}" class="{{ order|lower }}">{{ column_jan }}</a> {% else %} <a href="{{ sort_jan }}">{{ column_jan }}</a> {% endif %}</td>{% endif %}
+		{% if isbn_view %}<td class="text-left sort-isbn">{% if sort == 'p.isbn' %} <a href="{{ sort_isbn }}" class="{{ order|lower }}">{{ column_isbn }}</a> {% else %} <a href="{{ sort_isbn }}">{{ column_isbn }}</a> {% endif %}</td>{% endif %}
+		{% if mpn_view %}<td class="text-left sort-mpn">{% if sort == 'p.mpn' %} <a href="{{ sort_mpn }}" class="{{ order|lower }}">{{ column_mpn }}</a> {% else %} <a href="{{ sort_mpn }}">{{ column_mpn }}</a> {% endif %}</td>{% endif %}
+		{% if location_view %}<td class="text-left sort-location">{% if sort == 'p.location' %} <a href="{{ sort_location }}" class="{{ order|lower }}">{{ column_location }}</a> {% else %} <a href="{{ sort_location }}">{{ column_location }}</a> {% endif %}</td>{% endif %}
+		{% if price_view %}<td class="text-center sort-price">{% if sort == 'p.price' %} <a href="{{ sort_price }}" class="{{ order|lower }}">{{ column_price }}</a> {% else %} <a href="{{ sort_price }}">{{ column_price }}</a> {% endif %}</td>{% endif %}
+		{% if tax_view %}<td class="text-left sort-tax">{% if sort == 'p.tax_class_id' %} <a href="{{ sort_tax }}" class="{{ order|lower }}">{{ column_tax }}</a> {% else %} <a href="{{ sort_tax }}">{{ column_tax }}</a> {% endif %}</td>{% endif %}
+		{% if quantity_view %}<td class="text-center sort-quantity" style="width: 90px;">{% if sort == 'p.quantity' %} <a href="{{ sort_quantity }}" class="{{ order|lower }}">{{ column_quantity }}</a> {% else %} <a href="{{ sort_quantity }}">{{ column_quantity }}</a> {% endif %}</td>{% endif %}
+		{% if minimum_view %}<td class="text-center sort-minimum" style="width: 90px;">{% if sort == 'p.minimum' %} <a href="{{ sort_minimum }}" class="{{ order|lower }}">{{ column_minimum }}</a> {% else %} <a href="{{ sort_minimum }}">{{ column_minimum }}</a> {% endif %}</td>{% endif %}
+		{% if subtract_view %}<td class="text-center sort-subtract" style="width: 90px;">{% if sort == 'p.subtract' %} <a href="{{ sort_subtract }}" class="{{ order|lower }}">{{ column_subtract }}</a> {% else %} <a href="{{ sort_subtract }}">{{ column_subtract }}</a> {% endif %}</td>{% endif %}
+		{% if stock_status_view %}<td class="text-center sort-stock-status">{% if sort == 'p.stock_status_id' %} <a href="{{ sort_stock_status_id }}" class="{{ order|lower }}">{{ column_stock_status }}</a> {% else %} <a href="{{ sort_stock_status_id }}">{{ column_stock_status }}</a> {% endif %}</td>{% endif %}
+		{% if shipping_view %}<td class="text-center sort-shipping" style="width: 90px;">{% if sort == 'p.shipping' %} <a href="{{ sort_shipping }}" class="{{ order|lower }}">{{ column_shipping }}</a> {% else %} <a href="{{ sort_shipping }}">{{ column_shipping }}</a> {% endif %}</td>{% endif %}
+		{% if date_available_view %}<td class="text-center sort-date-available">{% if sort == 'p.date_available' %} <a href="{{ sort_date_available }}" class="{{ order|lower }}">{{ column_date_available }}</a> {% else %} <a href="{{ sort_date_available }}">{{ column_date_available }}</a> {% endif %}</td>{% endif %}
+		{% if dimension_view %}<td class="text-center">{{ column_dimension }}</td>{% endif %}
+		{% if length_class_view %}<td class="text-center sort-length-class">{% if sort == 'p.length_class_id' %} <a href="{{ sort_length_class_id }}" class="{{ order|lower }}">{{ column_length_class }}</a> {% else %} <a href="{{ sort_length_class_id }}">{{ column_length_class }}</a> {% endif %}</td>{% endif %}
+		{% if weight_view %}<td class="text-center sort-weight" style="width: 90px;">{% if sort == 'p.weight' %} <a href="{{ sort_weight }}" class="{{ order|lower }}">{{ column_weight }}</a> {% else %} <a href="{{ sort_weight }}">{{ column_weight }}</a> {% endif %}</td>{% endif %}
+		{% if weight_class_view %}<td class="text-center sort-weight-class">{% if sort == 'p.weight_class_id' %} <a href="{{ sort_weight_class_id }}" class="{{ order|lower }}">{{ column_weight_class }}</a> {% else %} <a href="{{ sort_weight_class_id }}">{{ column_weight_class }}</a> {% endif %}</td>{% endif %}
+		{% if sort_order_view %}<td class="text-center sort-sort-order" style="width: 90px;">{% if sort == 'p.sort_order' %}<a href="{{ sort_sort_order }}" class="{{ order|lower }}">{{ column_sort_order }}</a>{% else %}<a href="{{ sort_sort_order }}">{{ column_sort_order }}</a>{% endif %}</td>{% endif %}
+        {% if status_view %}<td class="text-center sort-status" style="width: 90px;">{% if sort == 'p.status' %}<a href="{{ sort_status }}" class="{{ order|lower }}">{{ column_status }}</a>{% else %}<a href="{{ sort_status }}">{{ column_status }}</a>{% endif %}</td>{% endif %}
+		<td class="text-center" style="min-width: 110px; width: 110px;">{{ column_action }}</td>
+      </tr>
+    </thead>
+    <tbody id="product-list">
+    {% if products %}
+    {% for product in products %}
+    <tr>
+      <td class="text-center">
+	    <div class="checkbox">
+		  <label>
+			{% if product.product_id in selected %}
+			  <input type="checkbox" name="selected[]" value="{{ product.product_id }}" checked="checked" />
+			  <i class="fa fa-2x icon-checkbox"></i>
+			  {% else %}
+			  <input type="checkbox" name="selected[]" value="{{ product.product_id }}" />
+			  <i class="fa fa-2x icon-checkbox"></i>
+			{% endif %}
+		  </label>
+		</div>
+	  </td>
+	  {% if image_view %}
+	  <td class="text-center">
+	    {% if manager_product_image %}
+		  <a data-toggle="popover-maxy" data-target="#product-image-{{ product.product_id }}" id="product-image{{ product.product_id }}" class="btn-hover-list"><img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" /></a>
+	      <div id="product-image-{{ product.product_id }}" class="popover popover-primary popover-image">
+	        <div class="arrow"></div><h3 class="popover-title">{{ column_image }}
+	        <a id="close-image-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+	        <div class="popover-content">
+		      <div class="row">
+		        <a onclick="linkImage('{{ product.product_id }}');" class="btn btn-link"><img src="{{ product.thumb }}" class="img-thumbnail" /></a><input type="hidden" name="image" value="{{ product.img }}" id="product-current-image-{{ product.product_id }}" />
+		      </div>
+	        </div>
+	        <div class="popover-footer">
+		     <a onclick="editData('{{ product.product_id }}', 'image');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'image');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+	        </div>
+	      </div>
+		  {% else %}
+		  <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" />
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  <td class="text-left">
+	    {% if manager_product_name %}
+		  <a onclick="editItem('{{ product.product_id }}', 'name');" class="btn-hover-list">{{ product.name }}</a>
+		  {% else %}
+		  {{ product.name }}
+		{% endif %}
+	  </td>
+	  {% if category_view %}
+	  <td class="text-left">
+	    {% if manager_product_category %}
+		  <a onclick="editItem('{{ product.product_id }}', 'categories');" class="btn-hover-list">
+		  {% if product.categories %}
+		    {% for product_category in product.categories %}
+			  {{ product_category.name }}<br />
+		    {% endfor %}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		  </a>
+		  {% else %}
+		  {% if product.categories %}
+		    {% for product_category in product.categories %}
+			  {{ product_category.name }}<br />
+		    {% endfor %}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if manufacturer_view %}
+	  <td class="text-left">
+		{% if manager_product_manufacturer %}
+		  <a data-toggle="popover-maxy" data-target="#product-manufacturer_id-{{ product.product_id }}" id="product-manufacturer_id{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.manufacturer %}
+		      {{ product.manufacturer }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-manufacturer_id-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_manufacturer }}
+			<a id="close-manufacturer_id-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="manufacturer" value="{{ product.manufacturer }}" placeholder="{{ column_manufacturer }}" id="input-manufacturer-{{ product.product_id }}" class="form-control" />
+			  <input type="hidden" name="manufacturer_id" value="{{ product.manufacturer_id }}" id="input-manufacturer_id-{{ product.product_id }}" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'manufacturer_id');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'manufacturer_id');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+			<script type="text/javascript"><!--
+			$('#product-manufacturer_id-{{ product.product_id }} input[name=\'manufacturer\']').autocomplete({
+				'source': function(request, response) {
+					$.ajax({
+						url: 'index.php?route=catalog/manager_product/autocomplete_manufacturer&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+						dataType: 'json',
+						success: function(json) {					
+							response($.map(json, function(item) {
+								return {
+									label: item['name'],
+									value: item['manufacturer_id']
+								}
+							}));
+						}
+					});
+				},
+				'select': function(item) {
+					$('#product-manufacturer_id-{{ product.product_id }} input[name=\'manufacturer\']').val(item['label']);
+					$('#product-manufacturer_id-{{ product.product_id }} input[name=\'manufacturer_id\']').val(item['value']);
+				}
+			});
+			//--></script>
+		  </div> 
+		  {% else %}
+		  {% if product.manufacturer %}
+		    {{ product.manufacturer }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>	
+	  {% endif %}
+	  {% if model_view %}
+	  <td class="text-left">
+		{% if manager_product_model %}
+		  <a data-toggle="popover-maxy" data-target="#product-model-{{ product.product_id }}" id="product-model{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.model %}
+		      {{ product.model }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-model-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_model }}
+			<a id="close-model-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="model" value="{{ product.model }}" placeholder="{{ column_model }}" id="input-model-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'model');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'model');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.model %}
+		    {{ product.model }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if sku_view %}
+	  <td class="text-left">
+		{% if manager_product_sku %}
+		  <a data-toggle="popover-maxy" data-target="#product-sku-{{ product.product_id }}" data-placement="left" id="product-sku{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.sku %}
+		      {{ product.sku }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-sku-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_sku }}
+			<a id="close-sku-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="sku" value="{{ product.sku }}" placeholder="{{ column_sku }}" id="input-sku-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'sku');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'sku');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.sku %}
+		    {{ product.sku }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if upc_view %}
+	  <td class="text-left">
+		{% if manager_product_upc %}
+		  <a data-toggle="popover-maxy" data-target="#product-upc-{{ product.product_id }}" data-placement="left" id="product-upc{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.upc %}
+		      {{ product.upc }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-upc-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_upc }}
+			<a id="close-upc-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="upc" value="{{ product.upc }}" placeholder="{{ column_upc }}" id="input-upc-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'upc');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'upc');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.upc %}
+		    {{ product.upc }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if ean_view %}
+	  <td class="text-left">
+		{% if manager_product_ean %}
+		  <a data-toggle="popover-maxy" data-target="#product-ean-{{ product.product_id }}" data-placement="left" id="product-ean{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.ean %}
+		      {{ product.ean }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-ean-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_ean }}
+			<a id="close-ean-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="ean" value="{{ product.ean }}" placeholder="{{ column_ean }}" id="input-ean-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'ean');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'ean');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.ean %}
+		    {{ product.ean }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if jan_view %}
+	  <td class="text-left">
+		{% if manager_product_jan %}
+		  <a data-toggle="popover-maxy" data-target="#product-jan-{{ product.product_id }}" data-placement="left" id="product-jan{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.jan %}
+		      {{ product.jan }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-jan-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_jan }}
+			<a id="close-jan-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="jan" value="{{ product.jan }}" placeholder="{{ column_jan }}" id="input-jan-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'jan');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'jan');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.jan %}
+		    {{ product.jan }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if isbn_view %}
+	  <td class="text-left">
+		{% if manager_product_isbn %}
+		  <a data-toggle="popover-maxy" data-target="#product-isbn-{{ product.product_id }}" data-placement="left" id="product-isbn{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.isbn %}
+		      {{ product.isbn }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-isbn-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_isbn }}
+			<a id="close-isbn-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="isbn" value="{{ product.isbn }}" placeholder="{{ column_isbn }}" id="input-isbn-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'isbn');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'isbn');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.isbn %}
+		    {{ product.isbn }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if mpn_view %}
+	  <td class="text-left">
+		{% if manager_product_mpn %}
+		  <a data-toggle="popover-maxy" data-target="#product-mpn-{{ product.product_id }}" data-placement="left" id="product-mpn{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.mpn %}
+		      {{ product.mpn }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-mpn-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_mpn }}
+			<a id="close-mpn-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="mpn" value="{{ product.mpn }}" placeholder="{{ column_mpn }}" id="input-mpn-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'mpn');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'mpn');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.mpn %}
+		    {{ product.mpn }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if location_view %}
+	  <td class="text-left">
+		{% if manager_product_location %}
+		  <a data-toggle="popover-maxy" data-target="#product-location-{{ product.product_id }}" data-placement="left" id="product-location{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.location %}
+		      {{ product.location }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-location-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_location }}
+			<a id="close-location-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="text" name="location" value="{{ product.location }}" placeholder="{{ column_location }}" id="input-location-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'location');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'location');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {% if product.location %}
+		    {{ product.location }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if price_view %}
+	  <td class="text-center">
+		{% if manager_product_price %}
+		  <a data-toggle="popover-maxy" data-target="#product-price-{{ product.product_id }}" data-placement="left" id="product-price{{ product.product_id }}" class="btn-hover-list">{{ product.price }}</a>
+		  <div id="product-price-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_price }}
+			<a id="close-price-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="number" name="price" value="{{ product.price_not_formated }}" placeholder="{{ column_price }}" id="input-price-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'price');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'price');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div>
+		  {% else %}
+		  {{ product.price }}
+		{% endif %}<br />
+		{% if manager_product_special %}
+		  <a onclick="editItem('{{ product.product_id }}', 'special');" class="btn-hover-list"><span class="text-danger">{{ product.special }}</span></a>
+		  {% else %}
+		  <span class="text-danger">{{ product.special }}</span>
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if tax_view %}
+	  <td class="text-center">
+		{% if manager_product_tax %}
+		  <a data-toggle="popover-maxy" data-target="#product-tax_class_id-{{ product.product_id }}" data-placement="left" id="product-tax_class_id{{ product.product_id }}" class="btn-hover-list">
+		    {% if product.tax_title %}
+		      {{ product.tax_title }}
+		      {% else %}
+		      {{ text_without }}
+		    {% endif %}
+		  </a>
+		  <div id="product-tax_class_id-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_tax }}
+			<a id="close-tax_class_id-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <select name="product.tax_class_id" id="input-tax_class_id-{{ product.product_id }}" class="form-control">
+                <option value="0">{{ text_none }}</option>
+                {% for tax_class in tax_classes %}
+                  {% if tax_class.tax_class_id == product.tax_class_id %}
+                    <option value="{{ tax_class.tax_class_id }}" selected="selected">{{ tax_class.title }}</option>
+                    {% else %}
+                    <option value="{{ tax_class.tax_class_id }}">{{ tax_class.title }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'tax_class_id');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'tax_class_id');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div>
+		  {% else %}
+		  {% if product.tax_title %}
+		    {{ product.tax_title }}
+		    {% else %}
+		    {{ text_without }}
+		  {% endif %}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if quantity_view %}
+	  <td class="text-center">
+	    {% if manager_product_quantity %}
+		  <a data-toggle="popover-maxy" data-target="#product-quantity-{{ product.product_id }}" data-placement="left" id="product-quantity{{ product.product_id }}">
+		    {% if product.quantity <= 0 %}
+		      <span class="btn btn-danger">{{ product.quantity }}</span>
+		      {% elseif product.quantity <= 4 %}
+		      <span class="btn btn-warning">{{ product.quantity }}</span>
+		      {% elseif product.quantity <= 9 %}
+		      <span class="btn btn-info">{{ product.quantity }}</span>
+		      {% elseif product.quantity <= 14 %}
+		      <span class="btn btn-primary">{{ product.quantity }}</span>
+		      {% elseif product.quantity <= 19 %}
+		      <span class="btn btn-success">{{ product.quantity }}</span>
+		      {% else %}
+		      <span class="btn btn-default">{{ product.quantity }}</span>
+		    {% endif %} 
+		  </a>
+		  <div id="product-quantity-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_quantity }}
+			<a id="close-quantity-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="number" name="quantity" value="{{ product.quantity }}" placeholder="{{ column_quantity }}" id="input-quantity-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'quantity');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'quantity');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div>
+		  {% else %}
+		  {% if product.quantity <= 0 %}
+		    <span class="btn btn-danger">{{ product.quantity }}</span>
+		    {% elseif product.quantity <= 4 %}
+		    <span class="btn btn-warning">{{ product.quantity }}</span>
+		    {% elseif product.quantity <= 9 %}
+		    <span class="btn btn-info">{{ product.quantity }}</span>
+		    {% elseif product.quantity <= 14 %}
+		    <span class="btn btn-primary">{{ product.quantity }}</span>
+		    {% elseif product.quantity <= 19 %}
+		    <span class="btn btn-success">{{ product.quantity }}</span>
+		    {% else %}
+		    <span class="btn btn-default">{{ product.quantity }}</span>
+		  {% endif %} 
+		{% endif %} 
+	  </td>
+	  {% endif %}
+	  {% if minimum_view %}
+	  <td class="text-center">
+		{% if manager_product_minimum %}
+		  <a data-toggle="popover-maxy" data-target="#product-minimum-{{ product.product_id }}" data-placement="left" id="product-minimum{{ product.product_id }}" class="btn-hover-list">
+		    <span class="btn btn-default">{{ product.minimum }}</span>
+		  </a>
+		  <div id="product-minimum-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_minimum }}
+			<a id="close-minimum-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="number" name="minimum" value="{{ product.minimum }}" placeholder="{{ column_minimum }}" id="input-minimum-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'minimum');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'minimum');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  <span class="btn btn-default">{{ product.minimum }}</span>
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if subtract_view %}
+	    {% if manager_product_subtract %}
+		  <td class="text-center" id="product-subtract-{{ product.product_id }}"><a onclick="editData('{{ product.product_id }}', 'subtract');" id="subtract-{{ product.product_id }}">{{ product.subtract }}</a><input type="hidden" name="subtractes" value="{{ product.subtractes }}" /></td>
+		  {% else %}
+		  <td class="text-center">{{ product.no_subtract }}</td>
+	    {% endif %}
+	  {% endif %}
+	  {% if stock_status_view %}
+	  <td class="text-center">
+		{% if manager_product_stock_status %}
+		  <a data-toggle="popover-maxy" data-target="#product-stock_status_id-{{ product.product_id }}" data-placement="left" id="product-stock_status_id{{ product.product_id }}" class="btn-hover-list">{{ product.stock_name }}</a>
+		  <div id="product-stock_status_id-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_stock_status }}
+			<a id="close-stock_status_id-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <select name="product.stock_status_id" id="input-stock_status_id-{{ product.product_id }}" class="form-control">
+              {% for stock_status in stock_statuses %}
+                {% if stock_status.stock_status_id == product.stock_status_id %}
+                  <option value="{{ stock_status.stock_status_id }}" selected="selected">{{ stock_status.name }}</option>
+                  {% else %}
+				  <option value="{{ stock_status.stock_status_id }}">{{ stock_status.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'stock_status_id');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a>
+			</div>
+		  </div>
+		  {% else %}
+		  {{ product.stock_name }}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if shipping_view %}
+	    {% if manager_product_shipping %}
+		  <td class="text-center" id="product-shipping-{{ product.product_id }}"><a onclick="editData('{{ product.product_id }}', 'shipping');" id="shipping-{{ product.product_id }}">{{ product.shipping }}</a><input type="hidden" name="shippinges" value="{{ product.shippinges }}" /></td>
+		  {% else %}
+		  <td class="text-center">{{ product.no_shipping }}</td>
+	    {% endif %}
+	  {% endif %}
+	  {% if date_available_view %}
+	  <td class="text-left">
+		{% if manager_product_date %}
+		  <a data-toggle="popover-maxy" data-target="#product-date_available-{{ product.product_id }}" data-placement="left" id="product-date_available{{ product.product_id }}" class="btn-hover-list">{{ product.date_available }}</a>
+		  <div id="product-date_available-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_date_available }}
+			<a id="close-date_available-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <div class="input-group date">
+                <input type="text" name="product.date_available" value="{{ product.date_available }}" placeholder="{{ entry_date_available }}" data-date-format="YYYY-MM-DD" id="input-date_available-{{ product.product_id }}" class="form-control" />
+                <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>
+			  </div>
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'date_available');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="currentDate('{{ product.product_id }}', 'date_available');" class="btn btn-success btn-sm"><i class="fa fa-calendar fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'date_available');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+			  <script type="text/javascript"><!--
+			$('.date').datetimepicker({
+				language: '{{ datepicker }}',
+				pickTime: false
+			});
+			//--></script>
+		  </div> 
+		  {% else %}
+		  {{ product.date_available }}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if subtract_view %}
+	    {% if manager_product_subtract %}
+		  <td class="text-center" id="product-subtract-{{ product.product_id }}"><a onclick="editData('{{ product.product_id }}', 'subtract');" id="subtract-{{ product.product_id }}">{{ product.subtract }}</a><input type="hidden" name="subtractes" value="{{ product.subtractes }}" /></td>
+		  {% else %}
+		  <td class="text-center">{{ product.no_subtract }}</td>
+	    {% endif %}
+	  {% endif %}
+	  {% if dimension_view %}
+	  <td class="text-center">
+		{% if manager_product_dimension %}
+		  <a data-toggle="popover-maxy" data-target="#product-dimension-{{ product.product_id }}" data-placement="left" id="product-dimension{{ product.product_id }}" class="btn-hover-list">
+		    {{ product.length }}<br />{{ product.width }}<br />{{ product.height }}
+		  </a>
+		  <div id="product-dimension-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_dimension }}
+			<a id="close-dimension-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <div class="form-group">
+			    <label class="col-sm-12 control-label" for="input-length-{{ product.product_id }}">{{ entry_length }}</label>
+				<input type="number" name="length" value="{{ product.length }}" placeholder="{{ entry_length }}" id="input-length-{{ product.product_id }}" class="form-control" />
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-12 control-label" for="input-width-{{ product.product_id }}">{{ entry_width }}</label>
+				<input type="number" name="width" value="{{ product.width }}" placeholder="{{ entry_width }}" id="input-width-{{ product.product_id }}" class="form-control" />
+			  </div>
+			  <div class="form-group">
+				<label class="col-sm-12 control-label" for="input-height-{{ product.product_id }}">{{ entry_height }}</label>
+				<input type="number" name="height" value="{{ product.height }}" placeholder="{{ entry_height }}" id="input-height-{{ product.product_id }}" class="form-control" />
+			  </div>
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'dimension');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'dimension');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {{ product.length }}<br />{{ product.width }}<br />{{ product.height }}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if length_class_view %}
+	  <td class="text-center">
+		{% if manager_product_length_class %}
+		  <a data-toggle="popover-maxy" data-target="#product-length_class_id-{{ product.product_id }}" data-placement="left" id="product-length_class_id{{ product.product_id }}" class="btn-hover-list">{{ product.length_title }}</a>
+		  <div id="product-length_class_id-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_length_class }}
+			<a id="close-length_class_id-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <select name="product.length_class_id" id="input-length_class_id-{{ product.product_id }}" class="form-control">
+              {% for length_class in length_classes %}
+                {% if length_class.length_class_id == product.length_class_id %}
+                  <option value="{{ length_class.length_class_id }}" selected="selected">{{ length_class.title }}</option>
+                  {% else %}
+				  <option value="{{ length_class.length_class_id }}">{{ length_class.title }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'length_class_id');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a>
+			</div>
+		  </div>
+		  {% else %}
+		  {{ product.length_title }}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if weight_view %}
+	  <td class="text-center">
+		{% if manager_product_weights %}
+		  <a data-toggle="popover-maxy" data-target="#product-weight-{{ product.product_id }}" data-placement="left" id="product-weight{{ product.product_id }}" class="btn-hover-list">{{ product.weight }}</a>
+		  <div id="product-weight-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_weight }}
+			<a id="close-weight-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="number" name="weight" value="{{ product.weight }}" placeholder="{{ column_weight }}" id="input-weight-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'weight');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'weight');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+		  {{ product.weight }}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if weight_class_view %}
+	  <td class="text-center">
+		{% if manager_product_weight_class %}
+		  <a data-toggle="popover-maxy" data-target="#product-weight_class_id-{{ product.product_id }}" data-placement="left" id="product-weight_class_id{{ product.product_id }}" class="btn-hover-list">{{ product.weight_title }}</a>
+		  <div id="product-weight_class_id-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_weight_class }}
+			<a id="close-weight_class_id-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <select name="product.weight_class_id" id="input-weight_class_id-{{ product.product_id }}" class="form-control">
+              {% for weight_class in weight_classes %}
+                {% if weight_class.weight_class_id == product.weight_class_id %}
+                  <option value="{{ weight_class.weight_class_id }}" selected="selected">{{ weight_class.title }}</option>
+                  {% else %}
+				  <option value="{{ weight_class.weight_class_id }}">{{ weight_class.title }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'weight_class_id');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a>
+			</div>
+		  </div>
+		  {% else %}
+		  {{ product.weight_title }}
+		{% endif %}
+	  </td>
+	  {% endif %}
+	  {% if sort_order_view %}
+	  <td class="text-center">
+	    {% if manager_product_sort_order %}
+		  <a data-toggle="popover-maxy" data-target="#product-sort_order-{{ product.product_id }}" data-placement="left" id="product-sort_order{{ product.product_id }}" class="btn btn-default">{{ product.sort_order }}</a>
+		  <div id="product-sort_order-{{ product.product_id }}" class="popover popover-primary popover-data">
+			<div class="arrow"></div><h3 class="popover-title">{{ column_sort_order }}
+			<a id="close-sort_order-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs"><i class="fa fa-close"></i></a></h3>
+			<div class="popover-content">
+			  <input type="number" name="sort_order" value="{{ product.sort_order }}" placeholder="{{ column_sort_order }}" id="input-sort_order-{{ product.product_id }}" class="form-control" />
+			</div>
+			<div class="popover-footer">
+			  <a onclick="editData('{{ product.product_id }}', 'sort_order');" class="btn btn-primary btn-sm"><i class="fa fa-save fa-fw"></i></a><a onclick="clearData('{{ product.product_id }}', 'sort_order');" class="btn btn-danger btn-sm"><i class="fa fa-eraser fa-fw"></i></a>
+			</div>
+		  </div> 
+		  {% else %}
+	      {{ product.sort_order }}
+	    {% endif %}
+	  </td>
+	  {% endif %}
+	  {% if status_view %}
+	    {% if manager_product_status %}
+		  <td class="text-center" id="product-status-{{ product.product_id }}"><a onclick="editData('{{ product.product_id }}', 'status');" id="status-{{ product.product_id }}">{{ product.status }}</a><input type="hidden" name="statuses" value="{{ product.statuses }}" /></td>
+		  {% else %}
+		  <td class="text-center">{{ product.no_status }}</td>
+	    {% endif %}
+	  {% endif %}
+	  <td class="text-center">
+		{% if product_more %}
+		  <a data-toggle="popover-maxy" data-target="#product-more-{{ product.product_id }}" data-placement="left" class="btn btn-warning"><i class="fa fa-hand-o-left"></i></a>
+		  <div id="product-more-{{ product.product_id }}" class="popover popover-primary popover-xxl popover-more animate littleFadeInLeft">
+			<div class="arrow"></div>
+			<div class="popover-content">
+			  {% if manager_product_general %}<a onclick="editItem('{{ product.product_id }}', 'general');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_general }}"><i class="fa fa-reorder fa-fw"></i></a>{% endif %}
+			  {% if manager_product_code %}<a onclick="editItem('{{ product.product_id }}', 'code');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_code }}"><i class="fa fa-code fa-fw"></i></a>{% endif %}
+			  {% if manager_product_tax or manager_product_location %}<a onclick="editItem('{{ product.product_id }}', 'tax');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_tax }}"><i class="fa fa-globe fa-fw"></i></a>{% endif %}
+			  {% if manager_product_stock %}<a onclick="editItem('{{ product.product_id }}', 'stock');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_stock }}"><i class="fa fa-truck fa-fw"></i></a>{% endif %}
+			  {% if manager_product_date %}<a onclick="editItem('{{ product.product_id }}', 'date_available');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_date_available }}"><i class="fa fa-calendar fa-fw"></i></a>{% endif %}
+			  {% if manager_product_weight %}<a onclick="editItem('{{ product.product_id }}', 'size');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_size }}"><i class="fa fa-arrows-alt fa-fw"></i></a>{% endif %}
+			  {% if manager_product_filter %}<a onclick="editItem('{{ product.product_id }}', 'filter');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_filter }}"><i class="fa fa-filter fa-fw"></i></a>{% endif %}
+			  {% if manager_product_store %}<a onclick="editItem('{{ product.product_id }}', 'store');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_store }}"><i class="fa fa-flag fa-fw"></i></a>{% endif %}
+			  {% if manager_product_download %}<a onclick="editItem('{{ product.product_id }}', 'download');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_download }}"><i class="fa fa-download fa-fw"></i></a>{% endif %}
+			  {% if manager_product_related %}<a onclick="editItem('{{ product.product_id }}', 'related');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_related }}"><i class="fa fa-thumbs-o-up fa-fw"></i></a>{% endif %}
+			  {% if manager_product_attribute %}<a onclick="editItem('{{ product.product_id }}', 'attribute');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_attribute }}"><i class="fa fa-cogs fa-fw"></i></a>{% endif %}
+			  {% if manager_product_option %}<a onclick="editItem('{{ product.product_id }}', 'option');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ tab_option }}"><i class="fa fa-cubes fa-fw"></i></a>{% endif %}
+			  {% if manager_product_discount %}<a onclick="editItem('{{ product.product_id }}', 'discount');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ tab_discount }}"><i class="fa fa-legal fa-fw"></i></a>{% endif %}
+			  {% if manager_product_special %}<a onclick="editItem('{{ product.product_id }}', 'special');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ tab_special }}"><i class="fa fa-tag fa-fw"></i></a>{% endif %}
+			  {% if manager_product_images %}<a onclick="editItem('{{ product.product_id }}', 'images');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ tab_image }}"><i class="fa fa-image fa-fw"></i></a>{% endif %}
+			  {% if manager_product_reward %}<a onclick="editItem('{{ product.product_id }}', 'reward');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ entry_reward }}"><i class="fa fa-yelp fa-fw"></i></a>{% endif %}
+			  {% if manager_product_seo_url %}<a onclick="editItem('{{ product.product_id }}', 'seo_url');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ text_seo }}"><i class="fa fa-link fa-fw"></i></a>{% endif %}
+			  {% if manager_product_design %}<a onclick="editItem('{{ product.product_id }}', 'design');" class="btn btn-primary btn-sm" data-toggle="tooltip" title="{{ tab_design }}"><i class="fa fa-paint-brush fa-fw"></i></a>{% endif %}
+			  {% if manager_product_view %}<a onclick="closeMore('{{ product.product_id }}');" href="{{ product.view }}" class="btn btn-default btn-sm" data-toggle="tooltip" target="_blank" title="{{ button_view }}"><i class="fa fa-eye fa-fw"></i></a>{% endif %}
+			</div>
+		  </div>
+		{% endif %}
+		<button type="button" data-toggle="tooltip" title="{{ button_edit }}" onclick="getForm('{{ product.product_id }}');" class="btn btn-primary"><i class="fa fa-pencil"></i></button>
+	  </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td class="text-center" colspan="12">{{ text_no_results }}</td>
+    </tr>
+    {% endif %}
+    </tbody>
+  </table>
+</div>
+<div class="row">
+  <div class="col-sm-6 text-left">{{ pagination }}</div>
+  <div class="col-sm-6 text-right">{{ results }}</div>
+</div>
+  <script type="text/javascript"><!--
+$(document).ready(function() {
+	$('#product-list-title input[type=\'checkbox\'], #product-list input[type=\'checkbox\']').on('change', function() {
+		if ($('#product-list input[type=\'checkbox\']:checked').val()) {
+			$('#option-mass-update').find('a').removeClass('disabled');
+			$('#option-mass-delete').find('a').removeClass('disabled');
+		} else {
+			$('#option-mass-update').find('a').addClass('disabled');
+			$('#option-mass-delete').find('a').addClass('disabled');
+		}
+	});
+	
+	$(document).on('click', '.noclose', function(e) {
+		e.stopPropagation();
+	});
+});
+//--></script>
