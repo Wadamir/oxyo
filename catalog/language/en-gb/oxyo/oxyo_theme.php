@@ -59,6 +59,7 @@ $_['oxyo_text_no_result']            = 'No results';
 $_['oxyo_text_category']             = 'All Categories';
 
 // Contact Form
+$_['text_directions']                = 'directions';
 $_['oxyo_text_name']                 = 'Your Name';
 $_['oxyo_text_email']                = 'Your Email';
 $_['oxyo_text_message']              = 'Your Message';

@@ -1,7 +1,7 @@
 <?php
 // Списки товаров
-$_['oxyo_text_offer_ends']            = 'Это ограниченное предложение закончится через:';
-$_['oxyo_text_sale']                  = 'Скидка';
+$_['oxyo_text_offer_ends']           = 'Это ограниченное предложение закончится через:';
+$_['oxyo_text_sale']                 = 'Скидка';
 $_['oxyo_text_out_of_stock']         = 'Нет в наличии';
 $_['oxyo_text_new']                  = 'Новинка';
 $_['oxyo_text_days']                 = 'Дней';
@@ -14,6 +14,7 @@ $_['text_back']                      = 'Назад';
 $_['callback_text']                 = 'Обратный звонок';
 
 // Callback Form
+$_['text_directions']               = 'как добраться';
 $_['text_callback_title']           = 'Заказать обратный звонок';
 $_['text_callback_name']            = 'Ваше имя';
 $_['text_callback_email']           = 'Ваш email';

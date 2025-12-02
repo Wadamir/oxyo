@@ -16,179 +16,56 @@
 <input type="hidden" name="settings[config][config_theme]" value="default" />
 <input type="hidden" name="settings[oxyo_version][oxyo_theme_version]" value="1.2.8.0" />
 
-<legend class="sub">{{text_contacts}}</legend>
-<div class="row">
-    <div class="col-xs-12 col-md-9">
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Main phone</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: +7 (917) 333-22-11"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][main_phone]" value="{{ main_phone ? main_phone : '' }}"/>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="new-form-group form-field radio-switcher">
-            <p class="radio-switcher-title">
-                <span class="title">{{ text_show_in_header }}</span>
-            </p>
-            <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="main_phone_header_0">{{ text_off }}</label>
-                <div class="form-radio form-radio-inline form-radio-switcher">
-                    <input type="radio" name="settings[oxyo][main_phone_header]" value="0" {% if main_phone_header == '0' or main_phone_header is not defined %} checked="checked" {% endif %} id="main_phone_header_0" />
-                    <input type="radio" name="settings[oxyo][main_phone_header]" value="1" {% if main_phone_header == '1' %} checked="checked" {% endif %} id="main_phone_header_1" />
-                </div>
-                <label class="label-switcher label-switcher-post" for="main_phone_header_1">{{ text_on }}</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-9">
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Whatsapp phone</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: +7 (917) 333-22-11"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][whatsapp_phone]" value="{{ whatsapp_phone ? whatsapp_phone : '' }}"/>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="new-form-group form-field radio-switcher">
-            <p class="radio-switcher-title">
-                <span class="title">{{ text_show_in_header }}</span>
-            </p>
-            <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="whatsapp_phone_header_0">{{ text_off }}</label>
-                <div class="form-radio form-radio-inline form-radio-switcher">
-                    <input type="radio" name="settings[oxyo][whatsapp_phone_header]" value="0" {% if whatsapp_phone_header == '0' or whatsapp_phone_header is not defined %} checked="checked" {% endif %} id="whatsapp_phone_header_0" />
-                    <input type="radio" name="settings[oxyo][whatsapp_phone_header]" value="1" {% if whatsapp_phone_header == '1' %} checked="checked" {% endif %} id="whatsapp_phone_header_1" />
-                </div>
-                <label class="label-switcher label-switcher-post" for="whatsapp_phone_header_1">{{ text_on }}</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-9">
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Telegram username</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: durov"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][telegram]" value="{{ telegram ? telegram : '' }}"/>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="new-form-group form-field radio-switcher">
-            <p class="radio-switcher-title">
-                <span class="title">{{ text_show_in_header }}</span>
-            </p>
-            <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="telegram_header_0">{{ text_off }}</label>
-                <div class="form-radio form-radio-inline form-radio-switcher">
-                    <input type="radio" name="settings[oxyo][telegram_header]" value="0" {% if telegram_header == '0' or telegram_header is not defined %} checked="checked" {% endif %} id="telegram_header_0" />
-                    <input type="radio" name="settings[oxyo][telegram_header]" value="1" {% if telegram_header == '1' %} checked="checked" {% endif %} id="telegram_header_1" />
-                </div>
-                <label class="label-switcher label-switcher-post" for="telegram_header_1">{{ text_on }}</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-9">
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">VK Link</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: https://vk.com/durov/"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][vkontakte]" value="{{ vkontakte ? vkontakte : '' }}"/>
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="new-form-group form-field radio-switcher">
-            <p class="radio-switcher-title">
-                <span class="title">{{ text_show_in_header }}</span>
-            </p>
-            <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="vkontakte_header_0">{{ text_off }}</label>
-                <div class="form-radio form-radio-inline form-radio-switcher">
-                    <input type="radio" name="settings[oxyo][vkontakte_header]" value="0" {% if vkontakte_header == '0' or vkontakte_header is not defined %} checked="checked" {% endif %} id="vkontakte_header_0" />
-                    <input type="radio" name="settings[oxyo][vkontakte_header]" value="1" {% if vkontakte_header == '1' %} checked="checked" {% endif %} id="vkontakte_header_1" />
-                </div>
-                <label class="label-switcher label-switcher-post" for="vkontakte_header_1">{{ text_on }}</label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-9">
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Callback</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Show callback button?"></i>
-            </label>
-            <select name="settings[oxyo][callback]" class="form-control">
-                <option value="0" {% if callback == '0' or callback is not defined %} selected="selected" {% endif %}>{{ text_disabled }}</option>
-                <option value="1" {% if callback == '1' %} selected="selected" {% endif %}>Show popup window</option>
+<legend class="sub">{{ text_contacts }}</legend>
+
+{# List of fields (type is optional and can be used in future) #}
+{% set contact_fields = [
+    { 'key': 'main_phone' },
+    { 'key': 'max' },
+    { 'key': 'whatsapp' },
+    { 'key': 'telegram' },
+    { 'key': 'vkontakte' },
+    {
+        'key': 'callback',
+        'type': 'select',
+        'options': [
+            { 'value': '0', 'text': text_disabled },
+            { 'value': '1', 'text': text_callback_popup }
+        ]
+    },
+    { 'key': 'main_email' },
+    { 'key': 'main_address' },
+    { 'key': 'working_hours' },
+    { 'key': 'instagram' },
+    { 'key': 'tiktok' },
+    { 'key': 'avito' }
+] %}
+
+{% for field in contact_fields %}
+    {% set key = field.key %}
+    {% set type = field.type|default('text') %}
+
+    {# Auto-detected language vars #}
+    {% set label = attribute(_context, 'entry_' ~ key)|default(key) %}
+    {% set tooltip = attribute(_context, 'entry_' ~ key ~ '_tooltip')|default('') %}
+    {% set value = attribute(_context, key)|default('') %}
+
+    <div class="form-group new-form-group">
+        <label class="new-title">
+            <span class="title">{{ label }}</span>
+            {% if tooltip %}
+                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ tooltip }}"></i>
+            {% endif %}
+        </label>
+
+        {% if type == 'select' %}
+            <select class="form-control" name="settings[oxyo][{{ key }}]">
+                {% for opt in field.options %}
+                    <option value="{{ opt.value }}" {% if value == opt.value %}selected="selected"{% endif %}>{{ opt.text }}</option>
+                {% endfor %}
             </select>
-        </div>
+        {% else %}
+            <input class="form-control" name="settings[oxyo][{{ key }}]" value="{{ value }}"/>
+        {% endif %}
     </div>
-    <div class="col-xs-12 col-md-3">
-        <div class="new-form-group form-field radio-switcher">
-            <p class="radio-switcher-title">
-                <span class="title">{{ text_show_in_header }}</span>
-            </p>
-            <div class="form-radio-switcher-wrapper">
-                <label class="label-switcher label-switcher-pre" for="callback_header_0">{{ text_off }}</label>
-                <div class="form-radio form-radio-inline form-radio-switcher">
-                    <input type="radio" name="settings[oxyo][callback_header]" value="0" {% if callback_header == '0' or callback_header is not defined %} checked="checked" {% endif %} id="callback_header_0" />
-                    <input type="radio" name="settings[oxyo][callback_header]" value="1" {% if callback_header == '1' %} checked="checked" {% endif %} id="callback_header_1" />
-                </div>
-                <label class="label-switcher label-switcher-post" for="callback_header_1">{{ text_on }}</label>
-            </div>
-        </div>
-    </div>
-</div>
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Main email</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: contact@hair.pro"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][main_email]" value="{{ main_email ? main_email : '' }}"/>
-        </div>
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Main address</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: 123456 Moscow, Never sleep, 1"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][main_address]" value="{{ main_address ? main_address : '' }}"/>
-        </div>
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Work hours</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: Ежедневно 10:00 - 20:00"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][working_hours]" value="{{ working_hours ? working_hours : '' }}"/>
-        </div>
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Instagram Link</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: https://www.instagram.com/aviasales/"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][instagram]" value="{{ instagram ? instagram : '' }}"/>
-        </div>
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">TikTok Link</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: https://www.tiktok.com/@aviasales/"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][tiktok]" value="{{ tiktok ? tiktok : '' }}"/>
-        </div>
-        <div class="form-group new-form-group">
-            <label class="new-title">
-                <span class="title">Avito Link</span>
-                <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="Example: https://www.avito.ru/brands/hairs/"></i>
-            </label>
-            <input class="form-control" name="settings[oxyo][avito]" value="{{ avito ? avito : '' }}"/>
-        </div>
+{% endfor %}

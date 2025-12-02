@@ -108,6 +108,8 @@ class ControllerExtensionOxyoOxyo extends Controller
         }
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+            // var_dump($this->request->post['settings']['oxyo']);
+            // exit;
             // Added to delete oxyo fonts from database when they are completely deleted
             if (empty($this->request->post['settings']['oxyo']['oxyo_fonts'])) {
                 $this->request->post['settings']['oxyo']['oxyo_fonts'] = array();
@@ -251,6 +253,9 @@ class ControllerExtensionOxyoOxyo extends Controller
 
         $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
+        // Informations for contact form
+        $this->load->model('catalog/information');
+        $data['informations'] = $this->model_catalog_information->getInformations();
 
         // Variables
         $codes = array();
@@ -291,21 +296,53 @@ class ControllerExtensionOxyoOxyo extends Controller
 
         $codes['oxyo'] = array(
             'main_phone',
-            'main_phone_header',
-            'whatsapp_phone',
-            'whatsapp_phone_header',
+            'header_main_phone',
+            'contact_main_phone',
+            'footer_main_phone',
+            'max',
+            'header_max',
+            'contact_max',
+            'footer_max',
+            'whatsapp',
+            'header_whatsapp',
+            'contact_whatsapp',
+            'footer_whatsapp',
             'telegram',
-            'telegram_header',
+            'header_telegram',
+            'contact_telegram',
+            'footer_telegram',
             'vkontakte',
-            'vkontakte_header',
+            'header_vkontakte',
+            'contact_vkontakte',
+            'footer_vkontakte',
             'callback',
-            'callback_header',
+            'header_callback',
+            'contact_callback',
+            'footer_callback',
             'main_email',
+            'header_main_email',
+            'contact_main_email',
+            'footer_main_email',
             'main_address',
+            'header_main_address',
+            'contact_main_address',
+            'footer_main_address',
             'working_hours',
-            'avito',
+            'header_working_hours',
+            'contact_working_hours',
+            'footer_working_hours',
             'instagram',
+            'header_instagram',
+            'contact_instagram',
+            'footer_instagram',
             'tiktok',
+            'header_tiktok',
+            'contact_tiktok',
+            'footer_tiktok',
+            'avito',
+            'header_avito',
+            'contact_avito',
+            'footer_avito',
             'oxyo_header',
             'use_custom_links',
             'oxyo_list_style',
@@ -362,10 +399,14 @@ class ControllerExtensionOxyoOxyo extends Controller
             'newlabel_status',
             'stock_badge_status',
             'salebadge_status',
+            'contact_form',
+            'contact_agree_status',
             'oxyo_map_style',
             'oxyo_map_lon',
             'oxyo_map_lat',
             'oxyo_map_api',
+            'oxyo_yandex_map',
+            'oxyo_yandex_scheme',
             'product_question_status',
             'questions_per_page',
             'questions_new_status',
@@ -669,6 +710,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         if (is_null($this->getConfig('oxyo_thumb_swap'))) $data['oxyo_thumb_swap'] = '1';
         if (is_null($this->getConfig('oxyo_price_update'))) $data['oxyo_price_update'] = '1';
         if (is_null($this->getConfig('oxyo_sharing_style'))) $data['oxyo_sharing_style'] = 'small';
+        if (is_null($this->getConfig('contact_form'))) $data['contact_form'] = '1';
 
         if (empty($data['oxyo_theme_version'])) {
             $data['theme_default_image_category_width'] = '335';

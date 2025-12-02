@@ -40,10 +40,62 @@
 	{% endfor %}
 </div>
 
-{# Footer links switcher #}
-<legend class="sub">{{ text_footer_links }}</legend>
+<legend class="sub">{{ text_footer_contacts }}</legend>
+{# Universal matrix: rows x columns with checkboxes #}
+{% set matrix_columns = [
+    {'key': 'main_phone',    'label': entry_main_phone},
+    {'key': 'max',           'label': entry_max},
+    {'key': 'whatsapp',      'label': entry_whatsapp},
+    {'key': 'telegram',      'label': entry_telegram},
+    {'key': 'vkontakte',     'label': entry_vkontakte},
+    {'key': 'callback',      'label': entry_callback},
+    {'key': 'main_email',    'label': entry_main_email},
+    {'key': 'main_address',  'label': entry_main_address},
+    {'key': 'working_hours', 'label': entry_working_hours},
+    {'key': 'instagram',     'label': entry_instagram},
+    {'key': 'tiktok',        'label': entry_tiktok},
+    {'key': 'avito',         'label': entry_avito}
+] %}
 
-<div class="form-group">
+{# Rows definition: where to show #}
+{% set matrix_rows = [
+    {'key': 'footer',  'label': text_show_in_footer}
+] %}
+
+<div class="matrix">
+    <div class="matrix-header">
+        <div class="matrix-header-cell"></div>
+        {% for col in matrix_columns %}
+            <div class="matrix-header-cell">{{ col.label }}</div>
+        {% endfor %}
+    </div>
+
+    {% for row in matrix_rows %}
+        <div class="matrix-row">
+            <div class="matrix-row-label">{{ row.label }}</div>
+            {% for col in matrix_columns %}
+                {# Build key like header_main_phone #}
+                {% set setting_key = row.key ~ '_' ~ col.key %}
+                {% set setting_value = attribute(_context, setting_key)|default(0) %}
+
+                <label class="matrix-cell">
+                    <span class="matrix-cell-label">{{ col.label }}</span>
+
+                    {# Hidden fallback value #}
+                    <input type="hidden" name="settings[oxyo][{{ setting_key }}]" value="0"/>
+
+                    {# Checkbox with 1 #}
+                    <input type="checkbox" name="settings[oxyo][{{ setting_key }}]" value="1" {% if setting_value %}checked="checked"{% endif %}/>
+                </label>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+{# Footer links switcher #}
+<!-- Hidden block -->
+<legend class="sub d-none hidden">{{ text_footer_links }}</legend>
+<div class="form-group d-none hidden">
 	<div class="col-sm-3">
 		<label class="control-label text-right p-0 w-100">
 			<span data-toggle="tooltip" title="{{ help_overwrite_footer_links }}">{{ entry_overwrite_footer_links }}</span>
@@ -79,7 +131,6 @@
 		</div>
 	</div>
 </div>
-
 <div id="custom_footer_links_holder" {% if overwrite_footer_links is defined and overwrite_footer_links == '1' %}style="display:block"{% else %}style="display:none"{% endif %}>
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>
@@ -237,6 +288,7 @@
 		</div>
 	</div>
 </div>
+<!-- End hidden block -->
 
 <div class="d-none__ hidden__">
 	<legend class="sub">{{ text_footer_custom_block_right }}</legend>
