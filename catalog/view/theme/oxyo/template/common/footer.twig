@@ -19,76 +19,48 @@
                             <div class="footer-column">
                                 <h5>{{ text_contact }}</h5>
 
-                                {% if contact_array is defined %}
-                                    <ul class="info-lines">
-                                        {% for contact in contact_array %}
-                                            {% if contact['name'] == 'main_address' %}
-                                                <li>
-                                                    <a href="{{ contact['link'] }}" class="contact-item info-line" target="_blank">
-                                                        {{ contact['value'] }}
-                                                        <i class="bi bi-sign-turn-slight-right d-none"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
 
-                                            {% if contact['name'] == 'working_hours' %}
-                                                <li>
-                                                    <p class="contact-item info-line">
-                                                        {% if contact['icon'] != '' %}
-                                                            {{ contact['icon'] }}
-                                                        {% elseif contact['icon_svg'] != '' %}
-                                                            {{ contact['icon_svg'] }}
-                                                        {% endif %}
-                                                        {{ contact['value'] }}
-                                                    </p>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
 
-                                        {% for contact in contact_array %}
-                                            {% if contact['name'] == 'main_phone' %}
-                                                <li>
-                                                    <a href="{{ contact['link'] }}" class="contact-item info-line" target="_blank">
-                                                        {% if contact['icon'] != '' %}
-                                                            {{ contact['icon'] }}
-                                                        {% elseif contact['icon_svg'] != '' %}
-                                                            {{ contact['icon_svg'] }}
-                                                        {% endif %}
-                                                        {{ contact['value'] }}
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
+{% if contact_array is defined %}
 
-                                        {% for contact in contact_array %}
-                                            {% if contact['name'] == 'callback' %}
-                                                <li>
-                                                    <a href="{{ contact['link'] }}" class="contact-item info-line" onclick="callBackShow(event);">
-                                                        {{ contact['icon_svg'] }} {{ contact['value'] }}
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
+    {% set footer_lines = ['main_address','working_hours','main_phone','main_email','callback'] %}
+    {% set footer_icons = ['max','whatsapp','telegram','vkontakte','avito','instagram','tiktok'] %}
 
-                                {% if contact_array is defined %}
-                                    <ul class="info-icons">
-                                        {% for contact in contact_array %}
-                                            {% if contact['name'] in ['whatsapp_phone', 'telegram', 'vkontakte', 'avito', 'instagram', 'tiktok'] %}
-                                                <li>
-                                                    <a href="{{ contact['link'] }}" class="contact-item info-icon" target="_blank">
-                                                        {% if contact['icon'] != '' %}
-                                                            {{ contact['icon'] }}
-                                                        {% elseif contact['icon_svg'] != '' %}
-                                                            {{ contact['icon_svg'] }}
-                                                        {% endif %}
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
+    <ul class="info-lines">
+        {% for contact in contact_array %}
+            {% set flags = contact.footer_flags|default({}) %}
+            {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
+            {% if show_contact and contact.name in footer_lines %}
+                <li class="{{ contact.footer_class|default('') }}">
+                    {% if contact.link %}
+                        <a href="{{ contact.link }}" class="contact-item info-line" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</a>
+                    {% else %}
+                        <span class="contact-item info-line" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</span>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <ul class="info-icons">
+        {% for contact in contact_array %}
+            {% set flags = contact.footer_flags|default({}) %}
+            {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
+            {% if show_contact and contact.name in footer_icons %}
+                <li class="{{ contact.footer_class|default('') }}">
+                    {% if contact.link %}
+                        <a href="{{ contact.link }}" class="contact-item info-icon" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</a>
+                    {% else %}
+                        <span class="contact-item info-icon" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</span>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+
 
                                 {% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '<p><br></p>' %}
                                     <h5>{{ footer_block_title }}</h5>

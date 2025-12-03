@@ -295,54 +295,6 @@ class ControllerExtensionOxyoOxyo extends Controller
         );
 
         $codes['oxyo'] = array(
-            'main_phone',
-            'header_main_phone',
-            'contact_main_phone',
-            'footer_main_phone',
-            'max',
-            'header_max',
-            'contact_max',
-            'footer_max',
-            'whatsapp',
-            'header_whatsapp',
-            'contact_whatsapp',
-            'footer_whatsapp',
-            'telegram',
-            'header_telegram',
-            'contact_telegram',
-            'footer_telegram',
-            'vkontakte',
-            'header_vkontakte',
-            'contact_vkontakte',
-            'footer_vkontakte',
-            'callback',
-            'header_callback',
-            'contact_callback',
-            'footer_callback',
-            'main_email',
-            'header_main_email',
-            'contact_main_email',
-            'footer_main_email',
-            'main_address',
-            'header_main_address',
-            'contact_main_address',
-            'footer_main_address',
-            'working_hours',
-            'header_working_hours',
-            'contact_working_hours',
-            'footer_working_hours',
-            'instagram',
-            'header_instagram',
-            'contact_instagram',
-            'footer_instagram',
-            'tiktok',
-            'header_tiktok',
-            'contact_tiktok',
-            'footer_tiktok',
-            'avito',
-            'header_avito',
-            'contact_avito',
-            'footer_avito',
             'oxyo_header',
             'use_custom_links',
             'oxyo_list_style',
@@ -546,6 +498,51 @@ class ControllerExtensionOxyoOxyo extends Controller
             'sticker_sale',
             'sticker_new',
         );
+
+
+
+        // Contacts
+        $contacts = array(
+            'main_phone',
+            'max',
+            'whatsapp',
+            'telegram',
+            'vkontakte',
+            'callback',
+            'main_email',
+            'main_address',
+            'working_hours',
+            'instagram',
+            'tiktok',
+            'avito'
+        );
+
+        $templates = array(
+            'header',
+            'footer',
+            'contact'
+        );
+
+        $display_points = array(
+            'xs',
+            'md',
+            'lg',
+            'xl'
+        );
+
+        foreach ($contacts as $contact) {
+            $codes['oxyo'][] = $contact;
+        }
+
+        foreach ($contacts as $contact) {
+            foreach ($templates as $template) {
+                foreach ($display_points as $point) {
+                    $codes['oxyo'][] = $contact . '_' . $template . '_' . $point;
+                }
+            }
+        }
+
+
 
         foreach ($codes as $code => $variables) {
             foreach ($variables as $variable) {

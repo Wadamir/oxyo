@@ -48,46 +48,42 @@
 									</svg>
 								</a>
 							</div>
-							{% if main_phone is defined and main_phone and main_phone_header %}
-								<div class="icon-element menu-element">
-									<a href="{{ main_phone_link }}" class="shortcut-wrapper" target="_blank">
-										<i class="bi bi-telephone"></i>
-										<span class="nowrap d-none">{{ main_phone }}</span>
-									</a>
-								</div>
-							{% endif %}
-                            {% if whatsapp_phone is defined and whatsapp_phone and whatsapp_phone_header %}
-                                <div class="icon-element menu-element">
-                                    <a href="{{ whatsapp_phone_link }}" class="shortcut-wrapper" target="_blank">
-                                        <i class="bi bi-whatsapp"></i>
-                                        <span class="nowrap d-none">{{ whatsapp_phone }}</span>
-                                    </a>
-                                </div>
-                            {% endif %}
-                            {% if telegram is defined and telegram and telegram_header %}
-                                <div class="icon-element menu-element d-none d-lg-block">
-                                    <a href="{{ telegram_link }}" class="shortcut-wrapper" target="_blank">
-                                        <i class="bi bi-telegram"></i>
-                                        <span class="nowrap d-none">{{ telegram }}</span>
-                                    </a>
-                                </div>
-                            {% endif %}
-                            {% if vkontakte is defined and vkontakte and vkontakte_header %}
-                                <div class="icon-element menu-element d-none d-md-block">
-                                    <a href="https://vk.com/{{ vkontakte_link }}" class="shortcut-wrapper" target="_blank">
-                                        {{ vkontakte_icon }}
-                                        <span class="nowrap d-none">{{ vkontakte }}</span>
-                                    </a>
-                                </div>
-                            {% endif %}
-                            {% if callback is defined and callback and callback_header %}
-                                <div class="icon-element menu-element callback_action d-none d-md-flex animate-text animate-splash">
-                                    <a href="{{ callback_link }}" class="shortcut-wrapper" onclick="callBackShow(event);">
-                                        {{ callback_icon_svg }}
-                                    </a>
-                                    <a href="#" onclick="callBackShow(event);" class="nowrap d-none d-xl-block animate-content">{{ callback_text }}</a>
-                                </div>
-                            {% endif %}
+
+
+
+{% for contact in contact_array %}
+
+    {# Determine if the contact should be displayed #}
+    {% set flags = contact.header_flags|default({}) %}
+    {% set show_contact =
+        contact.value
+        and (flags.xs or flags.md or flags.lg or flags.xl)
+    %}
+
+    {% if show_contact %}
+        <div class="{{ contact.header_class }}">
+            <a  href="{{ contact.link }}"
+                class="shortcut-wrapper"
+                {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}
+                {% if contact.link %}target="_blank"{% endif %}>
+
+                {% if contact.icon_svg %}
+                    {{ contact.icon_svg|raw }}
+                {% else %}
+                    {{ contact.icon|raw }}
+                {% endif %}
+
+                <span class="nowrap d-none{% if contact.name == 'callback' %} d-xl-block animate-content{% endif %}">
+                    {{ contact.value }}
+                </span>
+            </a>
+        </div>
+    {% endif %}
+
+{% endfor %}
+
+
+
 						</div>
 					</div>
 					<div class="col-4 logo text-center">

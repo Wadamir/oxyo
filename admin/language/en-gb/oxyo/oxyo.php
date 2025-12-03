@@ -28,6 +28,11 @@ $_['text_full_width']                       = 'Full Width';
 $_['text_boxed']                            = 'Boxed';
 $_['text_default']                          = 'Default';
 
+// Resolutions
+$_['text_show_xs']                          = '<768px';
+$_['text_show_md']                          = '≥768px';
+$_['text_show_lg']                          = '≥992px';
+$_['text_show_xl']                          = '≥1200px';
 
 
 // New vars - tabs

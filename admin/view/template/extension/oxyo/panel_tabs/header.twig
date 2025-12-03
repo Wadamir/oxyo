@@ -93,77 +93,67 @@
 
 
 <legend class="sub">{{ text_header_contacts }}</legend>
-{# Universal matrix: rows x columns with checkboxes #}
-{% set matrix_columns = [
+
+{# Rows #}
+{% set matrix_rows = [
     {'key': 'main_phone',    'label': entry_main_phone},
     {'key': 'max',           'label': entry_max},
-    {'key': 'whatsapp',      'label': entry_whatsapp},
+    {'key': 'whatsapp',      'label': entry_whatsapp},  
     {'key': 'telegram',      'label': entry_telegram},
     {'key': 'vkontakte',     'label': entry_vkontakte},
     {'key': 'callback',      'label': entry_callback},
     {'key': 'main_email',    'label': entry_main_email},
-    {'key': 'main_address',  'label': entry_main_address},
-    {'key': 'working_hours', 'label': entry_working_hours},
     {'key': 'instagram',     'label': entry_instagram},
     {'key': 'tiktok',        'label': entry_tiktok},
     {'key': 'avito',         'label': entry_avito}
 ] %}
 
-{# Rows definition: where to show #}
-{% set matrix_rows = [
-    {'key': 'header',  'label': text_show_in_header}
+{# Columns: where to show #}
+{% set matrix_columns = [
+    {'key': 'header_xs',  'label': text_show_xs},
+    {'key': 'header_md',  'label': text_show_md},
+    {'key': 'header_lg',  'label': text_show_lg},
+    {'key': 'header_xl',  'label': text_show_xl}
 ] %}
 
-{#
-{% set matrix_rows = [
-    {'key': 'header',  'label': text_show_in_header},
-    {'key': 'footer',  'label': text_show_in_footer},
-    {'key': 'contact', 'label': text_show_on_contact_page}
-] %}
-#}
-
-<div class="matrix">
-    <div class="matrix-header">
-        <div class="matrix-header-cell"></div>
-        {% for col in matrix_columns %}
-            <div class="matrix-header-cell">{{ col.label }}</div>
-        {% endfor %}
-    </div>
-
-    {% for row in matrix_rows %}
-        <div class="matrix-row">
-            <div class="matrix-row-label">{{ row.label }}</div>
+<table class="table table-bordered__ matrix-table">
+    <thead>
+        <tr>
+            <th></th>
             {% for col in matrix_columns %}
-                {# Build key like header_main_phone #}
-                {% set setting_key = row.key ~ '_' ~ col.key %}
-                {% set setting_value = attribute(_context, setting_key)|default(0) %}
-
-                <label class="matrix-cell">
-                    <span class="matrix-cell-label">{{ col.label }}</span>
-
-                    {# Hidden fallback value #}
-                    <input type="hidden" name="settings[oxyo][{{ setting_key }}]" value="0"/>
-
-                    {# Checkbox with 1 #}
-                    <input type="checkbox" name="settings[oxyo][{{ setting_key }}]" value="1" {% if setting_value %}checked="checked"{% endif %}/>
-                </label>
+                <th class="text-center">{{ col.label }}</th>
             {% endfor %}
-        </div>
-    {% endfor %}
-</div>
+        </tr>
+    </thead>
 
+    <tbody>
+        {% for row in matrix_rows %}
+            <tr>
+                <th scope="row">{{ row.label }}</th>
+
+                {% for col in matrix_columns %}
+                    {% set setting_key = row.key ~ '_' ~ col.key %}
+                    {% set setting_value = attribute(_context, setting_key)|default(0) %}
+
+                    <td class="text-center">
+                        <input type="hidden" name="settings[oxyo][{{ setting_key }}]" value="0" />
+                        <input type="checkbox" name="settings[oxyo][{{ setting_key }}]" value="1" {% if setting_value %}checked="checked"{% endif %} />
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 
 
 <legend class="sub">{{ text_logo }}</legend>
-
 <div class="form-group">
 	<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_logo_max_width }}">{{ entry_logo_max_width }}</span></label>
 	<div class="col-sm-10"><input class="form-control" name="settings[oxyo][logo_maxwidth]" value="{{ logo_maxwidth ? logo_maxwidth : '250' }}" /></div>
 </div>
 
 <legend class="sub">{{ text_menu_area }}</legend>
-
 <div class="form-group">
 	<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_menu_alignment }}">{{ entry_menu_alignment }}</span></label>
 	<div class="col-sm-10">

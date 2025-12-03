@@ -717,3 +717,7 @@ legend.third {
     }
 }
 */
+
+.matrix-table {
+    max-width: 600px;
+}
