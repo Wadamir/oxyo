@@ -12,9 +12,9 @@ $_['text_back']                      = 'Назад';
 
 // Contact icons
 $_['text_callback']                 = 'Обратный звонок';
+$_['text_directions']               = 'схема проезда';
 
 // Callback Form
-$_['text_directions']               = 'схема проезда';
 $_['text_callback_title']           = 'Заказать обратный звонок';
 $_['text_callback_name']            = 'Ваше имя';
 $_['text_callback_email']           = 'Ваш email';
@@ -41,34 +41,36 @@ $_['text_callback_surname']         = 'Ваша фамилия';
 $_['text_callback_spam_success']    = 'Спасибо за ваше сообщение. Мы свяжемся с вами в ближайшее время.';
 
 
-// Страница товара
+// Product Page
 $_['oxyo_text_share']                = 'Поделиться';
 
-// Модуль списка категорий
+// Category Listings Module
 $_['oxyo_text_products']             = ' Товаров';
 $_['oxyo_text_view_products']        = 'Показать товары';
 
-// Быстрый просмотр
+// Quickview
 $_['oxyo_button_quickview']          = 'Быстрый просмотр';
 $_['oxyo_text_view_details']         = 'Подробнее';
 $_['oxyo_text_select_option']        = 'Выберите опции';
 
-// Живой поиск
+// Live Search
 $_['oxyo_text_search']               = 'Поиск';
 $_['oxyo_text_view_all']             = 'Показать все результаты';
 $_['oxyo_text_no_result']            = 'Ничего не найдено';
 $_['oxyo_text_category']             = 'Все категории';
 
-// Форма обратной связи
+// Contact Form
 $_['oxyo_text_name']                 = 'Ваше имя';
 $_['oxyo_text_email']                = 'Ваш Email';
 $_['oxyo_text_message']              = 'Ваше сообщение';
+$_['oxyo_text_agree']                = 'Нажимая на кнопку "Отправить сообщение", Вы соглашаетесь с <a href="%s" class="inline-accent-link" target="_blank">%s</a>';
 $_['oxyo_text_captcha']              = 'Ответьте на вопрос ниже';
 $_['oxyo_text_submit']               = 'Отправить сообщение';
 $_['oxyo_error_name']                = 'Имя должно содержать от 2 до 30 символов';
 $_['oxyo_error_email']               = 'Некорректный или отсутствующий email';
 $_['oxyo_error_message']             = 'Сообщение отсутствует';
 $_['oxyo_error_captcha']             = 'Неправильный ответ на проверочный вопрос';
+$_['oxyo_error_agreement']           = 'Вы должны согласиться с %s';
 $_['oxyo_text_success_form']         = 'Спасибо! Ваше сообщение отправлено.';
 $_['oxyo_email_subject']             = 'Новое сообщение от %';
 

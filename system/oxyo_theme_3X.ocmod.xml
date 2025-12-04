@@ -313,24 +313,33 @@
         <operation error="log">
             <search><![CDATA[$data['store'] = $this->config->get('config_name');]]></search>
             <add position="before"><![CDATA[
-            $data['main_email'] = $this->config->get('config_email');
+                // Oxyo Features
+                if ($this->config->get('theme_default_directory') == 'oxyo') {
+                    include(DIR_APPLICATION . 'controller/extension/oxyo/contact_helper.php');
+                }
+            ]]></add>            
+        </operation>
+        <operation error="log">
+            <search><![CDATA[
+                return !$this->error;
+            ]]></search>
+            <add position="before"><![CDATA[
+                // Oxyo Features - Agree check
+                if ($this->config->get('theme_default_directory') == 'oxyo') {
+                    $contact_agree_status = $this->config->get('contact_agree_status');
+                    if ($contact_agree_status) {
+                        $this->load->model('catalog/information');
+                        $information_info = $this->model_catalog_information->getInformation($contact_agree_status);
+                        if ($information_info) {
+                            $contact_agree_title = $information_info['title'];
+                        }
 
-            $data['contact_form'] = $this->config->get('oxyo_contact_form');
-            $data['contact_agree_status'] = $this->config->get('oxyo_contact_agree_status');
-
-            $data['oxyo_map_style'] = $this->config->get('oxyo_map_style');
-            $data['oxyo_map_lat'] = $this->config->get('oxyo_map_lat');
-            $data['oxyo_map_lon'] = $this->config->get('oxyo_map_lon');
-
-            $data['oxyo_yandex_map'] = $this->config->get('oxyo_yandex_map');
-            $data['oxyo_yandex_scheme'] = $this->config->get('oxyo_yandex_scheme');
-            $this->load->language('oxyo/oxyo_theme');
-            $data['text_directions'] = $this->language->get('text_directions');
-
-            if ($this->config->get('oxyo_map_style')) {
-                $this->document->addScript('https://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.24&key=' . $this->config->get('oxyo_map_api') . '');
-                $this->document->addScript('catalog/view/theme/oxyo/js/maplace.min.js');
-            }
+                        if (!isset($this->request->post['agreement'])) {
+                            $this->language->load('oxyo/oxyo_theme');
+                            $this->error['agreement'] = sprintf($this->language->get('oxyo_error_agreement'), $contact_agree_title);
+                        }                      
+                    }                
+                }
             ]]></add>
         </operation>
     </file>

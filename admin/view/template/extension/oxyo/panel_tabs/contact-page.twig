@@ -1,34 +1,5 @@
 <legend>{{ text_contact_page }}</legend>
 
-<legend class="sub">{{ text_contact_form }}</legend>
-<div class="form-field new-form-group radio-switcher">
-	<p class="radio-switcher-title">
-        <span class="title">{{entry_form_status}}</span>
-    </p>
-	<div class="form-radio-switcher-wrapper">
-		<label class="label-switcher label-switcher-pre" for="contact_form_0">{{ text_off }}</label>
-		<div class="form-radio form-radio-inline form-radio-switcher">
-            <input type="radio" name="settings[oxyo][contact_form]" value="0" {% if contact_form == '0' %} checked="checked" {% endif %} id="contact_form_0" />
-            <input type="radio" name="settings[oxyo][contact_form]" value="1" {% if contact_form == '1' %} checked="checked" {% endif %} id="contact_form_1" />
-		</div>
-		<label class="label-switcher label-switcher-post" for="contact_form_1">{{ text_on }}</label>
-	</div>
-</div>
-
-<div class="form-group new-form-group">
-    <label class="new-title">{{ entry_agree_title }}</label>
-    <select name="settings[oxyo][contact_agree_status]" class="form-control">
-        <option value="0">{{ text_disabled }}</option>
-        {% for information in informations %}
-            {% if information.information_id == contact_agree_status %}
-                <option value="{{ information.information_id }}" selected="selected">{{ information.title }}</option>
-            {% else %}
-                <option value="{{ information.information_id }}">{{ information.title }}</option>
-            {% endif %}
-        {% endfor %}
-    </select>
-</div>
-
 
 
 <legend class="sub">{{ text_contact_contacts }}</legend>
@@ -86,6 +57,37 @@
         {% endfor %}
     </tbody>
 </table>
+
+
+
+<legend class="sub">{{ text_contact_form }}</legend>
+<div class="form-field new-form-group radio-switcher">
+	<p class="radio-switcher-title">
+        <span class="title">{{entry_form_status}}</span>
+    </p>
+	<div class="form-radio-switcher-wrapper">
+		<label class="label-switcher label-switcher-pre" for="contact_form_0">{{ text_off }}</label>
+		<div class="form-radio form-radio-inline form-radio-switcher">
+            <input type="radio" name="settings[oxyo][contact_form]" value="0" {% if contact_form == '0' %} checked="checked" {% endif %} id="contact_form_0" />
+            <input type="radio" name="settings[oxyo][contact_form]" value="1" {% if contact_form == '1' %} checked="checked" {% endif %} id="contact_form_1" />
+		</div>
+		<label class="label-switcher label-switcher-post" for="contact_form_1">{{ text_on }}</label>
+	</div>
+</div>
+
+<div class="form-group new-form-group">
+    <label class="new-title">{{ entry_agree_title }}</label>
+    <select name="settings[oxyo][contact_agree_status]" class="form-control">
+        <option value="0">{{ text_disabled }}</option>
+        {% for information in informations %}
+            {% if information.information_id == contact_agree_status %}
+                <option value="{{ information.information_id }}" selected="selected">{{ information.title }}</option>
+            {% else %}
+                <option value="{{ information.information_id }}">{{ information.title }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
 
 
 
