@@ -83,6 +83,9 @@ $_['entry_main_email_tooltip']              = 'Example: contact@hair.pro';
 $_['entry_main_address']                    = 'Main address';
 $_['entry_main_address_tooltip']            = 'Example: 123456 Moscow, Never sleep, 1';
 
+$_['entry_directions']                      = 'Directions link';
+$_['entry_directions_tooltip']              = 'Example: https://yandex.ru/maps/-/CLW2qKKe';
+
 $_['entry_working_hours']                   = 'Working hours';
 $_['entry_working_hours_tooltip']           = 'Example: Mon–Fri 9:00–18:00';
 
@@ -127,22 +130,6 @@ $_['text_desktop_view']                     = 'Desktop View';
 $_['text_mobile_view']                      = 'Mobile View';
 $_['text_sticky_header']                    = 'Sticky Header';
 $_['help_sticky_header']                    = 'Keep the header fixed on top of the page when scrolling';
-
-// Header contacts
-$_['text_header_contacts']                  = 'Header Contacts';
-$_['entry_main_phone']                      = 'Main Phone';
-$_['entry_max']                             = 'Max Messenger';
-$_['entry_whatsapp']                        = 'Whatsapp';
-$_['entry_telegram']                        = 'Telegram';
-$_['entry_vkontakte']                       = 'Vkontakte';
-$_['entry_callback']                        = 'Callback';
-$_['entry_main_email']                      = 'Main Email';
-$_['entry_main_address']                    = 'Main Address';
-$_['entry_main_address_tooltip']            = 'Example: 123456 Moscow, Never sleep, 1';
-$_['entry_working_hours']                   = 'Working Hours';
-$_['entry_instagram']                       = 'Instagram';
-$_['entry_tiktok']                          = 'TikTok';
-$_['entry_avito']                           = 'Avito';
 
 // Logo
 $_['text_logo']                             = 'Logo';

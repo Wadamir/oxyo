@@ -511,6 +511,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'callback',
             'main_email',
             'main_address',
+            'directions',
             'working_hours',
             'instagram',
             'tiktok',

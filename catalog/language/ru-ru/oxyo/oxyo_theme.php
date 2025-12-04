@@ -11,10 +11,10 @@ $_['oxyo_text_secs']                 = 'Сек';
 $_['text_back']                      = 'Назад';
 
 // Contact icons
-$_['callback_text']                 = 'Обратный звонок';
+$_['text_callback']                 = 'Обратный звонок';
 
 // Callback Form
-$_['text_directions']               = 'как добраться';
+$_['text_directions']               = 'схема проезда';
 $_['text_callback_title']           = 'Заказать обратный звонок';
 $_['text_callback_name']            = 'Ваше имя';
 $_['text_callback_email']           = 'Ваш email';

@@ -78,6 +78,9 @@ $_['entry_main_email_tooltip']              = 'Пример: contact@hair.pro';
 $_['entry_main_address']                    = 'Основной адрес';
 $_['entry_main_address_tooltip']            = 'Пример: 123456 Москва, Сметанный пер., д.1';
 
+$_['entry_directions']                      = 'Схема проезда';
+$_['entry_directions_tooltip']              = 'Пример: https://yandex.ru/maps/-/CLW2qKKe';
+
 $_['entry_working_hours']                   = 'Часы работы';
 $_['entry_working_hours_tooltip']           = 'Пример: Пн–Пт 9:00–18:00';
 
@@ -122,22 +125,6 @@ $_['text_desktop_view']                     = 'Десктопное отобра
 $_['text_mobile_view']                      = 'Мобильное отображение';
 $_['text_sticky_header']                    = 'Прилипшая шапка';
 $_['help_sticky_header']                    = 'Шапка остаётся закреплённой при прокрутке страницы';
-
-// Header contacts
-$_['text_header_contacts']                  = 'Контакты в шапке';
-$_['entry_main_phone']                      = 'Основной телефон';
-$_['entry_max']                             = 'Max';
-$_['entry_whatsapp']                        = 'Whatsapp';
-$_['entry_telegram']                        = 'Telegram';
-$_['entry_vkontakte']                       = 'Vkontakte';
-$_['entry_callback']                        = 'Обратный звонок';
-$_['entry_main_email']                      = 'Основной email';
-$_['entry_main_address']                    = 'Основной адрес';
-$_['entry_main_address_tooltip']            = 'Пример: 123456 Москва, ул. Чехова, 1';
-$_['entry_working_hours']                   = 'Часы работы';
-$_['entry_instagram']                       = 'Instagram';
-$_['entry_tiktok']                          = 'TikTok';
-$_['entry_avito']                           = 'Avito';
 
 // Logo
 $_['text_logo']                             = 'Логотип';

@@ -11,7 +11,7 @@ $_['oxyo_text_secs']                 = 'Sec';
 $_['text_back']                      = 'Back';
 
 // Contact icons
-$_['callback_text']                 = 'Callback';
+$_['text_callback']                 = 'Callback';
 
 // Callback Form
 $_['text_callback_title']           = 'Request a Callback';

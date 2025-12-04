@@ -277,10 +277,19 @@ $contact_array = array();
 $contacts_config = array(
     'main_address' => array(
         'config_key'    => 'main_address',
-        'icon'          => '<i class="bi bi-geo-alt"></i>',
+        'icon'          => '',
         'icon_svg'      => '',
-        'link_type'     => 'yandex_map',
+        'link_type'     => '',
         'onclick'       => '',
+    ),
+    'directions' => array(
+        'config_key'        => 'oxyo_yandex_scheme',
+        'icon'              => '',
+        'icon_svg'          => '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-pin-map" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/> <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg>',
+        'link_type'         => 'yandex_map',
+        'onclick'           => '',
+        'use_language_text' => true,
+        'language_key'      => 'text_directions',
     ),
     'working_hours' => array(
         'config_key'    => 'working_hours',
@@ -304,13 +313,13 @@ $contacts_config = array(
         'onclick'       => '',
     ),
     'callback' => array(
-        'config_key'         => 'callback',
-        'icon'               => '',
-        'icon_svg'           => '<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 16 16" fill="currentColor"><path d="M10 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM6 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"></path><path d="M8 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2M1.599 4.058a.5.5 0 0 1 .208.676A7 7 0 0 0 1 8c0 1.18.292 2.292.807 3.266a.5.5 0 0 1-.884.468A8 8 0 0 1 0 8c0-1.347.334-2.619.923-3.734a.5.5 0 0 1 .676-.208m12.802 0a.5.5 0 0 1 .676.208A8 8 0 0 1 16 8a8 8 0 0 1-.923 3.734.5.5 0 0 1-.884-.468A7 7 0 0 0 15 8c0-1.18-.292-2.292-.807-3.266a.5.5 0 0 1 .208-.676M3.057 5.534a.5.5 0 0 1 .284.648A5 5 0 0 0 3 8c0 .642.12 1.255.34 1.818a.5.5 0 1 1-.93.364A6 6 0 0 1 2 8c0-.769.145-1.505.41-2.182a.5.5 0 0 1 .647-.284m9.886 0a.5.5 0 0 1 .648.284C13.855 6.495 14 7.231 14 8s-.145 1.505-.41 2.182a.5.5 0 0 1-.93-.364C12.88 9.255 13 8.642 13 8s-.12-1.255-.34-1.818a.5.5 0 0 1 .283-.648"></path></svg>',
+        'config_key'        => 'callback',
+        'icon'              => '',
+        'icon_svg'          => '<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 16 16" fill="currentColor"><path d="M10 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM6 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"></path><path d="M8 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2M1.599 4.058a.5.5 0 0 1 .208.676A7 7 0 0 0 1 8c0 1.18.292 2.292.807 3.266a.5.5 0 0 1-.884.468A8 8 0 0 1 0 8c0-1.347.334-2.619.923-3.734a.5.5 0 0 1 .676-.208m12.802 0a.5.5 0 0 1 .676.208A8 8 0 0 1 16 8a8 8 0 0 1-.923 3.734.5.5 0 0 1-.884-.468A7 7 0 0 0 15 8c0-1.18-.292-2.292-.807-3.266a.5.5 0 0 1 .208-.676M3.057 5.534a.5.5 0 0 1 .284.648A5 5 0 0 0 3 8c0 .642.12 1.255.34 1.818a.5.5 0 1 1-.93.364A6 6 0 0 1 2 8c0-.769.145-1.505.41-2.182a.5.5 0 0 1 .647-.284m9.886 0a.5.5 0 0 1 .648.284C13.855 6.495 14 7.231 14 8s-.145 1.505-.41 2.182a.5.5 0 0 1-.93-.364C12.88 9.255 13 8.642 13 8s-.12-1.255-.34-1.818a.5.5 0 0 1 .283-.648"></path></svg>',
         'link_type'         => 'callback',
         'onclick'           => 'callBackShow(event);',
         'use_language_text' => true,
-        'language_key'      => 'callback_text',
+        'language_key'      => 'text_callback',
     ),
     'max' => array(
         'config_key'    => 'max',
@@ -387,7 +396,7 @@ foreach ($contacts_config as $name => $cfg) {
 
     // For items using language text instead of config value
     if (!empty($cfg['use_language_text'])) {
-        $lang_key = !empty($cfg['language_key']) ? $cfg['language_key'] : $name . '_text';
+        $lang_key = !empty($cfg['language_key']) ? $cfg['language_key'] : 'text_' . $name;
         $value    = $this->language->get($lang_key);
         $data[$lang_key] = $value; // backward compatibility
     }
