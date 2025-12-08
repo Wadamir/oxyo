@@ -9924,7 +9924,7 @@ a.label-link:not(:hover) {
     }
 
     .information-contact.map-full_width .right-side {
-        padding-left: 0;
+        padding: 0;
     }
 }
 
@@ -9971,11 +9971,12 @@ a.label-link:not(:hover) {
 
     .information-contact .yandex-map-container.full_width {
         position: absolute;
+        width: 50%;
     }
 
     .information-contact .yandex-map-container.full_width > iframe {
         position: relative;
-        width: calc(50vw - 1px);
+        width: 100%;
     }
 }
 
