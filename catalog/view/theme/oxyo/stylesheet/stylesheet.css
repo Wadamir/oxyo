@@ -9797,8 +9797,8 @@ a.label-link:not(:hover) {
 }
 
 /* Contact page */
-.information-contact #content #page-title {
-    /* display: none; */
+.information-contact.map-full_width .links-holder {
+    max-width: 50%;
 }
 
 .information-contact .info-line {
@@ -9909,6 +9909,11 @@ a.label-link:not(:hover) {
     border-color: var(--primary-white-100, #fcfcfc);
 }
 
+.information-contact .left-side,
+.information-contact .right-side {
+    padding-bottom: 30px;
+}
+
 @media (min-width: 768px) {
     .information-contact .left-side {
         padding-right: 30px;
@@ -9916,6 +9921,10 @@ a.label-link:not(:hover) {
 
     .information-contact .right-side {
         padding-left: 30px;
+    }
+
+    .information-contact.map-full_width .right-side {
+        padding-left: 0;
     }
 }
 
@@ -9945,8 +9954,29 @@ a.label-link:not(:hover) {
     line-height: 38px;
 }
 
+.information-contact .yandex-map-container {
+    position: relative;
+}
+
 .information-contact .yandex-map-container > iframe {
-    min-height: 550px;
+    min-height: 400px;
+    max-height: 50vh;
+}
+
+@media (min-width: 768px) {
+    .information-contact .yandex-map-container > iframe {
+        min-height: 450px;
+        max-height: none;
+    }
+
+    .information-contact .yandex-map-container.full_width {
+        position: absolute;
+    }
+
+    .information-contact .yandex-map-container.full_width > iframe {
+        position: relative;
+        width: calc(50vw - 8px);
+    }
 }
 
 /* Widgets */

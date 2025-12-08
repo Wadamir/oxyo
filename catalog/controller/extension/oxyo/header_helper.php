@@ -381,6 +381,13 @@ if ($this->config->get('oxyo_main_layout')) $data['oxyo_body_class'] .= ' boxed-
 if ($this->config->get('oxyo_content_width')) $data['oxyo_body_class'] .= ' ' . $this->config->get('oxyo_content_width');
 if ($this->config->get('oxyo_widget_title_style')) $data['oxyo_body_class'] .= ' widget-title-style' . $this->config->get('oxyo_widget_title_style');
 
+// Contact page map style
+if ($this->request->get['route'] == 'information/contact') {
+    if ($this->config->get('oxyo_map_style')) {
+        $data['oxyo_body_class'] .= ' map-' . $this->config->get('oxyo_map_style');
+    }
+}
+
 // Title styles
 if (isset($this->request->get['route'])) {
     $route = (string)$this->request->get['route'];

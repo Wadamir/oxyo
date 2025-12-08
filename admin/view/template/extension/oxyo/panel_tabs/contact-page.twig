@@ -60,6 +60,49 @@
 
 
 
+<div>
+	<legend class="sub">{{ text_contact_custom_block }}</legend>
+    <br />
+
+	<ul class="nav nav-tabs language-tabs">
+		{% for language in languages %}
+            <li>
+                <a href="#contact-block-language{{ language.language_id }}" data-toggle="tab">
+                    <img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/>
+                    {{ language.name }}
+                </a>
+            </li>
+		{% endfor %}
+	</ul>
+
+	<div class="tab-content">
+		{% for language in languages %}
+            <div class="tab-pane" id="contact-block-language{{ language.language_id }}">
+                <div>{{ text_contact_custom_block_tooltip }}</div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{ entry_heading }}</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" name="settings[oxyo][contact_block_title][{{ language.language_id }}]" value="{{ contact_block_title[language.language_id] ? contact_block_title[language.language_id] }}" />
+                    </div>
+                </div>
+
+                <div>
+                    <a class="editor-toggle btn btn-primary" id="enable-editor-contact-block-{{ language.language_id }}" onclick="enable_editor('contact-block','{{ language.language_id }}')">{{ text_enable_editor }}</a>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <textarea id="editor-textarea-contact-block-{{ language.language_id }}" name="settings[oxyo][contact_block][{{ language.language_id }}]" class="form-control code">{{ contact_block[language.language_id] ? contact_block[language.language_id] }}</textarea>
+                    </div>
+                </div>
+            </div>
+		{% endfor %}
+	</div>
+</div>
+
+
+
 <legend class="sub">{{ text_contact_form }}</legend>
 <div class="form-field new-form-group radio-switcher">
 	<p class="radio-switcher-title">

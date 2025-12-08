@@ -91,6 +91,18 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    {% if contact_block_title or contact_block %}
+                        <div class="contact-custom-block my-3">
+                            {% if contact_block_title %}
+                                <h3 class="lined-title"><span>{{ contact_block_title }}</span></h3>
+                            {% endif %}
+                            {% if contact_block %}
+                                <div class="custom-block-content">
+                                    {{ contact_block|raw }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                     {% if contact_form %}
                         {{ contact_form_wrapper|raw }}
                             <h3 class="lined-title d-none hidden"><span><b>{{ text_contact }}</b></span></h3>
@@ -135,7 +147,7 @@
 
                                 {{ captcha }}
 
-                                <div class="form-group margin-b50">
+                                <div class="form-group m-0">
                                     <input class="btn btn-contrast" type="submit" value="{{ button_submit }}">
                                 </div>
                             </form>
@@ -261,34 +273,58 @@ $(document).ready(function() {
 document.addEventListener('DOMContentLoaded', function () {
 
     function resizeYandexIframe() {
-        var left = document.querySelector('.left-side');
-        var iframe = document.querySelector('.yandex-map-container iframe');
+        var breadcrumbHolder = document.querySelector('.breadcrumb-holder');
+        var leftSide = document.querySelector('.left-side');
+        var yandexMapContainer = document.querySelector('.yandex-map-container');
+        var iframe = yandexMapContainer ? yandexMapContainer.querySelector('iframe') : null;
 
-        if (!left || !iframe) {
+        if (!breadcrumbHolder || !leftSide || !yandexMapContainer || !iframe) {
             return;
         }
 
-        // Remember current height (если вдруг надо откатиться)
+        let mapStyle = '';
+        if (yandexMapContainer.classList.contains('full_width')) {
+            mapStyle = 'full_width';
+        } else if (yandexMapContainer.classList.contains('inline')) {
+            mapStyle = 'inline';
+        }
+        console.log('Map style: ' + mapStyle);
+
+        // Remember current height 
         var oldHeight = iframe.style.height;
 
         // Temporarily collapse iframe so it does not affect row height
         iframe.style.height = '0px';
 
         // Force reflow and get "clean" left-side height
-        var leftHeight = left.offsetHeight;
+        var leftHeight = leftSide.offsetHeight;
+        console.log('Left height: ' + leftHeight);
 
-        // Set iframe height to left column height (fallback — старое значение или 720)
-        if (leftHeight > 0) {
-            iframe.style.height = leftHeight + 'px';
-        } else {
-            iframe.style.height = oldHeight || '720px';
+        if (mapStyle === 'inline') {            
+            // Set iframe height to left column height
+            if (leftHeight > 0) {
+                iframe.style.height = leftHeight - 30 + 'px';
+            } else {
+                iframe.style.height = oldHeight || '720px';
+            }
+        } else if (mapStyle === 'full_width') {
+            // Get breadcrumb height    
+            var breadcrumbHeight = breadcrumbHolder.offsetHeight;
+            // Set iframe height to viewport height plus breadcrumb height
+            if (leftHeight > 0) {
+                iframe.style.height =  leftHeight + breadcrumbHeight + 'px';
+                iframe.style.top = '-' + breadcrumbHeight + 'px';
+            } else {
+                iframe.style.height = oldHeight || '720px';
+            }
         }
+
     }
 
     // Initial
     resizeYandexIframe();
 
-    // After full load (картинки, шрифты и т.д.)
+    // After full load (images, fonts, etc.)
     window.addEventListener('load', resizeYandexIframe);
 
     // On resize

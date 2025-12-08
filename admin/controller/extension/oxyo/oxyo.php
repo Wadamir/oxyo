@@ -351,6 +351,8 @@ class ControllerExtensionOxyoOxyo extends Controller
             'newlabel_status',
             'stock_badge_status',
             'salebadge_status',
+            'contact_block_title',
+            'contact_block',
             'contact_form',
             'contact_agree_status',
             'oxyo_map_style',

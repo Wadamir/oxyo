@@ -7,6 +7,11 @@ $data['text_directions'] = $this->language->get('text_directions');
 
 $data['main_email'] = $this->config->get('config_email');
 
+$contact_block_title = $this->config->get('contact_block_title');
+$contact_block = $this->config->get('contact_block');
+$data['contact_block_title'] = isset($contact_block_title[$lang_id]) ? $contact_block_title[$lang_id] : '';
+$data['contact_block'] = isset($contact_block[$lang_id]) ? html_entity_decode($contact_block[$lang_id]) : '';
+
 $data['contact_form'] = $this->config->get('contact_form');
 $contact_agree_status = $this->config->get('contact_agree_status');
 if ($contact_agree_status) {
