@@ -9975,7 +9975,7 @@ a.label-link:not(:hover) {
 
     .information-contact .yandex-map-container.full_width > iframe {
         position: relative;
-        width: calc(50vw - 8px);
+        width: calc(50vw - 1px);
     }
 }
 

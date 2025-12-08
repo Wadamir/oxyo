@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Set iframe height to viewport height plus breadcrumb height
             if (leftHeight > 0) {
                 iframe.style.height =  leftHeight + breadcrumbHeight + 'px';
-                iframe.style.top = '-' + breadcrumbHeight + 'px';
+                iframe.style.top = '-' + (breadcrumbHeight + 1) + 'px';
             } else {
                 iframe.style.height = oldHeight || '720px';
             }
