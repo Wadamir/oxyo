@@ -382,7 +382,7 @@ if ($this->config->get('oxyo_content_width')) $data['oxyo_body_class'] .= ' ' . 
 if ($this->config->get('oxyo_widget_title_style')) $data['oxyo_body_class'] .= ' widget-title-style' . $this->config->get('oxyo_widget_title_style');
 
 // Contact page map style
-if ($this->request->get['route'] == 'information/contact') {
+if (isset($this->request->get['route']) && $this->request->get['route'] == 'information/contact') {
     if ($this->config->get('oxyo_map_style')) {
         $data['oxyo_body_class'] .= ' map-' . $this->config->get('oxyo_map_style');
     }
