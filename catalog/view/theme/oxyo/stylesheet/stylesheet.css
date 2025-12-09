@@ -1872,6 +1872,8 @@ div.required .control-label:after {
     background: var(--primary-white-100, #fcfcfc);
     color: #222222;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+
     visibility: hidden;
     opacity: 0;
     transition:
