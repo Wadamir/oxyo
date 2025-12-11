@@ -382,3 +382,7 @@ ul.child-menu .label {
 .table #product-list > tr > td {
     position: relative;
 }
+
+.popover-content .img-thumbnail {
+    max-width: none;
+}
