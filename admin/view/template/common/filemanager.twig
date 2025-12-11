@@ -80,6 +80,7 @@
 	</div>
 </div>
 <script>
+    {#
     {% if target %}
         $('a.thumbnail').on('click', function(e) {
             e.preventDefault();
@@ -93,7 +94,7 @@
             $('#modal-image').modal('hide');
         });
     {% endif %}
-    {#
+    #}    
 	{% if target %}
         $('a.thumbnail').on('click', function (e) {
             e.preventDefault();
@@ -132,7 +133,6 @@
             $('#modal-image').modal('hide');
         });
 	{% endif %}
-    #}
 
 	$('a.directory').on('click', function (e) {
 		e.preventDefault();
