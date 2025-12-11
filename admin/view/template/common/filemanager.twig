@@ -108,7 +108,7 @@
                     if (type === 'video') {
                         $('#{{ thumb|escape('js') }}').html('<video width="100%" height="auto" controls autoplay muted loop><source src="' + src + '" type="video/' + src.split('.').pop() + '">Your browser does not support the video tag.</video>');
                     } else {
-                        $('#{{ thumb|escape('js') }}').html('<img src="' + src + '" alt="' + title + '" title="' + title + '"/>');
+                        $('#{{ thumb|escape('js') }}').find('img').attr('src', $(this).find('img').attr('src'));
                     }
                 }
             {% endif %}
