@@ -8568,18 +8568,21 @@ select.form-select {
     display: block;
 }
 
+.image-additional .link > video,
 .image-additional .link > img {
     width: 100%;
     border-radius: 0;
 }
 
 @media (min-width: 768px) {
+    .image-additional .link > video,
     .image-additional .link > img {
         border-radius: 6px;
     }
 }
 
 @media (min-width: 992px) {
+    .image-additional .link.active > video,
     .image-additional .link.active > img {
         display: block;
         outline: 2px solid var(--text-accent-color, #e61f80);
