@@ -79,6 +79,7 @@
 
                     {% if is_button_apply or is_button_clear %}
                     <div>
+                        {#
                         <table width="100%" class="digitalElephantFilter_btn">
                             <tr>
                                 {% if is_button_apply and is_button_clear %}
@@ -91,6 +92,17 @@
                                 {% endif %}
                             </tr>
                         </table>
+                        #}
+                        <div class="digitalElephantFilter_btn">
+                            {% if is_button_clear %}
+                                <input type="reset" id="digitalElephantFilter_button_clear" class="btn btn-md btn-outline" value="{{ text_clear }}"/>
+                            {% endif %}
+                            {% if is_button_apply %}
+                                <input type="button" id="digitalElephantFilter_button_apply" class="btn btn-md btn-contrast" value="{{ text_ok }}"/>
+                            {% elseif is_button_apply_991 %}
+                                <input type="button" id="digitalElephantFilter_button_apply" class="btn btn-md btn-contrast d-lg-none w-100" value="{{ text_ok }}"/>
+                            {% endif %}
+                        </div>
                     </div>
                     {% endif %}
                     
@@ -135,6 +147,7 @@
                         isQuantityProducts: '{{ JS_config['state']['isQuantityProducts'] }}'
                     },
                     isButtonApply: '{{ JS_config['isButtonApply'] }}',
+                    isButtonApply991: '{{ JS_config['isButtonApply991'] }}',
                     preloaderClass: '{{ JS_config['preloaderClass'] }}'
                 };
             </script>

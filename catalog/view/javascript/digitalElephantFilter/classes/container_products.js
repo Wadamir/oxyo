@@ -23,7 +23,6 @@ function DigitalElephantFilterContainerProducts() {
     this.holdId = 'hold-container-products';
 
     this.ajaxGetProducts = function ($_GET_string, isClickToShowMore) {
-
         this.url.changeUrlAddress($_GET_string);
         this.beforeProductsUpload($_GET_string, isClickToShowMore);
 
@@ -31,10 +30,14 @@ function DigitalElephantFilterContainerProducts() {
 
         var $this = this;
         $.ajax({
-            url: filterAction + $_GET_string + '&path=' + this.config.categoryPath,
+            url:
+                filterAction +
+                $_GET_string +
+                '&path=' +
+                this.config.categoryPath,
             dataType: 'HTML',
             success: function (html) {
-                console.log('Products uploaded', $(html).find($this.selector).html());
+                // console.log('Products uploaded', $(html).find($this.selector).html());
                 var productsContent = $(html).find($this.selector).html();
 
                 if (productsContent) {
@@ -46,10 +49,12 @@ function DigitalElephantFilterContainerProducts() {
                         $this.slideToTop();
                     }
                 } else {
-                    $($this.selector).html('<p>' + $this.config.text.productNotFound + '</p>');
+                    $($this.selector).html(
+                        '<p>' + $this.config.text.productNotFound + '</p>',
+                    );
                 }
                 $this.afterProductsUpload($_GET_string, isClickToShowMore);
-            }
+            },
         });
     };
 
@@ -70,7 +75,6 @@ function DigitalElephantFilterContainerProducts() {
         this.limit.holdOn();
         this.sort.holdOn();
 
-
         //synchronized
         this.sync.preloaderOn();
     };
@@ -89,7 +93,11 @@ function DigitalElephantFilterContainerProducts() {
         }
 
         if (this.quantityProducts.isset()) {
-            this.quantityProducts.render($_GET_string, isClickToShowMore, this.buttonShowMore.getCountClick());
+            this.quantityProducts.render(
+                $_GET_string,
+                isClickToShowMore,
+                this.buttonShowMore.getCountClick(),
+            );
         }
 
         //synchronized
@@ -97,13 +105,13 @@ function DigitalElephantFilterContainerProducts() {
         this.syncAfterProductsUpload(isClickToShowMore);
 
         // Oxyo
-        $('.product-style2 .single-product .icon').attr('data-placement', 'top');
-
-
+        $('.product-style2 .single-product .icon').attr(
+            'data-placement',
+            'top',
+        );
     };
 
     this.syncAfterProductsUpload = function (isClickToShowMore) {
-
         var $this = this;
         var intervalId = setInterval(function () {
             if ($this.sync.isSyncCompleted(isClickToShowMore)) {
@@ -123,15 +131,16 @@ function DigitalElephantFilterContainerProducts() {
                 }
 
                 if ($this.quantityProducts.isset()) {
-                    $this.helper.smoothAppearance($this.quantityProducts.selector);
+                    $this.helper.smoothAppearance(
+                        $this.quantityProducts.selector,
+                    );
                 }
             }
         }, 200);
 
         // Oxyo
         $('.oxyo-spinner.ajax-call').remove();
-        $('[data-toggle=\'tooltip\']').tooltip('hide');
-
+        $("[data-toggle='tooltip']").tooltip('hide');
     };
 
     this.preloaderOn = function () {
@@ -139,11 +148,16 @@ function DigitalElephantFilterContainerProducts() {
         $('body').append('<span class="oxyo-spinner ajax-call"></span>');
 
         if (!$('div').is('#' + this.preloaderId)) {
-            $(this.selector).append('<div class="row" id="' + this.preloaderId + '">' +
-                '<div><i class="' + this.config.preloaderClass + '"></i></div>' +
-                '</div>');
+            $(this.selector).append(
+                '<div class="row" id="' +
+                    this.preloaderId +
+                    '">' +
+                    '<div><i class="' +
+                    this.config.preloaderClass +
+                    '"></i></div>' +
+                    '</div>',
+            );
         }
-
     };
 
     this.preloaderOff = function () {
@@ -151,7 +165,9 @@ function DigitalElephantFilterContainerProducts() {
     };
 
     this.holdOn = function () {
-        $(this.selector).append('<div id="' + this.holdId + '" class="hold-on"></div>');
+        $(this.selector).append(
+            '<div id="' + this.holdId + '" class="hold-on"></div>',
+        );
         $('#' + this.holdId).css('height', $(this.selector).height() + 'px');
     };
 
@@ -163,7 +179,7 @@ function DigitalElephantFilterContainerProducts() {
         var topProductWrap = $(this.selector).offset().top;
         // $('html, body').animate({ scrollTop: topProductWrap - 130 }, '1200');
         // Scroll to top of body
-        $('html, body').animate({ scrollTop: 0}, '1200');
+        $('html, body').animate({ scrollTop: 0 }, '1200');
     };
 }
 

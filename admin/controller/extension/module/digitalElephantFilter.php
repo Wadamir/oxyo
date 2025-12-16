@@ -9,15 +9,15 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
     public function index()
     {
 
-		if ((float)VERSION >= 3.0) {
-		$token_prefix = 'user_token';
-		$modules_url = 'marketplace/extension';
-		} else {
-		$token_prefix = 'token';
-		$modules_url = 'extension/extension';
-		}
-		
-		$this->document->addStyle('view/javascript/oxyo/oxyo_panel.css');
+        if ((float)VERSION >= 3.0) {
+            $token_prefix = 'user_token';
+            $modules_url = 'marketplace/extension';
+        } else {
+            $token_prefix = 'token';
+            $modules_url = 'extension/extension';
+        }
+
+        $this->document->addStyle('view/javascript/oxyo/oxyo_panel.css');
 
         $this->loadModel();
         $this->loadLanguage();
@@ -26,7 +26,11 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
 
         $this->edit();
 
-        $data = $this->getText();
+        $data = array();
+
+        // $data = $this->getText();
+        $this->load->language('extension/module/digitalElephantFilter');
+        $data = array_merge($data, $this->language->all());
 
         $data += $this->getError();
 
@@ -48,7 +52,6 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
         $data['breadcrumbs'] = $this->getBreadcrumbs();
 
         $this->response->setOutput($this->load->view('extension/module/digitalElephantFilter', $data));
-
     }
 
 
@@ -65,10 +68,10 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
         //sort output data
         $packages[] = $manufacturers;
         $packages[] = $categories;
-		$packages[] = $options;
+        $packages[] = $options;
         $packages[] = $attributes;
-		
-		return $packages;
+
+        return $packages;
     }
 
     private function getPackagesSort()
@@ -97,17 +100,17 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
 
     private function edit()
     {
-		
-		if ((float)VERSION >= 3.0) {
-		$token_prefix = 'user_token';
-		$modules_url = 'marketplace/extension';
-		$module_key_name = 'module_digitalElephantFilter';
-		} else {
-		$token_prefix = 'token';
-		$modules_url = 'extension/extension';
-		$module_key_name = 'digitalElephantFilter';
-		}
-		
+
+        if ((float)VERSION >= 3.0) {
+            $token_prefix = 'user_token';
+            $modules_url = 'marketplace/extension';
+            $module_key_name = 'module_digitalElephantFilter';
+        } else {
+            $token_prefix = 'token';
+            $modules_url = 'extension/extension';
+            $module_key_name = 'digitalElephantFilter';
+        }
+
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 
             $data_to_setting = [
@@ -120,9 +123,8 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
             $this->session->data['success'] = $this->language->get('text_success');
 
             if (!empty($this->request->post['save_out'])) {
-                
-                    $this->response->redirect($this->url->link($modules_url, $token_prefix . '=' . $this->session->data[$token_prefix] . '&type=module', true));
-               
+
+                $this->response->redirect($this->url->link($modules_url, $token_prefix . '=' . $this->session->data[$token_prefix] . '&type=module', true));
             }
         }
     }
@@ -202,7 +204,7 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
             );
         }
 
-//        var_dump($attributes);
+        //        var_dump($attributes);
 
         return $data;
     }
@@ -221,75 +223,75 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
         return !$this->error;
     }
 
-    protected function getText()
-    {
-        $data = array();
-        $data['heading_title'] = $this->language->get('heading_title');
+    // protected function getText()
+    // {
+    //     $data = array();
+    //     $data['heading_title'] = $this->language->get('heading_title');
 
-        $data['text_edit'] = $this->language->get('text_edit');
-        $data['text_enabled'] = $this->language->get('text_enabled');
-        $data['text_disabled'] = $this->language->get('text_disabled');
-        $data['text_setting_name'] = $this->language->get('text_setting_name');
+    //     $data['text_edit'] = $this->language->get('text_edit');
+    //     $data['text_enabled'] = $this->language->get('text_enabled');
+    //     $data['text_disabled'] = $this->language->get('text_disabled');
+    //     $data['text_setting_name'] = $this->language->get('text_setting_name');
 
-        $data['entry_name'] = $this->language->get('entry_name');
-        $data['entry_image'] = $this->language->get('entry_image');
-        $data['entry_limit'] = $this->language->get('entry_limit');
-        $data['entry_width'] = $this->language->get('entry_width');
-        $data['entry_height'] = $this->language->get('entry_height');
-        $data['entry_status'] = $this->language->get('entry_status');
+    //     $data['entry_name'] = $this->language->get('entry_name');
+    //     $data['entry_image'] = $this->language->get('entry_image');
+    //     $data['entry_limit'] = $this->language->get('entry_limit');
+    //     $data['entry_width'] = $this->language->get('entry_width');
+    //     $data['entry_height'] = $this->language->get('entry_height');
+    //     $data['entry_status'] = $this->language->get('entry_status');
 
-        $data['button_save'] = $this->language->get('button_save');
-        $data['button_save_and_cancel'] = $this->language->get('button_save_and_cancel');
-        $data['button_cancel'] = $this->language->get('button_cancel');
+    //     $data['button_save'] = $this->language->get('button_save');
+    //     $data['button_save_and_cancel'] = $this->language->get('button_save_and_cancel');
+    //     $data['button_cancel'] = $this->language->get('button_cancel');
 
-        $data['text_enabled'] = $this->language->get('text_enabled');
-        $data['text_disabled'] = $this->language->get('text_disabled');
+    //     $data['text_enabled'] = $this->language->get('text_enabled');
+    //     $data['text_disabled'] = $this->language->get('text_disabled');
 
-        $data['text_manufacturer'] = $this->language->get('text_manufacturer');
-        $data['text_categories'] = $this->language->get('text_categories');
-        $data['text_checked'] = $this->language->get('text_checked');
-        $data['text_visible'] = $this->language->get('text_visible');
-        $data['text_selector_container_products'] = $this->language->get('text_selector_container_products');
-        $data['text_selector_pagination'] = $this->language->get('text_selector_pagination');
-        $data['text_selector_quantity_products'] = $this->language->get('text_selector_quantity_products');
-        $data['text_selector_limit'] = $this->language->get('text_selector_limit');
-        $data['text_selector_sort'] = $this->language->get('text_selector_sort');
-        $data['text_filter_price'] = $this->language->get('text_filter_price');
+    //     $data['text_manufacturer'] = $this->language->get('text_manufacturer');
+    //     $data['text_categories'] = $this->language->get('text_categories');
+    //     $data['text_checked'] = $this->language->get('text_checked');
+    //     $data['text_visible'] = $this->language->get('text_visible');
+    //     $data['text_selector_container_products'] = $this->language->get('text_selector_container_products');
+    //     $data['text_selector_pagination'] = $this->language->get('text_selector_pagination');
+    //     $data['text_selector_quantity_products'] = $this->language->get('text_selector_quantity_products');
+    //     $data['text_selector_limit'] = $this->language->get('text_selector_limit');
+    //     $data['text_selector_sort'] = $this->language->get('text_selector_sort');
+    //     $data['text_filter_price'] = $this->language->get('text_filter_price');
 
-        $data['text_tab_filter_panel'] = $this->language->get('text_tab_filter_panel');
-        $data['text_tab_filter_panel_advanced'] = $this->language->get('text_tab_filter_panel_advanced');
-        $data['text_tab_selector'] = $this->language->get('text_tab_selector');
-        $data['text_tab_sort'] = $this->language->get('text_tab_sort');
-        $data['text_tab_other'] = $this->language->get('text_tab_other');
-        $data['text_tab_label'] = $this->language->get('text_tab_label');
-        $data['text_tab_cache'] = $this->language->get('text_tab_cache');
+    //     $data['text_tab_filter_panel'] = $this->language->get('text_tab_filter_panel');
+    //     $data['text_tab_filter_panel_advanced'] = $this->language->get('text_tab_filter_panel_advanced');
+    //     $data['text_tab_selector'] = $this->language->get('text_tab_selector');
+    //     $data['text_tab_sort'] = $this->language->get('text_tab_sort');
+    //     $data['text_tab_other'] = $this->language->get('text_tab_other');
+    //     $data['text_tab_label'] = $this->language->get('text_tab_label');
+    //     $data['text_tab_cache'] = $this->language->get('text_tab_cache');
 
-        $data['text_state_pagination'] = $this->language->get('text_state_pagination');
-        $data['text_state_show_more'] = $this->language->get('text_state_show_more');
-        $data['text_state_quantity_products'] = $this->language->get('text_state_quantity_products');
+    //     $data['text_state_pagination'] = $this->language->get('text_state_pagination');
+    //     $data['text_state_show_more'] = $this->language->get('text_state_show_more');
+    //     $data['text_state_quantity_products'] = $this->language->get('text_state_quantity_products');
 
-        $data['text_choose_preloader'] = $this->language->get('text_choose_preloader');
+    //     $data['text_choose_preloader'] = $this->language->get('text_choose_preloader');
 
-        $data['text_type'] = $this->language->get('text_type');
-        $data['text_hide'] = $this->language->get('text_hide');
-        $data['text_close'] = $this->language->get('text_close');
-        $data['text_sort'] = $this->language->get('text_sort');
+    //     $data['text_type'] = $this->language->get('text_type');
+    //     $data['text_hide'] = $this->language->get('text_hide');
+    //     $data['text_close'] = $this->language->get('text_close');
+    //     $data['text_sort'] = $this->language->get('text_sort');
 
-        $data['text_on_button_apply'] = $this->language->get('text_on_button_apply');
-        $data['text_on_button_clear'] = $this->language->get('text_on_button_clear');
-        $data['text_on_group_attributes'] = $this->language->get('text_on_group_attributes');
-        $data['text_on_seo_keywords'] = $this->language->get('text_on_seo_keywords');
-        $data['text_on_display_totals'] = $this->language->get('text_on_display_totals');
+    //     $data['text_on_button_apply'] = $this->language->get('text_on_button_apply');
+    //     $data['text_on_button_clear'] = $this->language->get('text_on_button_clear');
+    //     $data['text_on_group_attributes'] = $this->language->get('text_on_group_attributes');
+    //     $data['text_on_seo_keywords'] = $this->language->get('text_on_seo_keywords');
+    //     $data['text_on_display_totals'] = $this->language->get('text_on_display_totals');
 
-        $data['text_cache_isset'] = $this->language->get('text_cache_isset');
-        $data['text_cache_token'] = $this->language->get('text_cache_token');
-        $data['text_cache_update'] = $this->language->get('text_cache_update');
-        $data['text_cache_clear'] = $this->language->get('text_cache_clear');
+    //     $data['text_cache_isset'] = $this->language->get('text_cache_isset');
+    //     $data['text_cache_token'] = $this->language->get('text_cache_token');
+    //     $data['text_cache_update'] = $this->language->get('text_cache_update');
+    //     $data['text_cache_clear'] = $this->language->get('text_cache_clear');
 
-        $data['text_section_sort'] = $this->language->get('text_section_sort');
+    //     $data['text_section_sort'] = $this->language->get('text_section_sort');
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
     private function getListTypesSort()
     {
@@ -301,15 +303,15 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
 
     private function getBreadcrumbs()
     {
-		
-		if ((float)VERSION >= 3.0) {
-		$token_prefix = 'user_token';
-		$modules_url = 'marketplace/extension';
-		} else {
-		$token_prefix = 'token';
-		$modules_url = 'extension/extension';
-		}
-	
+
+        if ((float)VERSION >= 3.0) {
+            $token_prefix = 'user_token';
+            $modules_url = 'marketplace/extension';
+        } else {
+            $token_prefix = 'token';
+            $modules_url = 'extension/extension';
+        }
+
         $data = array();
 
         $data['breadcrumbs'] = array();
@@ -349,13 +351,13 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
         } else {
             $data['error_warning'] = '';
         }
-		
-		if (isset($this->session->data['success'])) {
-			$data['success'] = $this->session->data['success'];
-			unset($this->session->data['success']);
-		} else {
-			$data['success'] = '';
-		}
+
+        if (isset($this->session->data['success'])) {
+            $data['success'] = $this->session->data['success'];
+            unset($this->session->data['success']);
+        } else {
+            $data['success'] = '';
+        }
 
         if (isset($this->error['selector_container_products'])) {
             $data['error_selector_container_products'] = $this->error['selector_container_products'];
@@ -369,13 +371,13 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
     private function getLinks()
     {
 
-		if ((float)VERSION >= 3.0) {
-		$token_prefix = 'user_token';
-		$modules_url = 'marketplace/extension';
-		} else {
-		$token_prefix = 'token';
-		$modules_url = 'extension/extension';
-		}
+        if ((float)VERSION >= 3.0) {
+            $token_prefix = 'user_token';
+            $modules_url = 'marketplace/extension';
+        } else {
+            $token_prefix = 'token';
+            $modules_url = 'extension/extension';
+        }
 
         $data = array();
 
@@ -396,13 +398,13 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
 
     private function getSettingData()
     {
-	
-		if ((float)VERSION >= 3.0) {
-		$module_key_name = 'module_digitalElephantFilter';
-		} else {
-		$module_key_name = 'digitalElephantFilter';
-		}
-	
+
+        if ((float)VERSION >= 3.0) {
+            $module_key_name = 'module_digitalElephantFilter';
+        } else {
+            $module_key_name = 'digitalElephantFilter';
+        }
+
         $data = [];
 
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
@@ -430,7 +432,10 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
         if (!isset($module_info['DEF_settings']) && $default_settings['is_display_total']) {
             $data['DEF_settings']['is_display_total'] = $default_settings['is_display_total'];
         }
-		if (!isset($module_info['DEF_settings']) && $default_settings['is_button_apply']) {
+        if (!isset($module_info['DEF_settings']) && $default_settings['is_button_apply_991']) {
+            $data['DEF_settings']['is_button_apply_991'] = $default_settings['is_button_apply_991'];
+        }
+        if (!isset($module_info['DEF_settings']) && $default_settings['is_button_apply']) {
             $data['DEF_settings']['is_button_apply'] = $default_settings['is_button_apply'];
         }
         if (!isset($module_info['DEF_settings']) && $default_settings['is_button_clear']) {
@@ -512,14 +517,13 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
             foreach (glob($next) as $file) {
                 // Add the file to the files to be deleted array
                 if (is_file($file)) {
-					
-					if ((float)VERSION >= 3.0) {
-						preg_match('/\/module\/digitalElephantFilter\/(.*)\.twig$/', $file, $matches);
-					
-					} else {
-					  	preg_match('/\/module\/digitalElephantFilter\/(.*)\.tpl$/', $file, $matches);      
-					}
-                    
+
+                    if ((float)VERSION >= 3.0) {
+                        preg_match('/\/module\/digitalElephantFilter\/(.*)\.twig$/', $file, $matches);
+                    } else {
+                        preg_match('/\/module\/digitalElephantFilter\/(.*)\.tpl$/', $file, $matches);
+                    }
+
                     if (isset($matches[1]))
                         $templates[] = $matches[1];
                 }
@@ -563,10 +567,7 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
 
     private function getDefaultSettings()
     {
-
-       
         $preloader_type = 'spinner_fast';
-      
 
         return [
             'sort' => 'Sort',
@@ -582,7 +583,8 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
                 'sort' => '#input-sort',
             ],
             'is_display_total' => true,
-			'is_button_apply' => false,
+            'is_button_apply_991' => false,
+            'is_button_apply' => false,
             'is_button_clear' => true,
             'is_group_attributes' => true,
             'state' => [

@@ -234,7 +234,7 @@ body {
 }
 
 @media (min-width: 1200px) {
-    body.sticky-active {
+    body.sticky-active:not(.common-home) {
         padding-top: 150px;
     }
 }
@@ -3095,6 +3095,7 @@ div.required .control-label:after {
 /* Sub content */
 .main-menu .dropdown-content {
     background-repeat: no-repeat;
+    border-radius: 0;
 }
 
 .main-menu .dropdown-inner {
@@ -10571,6 +10572,17 @@ a.label-link:not(:hover) {
 
 #digitalElephantFilter_box .digitalElephantFilter_btn td {
     padding: 0px;
+}
+
+#digitalElephantFilter_box .digitalElephantFilter_btn {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
 }
 
 #digitalElephantFilter_box input.btn {

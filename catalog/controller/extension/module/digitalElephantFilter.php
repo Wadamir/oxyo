@@ -2,7 +2,7 @@
 
 /**
  * Created by PhpStorm.
- * User: Денис
+ * User: Digital Elephant
  * Date: 9/23/2016
  * Time: 2:35 PM
  *

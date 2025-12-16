@@ -34,7 +34,11 @@ if ($this->config->get('theme_default_directory') == 'oxyo') {
     }
 }
 
-// Datas
+
+// Stylesheet version for cache busting
+$data['stylesheet_version'] = filemtime(DIR_APPLICATION . 'view/theme/oxyo/stylesheet/stylesheet.css');
+
+// Data for Oxyo Header
 $data['oxyo_header'] = $this->config->get('oxyo_header');
 $promo_message = $this->config->get('oxyo_promo');
 $promo_message2 = $this->config->get('oxyo_promo2');

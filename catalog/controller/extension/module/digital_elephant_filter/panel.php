@@ -68,6 +68,7 @@ class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
 
         $data['JS_config'] = $this->getJSConfig($setting);
 
+        $data['is_button_apply_991'] = $this->isButtonApply991($setting);
         $data['is_button_apply'] = $this->isButtonApply($setting);
         $data['is_button_clear'] = $this->isButtonClear($setting);
         $data['is_show_group_attributes'] = $this->isShowGroupAttributes($setting);
@@ -134,6 +135,7 @@ class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
                 'isQuantityProducts' => (isset($setting['DEF_settings']['state']['is_quantity_products'])),
             ],
             'isButtonApply' => $this->isButtonApply($setting),
+            'isButtonApply991' => $this->isButtonApply991($setting),
             'preloaderClass' => $this->getPreloaderClass($setting),
         ];
     }
@@ -226,6 +228,11 @@ class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
         }
 
         return $this->storageFilterPrice;
+    }
+
+    protected function isButtonApply991($setting)
+    {
+        return (isset($setting['DEF_settings']['is_button_apply_991']));
     }
 
     protected function isButtonApply($setting)

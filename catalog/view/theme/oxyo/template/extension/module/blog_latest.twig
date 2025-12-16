@@ -116,8 +116,6 @@
             ]
         });
 
-        $("[data-toggle='tooltip']").tooltip();
-
         {% if carousel_a and rows > 1 %}
             $(document).ready(function () {
                 var c_o = $('.module{{ module }}').offset().top;
@@ -148,5 +146,6 @@
         const imgHolders = document.querySelectorAll('.img-holder');
         const videoHolders = document.querySelectorAll('.video-holder');
         
+        $("[data-toggle='tooltip']").tooltip();
     });
 </script>
