@@ -13523,6 +13523,58 @@ ul.sitemap > li > ul > li > ul > li > a {
     }
 }
 
+/*** plyr overrides ***/
+.plyr--video .plyr__controls {
+    margin: 0;
+    padding: 0;
+
+    background: none;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    transform: none;
+}
+
+.plyr--video.plyr--hide-controls .plyr__controls {
+    transform: none;
+    pointer-events: initial;
+}
+
+.plyr__controls .plyr__controls__item:first-child {
+    margin: 0 auto;
+    background: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.plyr__controls .plyr__controls__item::after {
+    width: 48px;
+    height: 48px;
+    background-color: #e61f80;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-53%, -50%);
+    z-index: -1;
+    border-radius: 50%;
+    opacity: 0.75;
+}
+
 /* Collapse only on mobile */
 
 .dropdown_mobile ul {

@@ -2024,7 +2024,7 @@
                     if (!evt.touches) {
                         return;
                     }
-                    var ignoreDragFor = ['a', 'button', 'input'];
+                    var ignoreDragFor = ['a', 'input'];
                     if (
                         evt.target &&
                         evt.target.nodeName &&
@@ -2864,6 +2864,7 @@
             touchEnd: function touchEnd(e) {
                 console.log('touch end');
 
+                // console.log('process=', process);
                 if (!process) {
                     return;
                 }
@@ -2872,9 +2873,19 @@
                     endCoords = e.changedTouches[0];
                 }
 
+                var duration = Date.now() - tapStartTime;
+                console.log('duration=', duration);
+                console.log('nodetYpe=', e.target.nodeName.toLowerCase());
+                if (
+                    duration <= TAP_MAX_DURATION &&
+                    e.target.nodeName.toLowerCase() == 'button'
+                ) {
+                    e.target.click();
+                    return;
+                }
+
                 // Tap detection (single-finger short touch with small move)
                 if (!doingZoom && !imageZoomed && mediaImage && currentSlide) {
-                    var duration = Date.now() - tapStartTime;
                     var dx = Math.abs(endCoords.pageX - tapStartX);
                     var dy = Math.abs(endCoords.pageY - tapStartY);
 
