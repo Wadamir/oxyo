@@ -2876,15 +2876,42 @@
                 var duration = Date.now() - tapStartTime;
                 console.log('duration=', duration);
                 console.log('nodetYpe=', e.target.nodeName.toLowerCase());
+
                 if (
                     duration <= TAP_MAX_DURATION &&
-                    e.target.nodeName.toLowerCase() == 'button'
+                    e.target.nodeName.toLowerCase() == 'button' &&
+                    e.target.classList.contains('plyr__control')
                 ) {
-                    // prevent popping buttons inside the lightbox
-                    e.target.click();
-                    // prevent bubbling to other handlers
+                    // Ищем ближайший gvideo-wrapper с data-id
+                    const videoWrapper = e.target.closest('.gvideo-wrapper');
+                    if (videoWrapper) {
+                        const videoId = videoWrapper.getAttribute('data-id');
+                        const videoElement = document.getElementById(videoId);
+
+                        if (videoElement && videoElement.plyr) {
+                            const plyrInstance = videoElement.plyr;
+                            console.log('plyrInstance=', plyrInstance);
+
+                            plyrInstance.togglePlay();
+                            console.log(
+                                'Plyr toggled:',
+                                plyrInstance.playing ? 'playing' : 'paused',
+                            );
+                        } else {
+                            console.log(
+                                'Plyr not found on video element:',
+                                videoId,
+                            );
+                        }
+                    }
+
+                    e.preventDefault();
                     e.stopPropagation();
                     doingMove = false;
+                    window.glightboxProcessingTouch = true;
+                    setTimeout(() => {
+                        window.glightboxProcessingTouch = false;
+                    }, 400);
                     return;
                 }
 
