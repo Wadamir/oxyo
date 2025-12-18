@@ -2880,7 +2880,11 @@
                     duration <= TAP_MAX_DURATION &&
                     e.target.nodeName.toLowerCase() == 'button'
                 ) {
+                    // prevent popping buttons inside the lightbox
                     e.target.click();
+                    // prevent bubbling to other handlers
+                    e.stopPropagation();
+                    doingMove = false;
                     return;
                 }
 
