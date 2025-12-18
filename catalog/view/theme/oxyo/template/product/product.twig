@@ -1508,8 +1508,21 @@
 
             const elements = buildElements();
 
+            const plyrConfig = {
+                config: {
+                    ratio: '9:16',
+                    muted: true,
+                    autoplay: true,
+                    hideControls: true,
+                    controls: [],
+                    disableContextMenu: false,
+                    loop: { active: true }
+                }
+            };
+
             glightboxInstance = GLightbox({
                 elements: elements,
+                plyr: plyrConfig,
                 autoplayVideos: true,
                 zoomable: true,
                 loop: true,

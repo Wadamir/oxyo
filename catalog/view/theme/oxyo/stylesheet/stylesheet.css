@@ -13369,13 +13369,13 @@ ul.sitemap > li > ul > li > ul > li > a {
 .glightbox-container .gslide-description {
     display: none !important;
 }
-*/
+
 .gslide-media > img,
 .gslide-media > video {
     border-radius: 24px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
-/*
+
 .glightbox-container .gslide-video video {
     max-height: 100%;
     height: 100%;
@@ -13438,9 +13438,12 @@ ul.sitemap > li > ul > li > ul > li > a {
 }
 
 .glightbox-thumbs button {
-    border: 0;
-    background: transparent;
     padding: 0;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: #bbbbbb;
     cursor: pointer;
     flex: 0 0 auto;
 
@@ -13455,19 +13458,24 @@ ul.sitemap > li > ul > li > ul > li > a {
     width: auto;
 
     object-fit: cover;
+    border: none;
     border-radius: 6px;
     opacity: 1;
+    /*
     transition:
         opacity 0.2s ease,
         transform 0.2s ease,
         outline-color 0.2s;
     outline: 2px solid transparent;
+    */
 }
 
 .glightbox-thumbs button.is-active img {
     opacity: 1;
-    outline-color: #fff;
-    transform: translateY(-2px);
+    /* outline-color: #fff; */
+    /* transform: translateY(-2px); */
+    outline: 2px solid var(--text-accent-color, #e61f80);
+    outline-offset: -2px;
 }
 
 /* Make room for thumbs bar in the lightbox layout */
@@ -13483,7 +13491,8 @@ ul.sitemap > li > ul > li > ul > li > a {
 
 .gslide .gslide-image img.zoomable {
     /* cursor: auto; */
-    height: calc(100% - 24px);
+    /* height: calc(100% - 24px); */
+    height: 100%;
 }
 
 .glightbox-container .gslide {
