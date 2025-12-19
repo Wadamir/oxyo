@@ -1283,6 +1283,24 @@
             );
             player.on('enterfullscreen', handleMediaFullScreen);
             player.on('exitfullscreen', handleMediaFullScreen);
+            player.on('pause', function () {
+                console.log('video paused');
+                console.log('plyr instance', player);
+                removeClass(slide, 'gvideo-playing');
+                addClass(slide, 'gvideo-paused');
+                setTimeout(function () {
+                    removeClass(slide, 'gvideo-paused');
+                }, 500);
+            });
+            player.on('play', function () {
+                console.log('video playing');
+                console.log('plyr instance', player);
+                removeClass(slide, 'gvideo-paused');
+                addClass(slide, 'gvideo-playing');
+                setTimeout(function () {
+                    removeClass(slide, 'gvideo-playing');
+                }, 500);
+            });
         });
     }
     function handleMediaFullScreen(event) {
