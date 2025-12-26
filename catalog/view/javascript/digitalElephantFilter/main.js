@@ -82,18 +82,9 @@ $(function () {
 });
 
 function setFilterButtons(DEFController) {
-    if (DEFController.config.isButtonApply) {
-        console.log('apply filter on button click');
-        $(document).on(
-            'click',
-            DEFController.filterPanel.selectorButtonApply,
-            function () {
-                DEFController.changeFilterData();
-            },
-        );
-    } else if (
-        DEFController.config.isButtonApply991 &&
-        $(window).width() < 992
+    if (
+        DEFController.config.isButtonApply ||
+        (DEFController.config.isButtonApply991 && $(window).width() < 992)
     ) {
         console.log('apply filter on button click < 992px');
         $(document).on(
