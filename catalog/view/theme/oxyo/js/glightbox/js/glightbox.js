@@ -2622,6 +2622,8 @@
     // }
 
     function touchNavigation(instance) {
+        var eventDataBlock = document.getElementById('event-data');
+
         if (instance.events.hasOwnProperty('touch')) {
             return false;
         }
@@ -2669,6 +2671,7 @@
         var touchInstance = new TouchEvents(sliderWrapper, {
             touchStart: function touchStart(e) {
                 console.log('touch start');
+                eventDataBlock.innerHTML = 'touch start';
 
                 process = true;
 
@@ -2732,6 +2735,7 @@
 
             touchMove: function touchMove(e) {
                 console.log('touch move');
+                eventDataBlock.innerHTML = 'touch move';
 
                 if (!process) {
                     return;
@@ -2881,6 +2885,7 @@
 
             touchEnd: function touchEnd(e) {
                 console.log('touch end');
+                eventDataBlock.innerHTML = 'touch end';
 
                 // console.log('process=', process);
                 if (!process) {
@@ -3003,17 +3008,26 @@
             },
 
             multipointEnd: function multipointEnd() {
+                console.log('multipointEnd');
+                eventDataBlock.innerHTML = 'multipointEnd';
+
                 setTimeout(function () {
                     doingZoom = false;
                 }, 50);
             },
 
             multipointStart: function multipointStart() {
+                console.log('multipointStart');
+                eventDataBlock.innerHTML = 'multipointStart';
+
                 doingZoom = true;
                 initScale = currentScale ? currentScale : 1;
             },
 
             pinch: function pinch(evt) {
+                console.log('pinch');
+                eventDataBlock.innerHTML = 'pinch';
+
                 if (!mediaImage || doingMove) {
                     return false;
                 }
@@ -3040,6 +3054,9 @@
             },
 
             pressMove: function pressMove(e) {
+                console.log('pressMove');
+                eventDataBlock.innerHTML = 'pressMove';
+
                 if (imageZoomed && !doingZoom) {
                     var mhDistance = endCoords.pageX - startCoords.pageX;
                     var mvDistance = endCoords.pageY - startCoords.pageY;
@@ -3070,6 +3087,9 @@
             },
 
             swipe: function swipe(evt) {
+                console.log('swipe');
+                eventDataBlock.innerHTML = 'swipe';
+
                 if (imageZoomed) {
                     return;
                 }
