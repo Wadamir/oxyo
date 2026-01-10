@@ -2665,6 +2665,15 @@
         var TAP_MAX_DURATION = 250; // ms
         var TAP_MAX_MOVE = 10; // px
 
+        // --- Double tap detection state ---
+        var lastTapTime = 0;
+        var lastTapX = 0;
+        var lastTapY = 0;
+
+        var DOUBLE_TAP_MAX_DELAY = 280;
+        var DOUBLE_TAP_MAX_DIST = 25;
+        // --- Tap detection state end ---
+
         var sliderWrapper = document.getElementById('glightbox-slider');
         var overlay = document.querySelector('.goverlay');
 
@@ -2883,129 +2892,129 @@
             //     }
             // },
 
-            touchEnd: function touchEnd(e) {
-                console.log('touch end');
-                eventDataBlock.innerHTML = 'touch end';
+            // touchEnd: function touchEnd(e) {
+            //     console.log('touch end');
+            //     eventDataBlock.innerHTML = 'touch end';
 
-                // console.log('process=', process);
-                if (!process) {
-                    return;
-                }
+            //     // console.log('process=', process);
+            //     if (!process) {
+            //         return;
+            //     }
 
-                if (e && e.changedTouches && e.changedTouches.length) {
-                    endCoords = e.changedTouches[0];
-                }
+            //     if (e && e.changedTouches && e.changedTouches.length) {
+            //         endCoords = e.changedTouches[0];
+            //     }
 
-                var duration = Date.now() - tapStartTime;
-                console.log('duration=', duration);
-                console.log('nodetYpe=', e.target.nodeName.toLowerCase());
+            //     var duration = Date.now() - tapStartTime;
+            //     console.log('duration=', duration);
+            //     console.log('nodetYpe=', e.target.nodeName.toLowerCase());
 
-                if (
-                    duration <= TAP_MAX_DURATION &&
-                    e.target.nodeName.toLowerCase() == 'button' &&
-                    e.target.classList.contains('plyr__control')
-                ) {
-                    // Ищем ближайший gvideo-wrapper с data-id
-                    const videoWrapper = e.target.closest('.gvideo-wrapper');
-                    if (videoWrapper) {
-                        const videoId = videoWrapper.getAttribute('data-id');
-                        const videoElement = document.getElementById(videoId);
+            //     if (
+            //         duration <= TAP_MAX_DURATION &&
+            //         e.target.nodeName.toLowerCase() == 'button' &&
+            //         e.target.classList.contains('plyr__control')
+            //     ) {
+            //         // Ищем ближайший gvideo-wrapper с data-id
+            //         const videoWrapper = e.target.closest('.gvideo-wrapper');
+            //         if (videoWrapper) {
+            //             const videoId = videoWrapper.getAttribute('data-id');
+            //             const videoElement = document.getElementById(videoId);
 
-                        if (videoElement && videoElement.plyr) {
-                            const plyrInstance = videoElement.plyr;
-                            console.log('plyrInstance=', plyrInstance);
+            //             if (videoElement && videoElement.plyr) {
+            //                 const plyrInstance = videoElement.plyr;
+            //                 console.log('plyrInstance=', plyrInstance);
 
-                            plyrInstance.togglePlay();
-                            console.log(
-                                'Plyr toggled:',
-                                plyrInstance.playing ? 'playing' : 'paused',
-                            );
-                        } else {
-                            console.log(
-                                'Plyr not found on video element:',
-                                videoId,
-                            );
-                        }
-                    }
+            //                 plyrInstance.togglePlay();
+            //                 console.log(
+            //                     'Plyr toggled:',
+            //                     plyrInstance.playing ? 'playing' : 'paused',
+            //                 );
+            //             } else {
+            //                 console.log(
+            //                     'Plyr not found on video element:',
+            //                     videoId,
+            //                 );
+            //             }
+            //         }
 
-                    e.preventDefault();
-                    e.stopPropagation();
-                    doingMove = false;
-                    window.glightboxProcessingTouch = true;
-                    setTimeout(() => {
-                        window.glightboxProcessingTouch = false;
-                    }, 400);
-                    return;
-                }
+            //         e.preventDefault();
+            //         e.stopPropagation();
+            //         doingMove = false;
+            //         window.glightboxProcessingTouch = true;
+            //         setTimeout(() => {
+            //             window.glightboxProcessingTouch = false;
+            //         }, 400);
+            //         return;
+            //     }
 
-                // Tap detection (single-finger short touch with small move)
-                if (!doingZoom && !imageZoomed && mediaImage && currentSlide) {
-                    var dx = Math.abs(endCoords.pageX - tapStartX);
-                    var dy = Math.abs(endCoords.pageY - tapStartY);
+            //     // Tap detection (single-finger short touch with small move)
+            //     if (!doingZoom && !imageZoomed && mediaImage && currentSlide) {
+            //         var dx = Math.abs(endCoords.pageX - tapStartX);
+            //         var dy = Math.abs(endCoords.pageY - tapStartY);
 
-                    console.log(
-                        '[tap check] duration=',
-                        duration,
-                        'dx=',
-                        dx,
-                        'dy=',
-                        dy,
-                    );
+            //         console.log(
+            //             '[tap check] duration=',
+            //             duration,
+            //             'dx=',
+            //             dx,
+            //             'dy=',
+            //             dy,
+            //         );
 
-                    if (
-                        duration <= TAP_MAX_DURATION &&
-                        dx <= TAP_MAX_MOVE &&
-                        dy <= TAP_MAX_MOVE
-                    ) {
-                        // Treat this as a tap on the slide image
-                        e.preventDefault();
-                        console.log('[tap] using ZoomImages instance');
+            //         if (
+            //             duration <= TAP_MAX_DURATION &&
+            //             dx <= TAP_MAX_MOVE &&
+            //             dy <= TAP_MAX_MOVE
+            //         ) {
+            //             // Treat this as a tap on the slide image
+            //             e.preventDefault();
+            //             console.log('[tap] using ZoomImages instance');
 
-                        // var zi = mediaImage.__zoomInstance;
+            //             // var zi = mediaImage.__zoomInstance;
 
-                        // if (zi) {
-                        //     // Mirror original click logic:
-                        //     if (
-                        //         currentSlide.classList.contains('dragging-nav')
-                        //     ) {
-                        //         zi.zoomOut();
-                        //     } else if (!zi.zoomedIn) {
-                        //         zi.zoomIn();
-                        //     } else if (zi.zoomedIn && !zi.dragging) {
-                        //         zi.zoomOut();
-                        //     }
-                        // } else {
-                        //     console.warn(
-                        //         '[tap] No __zoomInstance found on mediaImage',
-                        //     );
-                        // }
+            //             // if (zi) {
+            //             //     // Mirror original click logic:
+            //             //     if (
+            //             //         currentSlide.classList.contains('dragging-nav')
+            //             //     ) {
+            //             //         zi.zoomOut();
+            //             //     } else if (!zi.zoomedIn) {
+            //             //         zi.zoomIn();
+            //             //     } else if (zi.zoomedIn && !zi.dragging) {
+            //             //         zi.zoomOut();
+            //             //     }
+            //             // } else {
+            //             //     console.warn(
+            //             //         '[tap] No __zoomInstance found on mediaImage',
+            //             //     );
+            //             // }
 
-                        // doingMove = false;
-                        return;
-                    }
-                }
+            //             // doingMove = false;
+            //             return;
+            //         }
+            //     }
 
-                // Original behavior for swipes / close
-                doingMove = false;
+            //     // Original behavior for swipes / close
+            //     doingMove = false;
 
-                if (imageZoomed || doingZoom) {
-                    lastZoomedPosX = zoomedPosX;
-                    lastZoomedPosY = zoomedPosY;
-                    return;
-                }
+            //     if (imageZoomed || doingZoom) {
+            //         lastZoomedPosX = zoomedPosX;
+            //         lastZoomedPosY = zoomedPosY;
+            //         return;
+            //     }
 
-                var v = Math.abs(parseInt(vDistancePercent));
-                var h = Math.abs(parseInt(hDistancePercent));
-                if (v > 29 && mediaImage) {
-                    instance.close();
-                    return;
-                }
-                if (v < 29 && h < 25) {
-                    addClass(overlay, 'greset');
-                    overlay.style.opacity = 1;
-                    return resetSlideMove(media);
-                }
-            },
+            //     var v = Math.abs(parseInt(vDistancePercent));
+            //     var h = Math.abs(parseInt(hDistancePercent));
+            //     if (v > 29 && mediaImage) {
+            //         instance.close();
+            //         return;
+            //     }
+            //     if (v < 29 && h < 25) {
+            //         addClass(overlay, 'greset');
+            //         overlay.style.opacity = 1;
+            //         return resetSlideMove(media);
+            //     }
+            // },
 
             multipointEnd: function multipointEnd() {
                 console.log('multipointEnd');
@@ -3110,7 +3119,191 @@
                     instance.prevSlide();
                 }
             },
+
+            touchEnd: function touchEnd(e) {
+                console.log('touch end');
+
+                if (!process) {
+                    return;
+                }
+
+                if (e && e.changedTouches && e.changedTouches.length) {
+                    endCoords = e.changedTouches[0];
+                }
+
+                var duration = Date.now() - tapStartTime;
+
+                var dx = Math.abs(endCoords.pageX - tapStartX);
+                var dy = Math.abs(endCoords.pageY - tapStartY);
+
+                var isTap =
+                    duration <= TAP_MAX_DURATION &&
+                    dx <= TAP_MAX_MOVE &&
+                    dy <= TAP_MAX_MOVE;
+
+                var slideIsVideo = isVideoSlide(currentSlide);
+                var slideIsImage = !!mediaImage;
+
+                // --- TAP / DOUBLE TAP handling ---
+                if (isTap) {
+                    // 1) VIDEO: single tap toggles play/pause immediately; double tap does nothing special
+                    if (slideIsVideo) {
+                        toggleVideoPlayFromSlide(currentSlide);
+
+                        e.preventDefault();
+                        e.stopPropagation();
+                        doingMove = false;
+
+                        // optional: anti-double-fire guard like you had
+                        window.glightboxProcessingTouch = true;
+                        setTimeout(() => {
+                            window.glightboxProcessingTouch = false;
+                        }, 300);
+
+                        return;
+                    }
+
+                    // 2) IMAGE: single tap does nothing; double tap toggles zoom
+                    if (slideIsImage) {
+                        var now = Date.now();
+                        var dt = now - lastTapTime;
+
+                        var ddx = Math.abs(endCoords.pageX - lastTapX);
+                        var ddy = Math.abs(endCoords.pageY - lastTapY);
+                        var closeEnough =
+                            ddx <= DOUBLE_TAP_MAX_DIST &&
+                            ddy <= DOUBLE_TAP_MAX_DIST;
+
+                        // Double tap on image
+                        if (
+                            dt > 0 &&
+                            dt <= DOUBLE_TAP_MAX_DELAY &&
+                            closeEnough
+                        ) {
+                            lastTapTime = 0;
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            if (imageZoomed || currentScale > 1) {
+                                resetImageZoom();
+                            } else {
+                                zoomImageTo(1.5);
+                            }
+
+                            doingMove = false;
+                            return;
+                        }
+
+                        // First tap on image: remember and do nothing
+                        lastTapTime = now;
+                        lastTapX = endCoords.pageX;
+                        lastTapY = endCoords.pageY;
+
+                        e.preventDefault(); // "съедаем" тап, чтобы не сработало закрытие/ресет
+                        doingMove = false;
+                        return;
+                    }
+
+                    // If neither video nor image: just fall through to swipe logic or prevent?
+                    // Обычно можно просто return, чтобы не было странных эффектов:
+                    e.preventDefault();
+                    doingMove = false;
+                    return;
+                }
+
+                // --- Original behavior for swipes / close ---
+                doingMove = false;
+
+                if (imageZoomed || doingZoom) {
+                    lastZoomedPosX = zoomedPosX;
+                    lastZoomedPosY = zoomedPosY;
+                    return;
+                }
+
+                var v = Math.abs(parseInt(vDistancePercent));
+                var h = Math.abs(parseInt(hDistancePercent));
+
+                if (v > 29 && mediaImage) {
+                    instance.close();
+                    return;
+                }
+
+                if (v < 29 && h < 25) {
+                    addClass(overlay, 'greset');
+                    overlay.style.opacity = 1;
+                    return resetSlideMove(media);
+                }
+            },
         });
+
+        // --- Helper functions ---
+        function isVideoSlide(slide) {
+            return !!(slide && slide.querySelector('.gvideo-wrapper[data-id]'));
+        }
+
+        function toggleVideoPlayFromSlide(slide) {
+            if (!slide) return;
+
+            const videoWrapper = slide.querySelector(
+                '.gvideo-wrapper[data-id]',
+            );
+            if (!videoWrapper) return;
+
+            const videoId = videoWrapper.getAttribute('data-id');
+            const videoElement = document.getElementById(videoId);
+
+            if (videoElement && videoElement.plyr) {
+                videoElement.plyr.togglePlay();
+            }
+        }
+
+        function resetImageZoom() {
+            imageZoomed = false;
+            doingZoom = false;
+            currentScale = 1;
+
+            lastZoomedPosX = null;
+            lastZoomedPosY = null;
+            zoomedPosX = null;
+            zoomedPosY = null;
+
+            if (mediaImage) {
+                mediaImage.scaleX = mediaImage.scaleY = 1;
+                mediaImage.setAttribute('style', '');
+                cssTransform(
+                    mediaImage,
+                    'translate3d(0, 0, 0) scale3d(1, 1, 1)',
+                );
+            }
+        }
+
+        function zoomImageTo(scale) {
+            if (!mediaImage) return;
+
+            if (scale <= 1) {
+                resetImageZoom();
+                return;
+            }
+
+            if (scale > maxScale) scale = maxScale;
+
+            imageZoomed = true;
+            doingZoom = false;
+            currentScale = scale;
+
+            // сбрасываем pan при “тап-зуме”
+            lastZoomedPosX = null;
+            lastZoomedPosY = null;
+            zoomedPosX = null;
+            zoomedPosY = null;
+
+            cssTransform(
+                mediaImage,
+                'translate3d(0, 0, 0) scale3d(' + scale + ', ' + scale + ', 1)',
+            );
+        }
+        // -- Helper functions end ---
 
         instance.events['touch'] = touchInstance;
     }
