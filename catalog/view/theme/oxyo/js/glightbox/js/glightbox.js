@@ -2956,26 +2956,26 @@
                         e.preventDefault();
                         console.log('[tap] using ZoomImages instance');
 
-                        var zi = mediaImage.__zoomInstance;
+                        // var zi = mediaImage.__zoomInstance;
 
-                        if (zi) {
-                            // Mirror original click logic:
-                            if (
-                                currentSlide.classList.contains('dragging-nav')
-                            ) {
-                                zi.zoomOut();
-                            } else if (!zi.zoomedIn) {
-                                zi.zoomIn();
-                            } else if (zi.zoomedIn && !zi.dragging) {
-                                zi.zoomOut();
-                            }
-                        } else {
-                            console.warn(
-                                '[tap] No __zoomInstance found on mediaImage',
-                            );
-                        }
+                        // if (zi) {
+                        //     // Mirror original click logic:
+                        //     if (
+                        //         currentSlide.classList.contains('dragging-nav')
+                        //     ) {
+                        //         zi.zoomOut();
+                        //     } else if (!zi.zoomedIn) {
+                        //         zi.zoomIn();
+                        //     } else if (zi.zoomedIn && !zi.dragging) {
+                        //         zi.zoomOut();
+                        //     }
+                        // } else {
+                        //     console.warn(
+                        //         '[tap] No __zoomInstance found on mediaImage',
+                        //     );
+                        // }
 
-                        doingMove = false;
+                        // doingMove = false;
                         return;
                     }
                 }
