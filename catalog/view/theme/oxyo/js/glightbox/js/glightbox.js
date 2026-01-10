@@ -3200,11 +3200,15 @@
                         }
 
                         // First tap on image: remember and do nothing
+                        console.log('[single tap] waiting for double tap');
+                        eventDataBlock.innerHTML = 'single tap';
+
                         lastTapTime = now;
                         lastTapX = endCoords.pageX;
                         lastTapY = endCoords.pageY;
 
                         e.preventDefault(); // "съедаем" тап, чтобы не сработало закрытие/ресет
+                        e.stopPropagation();
                         doingMove = false;
                         return;
                     }
@@ -3212,11 +3216,15 @@
                     // If neither video nor image: just fall through to swipe logic or prevent?
                     // Обычно можно просто return, чтобы не было странных эффектов:
                     e.preventDefault();
+                    e.stopPropagation();
                     doingMove = false;
                     return;
                 }
 
                 // --- Original behavior for swipes / close ---
+                console.log('not a tap, proceeding with swipe/close logic');
+                eventDataBlock.innerHTML = 'not a tap';
+
                 doingMove = false;
 
                 if (imageZoomed || doingZoom) {
