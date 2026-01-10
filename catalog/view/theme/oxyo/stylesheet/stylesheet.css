@@ -13525,7 +13525,10 @@ ul.sitemap > li > ul > li > ul > li > a {
     user-select: none;
 }
 
-/* Для изображений в лайтбоксе (иногда помогает сильнее) */
+.glightbox-container,
+#glightbox-slider,
+.gslide,
+.gslide-media,
 .gslide-image img {
     touch-action: manipulation;
 }
