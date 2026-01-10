@@ -3100,6 +3100,7 @@
                 eventDataBlock.innerHTML = 'swipe';
 
                 if (imageZoomed) {
+                    // resetImageZoom();
                     return;
                 }
                 if (doingZoom) {
@@ -3190,9 +3191,9 @@
                             e.stopPropagation();
 
                             if (imageZoomed || currentScale > 1) {
-                                // resetImageZoom();
+                                resetImageZoom();
                             } else {
-                                // zoomImageTo(1.5);
+                                zoomImageTo(1.5);
                             }
 
                             doingMove = false;
@@ -3269,7 +3270,75 @@
                 videoElement.plyr.togglePlay();
             }
         }
+        function resetImageZoom() {
+            imageZoomed = false;
+            doingZoom = false;
+            currentScale = 1;
+
+            lastZoomedPosX = null;
+            lastZoomedPosY = null;
+            zoomedPosX = null;
+            zoomedPosY = null;
+
+            if (mediaImage) {
+                mediaImage.scaleX = mediaImage.scaleY = 1;
+                mediaImage.setAttribute('style', '');
+                cssTransform(
+                    mediaImage,
+                    'translate3d(0, 0, 0) scale3d(1, 1, 1)',
+                );
+            }
+        }
+
+        function zoomImageTo(scale) {
+            if (!mediaImage) return;
+
+            if (scale <= 1) {
+                resetImageZoom();
+                return;
+            }
+
+            if (scale > maxScale) scale = maxScale;
+
+            imageZoomed = true;
+            doingZoom = false;
+            currentScale = scale;
+
+            // сбрасываем pan при “тап-зуме”
+            lastZoomedPosX = null;
+            lastZoomedPosY = null;
+            zoomedPosX = null;
+            zoomedPosY = null;
+
+            cssTransform(
+                mediaImage,
+                'translate3d(0, 0, 0) scale3d(' + scale + ', ' + scale + ', 1)',
+            );
+        }
+
+        function resetZoomState() {
+            console.log('resetZoomState (local)');
+
+            currentScale = 1;
+            initScale = 1;
+            imageZoomed = false;
+            doingZoom = false;
+
+            lastZoomedPosX = null;
+            lastZoomedPosY = null;
+            zoomedPosX = null;
+            zoomedPosY = null;
+
+            if (!mediaImage) return;
+
+            mediaImage.scaleX = mediaImage.scaleY = 1;
+            cssTransform(mediaImage, 'translate3d(0, 0, 0) scale3d(1, 1, 1)');
+        }
         // -- Helper functions end ---
+
+        instance.on('slide_changed', () => {
+            resetZoomState();
+        });
 
         instance.events['touch'] = touchInstance;
     }
