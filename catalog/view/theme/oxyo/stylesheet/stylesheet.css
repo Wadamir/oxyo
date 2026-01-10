@@ -13516,6 +13516,20 @@ ul.sitemap > li > ul > li > ul > li > a {
     /* transform: none !important; */
 }
 
+/* Disable Safari double-tap / smart zoom and browser panning */
+#glightbox-slider,
+#glightbox-slider * {
+    touch-action: manipulation; /* просим браузер не делать zoom */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Для изображений в лайтбоксе (иногда помогает сильнее) */
+.gslide-image img {
+    touch-action: manipulation;
+}
+
 @media (min-width: 768px) {
     .gslide .gslide-image img.zoomable {
         /* cursor: auto; */
