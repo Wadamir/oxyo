@@ -3122,6 +3122,7 @@
 
             touchEnd: function touchEnd(e) {
                 console.log('touch end');
+                eventDataBlock.innerHTML = 'touch end';
 
                 if (!process) {
                     return;
@@ -3180,15 +3181,18 @@
                             dt <= DOUBLE_TAP_MAX_DELAY &&
                             closeEnough
                         ) {
+                            console.log('[double tap] toggling zoom on image');
+                            eventDataBlock.innerHTML = 'double tap';
+
                             lastTapTime = 0;
 
                             e.preventDefault();
                             e.stopPropagation();
 
                             if (imageZoomed || currentScale > 1) {
-                                resetImageZoom();
+                                // resetImageZoom();
                             } else {
-                                zoomImageTo(1.5);
+                                // zoomImageTo(1.5);
                             }
 
                             doingMove = false;
@@ -3256,52 +3260,6 @@
             if (videoElement && videoElement.plyr) {
                 videoElement.plyr.togglePlay();
             }
-        }
-
-        function resetImageZoom() {
-            imageZoomed = false;
-            doingZoom = false;
-            currentScale = 1;
-
-            lastZoomedPosX = null;
-            lastZoomedPosY = null;
-            zoomedPosX = null;
-            zoomedPosY = null;
-
-            if (mediaImage) {
-                mediaImage.scaleX = mediaImage.scaleY = 1;
-                mediaImage.setAttribute('style', '');
-                cssTransform(
-                    mediaImage,
-                    'translate3d(0, 0, 0) scale3d(1, 1, 1)',
-                );
-            }
-        }
-
-        function zoomImageTo(scale) {
-            if (!mediaImage) return;
-
-            if (scale <= 1) {
-                resetImageZoom();
-                return;
-            }
-
-            if (scale > maxScale) scale = maxScale;
-
-            imageZoomed = true;
-            doingZoom = false;
-            currentScale = scale;
-
-            // сбрасываем pan при “тап-зуме”
-            lastZoomedPosX = null;
-            lastZoomedPosY = null;
-            zoomedPosX = null;
-            zoomedPosY = null;
-
-            cssTransform(
-                mediaImage,
-                'translate3d(0, 0, 0) scale3d(' + scale + ', ' + scale + ', 1)',
-            );
         }
         // -- Helper functions end ---
 
