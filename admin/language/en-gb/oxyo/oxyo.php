@@ -331,6 +331,11 @@ $_['help_oxyo_ex_tax_status']                = 'Enable/Disable price excluding t
 $_['entry_oxyo_live_price_update']           = 'Live price update';
 $_['help_oxyo_live_price_update']            = 'Enable/Disable the price to be updated after selecting options and quantities';
 
+// Attribute groups
+$_['text_attribute_groups']                  = 'Attribute group for product tabs';
+$_['entry_attribute_group']                  = 'Attribute Group';
+$_['entry_attribute_group_hide']             = 'Hide attribute group on product page';
+
 // Tabs
 $_['entry_oxyo_tabs_layout']                 = 'Tabs layout';
 $_['text_oxyo_tabs_full_width']              = 'Full width with contrast background';

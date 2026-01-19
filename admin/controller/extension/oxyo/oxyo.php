@@ -107,6 +107,10 @@ class ControllerExtensionOxyoOxyo extends Controller
             );
         }
 
+        // Attribute_groups for product pages tab
+        $this->load->model('catalog/attribute_group');
+        $data['attribute_groups'] = $this->model_catalog_attribute_group->getAttributeGroups();
+
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             // var_dump($this->request->post['settings']['oxyo']);
             // exit;
@@ -499,6 +503,8 @@ class ControllerExtensionOxyoOxyo extends Controller
             // Stickers
             'sticker_sale',
             'sticker_new',
+            // Attribute groups
+            'oxyo_product_attribute_groups',
         );
 
 

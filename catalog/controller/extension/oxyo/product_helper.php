@@ -74,6 +74,21 @@ $data['oxyo_button_ask'] = $this->language->get('oxyo_button_ask');
 $this->load->model('extension/oxyo/question');
 $data['questions_total'] = $this->model_extension_oxyo_question->getTotalQuestionsByProductId($this->request->get['product_id']);
 
+// Hide attributes Groups
+$hide_attribute_groups = array();
+if ($this->config->get('oxyo_product_attribute_groups') && is_array($this->config->get('oxyo_product_attribute_groups'))) {
+    foreach ($this->config->get('oxyo_product_attribute_groups') as $key => $value) {
+        if ($value == 1) {
+            $hide_attribute_groups[] = $key;
+        }
+    }
+}
+foreach ($data['attribute_groups'] as $key => $attribute_group) {
+    if (in_array($attribute_group['attribute_group_id'], $hide_attribute_groups)) {
+        unset($data['attribute_groups'][$key]);
+    }
+}
+
 // Product Tabs
 $this->load->model('extension/oxyo/product_tabs');
 $data['product_tabs'] = $this->model_extension_oxyo_product_tabs->getExtraTabsProduct($this->request->get['product_id']);
