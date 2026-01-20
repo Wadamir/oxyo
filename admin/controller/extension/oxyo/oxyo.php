@@ -428,6 +428,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'oxyo_body_bg_img_repeat',
             'oxyo_body_bg_img_size',
             'oxyo_body_bg_img_att',
+            'oxyo_product_tab_bg',
             'oxyo_default_btn_bg',
             'oxyo_default_btn_color',
             'oxyo_default_btn_bg_hover',

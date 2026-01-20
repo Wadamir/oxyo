@@ -28,6 +28,11 @@ $_['text_full_width']                       = 'На всю ширину';
 $_['text_boxed']                            = 'В блоке';
 $_['text_default']                          = 'По умолчанию';
 
+// Resolutions
+$_['text_show_xs']                          = '<768px';
+$_['text_show_md']                          = '≥768px';
+$_['text_show_lg']                          = '≥992px';
+$_['text_show_xl']                          = '≥1200px';
 
 
 // New vars - tabs
@@ -393,13 +398,6 @@ $_['text_yandex_scheme_instruction']    = '<p>Перейдите на <a href="h
 
 
 
-/*** Tab Typography settings ***/
-$_['text_typography']                   = 'Шрифты';
-$_['text_override_default_font']        = 'Переопределить стандартные шрифты';
-$_['text_google_font_list']             = 'Список шрифтов Google';
-
-
-
 /*** Tab Footer Settings ***/
 $_['text_footer_settings']                      = 'Настройки футера';
 $_['text_footer_custom_block_top']              = 'Верхний кастомный блок футера';
@@ -440,3 +438,142 @@ $_['help_payment_icons']                  = 'Если загрузить изо�
 $_['text_footer_copyright_legend']        = 'Текст копирайта в футере';
 $_['entry_footer_copyright']              = 'Текст копирайта';
 $_['help_footer_copyright']               = 'Используйте {year} для подстановки текущего года.';
+
+
+
+/*** Tab Styles & Colors ***/
+// Main
+$_['entry_oxyo_styles_title']                   = 'Стили и цвета';
+$_['entry_oxyo_styles_general']                 = 'Общие';
+$_['entry_oxyo_styles_layout']                  = 'Макет';
+$_['entry_oxyo_styles_sticky_columns']          = 'Липкие колонки';
+$_['entry_oxyo_styles_widgets']                 = 'Заголовки виджетов';
+$_['entry_oxyo_styles_product_list']            = 'Стиль списка товаров';
+$_['entry_oxyo_styles_custom_colors']           = 'Пользовательская цветовая схема';
+
+// General
+$_['entry_oxyo_styles_cart_icon']               = 'Иконка корзины';
+
+// Layout
+$_['entry_oxyo_styles_layout_style']            = 'Тип макета';
+$_['text_oxyo_styles_layout_full']              = 'На всю ширину';
+$_['text_oxyo_styles_layout_boxed']             = 'Фиксированная ширина';
+
+$_['entry_oxyo_styles_content_width']           = 'Ширина контента';
+$_['text_oxyo_styles_content_narrow']           = 'Узкая (1060px)';
+$_['text_oxyo_styles_content_normal']           = 'Обычная (1170px)';
+$_['text_oxyo_styles_content_wide']             = 'Широкая (1280px)';
+
+// Sticky columns
+$_['text_oxyo_styles_sticky_columns_help']      = 'Липкие колонки остаются в области видимости при прокрутке страницы';
+
+$_['entry_oxyo_styles_sticky_offset']           = 'Верхний отступ липких колонок';
+$_['text_oxyo_styles_sticky_offset_help']       = 'Используйте отступ, если включён липкий хедер, чтобы избежать наложения. Значение указывается в пикселях';
+
+// Widget titles
+$_['entry_oxyo_styles_widget_heading']          = 'Стиль заголовков виджетов';
+$_['text_oxyo_styles_widget_style_1']           = 'Стиль 1 — Крестовой разделитель';
+$_['text_oxyo_styles_widget_style_2']           = 'Стиль 2 — Линейный разделитель';
+$_['text_oxyo_styles_widget_style_3']           = 'Стиль 3 — Заголовок с рамкой';
+
+// Product listing
+$_['entry_oxyo_styles_product_style']           = 'Стиль отображения товаров';
+$_['text_oxyo_styles_product_style_help']       = 'Выберите стиль отображения товаров во всём магазине (категории, акции, похожие товары и т.д.)';
+$_['text_oxyo_styles_product_style_1']          = 'Стиль 1 — По умолчанию';
+$_['text_oxyo_styles_product_style_2']          = 'Стиль 2 — Кнопки появляются при наведении';
+$_['text_oxyo_styles_product_style_3']          = 'Стиль 3 — Тёмный оверлей изображения';
+$_['text_oxyo_styles_product_style_4']          = 'Стиль 4 — Тёмный оверлей (вариант 2)';
+$_['text_oxyo_styles_product_style_5']          = 'Стиль 5 — Выравнивание по центру';
+$_['text_oxyo_styles_product_style_6']          = 'Стиль 6 — По центру с кнопкой';
+
+// Toggles
+$_['entry_oxyo_styles_swap_image']              = 'Смена изображения при наведении';
+$_['text_oxyo_styles_swap_image_help']          = 'Показывать первое дополнительное изображение при наведении на товар';
+$_['entry_oxyo_styles_cut_names']               = 'Обрезать названия товаров';
+$_['text_oxyo_styles_cut_names_help']           = 'Ограничивать название товара одной строкой (только с помощью CSS)';
+$_['entry_oxyo_styles_items_mobile']            = 'Минимум товаров в ряду';
+$_['text_oxyo_styles_items_mobile_help']        = 'Минимальное количество товаров в одном ряду на мобильных устройствах (<768px)';
+$_['text_oxyo_styles_one_item']                 = '1 товар';
+$_['text_oxyo_styles_two_items']                = '2 товара';
+
+// Custom colors
+$_['entry_oxyo_bg_color']                       = 'Цвет фона';
+$_['entry_oxyo_bg_img']                         = 'Фоновое изображение';
+$_['entry_oxyo_text_color']                     = 'Цвет текста';
+$_['entry_oxyo_link_color']                     = 'Цвет ссылок';
+$_['entry_oxyo_accent_color']                   = 'Акцентный цвет';
+$_['entry_oxyo_hover_color']                    = 'Цвет при наведении';
+$_['entry_oxyo_hover_bg_color']                 = 'Цвет фона при наведении';
+
+$_['entry_oxyo_dark_color']                     = 'Тёмный цвет';
+$_['entry_oxyo_medium_color']                   = 'Средний цвет';
+$_['entry_oxyo_light_color']                    = 'Светлый цвет';
+
+// Background image options
+$_['text_oxyo_img_pos_top_left']                = 'Сверху слева';
+$_['text_oxyo_img_pos_top_center']              = 'Сверху по центру';
+$_['text_oxyo_img_pos_top_right']               = 'Сверху справа';
+$_['text_oxyo_img_pos_center_left']             = 'По центру слева';
+$_['text_oxyo_img_pos_center_center']           = 'По центру';
+$_['text_oxyo_img_pos_center_right']            = 'По центру справа';
+$_['text_oxyo_img_pos_bottom_left']             = 'Снизу слева';
+$_['text_oxyo_img_pos_bottom_center']           = 'Снизу по центру';
+$_['text_oxyo_img_pos_bottom_right']            = 'Снизу справа';
+
+$_['entry_oxyo_img_pos']                        = 'Позиция фона';
+$_['entry_oxyo_img_size']                       = 'Размер фона';
+$_['entry_oxyo_img_repeat']                     = 'Повтор фона';
+$_['entry_oxyo_img_att']                        = 'Привязка фона';
+
+$_['text_oxyo_img_size_auto']                   = 'Автоматически';
+$_['text_oxyo_img_size_contain']                = 'Вместить';
+$_['text_oxyo_img_size_cover']                  = 'Заполнить';
+
+$_['text_oxyo_img_repeat_no']                   = 'Без повтора';
+$_['text_oxyo_img_repeat_x']                    = 'Повтор по горизонтали';
+$_['text_oxyo_img_repeat_y']                    = 'Повтор по вертикали';
+$_['text_oxyo_img_repeat_repeat']               = 'Повтор';
+
+$_['text_oxyo_img_att_scroll']                  = 'Прокрутка';
+$_['text_oxyo_img_att_local']                   = 'Локально';
+$_['text_oxyo_img_att_fixed']                   = 'Фиксировано';
+
+$_['entry_oxyo_styles_override_colors']         = 'Переопределить стандартные цвета';
+
+// Subtitles
+$_['entry_oxyo_body_bg']                        = 'Фон страницы (для фиксированного макета)';
+$_['entry_oxyo_top_line']                       = 'Верхняя линия хедера';
+$_['entry_oxyo_top_line_promo']                 = 'Промо-сообщения верхней линии';
+$_['entry_oxyo_header_area']                    = 'Область хедера';
+$_['entry_oxyo_menu_area']                      = 'Область меню';
+$_['entry_oxyo_bc_area']                        = 'Хлебные крошки (при отображении заголовков)';
+$_['entry_oxyo_content_area']                   = 'Область контента';
+$_['entry_oxyo_product']                        = 'Карточка товара';
+$_['entry_oxyo_buttons']                        = 'Кнопки';
+$_['entry_oxyo_footer_area']                    = 'Область футера';
+
+// Menu colors
+$_['entry_oxyo_menu_sale_label_color']          = 'Цвет метки «Акция»';
+$_['entry_oxyo_menu_new_label_color']           = 'Цвет метки «Новинка»';
+
+// Content area colors
+$_['entry_oxyo_content_primary_accent_color']        = 'Основной акцентный цвет';
+$_['entry_oxyo_content_primary_accent_color_help']   = 'Цвет при наведении на ссылки и другие элементы';
+$_['entry_oxyo_content_price_color']                 = 'Цвет цены';
+
+// Product colors
+$_['entry_oxyo_product_tab_bg_color']               = 'Цвет фона табов';
+
+// Buttons colors
+$_['entry_oxyo_button_default']                 = 'Кнопка по умолчанию';
+$_['entry_oxyo_button_action']                  = 'Кнопка действия';
+
+// Footer colors
+$_['entry_oxyo_footer_heading_color']           = 'Цвет разделителя заголовков / ссылок';
+
+
+
+/*** Tab Typography settings ***/
+$_['text_typography']                   = 'Шрифты';
+$_['text_override_default_font']        = 'Переопределить стандартные шрифты';
+$_['text_google_font_list']             = 'Список шрифтов Google';

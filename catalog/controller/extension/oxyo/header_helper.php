@@ -546,6 +546,12 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '#footer h5:after {background-color:' . $this->config->get('oxyo_footer_h5_sep') . ';}';
         $styles .= 'body.boxed-layout {background-color:' . $this->config->get('oxyo_body_bg_color') . ';}';
 
+        // Product tabs color
+        if ($this->config->get('oxyo_product_tab_bg')) {
+            $styles .= '.product-tabs-wrapper, .list-specification.dotted > li > span {background-color:' . $this->config->get('oxyo_product_tab_bg') . ';}';
+        }
+        // var_dump($this->config->get('oxyo_product_tab_bg'));
+
         if ($this->config->get('oxyo_body_bg_img')) {
             $styles .= 'body.boxed-layout {background-position:' . $this->config->get('oxyo_body_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_body_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_body_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_body_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_body_bg_img') . ');}';
         }

@@ -1,9 +1,9 @@
-<legend>Styles & Colors</legend>
+<legend>{{ entry_oxyo_styles_title }}</legend>
 
-<legend class="sub">General</legend>
+<legend class="sub">{{ entry_oxyo_styles_general }}</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">Shopping cart icon</label>
-	<div class="col-sm-10 image-btn">
+	<label class="col-sm-3 control-label">{{ entry_oxyo_styles_cart_icon }}</label>
+	<div class="col-sm-9 image-btn">
 		<label><input type="radio" name="settings[oxyo][oxyo_cart_icon]" value="global-cart-bag" {% if oxyo_cart_icon == 'global-cart-bag' %} checked="checked" {% endif %}/><span>
 				<i class="icon-bag"></i>
 			</span>
@@ -36,227 +36,211 @@
 	</div>
 </div>
 
-<legend class="sub">Layout</legend>
+<legend class="sub">{{ entry_oxyo_styles_layout }}</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">Layout Style</label>
-	<div class="col-sm-10 toggle-btn both-blue">
-		<label><input type="radio" name="settings[oxyo][oxyo_main_layout]" value="0" {% if oxyo_main_layout == '0' %} checked="checked" {% endif %}/><span>Full width</span>
+	<label class="col-sm-3 control-label">{{ entry_oxyo_styles_layout_style }}</label>
+	<div class="col-sm-9 toggle-btn both-blue">
+		<label><input type="radio" name="settings[oxyo][oxyo_main_layout]" value="0" {% if oxyo_main_layout == '0' %} checked="checked" {% endif %}/><span>{{ text_oxyo_styles_layout_full }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_main_layout]" value="1" {% if oxyo_main_layout == '1' %} checked="checked" {% endif %}/><span>Boxed width</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_main_layout]" value="1" {% if oxyo_main_layout == '1' %} checked="checked" {% endif %}/><span>{{ text_oxyo_styles_layout_boxed }}</span>
 		</label>
 	</div>
 </div>
 
 <div class="form-group">
-	<label class="col-sm-2 control-label">Content width</label>
-	<div class="col-sm-10">
+	<label class="col-sm-3 control-label">{{ entry_oxyo_styles_content_width }}</label>
+	<div class="col-sm-9">
 		<select name="settings[oxyo][oxyo_content_width]" class="form-control">
-			<option value="narrow_container" {% if oxyo_content_width == 'narrow_container' %} selected="selected" {% endif %}>Narrow (1060px)</option>
-			<option value="" {% if oxyo_content_width == '' %} selected="selected" {% endif %}>Normal (1170px)</option>
-			<option value="wide_container" {% if oxyo_content_width == 'wide_container' %} selected="selected" {% endif %}>Wide (1280px)</option>
+			<option value="narrow_container" {% if oxyo_content_width == 'narrow_container' %} selected="selected" {% endif %}>{{ text_oxyo_styles_content_narrow }}</option>
+			<option value="" {% if oxyo_content_width == '' %} selected="selected" {% endif %}>{{ text_oxyo_styles_content_normal }}</option>
+			<option value="wide_container" {% if oxyo_content_width == 'wide_container' %} selected="selected" {% endif %}>{{ text_oxyo_styles_content_wide }}</option>
 		</select>
 	</div>
 </div>
 
-<legend class="sub">Sticky Columns</legend>
+<legend class="sub">{{ entry_oxyo_styles_sticky_columns }}</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Sticky columns stays within the viewport when scrolling down">Sticky Columns</span>
+	<label class="col-sm-3 control-label">
+		<span data-toggle="tooltip" title="{{ text_oxyo_styles_sticky_columns_help }}">{{ entry_oxyo_styles_sticky_columns }}</span>
 	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_sticky_columns]" value="0" {% if oxyo_sticky_columns == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+	<div class="col-sm-9 toggle-btn">
+		<label><input type="radio" name="settings[oxyo][oxyo_sticky_columns]" value="0" {% if oxyo_sticky_columns == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_sticky_columns]" value="1" {% if oxyo_sticky_columns == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_sticky_columns]" value="1" {% if oxyo_sticky_columns == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
 
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Use offset if sticky header is enabled to avoid overlapping columns/header. Enter a value in pixels, for example 100">Sticky Offset Top</span>
-	</label>
-	<div class="col-sm-10 toggle-btn">
+	<label class="col-sm-3 control-label">{{ entry_oxyo_styles_sticky_offset }}</label>
+	<div class="col-sm-9 toggle-btn">
 		<input class="form-control" style="width:120px" name="settings[oxyo][oxyo_sticky_columns_offset]" value="{{ oxyo_sticky_columns_offset ? oxyo_sticky_columns_offset : '100' }}"/>
 	</div>
 </div>
 
-<legend class="sub">Widget Titles</legend>
+<legend class="sub">{{ entry_oxyo_styles_widgets }}</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Select heading style on modules">Widget heading style</span>
-	</label>
-	<div class="col-sm-10">
+	<label class="col-sm-3 control-label">{{ entry_oxyo_styles_widget_heading }}</label>
+	<div class="col-sm-9">
 		<select name="settings[oxyo][oxyo_widget_title_style]" class="form-control">
-			<option value="0" {% if oxyo_widget_title_style == '0' %} selected="selected" {% endif %}>Style 1 - (Cross Separator)</option>
-			<option value="2" {% if oxyo_widget_title_style == '2' %} selected="selected" {% endif %}>Style 2 - (Line Separator)</option>
-			<option value="3" {% if oxyo_widget_title_style == '3' %} selected="selected" {% endif %}>Style 3 - (Bordered Title, No Separator)</option>
+			<option value="0" {% if oxyo_widget_title_style == '0' %} selected="selected" {% endif %}>{{ text_oxyo_styles_widget_style_1 }}</option>
+			<option value="2" {% if oxyo_widget_title_style == '2' %} selected="selected" {% endif %}>{{ text_oxyo_styles_widget_style_2 }}</option>
+			<option value="3" {% if oxyo_widget_title_style == '3' %} selected="selected" {% endif %}>{{ text_oxyo_styles_widget_style_3 }}</option>
 		</select>
 	</div>
 </div>
 
-<legend class="sub">Product Listing Style</legend>
+<legend class="sub">{{ entry_oxyo_styles_product_list }}</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Select how to show products in product listings, like category pages, related products etc.">Product listing style</span>
+	<label class="col-sm-3 control-label">
+		<span data-toggle="tooltip" title="{{ text_oxyo_styles_product_style_help }}">{{ entry_oxyo_styles_product_list }}</span>
 	</label>
-	<div class="col-sm-10">
+	<div class="col-sm-9">
 		<select name="settings[oxyo][oxyo_list_style]" class="form-control">
-			<option value="1" {% if oxyo_list_style == '1' %} selected="selected" {% endif %}>Style 1 - Default style</option>
-			<option value="2" {% if oxyo_list_style == '2' %} selected="selected" {% endif %}>Style 2 - Action buttons slide up on hover</option>
-			<option value="3" {% if oxyo_list_style == '3' %} selected="selected" {% endif %}>Style 3 - Dark image overlay on hover</option>
-			<option value="4" {% if oxyo_list_style == '4' %} selected="selected" {% endif %}>Style 4 - Dark image overlay on hover alt 2</option>
-			<option value="1 names-c" {% if oxyo_list_style == '1 names-c' %} selected="selected" {% endif %}>Style 5 - Center aligned</option>
-			<option value="6" {% if oxyo_list_style == '6' %} selected="selected" {% endif %}>Style 6 - Center aligned with button</option>
+			<option value="1" {% if oxyo_list_style == '1' %} selected="selected" {% endif %}>{{ text_oxyo_styles_product_style_1 }}</option>
+			<option value="2" {% if oxyo_list_style == '2' %} selected="selected" {% endif %}>{{ text_oxyo_styles_product_style_2 }}</option>
+			<option value="3" {% if oxyo_list_style == '3' %} selected="selected" {% endif %}>{{ text_oxyo_styles_product_style_3 }}</option>
+			<option value="4" {% if oxyo_list_style == '4' %} selected="selected" {% endif %}>{{ text_oxyo_styles_product_style_4 }}</option>
+			<option value="1 names-c" {% if oxyo_list_style == '1 names-c' %} selected="selected" {% endif %}>{{ text_oxyo_styles_product_style_5 }}</option>
+			<option value="6" {% if oxyo_list_style == '6' %} selected="selected" {% endif %}>{{ text_oxyo_styles_product_style_6 }}</option>
 		</select>
 	</div>
 </div>
 
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Show the first additional image when hovering a product">Swap image on hover</span>
+	<label class="col-sm-3 control-label">
+		<span data-toggle="tooltip" title="{{ text_oxyo_styles_swap_image_help }}">{{ entry_oxyo_styles_thumb_swap }}</span>
 	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_thumb_swap]" value="0" {% if oxyo_thumb_swap == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+	<div class="col-sm-9 toggle-btn">
+		<label><input type="radio" name="settings[oxyo][oxyo_thumb_swap]" value="0" {% if oxyo_thumb_swap == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_thumb_swap]" value="1" {% if oxyo_thumb_swap == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_thumb_swap]" value="1" {% if oxyo_thumb_swap == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
 
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="Keep the product names in listings within one line (using only CSS)">Cut product names</span>
+	<label class="col-sm-3 control-label">
+		<span data-toggle="tooltip" title="{{ text_oxyo_styles_cut_names_help }}">{{ entry_oxyo_styles_cut_names }}</span>
 	</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_cut_names]" value="0" {% if oxyo_cut_names == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+	<div class="col-sm-9 toggle-btn">
+		<label><input type="radio" name="settings[oxyo][oxyo_cut_names]" value="0" {% if oxyo_cut_names == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_cut_names]" value="1" {% if oxyo_cut_names == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_cut_names]" value="1" {% if oxyo_cut_names == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
 
 <div class="form-group">
-	<label class="col-sm-2 control-label">
-		<span data-toggle="tooltip" title="On smaller mobile devices, select to view 1 or 2 items per row">Minimum items per row</span>
+	<label class="col-sm-3 control-label">
+		<span data-toggle="tooltip" title="{{ text_oxyo_styles_items_mobile_help }}">{{ entry_oxyo_styles_items_mobile }}</span>
 	</label>
-	<div class="col-sm-10 toggle-btn both-blue">
-		<label><input type="radio" name="settings[oxyo][items_mobile_fw]" value="1" {% if items_mobile_fw == '1' %} checked="checked" {% endif %}/><span>1 item</span>
+	<div class="col-sm-9 toggle-btn both-blue">
+		<label><input type="radio" name="settings[oxyo][items_mobile_fw]" value="1" {% if items_mobile_fw == '1' %} checked="checked" {% endif %}/><span>{{ text_oxyo_styles_one_item }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][items_mobile_fw]" value="0" {% if items_mobile_fw == '0' %} checked="checked" {% endif %}/><span>2 items</span>
+		<label><input type="radio" name="settings[oxyo][items_mobile_fw]" value="0" {% if items_mobile_fw == '0' %} checked="checked" {% endif %}/><span>{{ text_oxyo_styles_two_items }}</span>
 		</label>
 	</div>
 </div>
 
-<legend>Custom Color Scheme</legend>
+<legend>{{ entry_oxyo_styles_custom_colors }}</legend>
 <div class="form-group">
-	<label class="col-sm-2 control-label">Override default colors</label>
-	<div class="col-sm-10 toggle-btn">
-		<label><input type="radio" name="settings[oxyo][oxyo_design_status]" class="design-select" value="0" {% if oxyo_design_status == '0' %} checked="checked" {% endif %}/><span>Disabled</span>
+	<label class="col-sm-3 control-label">{{ entry_oxyo_styles_override_colors }}</label>
+	<div class="col-sm-9 toggle-btn">
+		<label><input type="radio" name="settings[oxyo][oxyo_design_status]" class="design-select" value="0" {% if oxyo_design_status == '0' %} checked="checked" {% endif %}/><span>{{ text_disabled }}</span>
 		</label>
-		<label><input type="radio" name="settings[oxyo][oxyo_design_status]" class="design-select" value="1" {% if oxyo_design_status == '1' %} checked="checked" {% endif %}/><span>Enabled</span>
+		<label><input type="radio" name="settings[oxyo][oxyo_design_status]" class="design-select" value="1" {% if oxyo_design_status == '1' %} checked="checked" {% endif %}/><span>{{ text_enabled }}</span>
 		</label>
 	</div>
 </div>
 
 <div id="custom_design_holder" {% if oxyo_design_status %} style="display:block" {% else %} style="display:none" {% endif %}>
 
-	<legend class="third">Body Background (when using boxed layout)</legend>
-
+	<!-- Body Background -->
+	<legend class="third">{{ entry_oxyo_body_bg }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_body_bg_color ? oxyo_body_bg_color : '#ececec' }}"></i>
 				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_body_bg_color]" value="{{ oxyo_body_bg_color ? oxyo_body_bg_color : '#ececec' }}"/>
+				<input class="form-control" name="settings[oxyo][oxyo_body_bg_color]" value="{{ oxyo_body_bg_color ? oxyo_body_bg_color : '#ececec' }}"
+				/>
 			</div>
 		</div>
 	</div>
-
-
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background Image</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_img }}</label>
+		<div class="col-sm-9">
 			<div class="row">
-				<div class="col-sm-2">
-					<a href="" id="thumb-bc-img" data-toggle="image" class="img-thumbnail"><img src="{{ body_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/></a>
+				<div class="col-sm-3">
+					<a href="" id="thumb-body-img" data-toggle="image" class="img-thumbnail">
+						<img src="{{ body_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/>
+					</a>
 					<input type="hidden" name="settings[oxyo][oxyo_body_bg_img]" value="{{ oxyo_body_bg_img }}" id="input-body-img"/>
 				</div>
-				<div class="col-sm-2">
-					<label>Background Position</label>
-					<select name="settings[oxyo][oxyo_body_bg_img_pos]" class="form-control">
-						<option value="top left" {% if oxyo_body_bg_img_pos == 'top left' %} selected="selected" {% endif %}>top left</option>
-						<option value="top center" {% if oxyo_body_bg_img_pos == 'top center' %} selected="selected" {% endif %}>top center</option>
-						<option value="top right" {% if oxyo_body_bg_img_pos == 'top right' %} selected="selected" {% endif %}>top right</option>
-						<option value="center left" {% if oxyo_body_bg_img_pos == 'center left' %} selected="selected" {% endif %}>middle left</option>
-						<option value="center center" {% if oxyo_body_bg_img_pos == 'center center' %} selected="selected" {% endif %}>middle center</option>
-						<option value="center right" {% if oxyo_body_bg_img_pos == 'center right' %} selected="selected" {% endif %}>middle right</option>
-						<option value="bottom left" {% if oxyo_body_bg_img_pos == 'bottom left' %} selected="selected" {% endif %}>bottom left</option>
-						<option value="bottom center" {% if oxyo_body_bg_img_pos == 'bottom center' %} selected="selected" {% endif %}>bottom center</option>
-						<option value="bottom right" {% if oxyo_body_bg_img_pos == 'bottom right' %} selected="selected" {% endif %}>bottom right</option>
-					</select>
+				<div class="col-sm-9">
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_pos }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_body_bg_img_pos]" class="form-control">
+								<option value="top left" {% if oxyo_body_bg_img_pos == 'top left' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_top_left }}</option>
+								<option value="top center" {% if oxyo_body_bg_img_pos == 'top center' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_top_center }}</option>
+								<option value="top right" {% if oxyo_body_bg_img_pos == 'top right' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_top_right }}</option>
+								<option value="center left" {% if oxyo_body_bg_img_pos == 'center left' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_center_left }}</option>
+								<option value="center center" {% if oxyo_body_bg_img_pos == 'center center' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_center_center }}</option>
+								<option value="center right" {% if oxyo_body_bg_img_pos == 'center right' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_center_right }}</option>
+								<option value="bottom left" {% if oxyo_body_bg_img_pos == 'bottom left' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_bottom_left }}</option>
+								<option value="bottom center" {% if oxyo_body_bg_img_pos == 'bottom center' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_bottom_center }}</option>
+								<option value="bottom right" {% if oxyo_body_bg_img_pos == 'bottom right' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_bottom_right }}</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_size }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_body_bg_img_size]" class="form-control">
+								<option value="auto" {% if oxyo_body_bg_img_size == 'auto' %}selected="selected"{% endif %}>{{ text_oxyo_img_size_auto }}</option>
+								<option value="contain" {% if oxyo_body_bg_img_size == 'contain' %}selected="selected"{% endif %}>{{ text_oxyo_img_size_contain }}</option>
+								<option value="cover" {% if oxyo_body_bg_img_size == 'cover' %}selected="selected"{% endif %}>{{ text_oxyo_img_size_cover }}</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_repeat }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_body_bg_img_repeat]" class="form-control">
+								<option value="no-repeat" {% if oxyo_body_bg_img_repeat == 'no-repeat' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_no }}</option>
+								<option value="repeat-x" {% if oxyo_body_bg_img_repeat == 'repeat-x' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_x }}</option>
+								<option value="repeat-y" {% if oxyo_body_bg_img_repeat == 'repeat-y' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_y }}</option>
+								<option value="repeat" {% if oxyo_body_bg_img_repeat == 'repeat' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_repeat }}</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_att }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_body_bg_img_att]" class="form-control">
+								<option value="scroll" {% if oxyo_body_bg_img_att == 'scroll' %}selected="selected"{% endif %}>{{ text_oxyo_img_att_scroll }}</option>
+								<option value="local" {% if oxyo_body_bg_img_att == 'local' %}selected="selected"{% endif %}>{{ text_oxyo_img_att_local }}</option>
+								<option value="fixed" {% if oxyo_body_bg_img_att == 'fixed' %}selected="selected"{% endif %}>{{ text_oxyo_img_att_fixed }}</option>
+							</select>
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-2">
-					<label>Background Size</label>
-					<select name="settings[oxyo][oxyo_body_bg_img_size]" class="form-control">
-						<option value="auto" {% if oxyo_body_bg_img_size == 'auto' %} selected="selected" {% endif %}>auto</option>
-						<option value="contain" {% if oxyo_body_bg_img_size == 'contain' %} selected="selected" {% endif %}>contain</option>
-						<option value="cover" {% if oxyo_body_bg_img_size == 'cover' %} selected="selected" {% endif %}>cover</option>
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<label>Background Size</label>
-					<select name="settings[oxyo][oxyo_body_bg_img_repeat]" class="form-control">
-						<option value="no-repeat" {% if oxyo_body_bg_img_repeat == 'no-repeat' %} selected="selected" {% endif %}>no-repeat</option>
-						<option value="repeat-x" {% if oxyo_body_bg_img_repeat == 'repeat-x' %} selected="selected" {% endif %}>repeat-x (-)</option>
-						<option value="repeat-y" {% if oxyo_body_bg_img_repeat == 'repeat-y' %} selected="selected" {% endif %}>repeat-y (|)</option>
-						<option value="repeat" {% if oxyo_body_bg_img_repeat == 'repeat' %} selected="selected" {% endif %}>repeat</option>
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<label>Background Attachment</label>
-					<select name="settings[oxyo][oxyo_body_bg_img_att]" class="form-control">
-						<option value="scroll" {% if oxyo_body_bg_img_att == 'scroll' %} selected="selected" {% endif %}>scroll</option>
-						<option value="local" {% if oxyo_body_bg_img_att == 'local' %} selected="selected" {% endif %}>local</option>
-						<option value="fixed" {% if oxyo_body_bg_img_att == 'fixed' %} selected="selected" {% endif %}>fixed</option>
-					</select>
-				</div>
-
 			</div>
 		</div>
 	</div>
 
-
-	<legend class="third">Top Line Promo Message</legend>
+	<!-- Top Line -->
+	<legend class="third">{{ entry_oxyo_top_line }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_top_note_bg ? oxyo_top_note_bg : '#000000' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_top_note_bg]" value="{{ oxyo_top_note_bg ? oxyo_top_note_bg : '#000000' }}"/>
-			</div>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Color</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_top_note_color ? oxyo_top_note_color : '#eeeeee' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_top_note_color]" value="{{ oxyo_top_note_color ? oxyo_top_note_color : '#eeeeee' }}"/>
-			</div>
-		</div>
-	</div>
-
-	<legend class="third">Top Line</legend>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_top_line_bg ? oxyo_top_line_bg : '#1daaa3' }}"></i>
@@ -265,10 +249,9 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_top_line_color ? oxyo_top_line_color : '#ffffff' }}"></i>
@@ -278,10 +261,36 @@
 		</div>
 	</div>
 
-	<legend class="third">Header Area</legend>
+	<!-- Top Line Promo Message -->
+	<legend class="third">{{ entry_oxyo_top_line_promo }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
+			<div class="input-group form-inline colorfield">
+				<span class="input-group-addon">
+					<i style="background:{{ oxyo_top_note_bg ? oxyo_top_note_bg : '#000000' }}"></i>
+				</span>
+				<input class="form-control" name="settings[oxyo][oxyo_top_note_bg]" value="{{ oxyo_top_note_bg ? oxyo_top_note_bg : '#000000' }}"/>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
+			<div class="input-group form-inline colorfield">
+				<span class="input-group-addon">
+					<i style="background:{{ oxyo_top_note_color ? oxyo_top_note_color : '#eeeeee' }}"></i>
+				</span>
+				<input class="form-control" name="settings[oxyo][oxyo_top_note_color]" value="{{ oxyo_top_note_color ? oxyo_top_note_color : '#eeeeee' }}"/>
+			</div>
+		</div>
+	</div>
+
+	<!-- Header Area -->
+	<legend class="third">{{ entry_oxyo_header_area }}</legend>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_header_bg ? oxyo_header_bg : '#ffffff' }}"></i>
@@ -290,10 +299,9 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_header_color ? oxyo_header_color : '#000000' }}"></i>
@@ -302,12 +310,9 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="Color on details in header, for example product counters">Header accent color</span>
-		</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_accent_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_header_accent ? oxyo_header_accent : '#1daaa3' }}"></i>
@@ -317,10 +322,10 @@
 		</div>
 	</div>
 
-	<legend class="third">Menu</legend>
+	<legend class="third">{{ entry_oxyo_menu_area }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_header_menu_bg ? oxyo_header_menu_bg : '#111111' }}"></i>
@@ -331,8 +336,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_header_menu_color ? oxyo_header_menu_color : '#eeeeee' }}"></i>
@@ -342,33 +347,33 @@
 		</div>
 	</div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Accent color</label>
-        <div class="col-sm-10">
-            <div class="input-group form-inline colorfield">
-                <span class="input-group-addon">
-                    <i style="background:{{ oxyo_header_menu_accent ? oxyo_header_menu_accent : '#1daaa3' }}"></i>
-                </span>
-                <input class="form-control" name="settings[oxyo][oxyo_header_menu_accent]" value="{{ oxyo_header_menu_accent ? oxyo_header_menu_accent : '#1daaa3' }}"/>
-            </div>
-        </div>
-    </div>
-
 	<div class="form-group">
-		<label class="col-sm-2 control-label">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_accent_color }}</label>
+		<div class="col-sm-9">
+			<div class="input-group form-inline colorfield">
+				<span class="input-group-addon">
+					<i style="background:{{ oxyo_header_menu_accent ? oxyo_header_menu_accent : '#1daaa3' }}"></i>
+				</span>
+				<input class="form-control" name="settings[oxyo][oxyo_header_menu_accent]" value="{{ oxyo_header_menu_accent ? oxyo_header_menu_accent : '#1daaa3' }}"/>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group hidden d-none">
+		<label class="col-sm-3 control-label">
 			<span data-toggle="tooltip" title="(When using header 6)">Search field color scheme</span>
 		</label>
-		<div class="col-sm-10">
+		<div class="col-sm-9">
 			<select name="settings[oxyo][oxyo_search_scheme]" class="form-control">
-				<option value="dark-search" {% if oxyo_search_scheme == 'dark-search' %} selected="selected" {% endif %}>Dark</option>
-				<option value="light-search" {% if oxyo_search_scheme == 'light-search' %} selected="selected" {% endif %}>Light</option>
+				<option value="dark-search" {% if oxyo_search_scheme == 'dark-search' %} selected="selected" {% endif %}>{{ entry_oxyo_dark_color }}</option>
+				<option value="light-search" {% if oxyo_search_scheme == 'light-search' %} selected="selected" {% endif %}>{{ entry_oxyo_light_color }}</option>
 			</select>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Menu sale label</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_menu_sale_label_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_menutag_sale_bg ? oxyo_menutag_sale_bg : '#D41212' }}"></i>
@@ -379,8 +384,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Menu new label</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_menu_new_label_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_menutag_new_bg ? oxyo_menutag_new_bg : '#1daaa3' }}"></i>
@@ -390,11 +395,11 @@
 		</div>
 	</div>
 
-	<legend class="third">Breadcrumbs (When Holding Titles)</legend>
+	<legend class="third">{{ entry_oxyo_bc_area }}</legend>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_bc_bg_color ? oxyo_bc_bg_color : '#000000' }}"></i>
@@ -405,60 +410,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label"><br/><span data-toggle="tooltip" title="Inline titles helper">Background image</span>
-		</label>
-		<div class="col-sm-10">
-			<div class="row">
-				<div class="col-sm-2">
-					<a href="" id="thumb-bc-img" data-toggle="image" class="img-thumbnail"><img src="{{ bc_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/></a>
-					<input type="hidden" name="settings[oxyo][oxyo_bc_bg_img]" value="{{ oxyo_bc_bg_img }}" id="input-bc-img"/>
-				</div>
-				<div class="col-sm-2">
-					<label>Background Position</label>
-					<select name="settings[oxyo][oxyo_bc_bg_img_pos]" class="form-control">
-						<option value="top left" {% if oxyo_bc_bg_img_pos == 'top left' %} selected="selected" {% endif %}>top left</option>
-						<option value="top center" {% if oxyo_bc_bg_img_pos == 'top center' %} selected="selected" {% endif %}>top center</option>
-						<option value="top right" {% if oxyo_bc_bg_img_pos == 'top right' %} selected="selected" {% endif %}>top right</option>
-						<option value="center left" {% if oxyo_bc_bg_img_pos == 'center left' %} selected="selected" {% endif %}>middle left</option>
-						<option value="center center" {% if oxyo_bc_bg_img_pos == 'center center' %} selected="selected" {% endif %}>middle center</option>
-						<option value="center right" {% if oxyo_bc_bg_img_pos == 'center right' %} selected="selected" {% endif %}>middle right</option>
-						<option value="bottom left" {% if oxyo_bc_bg_img_pos == 'bottom left' %} selected="selected" {% endif %}>bottom left</option>
-						<option value="bottom center" {% if oxyo_bc_bg_img_pos == 'bottom center' %} selected="selected" {% endif %}>bottom center</option>
-						<option value="bottom right" {% if oxyo_bc_bg_img_pos == 'bottom right' %} selected="selected" {% endif %}>bottom right</option>
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<label>Background Size</label>
-					<select name="settings[oxyo][oxyo_bc_bg_img_size]" class="form-control">
-						<option value="auto" {% if oxyo_bc_bg_img_size == 'auto' %} selected="selected" {% endif %}>auto</option>
-						<option value="contain" {% if oxyo_bc_bg_img_size == 'contain' %} selected="selected" {% endif %}>contain</option>
-						<option value="cover" {% if oxyo_bc_bg_img_size == 'cover' %} selected="selected" {% endif %}>cover</option>
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<label>Background Size</label>
-					<select name="settings[oxyo][oxyo_bc_bg_img_repeat]" class="form-control">
-						<option value="no-repeat" {% if oxyo_bc_bg_img_repeat == 'no-repeat' %} selected="selected" {% endif %}>no-repeat</option>
-						<option value="repeat-x" {% if oxyo_bc_bg_img_repeat == 'repeat-x' %} selected="selected" {% endif %}>repeat-x (-)</option>
-						<option value="repeat-y" {% if oxyo_bc_bg_img_repeat == 'repeat-y' %} selected="selected" {% endif %}>repeat-y (|)</option>
-						<option value="repeat" {% if oxyo_bc_bg_img_repeat == 'repeat' %} selected="selected" {% endif %}>repeat</option>
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<label>Background Attachment</label>
-					<select name="settings[oxyo][oxyo_bc_bg_img_att]" class="form-control">
-						<option value="scroll" {% if oxyo_bc_bg_img_att == 'scroll' %} selected="selected" {% endif %}>scroll</option>
-						<option value="local" {% if oxyo_bc_bg_img_att == 'local' %} selected="selected" {% endif %}>local</option>
-						<option value="fixed" {% if oxyo_bc_bg_img_att == 'fixed' %} selected="selected" {% endif %}>fixed</option>
-					</select>
-				</div>
-
-			</div>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_bc_color ? oxyo_bc_color : '#ffffff' }}"></i>
@@ -466,15 +419,81 @@
 				<input class="form-control" name="settings[oxyo][oxyo_bc_color]" value="{{ oxyo_bc_color ? oxyo_bc_color : '#ffffff' }}"/>
 			</div>
 		</div>
+	</div>    
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_img }}</label>
+		<div class="col-sm-9">
+			<div class="row">
+				<div class="col-sm-3">
+					<a href="" id="thumb-bc-img" data-toggle="image" class="img-thumbnail">
+						<img src="{{ bc_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/>
+					</a>
+					<input type="hidden" name="settings[oxyo][oxyo_bc_bg_img]" value="{{ oxyo_bc_bg_img }}" id="input-bc-img"/>
+				</div>
+				<div class="col-sm-9">
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_pos }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_bc_bg_img_pos]" class="form-control">
+								<option value="top left" {% if oxyo_bc_bg_img_pos == 'top left' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_top_left }}</option>
+								<option value="top center" {% if oxyo_bc_bg_img_pos == 'top center' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_top_center }}</option>
+								<option value="top right" {% if oxyo_bc_bg_img_pos == 'top right' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_top_right }}</option>
+								<option value="center left" {% if oxyo_bc_bg_img_pos == 'center left' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_center_left }}</option>
+								<option value="center center" {% if oxyo_bc_bg_img_pos == 'center center' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_center_center }}</option>
+								<option value="center right" {% if oxyo_bc_bg_img_pos == 'center right' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_center_right }}</option>
+								<option value="bottom left" {% if oxyo_bc_bg_img_pos == 'bottom left' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_bottom_left }}</option>
+								<option value="bottom center" {% if oxyo_bc_bg_img_pos == 'bottom center' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_bottom_center }}</option>
+								<option value="bottom right" {% if oxyo_bc_bg_img_pos == 'bottom right' %}selected="selected"{% endif %}>{{ text_oxyo_img_pos_bottom_right }}</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_size }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_bc_bg_img_size]" class="form-control">
+								<option value="auto" {% if oxyo_bc_bg_img_size == 'auto' %}selected="selected"{% endif %}>{{ text_oxyo_img_size_auto }}</option>
+								<option value="contain" {% if oxyo_bc_bg_img_size == 'contain' %}selected="selected"{% endif %}>{{ text_oxyo_img_size_contain }}</option>
+								<option value="cover" {% if oxyo_bc_bg_img_size == 'cover' %}selected="selected"{% endif %}>{{ text_oxyo_img_size_cover }}</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_repeat }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_bc_bg_img_repeat]" class="form-control">
+								<option value="no-repeat" {% if oxyo_bc_bg_img_repeat == 'no-repeat' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_no }}</option>
+								<option value="repeat-x" {% if oxyo_bc_bg_img_repeat == 'repeat-x' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_x }}</option>
+								<option value="repeat-y" {% if oxyo_bc_bg_img_repeat == 'repeat-y' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_y }}</option>
+								<option value="repeat" {% if oxyo_bc_bg_img_repeat == 'repeat' %}selected="selected"{% endif %}>{{ text_oxyo_img_repeat_repeat }}</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<label class="col-sm-3 control-label">{{ entry_oxyo_img_att }}</label>
+						<div class="col-sm-9">
+							<select name="settings[oxyo][oxyo_bc_bg_img_att]" class="form-control">
+								<option value="scroll" {% if oxyo_bc_bg_img_att == 'scroll' %}selected="selected"{% endif %}>{{ text_oxyo_img_att_scroll }}</option>
+								<option value="local" {% if oxyo_bc_bg_img_att == 'local' %}selected="selected"{% endif %}>{{ text_oxyo_img_att_local }}</option>
+								<option value="fixed" {% if oxyo_bc_bg_img_att == 'fixed' %}selected="selected"{% endif %}>{{ text_oxyo_img_att_fixed }}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 
-	<legend class="third">Content Area</legend>
+	<legend class="third">{{ entry_oxyo_content_area }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="Color when hovering links etc">Primary accent color</span>
+		<label class="col-sm-3 control-label">
+			<span data-toggle="tooltip" title="{{ entry_oxyo_content_primary_accent_color_help }}">{{ entry_oxyo_content_primary_accent_color }}</span>
 		</label>
-		<div class="col-sm-10">
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_primary_accent_color ? oxyo_primary_accent_color : '#1daaa3' }}"></i>
@@ -484,65 +503,69 @@
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="On produts in product listings and product pages">Sale badge background</span>
-		</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_salebadge_bg ? oxyo_salebadge_bg : '#1daaa3' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_salebadge_bg]" value="{{ oxyo_salebadge_bg ? oxyo_salebadge_bg : '#1daaa3' }}"/>
-			</div>
-		</div>
-	</div>
+    <!-- Product Badges (hidden for now) -->
+    <div class="hidden d-none">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                <span data-toggle="tooltip" title="On produts in product listings and product pages">Sale badge background</span>
+            </label>
+            <div class="col-sm-9">
+                <div class="input-group form-inline colorfield">
+                    <span class="input-group-addon">
+                        <i style="background:{{ oxyo_salebadge_bg ? oxyo_salebadge_bg : '#1daaa3' }}"></i>
+                    </span>
+                    <input class="form-control" name="settings[oxyo][oxyo_salebadge_bg]" value="{{ oxyo_salebadge_bg ? oxyo_salebadge_bg : '#1daaa3' }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                <span data-toggle="tooltip" title="On produts in product listings and product pages">Sale badge color</span>
+            </label>
+            <div class="col-sm-9">
+                <div class="input-group form-inline colorfield">
+                    <span class="input-group-addon">
+                        <i style="background:{{ oxyo_salebadge_color ? oxyo_salebadge_color : '#ffffff' }}"></i>
+                    </span>
+                    <input class="form-control" name="settings[oxyo][oxyo_salebadge_color]" value="{{ oxyo_salebadge_color ? oxyo_salebadge_color : '#ffffff' }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                <span data-toggle="tooltip" title="On produts in product listings and product pages">New badge background</span>
+            </label>
+            <div class="col-sm-9">
+                <div class="input-group form-inline colorfield">
+                    <span class="input-group-addon">
+                        <i style="background:{{ oxyo_newbadge_bg ? oxyo_newbadge_bg : '#ffffff' }}"></i>
+                    </span>
+                    <input class="form-control" name="settings[oxyo][oxyo_newbadge_bg]" value="{{ oxyo_newbadge_bg ? oxyo_newbadge_bg : '#ffffff' }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                <span data-toggle="tooltip" title="On produts in product listings and product pages">New badge color</span>
+            </label>
+            <div class="col-sm-9">
+                <div class="input-group form-inline colorfield">
+                    <span class="input-group-addon">
+                        <i style="background:{{ oxyo_newbadge_color ? oxyo_newbadge_color : '#111111' }}"></i>
+                    </span>
+                    <input class="form-control" name="settings[oxyo][oxyo_newbadge_color]" value="{{ oxyo_newbadge_color ? oxyo_newbadge_color : '#111111' }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Product Badges -->
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="On produts in product listings and product pages">Sale badge color</span>
-		</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_salebadge_color ? oxyo_salebadge_color : '#ffffff' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_salebadge_color]" value="{{ oxyo_salebadge_color ? oxyo_salebadge_color : '#ffffff' }}"/>
-			</div>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="On produts in product listings and product pages">New badge background</span>
-		</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_newbadge_bg ? oxyo_newbadge_bg : '#ffffff' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_newbadge_bg]" value="{{ oxyo_newbadge_bg ? oxyo_newbadge_bg : '#ffffff' }}"/>
-			</div>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="On produts in product listings and product pages">New badge color</span>
-		</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_newbadge_color ? oxyo_newbadge_color : '#111111' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_newbadge_color]" value="{{ oxyo_newbadge_color ? oxyo_newbadge_color : '#111111' }}"/>
-			</div>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Price color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_content_price_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_price_color ? oxyo_price_color : '#1daaa3' }}"></i>
@@ -552,39 +575,57 @@
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="When using vertical mega menu modules, or when using header alternative 5">Vertical menu background</span>
-		</label>
-		<div class="col-sm-10">
+    <!-- Vertical Menu Colors (hidden for now) -->
+    <div class="hidden d-none">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                <span data-toggle="tooltip" title="When using vertical mega menu modules, or when using header alternative 5">Vertical menu background</span>
+            </label>
+            <div class="col-sm-9">
+                <div class="input-group form-inline colorfield">
+                    <span class="input-group-addon">
+                        <i style="background:{{ oxyo_vertical_menu_bg ? oxyo_vertical_menu_bg : '#212121' }}"></i>
+                    </span>
+                    <input class="form-control" name="settings[oxyo][oxyo_vertical_menu_bg]" value="{{ oxyo_vertical_menu_bg ? oxyo_vertical_menu_bg : '#212121' }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                <span data-toggle="tooltip" title="When using vertical mega menu modules, or when using header alternative 5">Vertical menu background on hover</span>
+            </label>
+            <div class="col-sm-9">
+                <div class="input-group form-inline colorfield">
+                    <span class="input-group-addon">
+                        <i style="background:{{ oxyo_vertical_menu_bg_hover ? oxyo_vertical_menu_bg_hover : '#fbbc34' }}"></i>
+                    </span>
+                    <input class="form-control" name="settings[oxyo][oxyo_vertical_menu_bg_hover]" value="{{ oxyo_vertical_menu_bg_hover ? oxyo_vertical_menu_bg_hover : '#fbbc34' }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Vertical Menu Colors -->
+
+
+    <legend class="third">{{ entry_oxyo_product }}</legend>
+    <div class="form-group">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_product_tab_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
-					<i style="background:{{ oxyo_vertical_menu_bg ? oxyo_vertical_menu_bg : '#212121' }}"></i>
+					<i style="background:{{ oxyo_product_tab_bg ? oxyo_product_tab_bg : '#f9f9f9' }}"></i>
 				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_vertical_menu_bg]" value="{{ oxyo_vertical_menu_bg ? oxyo_vertical_menu_bg : '#212121' }}"/>
+				<input class="form-control" name="settings[oxyo][oxyo_product_tab_bg]" value="{{ oxyo_product_tab_bg ? oxyo_product_tab_bg : '#f9f9f9' }}"/>
 			</div>
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">
-			<span data-toggle="tooltip" title="When using vertical mega menu modules, or when using header alternative 5">Vertical menu background on hover</span>
-		</label>
-		<div class="col-sm-10">
-			<div class="input-group form-inline colorfield">
-				<span class="input-group-addon">
-					<i style="background:{{ oxyo_vertical_menu_bg_hover ? oxyo_vertical_menu_bg_hover : '#fbbc34' }}"></i>
-				</span>
-				<input class="form-control" name="settings[oxyo][oxyo_vertical_menu_bg_hover]" value="{{ oxyo_vertical_menu_bg_hover ? oxyo_vertical_menu_bg_hover : '#fbbc34' }}"/>
-			</div>
-		</div>
-	</div>
 
-
-	<legend class="third">Buttons</legend>
+	<legend class="third">{{ entry_oxyo_buttons }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Default buttons: Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_button_default }}: {{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_default_btn_bg ? oxyo_default_btn_bg : '#000000' }}"></i>
@@ -595,8 +636,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Default buttons: Color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_button_default }}: {{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_default_btn_color ? oxyo_default_btn_color : '#ffffff' }}"></i>
@@ -607,8 +648,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Default buttons: Hover background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_button_default }}: {{ entry_oxyo_hover_bg_color }} </label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_default_btn_bg_hover ? oxyo_default_btn_bg_hover : '#3e3e3e' }}"></i>
@@ -619,8 +660,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Default buttons: Hover color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_button_default }}: {{ entry_oxyo_hover_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_default_btn_color_hover ? oxyo_default_btn_color_hover : '#ffffff' }}"></i>
@@ -631,8 +672,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Action buttons: Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_button_action }}: {{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_contrast_btn_bg ? oxyo_contrast_btn_bg : '#1daaa3' }}"></i>
@@ -643,10 +684,10 @@
 	</div>
 
 
-	<legend class="third">Footer</legend>
+	<legend class="third">{{ entry_oxyo_footer_area }}</legend>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Background</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_bg_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_footer_bg ? oxyo_footer_bg : '#000000' }}"></i>
@@ -657,8 +698,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_text_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_footer_color ? oxyo_footer_color : '#ffffff' }}"></i>
@@ -669,8 +710,8 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Heading / Links separator color</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 control-label">{{ entry_oxyo_footer_heading_color }}</label>
+		<div class="col-sm-9">
 			<div class="input-group form-inline colorfield">
 				<span class="input-group-addon">
 					<i style="background:{{ oxyo_footer_h5_sep ? oxyo_footer_h5_sep : '#cccccc' }}"></i>

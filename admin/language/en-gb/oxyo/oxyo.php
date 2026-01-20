@@ -398,13 +398,6 @@ $_['text_yandex_scheme_instruction']    = '<p>Go to <a href="https://yandex.ru/m
 
 
 
-/*** Tab Typography settings ***/
-$_['text_typography']                   = 'Typography';
-$_['text_override_default_font']        = 'Override Default Font Styles';
-$_['text_google_font_list']             = 'Google Font List';
-
-
-
 /*** Tab Footer Settings ***/
 $_['text_footer_settings']                          = 'Footer Settings';
 $_['text_footer_custom_block_top']                  = 'Footer Custom Block (top)';
@@ -445,3 +438,140 @@ $_['help_payment_icons']                  = 'If you upload an image, it will app
 $_['text_footer_copyright_legend']        = 'Footer Copyright Text';
 $_['entry_footer_copyright']              = 'Footer Copyright Text';
 $_['help_footer_copyright']               = 'Use {year} to insert the current year.';
+
+
+
+/*** Tab Styles & Colors ***/
+// Main
+$_['entry_oxyo_styles_title']                   = 'Styles & Colors';
+$_['entry_oxyo_styles_general']                 = 'General';
+$_['entry_oxyo_styles_layout']                  = 'Layout';
+$_['entry_oxyo_styles_sticky_columns']          = 'Sticky Columns';
+$_['entry_oxyo_styles_widgets']                 = 'Widget Titles';
+$_['entry_oxyo_styles_product_list']            = 'Product Listing Style';
+$_['entry_oxyo_styles_custom_colors']           = 'Custom Color Scheme';
+
+// General
+$_['entry_oxyo_styles_cart_icon']               = 'Shopping cart icon';
+
+// Layout
+$_['entry_oxyo_styles_layout_style']            = 'Layout Style';
+$_['text_oxyo_styles_layout_full']              = 'Full width';
+$_['text_oxyo_styles_layout_boxed']             = 'Boxed width';
+
+$_['entry_oxyo_styles_content_width']           = 'Content width';
+$_['text_oxyo_styles_content_narrow']           = 'Narrow (1060px)';
+$_['text_oxyo_styles_content_normal']           = 'Normal (1170px)';
+$_['text_oxyo_styles_content_wide']             = 'Wide (1280px)';
+
+// Sticky columns
+$_['text_oxyo_styles_sticky_columns_help']      = 'Sticky columns stays within the viewport when scrolling down';
+
+$_['entry_oxyo_styles_sticky_offset']           = 'Sticky Offset Top';
+$_['text_oxyo_styles_sticky_offset_help']       = 'Use offset if sticky header is enabled to avoid overlapping columns/header. Enter value in pixels';
+
+// Widget titles
+$_['entry_oxyo_styles_widget_heading']          = 'Widget heading style';
+$_['text_oxyo_styles_widget_style_1']           = 'Style 1 - Cross Separator';
+$_['text_oxyo_styles_widget_style_2']           = 'Style 2 - Line Separator';
+$_['text_oxyo_styles_widget_style_3']           = 'Style 3 - Bordered Title';
+
+// Product listing
+$_['entry_oxyo_styles_product_style']           = 'Product listing style';
+$_['text_oxyo_styles_product_style_help']       = 'Select the style for product listings throughout the store (category pages, special offers, related products, etc.)';
+$_['text_oxyo_styles_product_style_1']          = 'Style 1 - Default style';
+$_['text_oxyo_styles_product_style_2']          = 'Style 2 - Action buttons slide up on hover';
+$_['text_oxyo_styles_product_style_3']          = 'Style 3 - Dark image overlay on hover';
+$_['text_oxyo_styles_product_style_4']          = 'Style 4 - Dark image overlay alt 2';
+$_['text_oxyo_styles_product_style_5']          = 'Style 5 - Center aligned';
+$_['text_oxyo_styles_product_style_6']          = 'Style 6 - Center aligned with button';
+
+// Toggles
+$_['entry_oxyo_styles_swap_image']              = 'Swap image on hover';
+$_['text_oxyo_styles_swap_image_help']          = 'Show the first additional image when hovering a product';
+$_['entry_oxyo_styles_cut_names']               = 'Cut product names';
+$_['text_oxyo_styles_cut_names_help']           = 'Keep the product names in listings within one line (using only CSS)';
+$_['entry_oxyo_styles_items_mobile']            = 'Minimum items per row';
+$_['text_oxyo_styles_items_mobile_help']        = 'Minimum number of items per row on mobile devices (<768px)';
+$_['text_oxyo_styles_one_item']                 = '1 item';
+$_['text_oxyo_styles_two_items']                = '2 items';
+
+// Custom colors
+$_['entry_oxyo_bg_color']                       = 'Background Color';
+$_['entry_oxyo_bg_img']                         = 'Background Image';
+$_['entry_oxyo_text_color']                     = 'Text Color';
+$_['entry_oxyo_link_color']                     = 'Link Color';
+$_['entry_oxyo_accent_color']                   = 'Accent Color';
+$_['entry_oxyo_hover_color']                    = 'Hover Color';
+$_['entry_oxyo_hover_bg_color']                 = 'Hover Background Color';
+
+$_['entry_oxyo_dark_color']                     = 'Dark Color';
+$_['entry_oxyo_medium_color']                   = 'Medium Color';
+$_['entry_oxyo_light_color']                    = 'Light Color';
+
+$_['text_oxyo_img_pos_top_left']                = 'Top left';
+$_['text_oxyo_img_pos_top_center']              = 'Top center';
+$_['text_oxyo_img_pos_top_right']               = 'Top right';
+$_['text_oxyo_img_pos_center_left']             = 'Middle left';
+$_['text_oxyo_img_pos_center_center']           = 'Middle center';
+$_['text_oxyo_img_pos_center_right']            = 'Middle right';
+$_['text_oxyo_img_pos_bottom_left']             = 'Bottom left';
+$_['text_oxyo_img_pos_bottom_center']           = 'Bottom center';
+$_['text_oxyo_img_pos_bottom_right']            = 'Bottom right';
+
+$_['entry_oxyo_img_pos']                        = 'Background Position';
+$_['entry_oxyo_img_size']                       = 'Background Size';
+$_['entry_oxyo_img_repeat']                     = 'Background Repeat';
+$_['entry_oxyo_img_att']                        = 'Background Attachment';
+
+$_['text_oxyo_img_size_auto']                   = 'Auto';
+$_['text_oxyo_img_size_contain']                = 'Contain';
+$_['text_oxyo_img_size_cover']                  = 'Cover';
+
+$_['text_oxyo_img_repeat_no']                   = 'No repeat';
+$_['text_oxyo_img_repeat_x']                    = 'Repeat horizontally';
+$_['text_oxyo_img_repeat_y']                    = 'Repeat vertically';
+$_['text_oxyo_img_repeat_repeat']               = 'Repeat';
+
+$_['text_oxyo_img_att_scroll']                  = 'Scroll';
+$_['text_oxyo_img_att_local']                   = 'Local';
+$_['text_oxyo_img_att_fixed']                   = 'Fixed';
+
+$_['entry_oxyo_styles_override_colors']         = 'Override default colors';
+
+// Subtitles
+$_['entry_oxyo_body_bg']                        = 'Body Background (when using boxed layout)';
+$_['entry_oxyo_top_line']                       = 'Header Top Line';
+$_['entry_oxyo_top_line_promo']                 = 'Header Top Line Promo Messages';
+$_['entry_oxyo_header_area']                    = 'Header Area';
+$_['entry_oxyo_menu_area']                      = 'Menu Area';
+$_['entry_oxyo_bc_area']                        = 'Breadcrumbs (When Holding Titles)';
+$_['entry_oxyo_content_area']                  	= 'Content Area';
+$_['entry_oxyo_product']                        = 'Product Tab';
+$_['entry_oxyo_buttons']						= 'Buttons';
+$_['entry_oxyo_footer_area']                  	= 'Footer Area';
+
+// Menu colors
+$_['entry_oxyo_menu_sale_label_color']          = 'Sale Label Color';
+$_['entry_oxyo_menu_new_label_color']           = 'New Label Color';
+
+// Content area colors
+$_['entry_oxyo_content_primary_accent_color']   		= 'Primary Accent Color';
+$_['entry_oxyo_content_primary_accent_color_help']   	= 'Color when hovering links etc.';
+$_['entry_oxyo_content_price_color']               		= 'Price Color';
+
+// Product colors
+$_['entry_oxyo_product_tab_bg_color']               	= 'Product Tab Background Color';
+
+// Buttons colors
+$_['entry_oxyo_button_default']                    = 'Default Button';
+$_['entry_oxyo_button_action']                     = 'Action Button';
+
+// Footer colors
+$_['entry_oxyo_footer_heading_color']               = 'Heading / Links separator color';
+
+
+/*** Tab Typography settings ***/
+$_['text_typography']                   = 'Typography';
+$_['text_override_default_font']        = 'Override Default Font Styles';
+$_['text_google_font_list']             = 'Google Font List';
