@@ -316,6 +316,7 @@
         node.style.transform = translate;
     }
     function show(element) {
+        if (!element) return;
         element.style.display = 'block';
     }
     function hide(element) {
