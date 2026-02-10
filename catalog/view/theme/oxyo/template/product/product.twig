@@ -20,7 +20,7 @@
 			{{ content_top }}
 
 			<div class="table__ product-info product-page">
-
+                <!--
 				<div class="table-cell__ left">
                     {% if thumb or video or images %}
                         <div id="gallery" class="image-area {% if not hover_zoom %}hover-zoom-disabled{% endif %}">
@@ -106,9 +106,143 @@
                         </div>
                     {% endif %}
                 </div>
+                -->
+                {% if thumb or video or images %}
+                <div class="table-cell__ product-gallery-wrapper left">
+                    <button class="gallery-close" type="button" aria-label="Close gallery">
+                        &times;
+                    </button>
+                    <div class="product-gallery">
+                        <div class="product-main-image image-area">
+
+                            {% if (sale_badge or new_badge) %}
+                                <div class="badges-wrapper">                                            
+                                    {% if sale_badge %}
+                                        <span class="badge sale_badge"><i>{{ sale_badge }}</i></span>
+                                    {% endif %}
+                                    {% if new_badge %}
+                                        <span class="badge new_badge"><i>{{ new_badge }}</i></span>
+                                    {% endif %}
+                                    {% if ((qty < 1) and (stock_badge_status)) %}
+                                        <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            <div class="swiper main-swiper img-aspect-ratio">
+                                <button class="main-arrow main-prev" type="button" aria-label="Previous">
+                                    <i class="bi bi-chevron-compact-left"></i>
+                                </button>
+                                <div class="swiper-wrapper">
+                                    <!-- If video ot main image exists, show it as the first slide -->
+                                    {% if video  or thumb %}
+                                        {% if video %}      
+                                            <!-- VIDEO SLIDE -->
+                                            <div class="swiper-slide is-video">
+                                                <div class="media-wrapper video-wrapper" style="background-image: url('{{ thumb }}')">
+                                                    <button class="video-fullscreen-btn" type="button" aria-label="Open video fullscreen">
+                                                        <i class="bi bi-arrows-fullscreen"></i>
+                                                    </button>
+                                                    <div class="video-loader">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    <video
+                                                        class="product-video"
+                                                        src="{{ video }}"
+                                                        muted
+                                                        playsinline
+                                                        autoplay
+                                                        loop
+                                                        preload="metadata">
+                                                    </video>
+                                                </div>
+                                            </div>
+                                            <!-- VIDEO SLIDE END -->
+                                        {% else %}
+                                            <!-- MAIN IMAGE SLIDE -->
+                                            <div class="swiper-slide">
+                                                <div class="media-wrapper image-wrapper">
+                                                    <a href="{{ popup }}">
+                                                        <img src="{{ thumb}}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- MAIN IMAGE SLIDE END -->
+                                        {% endif %}
+                                    {% endif %}
+                                    <!-- End of video or main image slide -->
+
+                                    <!-- IMAGE SLIDES -->
+                                    {% if images %}
+                                        {% for image in images %}
+                                            <div class="swiper-slide">
+                                                <div class="media-wrapper image-wrapper">
+                                                    <a href="{{ image.href }}">
+                                                        <img src="{{ image.thumb_lg }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <!-- End of image slides -->
+                                </div>
+                                <button class="main-arrow main-next" type="button" aria-label="Next">
+                                    <i class="bi bi-chevron-compact-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="product-thumbnails-wrapper">
+                            <button class="thumbs-arrow thumbs-prev" type="button" aria-label="Previous">
+                                <i class="bi bi-chevron-compact-left"></i>
+                            </button>
+                            <div class="product-thumbnails swiper thumbs-swiper">
+                                <div class="swiper-wrapper">
+
+                                    <!-- VIDEO OR MAIN THUMB -->
+                                    {% if video or thumb %}
+                                        {% if video %}
+                                            <!-- VIDEO THUMB -->
+                                            <div class="swiper-slide thumb is-video-thumb">
+                                                <div class="thumb-wrapper">
+                                                    <img src="{{ thumb }}" alt="Video thumbnail">
+                                                </div>
+                                            </div>
+                                            <!-- VIDEO THUMB END -->
+                                        {% else %}
+                                            <!-- MAIN IMAGE THUMB -->
+                                            <div class="swiper-slide thumb">
+                                                <div class="thumb-wrapper">
+                                                    <img src="{{ thumb }}" alt="{{ heading_title }}">
+                                                </div>
+                                            </div>
+                                            <!-- MAIN IMAGE THUMB END -->
+                                        {% endif %}
+                                    {% endif %}
+                                    <!-- End of video or main thumb -->
+
+                                    <!-- IMAGE THUMBS -->
+                                    {% if images %}
+                                        {% for image in images %}
+                                            <div class="swiper-slide thumb">
+                                                <div class="thumb-wrapper">
+                                                    <img src="{{ image.thumb }}" alt="{{ heading_title }}"/>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <button class="thumbs-arrow thumbs-next" type="button" aria-label="Next">
+                                <i class="bi bi-chevron-compact-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>                
+                {% endif %}
                 <!-- .table-cell.left ends -->
 
-				<div class="table-cell__ w100 right">
+				<div class="table-cell__ product-info-wrapper right">
 					<div class="inner">
                         <div class="wishlist_compare">
                             <p class="info is_wishlist">

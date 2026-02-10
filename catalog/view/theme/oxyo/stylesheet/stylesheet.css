@@ -215,6 +215,10 @@
     --font-family-text: 'Philosopher', sans-serif;
     --font-family-header: 'ArtegraSansExtended', sans-serif;
     --font-family-accent: 'Philosopher', sans-serif;
+
+    /* border radius */
+    --border-radius-small: 6px;
+    --border-radius-medium: 12px;
 }
 
 body {
@@ -1312,7 +1316,7 @@ div.required .control-label:after {
 }
 
 /* Responsive video */
-.video-wrapper {
+/* .video-wrapper {
     position: relative;
     padding-bottom: 56.25%;
     padding-top: 30px;
@@ -1326,7 +1330,7 @@ div.required .control-label:after {
     left: 0;
     width: 100%;
     height: 100%;
-}
+} */
 
 /* Zoomed images */
 .banner_wrap {
@@ -8484,11 +8488,11 @@ select.form-select {
         margin-bottom: 12px;
     }
 
-    .images-bottom .product-info > .left {
+    .images-bottom .product-info > .left:not(.is-fullscreen) {
         width: 33.3333%;
     }
 
-    .images-bottom .product-info > .right {
+    .images-bottom .product-info > .right:not(.is-fullscreen) {
         width: 66.6667%;
     }
 }

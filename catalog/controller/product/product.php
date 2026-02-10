@@ -245,8 +245,14 @@ class ControllerProductProduct extends Controller
             $this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 
             // GLightbox
-            $this->document->addScript('/catalog/view/theme/oxyo/js/glightbox/js/glightbox.js');
-            $this->document->addStyle('/catalog/view/theme/oxyo/js/glightbox/css/glightbox.min.css');
+            // $this->document->addScript('/catalog/view/theme/oxyo/js/glightbox/js/glightbox.js');
+            // $this->document->addStyle('/catalog/view/theme/oxyo/js/glightbox/css/glightbox.min.css');
+
+            // Swiper
+            $this->document->addStyle('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
+            $this->document->addScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
+            $this->document->addStyle('catalog/view/theme/oxyo/stylesheet/product-gallery.css');
+            $this->document->addScript('catalog/view/theme/oxyo/js/product-gallery.js');
 
             $data['heading_title'] = $product_info['name'];
 

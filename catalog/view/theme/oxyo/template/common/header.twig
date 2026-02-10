@@ -10,9 +10,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{{ title }}</title>
         <base href="{{ base }}"/>
-        {% if description %}<meta name="description" content="{{ description }}"/>
+        {% if description %}
+            <meta name="description" content="{{ description }}"/>
         {% endif %}
-        {% if keywords %}<meta name="keywords" content="{{ keywords }}"/>
+        {% if keywords %}
+            <meta name="keywords" content="{{ keywords }}"/>
         {% endif %}
         <!-- Load essential resources -->
         <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
@@ -25,6 +27,8 @@
         <link href="catalog/view/theme/oxyo/stylesheet/stylesheet.css?v={{ stylesheet_version }}" rel="stylesheet">
         <!-- Mandatory Theme Settings CSS -->
         <style id="oxyo-mandatory-css">{{oxyo_mandatory_css}}</style>
+        <!-- preconnect for swiper -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
         <!-- Plugin Stylesheet(s) -->
         {% for style in styles %}
             <link href="{{ style.href }}" rel="{{ style.rel }}" media="{{ style.media }}"/>

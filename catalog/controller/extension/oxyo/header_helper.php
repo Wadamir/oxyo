@@ -488,6 +488,7 @@ if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_s
 }
 
 // Custom colors
+$styles = '';
 if ($this->config->get('oxyo_design_status')) {
     $data['oxyo_styles_status'] = $this->config->get('oxyo_design_status');
     $data['oxyo_search_scheme'] = $this->config->get('oxyo_search_scheme');
@@ -498,7 +499,7 @@ if ($this->config->get('oxyo_design_status')) {
         $oxyo_header_bg_rgba = sscanf($oxyo_header_bg, "#%02x%02x%02x");
         $oxyo_header_bg_rgba_main = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 1)';
         $oxyo_header_bg_rgba_opacity = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 0.5)';
-        $styles = 'a:hover, a:focus, .menu-cell .dropdown-inner a:hover, .link-hover-color:hover, .primary-color, .cm_item .primary-color, .nav-tabs.text-center.nav-tabs-sm > li.active {color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
+        $styles .= 'a:hover, a:focus, .menu-cell .dropdown-inner a:hover, .link-hover-color:hover, .primary-color, .cm_item .primary-color, .nav-tabs.text-center.nav-tabs-sm > li.active {color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
         $styles .= '.primary-bg-color, .widget-title-style2 .widget .widget-title-separator:after, .nav-tabs.text-center.nav-tabs-sm > li.active > a:after,.nav-tabs > li > a:hover,.nav-tabs > li > a:focus,.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus {background-color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
         $styles .= 'div.ui-slider-range.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default {background:' . $this->config->get('oxyo_primary_accent_color') . ' !important;}';
         // $styles .= '.primary-color-border, .nav-tabs {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
@@ -577,6 +578,22 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= 'background-color:' . $oxyo_header_bg_rgba_opacity . ';';
         $styles .= '}';
         $styles .= '}';
+
+        // Image width and height for img in product page
+        $data['theme_default_image_thumb_width'] = $this->config->get('theme_default_image_thumb_width');
+        $data['theme_default_image_thumb_height'] = $this->config->get('theme_default_image_thumb_height');
+        $styles .= ':root {';
+        $styles .= '--border-radius-small: 6px;';
+        $styles .= '--border-radius-medium: 12px;';
+        $styles .= '--main-img-width:' . $this->config->get('theme_default_image_thumb_width') . 'px;';
+        $styles .= '--main-img-height:' . $this->config->get('theme_default_image_thumb_height') . 'px;';
+        $styles .= '--thumb-width: ' . round($this->config->get('theme_default_image_thumb_width') / 10) . 'px;';
+        $styles .= '--thumb-height: ' . round($this->config->get('theme_default_image_thumb_height') / 10) . 'px;';
+        $styles .= '--gallery-ratio: ' . round($this->config->get('theme_default_image_thumb_width') / $this->config->get('theme_default_image_thumb_height'), 2) . ';';
+        $styles .= '}';
+        $styles .= '.img-aspect-ratio .image-wrapper, .img-aspect-ratio .video-wrapper {aspect-ratio: var(--gallery-ratio);';
+        $styles .= '.product-thumbnails .thumb {width: var(--thumb-width); height: var(--thumb-height); aspect-ratio: calc(var(--thumb-width) / var(--thumb-height));';
+        $styles .= '.product-thumbnails .thumb > .thumb-wrapper {color: #fff000; }';
 
         $this->cache->set('oxyo_styles_cache_store_' . $this->config->get('config_store_id'), $styles);
         $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
