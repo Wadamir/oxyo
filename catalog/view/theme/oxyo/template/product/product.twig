@@ -163,7 +163,7 @@
                                             <div class="swiper-slide">
                                                 <div class="media-wrapper image-wrapper">
                                                     <a href="{{ popup }}">
-                                                        <img src="{{ thumb}}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
+                                                        <img src="{{ popup }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
                                                     </a>
                                                 </div>
                                             </div>
@@ -177,8 +177,8 @@
                                         {% for image in images %}
                                             <div class="swiper-slide">
                                                 <div class="media-wrapper image-wrapper">
-                                                    <a href="{{ image.href }}">
-                                                        <img src="{{ image.thumb_lg }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
+                                                    <a href="{{ image.popup }}">
+                                                        <img src="{{ image.popup }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
                                                     </a>
                                                 </div>
                                             </div>
