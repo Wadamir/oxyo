@@ -560,6 +560,9 @@ body.no-scroll {
 }
 
 .product-gallery-wrapper.is-fullscreen .swiper-slide {
+    margin: 0;
+    margin-bottom: 15%;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
