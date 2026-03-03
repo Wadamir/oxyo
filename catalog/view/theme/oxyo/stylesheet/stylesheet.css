@@ -11444,6 +11444,7 @@ div.ui-slider-range.ui-widget-header,
 .ms-overlay-layers .ms-layer {
     position: absolute;
     pointer-events: auto;
+    width: 100%;
 }
 
 .ms-slide .ms-layer.image {
@@ -11684,40 +11685,40 @@ div.ui-slider-range.ui-widget-header,
 
 @media (max-width: 550px) {
     .master-slider .btn {
-        margin-top: -10% !important;
+        /* margin-top: -10% !important; */
     }
 }
 
 @media (max-width: 500px) {
     .master-slider .btn {
-        margin-top: -12% !important;
+        /* margin-top: -12% !important; */
     }
 }
 
 @media (max-width: 450px) {
     .master-slider .btn {
-        margin-top: -16% !important;
+        /* margin-top: -16% !important; */
     }
 }
 
 @media (max-width: 400px) {
     .master-slider .btn {
-        margin-top: -20% !important;
+        /* margin-top: -20% !important; */
     }
 }
 
 @media (max-width: 340px) {
     .master-slider .btn {
-        margin-top: -30% !important;
+        /* margin-top: -30% !important; */
     }
 }
 
-.kenburn .slide-bg {
+.kenburns .slide-bg {
     transition: transform 1500ms ease-in-out;
     transition-delay: 2000ms;
 }
 
-.ms_ready .ms-sl-selected.kenburn .slide-bg {
+.ms_ready .ms-sl-selected.kenburns .slide-bg {
     transition: transform 12s linear;
 }
 

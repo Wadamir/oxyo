@@ -1,4 +1,4 @@
-<?php if ($fullwidth) { ?>
+<?php if ($full_width) { ?>
     </div>
 <?php } ?>
 <div class="widget" style="margin-bottom:<?php echo $margin_bottom; ?>;">
@@ -19,7 +19,7 @@
                         <?php if ($group['type'] == 'image') { ?>
                             <!-- Image layer -->
                             <img src="<?php echo $group['image']; ?>" alt="" data-src="<?php echo $group['image']; ?>" class="ms-layer image"
-                                <?php if ($group['minheight']) { ?> style="min-height:<?php echo $group['minheight']; ?>px" <?php } ?>
+                                <?php if ($group['min_height']) { ?> style="min-height:<?php echo $group['min_height']; ?>px" <?php } ?>
                                 data-origin="ml" data-type="image" data-offset-x="<?php echo $group['left']; ?>" data-offset-y="<?php echo $group['top']; ?>" data-parallax="<?php echo $group['p_index']; ?>" data-duration="<?php echo $group['durationin']; ?>" data-delay="<?php echo $group['start']; ?>" data-effect="<?php echo $group['transitionin']; ?>" data-ease="<?php echo $group['easingin']; ?>" data-hide-effect="<?php echo $group['transitionout']; ?>" data-hide-duration="<?php echo $group['durationout']; ?>" data-hide-ease="<?php echo $group['easingout']; ?>" data-hide-time="<?php echo $group['end']; ?>" />
                         <?php } ?>
                         <?php if ($group['type'] == 'button') { ?>
@@ -45,7 +45,7 @@
         slider.setup('masterslider<?php echo $module; ?>', {
             width: <?php echo $width; ?>,
             height: <?php echo $height; ?>,
-            minHeight: <?php echo $minheight; ?>,
+            min_height: <?php echo $min_height; ?>,
             layout: "fillwidth",
             grabCursor: false,
             centerControls: false,
@@ -73,6 +73,6 @@
     setTimeout("$('body').addClass('ms_ready');", 400);
     });
 </script>
-<?php if ($fullwidth) { ?>
+<?php if ($full_width) { ?>
     <div class="container">
     <?php } ?>

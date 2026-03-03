@@ -89,8 +89,8 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         $data['text_preview_language'] = $this->language->get('text_preview_language');
         $data['entry_width'] = $this->language->get('entry_width');
         $data['entry_height'] = $this->language->get('entry_height');
-        $data['entry_minheight'] = $this->language->get('entry_minheight');
-        $data['entry_fullwidth'] = $this->language->get('entry_fullwidth');
+        $data['entry_min_height'] = $this->language->get('entry_min_height');
+        $data['entry_full_width'] = $this->language->get('entry_full_width');
         $data['entry_margin_bottom'] = $this->language->get('entry_margin_bottom');
         $data['entry_loop'] = $this->language->get('entry_loop');
         $data['entry_speed'] = $this->language->get('entry_speed');
@@ -117,7 +117,9 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         $data['text_layer_content'] = $this->language->get('text_layer_content');
         $data['text_layer_position'] = $this->language->get('text_layer_position');
         $data['text_offset_left'] = $this->language->get('text_offset_left');
+        $data['text_offset_right'] = $this->language->get('text_offset_right');
         $data['text_offset_top'] = $this->language->get('text_offset_top');
+        $data['text_offset_bottom'] = $this->language->get('text_offset_bottom');
         $data['text_layer_style'] = $this->language->get('text_layer_style');
         $data['text_font_family'] = $this->language->get('text_font_family');
         $data['text_font_weight'] = $this->language->get('text_font_weight');
@@ -130,6 +132,7 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         $data['text_animation_in'] = $this->language->get('text_animation_in');
         $data['text_animation_out'] = $this->language->get('text_animation_out');
         $data['text_effect'] = $this->language->get('text_effect');
+        $data['text_none_transition'] = $this->language->get('text_none_transition');
         $data['text_easing'] = $this->language->get('text_easing');
         $data['text_duration'] = $this->language->get('text_duration');
         $data['text_button_text'] = $this->language->get('text_button_text');
@@ -138,10 +141,10 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         $data['text_button_class'] = $this->language->get('text_button_class');
         $data['text_layer_sort_order'] = $this->language->get('text_layer_sort_order');
         $data['text_layer_parallax'] = $this->language->get('text_layer_parallax');
-        $data['text_slide_kenburn'] = $this->language->get('text_slide_kenburn');
+        $data['text_slide_kenburns'] = $this->language->get('text_slide_kenburns');
         $data['text_bg_color'] = $this->language->get('text_bg_color');
-        $data['text_heading_minheight'] = $this->language->get('text_heading_minheight');
-        $data['text_layer_minheight'] = $this->language->get('text_layer_minheight');
+        $data['text_heading_min_height'] = $this->language->get('text_heading_min_height');
+        $data['text_layer_min_height'] = $this->language->get('text_layer_min_height');
         $data['text_circle_arrows'] = $this->language->get('text_circle_arrows');
         $data['text_simple_arrows'] = $this->language->get('text_simple_arrows');
 
@@ -177,33 +180,33 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
             "Verdana, Geneva, sans-serif" => "Verdana"
         );
 
-        // Transitoins In 
+        // Transitions In 
         $data['transitions'][] = array();
         $data['transitions'] = array(
-            "fade()"                                 => "Fade",
-            "left(short)"                             => "Left (Short)",
-            "left(long)"                             => "Left (Long)",
-            "left(1200)"                             => "Left (Extra Long)",
-            "right(short)"                             => "Right (Short)",
-            "right(long)"                             => "Right (Long)",
-            "right(1200)"                             => "Right (Extra Long)",
-            "top(short)"                             => "Top (Short)",
-            "top(long)"                             => "Top (Long)",
-            "top(1200)"                             => "Top (Extra Long)",
-            "bottom(short)"                         => "Bottom (Short)",
-            "bottom(long)"                             => "Bottom (Long)",
-            "bottom(1200)"                             => "Bottom (Extra Top)",
-            "front(200)"                             => "Front (Short)",
-            "front(1500)"                             => "Front (Long)",
-            "back(200)"                             => "Back (Short)",
-            "back(1500)"                             => "Back (Long)",
-            "rotate(300,c)"                         => "Rotate",
-            "rotateleft(45|180,long,br,true)"         => "Rotate (Left)",
-            "rotateright(-45|-180,long,bl,true)"     => "Rotate (Right)",
+            "fade()"                                    => "Fade",
+            "left(short)"                               => "Left (Short)",
+            "left(long)"                                => "Left (Long)",
+            "left(1200)"                                => "Left (Extra Long)",
+            "right(short)"                              => "Right (Short)",
+            "right(long)"                               => "Right (Long)",
+            "right(1200)"                               => "Right (Extra Long)",
+            "top(short)"                                => "Top (Short)",
+            "top(long)"                                 => "Top (Long)",
+            "top(1200)"                                 => "Top (Extra Long)",
+            "bottom(short)"                             => "Bottom (Short)",
+            "bottom(long)"                              => "Bottom (Long)",
+            "bottom(1200)"                              => "Bottom (Extra Top)",
+            "front(200)"                                => "Front (Short)",
+            "front(1500)"                               => "Front (Long)",
+            "back(200)"                                 => "Back (Short)",
+            "back(1500)"                                => "Back (Long)",
+            "rotate(300,c)"                             => "Rotate",
+            "rotateleft(45|180,long,br,true)"          => "Rotate (Left)",
+            "rotateright(-45|-180,long,bl,true)"       => "Rotate (Right)",
             "rotatetop(45|180,short,tr,true)"          => "Rotate (Top)",
-            "rotatebottom(45|180,short,bl,true)"     => "Rotate (Bottom)",
-            "rotatefront(300,800,c,true)"             => "Rotate (Front)",
-            "rotateback(300,800,c,true)"             => "Rotate (Back)"
+            "rotatebottom(45|180,short,bl,true)"       => "Rotate (Bottom)",
+            "rotatefront(300,800,c,true)"              => "Rotate (Front)",
+            "rotateback(300,800,c,true)"               => "Rotate (Back)"
         );
 
         // Easings 
@@ -240,8 +243,8 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         );
 
         // Font Weights 
-        $data['fontweights'][] = array();
-        $data['fontweights'] = array(
+        $data['font_weights'][] = array();
+        $data['font_weights'] = array(
             "400"         => "400 (Normal)",
             "100"         => "100",
             "200"         => "200",
@@ -256,32 +259,32 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         // Button Classes
         $data['button_classes'][] = array();
         $data['button_classes'] = array(
-            "btn btn-link"                                 => "Dark - Plain Text Link",
-            "btn btn-tiny btn-primary"                     => "Dark - Extra Small",
-            "btn btn-tiny btn-outline"                     => "Dark - Extra Small (Outline)",
-            "btn btn-sm btn-primary"                     => "Dark - Small",
-            "btn btn-sm btn-outline"                     => "Dark - Small (Outline)",
-            "btn btn-primary"                             => "Dark - Medium",
-            "btn btn-outline"                             => "Dark - Medium (Outline)",
-            "btn btn-lg btn-primary"                     => "Dark - Large",
-            "btn btn-lg btn-outline"                     => "Dark - Large (Outline)",
-            "btn btn-link-light"                         => "Light - Plain Text Link",
-            "btn btn-tiny btn-light"                     => "Light - Extra Small",
-            "btn btn-tiny btn-light-outline"             => "Light - Extra Small (Outline)",
-            "btn btn-sm btn-light"                         => "Light - Small",
-            "btn btn-sm btn-light-outline"                 => "Light - Small (Outline)",
-            "btn btn-light"                             => "Light - Medium",
-            "btn btn-light-outline"                     => "Light - Medium (Outline)",
-            "btn btn-lg btn-light"                         => "Light - Large",
-            "btn btn-lg btn-light-outline"                 => "Light - Large (Outline)",
-            "btn btn-tiny btn-contrast"                 => "Contrast Color - Extra Small",
-            "btn btn-tiny btn-contrast-outline"         => "Contrast Color - Extra Small (Outline)",
-            "btn btn-sm btn-contrast"                     => "Contrast Color - Small",
-            "btn btn-sm btn-contrast-outline"             => "Contrast Color - Small (Outline)",
-            "btn btn-contrast"                             => "Contrast Color - Medium",
-            "btn btn-contrast-outline"                     => "Contrast Color - Medium (Outline)",
-            "btn btn-lg btn-contrast"                     => "Contrast Color - Large",
-            "btn btn-lg btn-contrast-outline"             => "Contrast Color - Large (Outline)",
+            "btn btn-link"                                  => "Dark - Plain Text Link",
+            "btn btn-tiny btn-primary"                      => "Dark - Extra Small",
+            "btn btn-tiny btn-outline"                      => "Dark - Extra Small (Outline)",
+            "btn btn-sm btn-primary"                        => "Dark - Small",
+            "btn btn-sm btn-outline"                        => "Dark - Small (Outline)",
+            "btn btn-primary"                               => "Dark - Medium",
+            "btn btn-outline"                               => "Dark - Medium (Outline)",
+            "btn btn-lg btn-primary"                        => "Dark - Large",
+            "btn btn-lg btn-outline"                        => "Dark - Large (Outline)",
+            "btn btn-link-light"                            => "Light - Plain Text Link",
+            "btn btn-tiny btn-light"                        => "Light - Extra Small",
+            "btn btn-tiny btn-light-outline"                => "Light - Extra Small (Outline)",
+            "btn btn-sm btn-light"                          => "Light - Small",
+            "btn btn-sm btn-light-outline"                  => "Light - Small (Outline)",
+            "btn btn-light"                                 => "Light - Medium",
+            "btn btn-light-outline"                         => "Light - Medium (Outline)",
+            "btn btn-lg btn-light"                          => "Light - Large",
+            "btn btn-lg btn-light-outline"                  => "Light - Large (Outline)",
+            "btn btn-tiny btn-contrast"                     => "Contrast Color - Extra Small",
+            "btn btn-tiny btn-contrast-outline"             => "Contrast Color - Extra Small (Outline)",
+            "btn btn-sm btn-contrast"                       => "Contrast Color - Small",
+            "btn btn-sm btn-contrast-outline"               => "Contrast Color - Small (Outline)",
+            "btn btn-contrast"                              => "Contrast Color - Medium",
+            "btn btn-contrast-outline"                      => "Contrast Color - Medium (Outline)",
+            "btn btn-lg btn-contrast"                       => "Contrast Color - Large",
+            "btn btn-lg btn-contrast-outline"               => "Contrast Color - Large (Outline)",
         );
 
         if (isset($this->error['warning'])) {
@@ -358,20 +361,20 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
             $data['height'] = '500';
         }
 
-        if (isset($this->request->post['minheight'])) {
-            $data['minheight'] = $this->request->post['minheight'];
+        if (isset($this->request->post['min_height'])) {
+            $data['min_height'] = $this->request->post['min_height'];
         } elseif (!empty($module_info)) {
-            $data['minheight'] = $module_info['minheight'];
+            $data['min_height'] = $module_info['min_height'];
         } else {
-            $data['minheight'] = '0';
+            $data['min_height'] = '0';
         }
 
-        if (isset($this->request->post['fullwidth'])) {
-            $data['fullwidth'] = $this->request->post['fullwidth'];
+        if (isset($this->request->post['full_width'])) {
+            $data['full_width'] = $this->request->post['full_width'];
         } elseif (!empty($module_info)) {
-            $data['fullwidth'] = $module_info['fullwidth'];
+            $data['full_width'] = $module_info['full_width'];
         } else {
-            $data['fullwidth'] = '0';
+            $data['full_width'] = '0';
         }
 
         if (isset($this->request->post['loop'])) {
@@ -446,9 +449,6 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
             $data['nav_timer_bar'] = 'true';
         }
 
-
-
-
         // Google Web Fonts From Module
         if (isset($this->request->post['g_fonts'])) {
             $data['g_fonts'] = $this->request->post['g_fonts'];
@@ -461,13 +461,9 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         }
 
         $data['g_fonts'] = array();
-
         if (isset($g_fonts)) {
-
             foreach ($g_fonts as $g_font) {
-
                 $this->document->addStyle('http://fonts.googleapis.com/css?family=' . $g_font['import']);
-
                 $data['g_fonts'][] = array(
                     'name'   => $g_font['name'],
                     'import'   => $g_font['import']
@@ -491,11 +487,8 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
         }
         $data['oxyo_fonts'] = array();
         if (isset($oxyo_fonts)) {
-
             foreach ($oxyo_fonts as $oxyo_font) {
-
                 $this->document->addStyle('http://fonts.googleapis.com/css?family=' . $oxyo_font['import']);
-
                 $data['oxyo_fonts'][] = array(
                     'name'   => $oxyo_font['name'],
                     'import'   => $oxyo_font['import']
@@ -524,13 +517,28 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
 
         if (isset($sections)) {
             foreach ($sections as $section) {
-
                 $groups = array();
-
                 $i = 0;
-
                 if (isset($section['groups'])) {
                     foreach ($section['groups'] as $group) {
+                        // Preview layer holder styles
+                        $group['preview_styles'] = '';
+                        $group['preview_styles'] .= $group['left'] ? 'left:' . $group['left'] . ';' : '';
+                        $group['preview_styles'] .= $group['right'] ? 'right:' . $group['right'] . ';' : '';
+                        $group['preview_styles'] .= $group['top'] ? 'top:' . $group['top'] . ';' : '';
+                        $group['preview_styles'] .= $group['bottom'] ? 'bottom:' . $group['bottom'] . ';' : '';
+
+                        // Layer group styles
+                        $group['styles'] = '';
+                        $group['styles'] .= $group['sort_order'] ? 'z-index:' . $group['sort_order'] . ';' : '';
+                        $group['styles'] .= $group['font'] ? 'font-family:' . $group['font'] . ';' : '';
+                        $group['styles'] .= $group['font_weight'] ? 'font-weight:' . $group['font_weight'] . ';' : '';
+                        $group['styles'] .= $group['font_size'] ? 'font-size:' . $group['font_size'] . 'px;' : '';
+                        $group['styles'] .= $group['color'] ? 'color:' . $group['color'] . ';' : '';
+                        $group['styles'] .= $group['bg_color'] ? 'background-color:' . $group['bg_color'] . ';' : '';
+                        $group['styles'] .= $group['padding'] ? 'padding:' . $group['padding'] . ';' : '';
+                        $group['styles'] .= $group['border_radius'] ? 'border-radius:' . $group['border_radius'] . 'px;' : '';
+
                         $groups[$i] = $group;
                         $i++;
                     }
@@ -539,15 +547,51 @@ class ControllerExtensionModuleOxyoLayerslider extends Controller
                     });
                 }
 
+                // Preview styles                
+                $preview_styles = '';
+
+                $preview_width = $data['width'] ? $data['width'] : 1140;
+                $preview_height = $data['height'] ? $data['height'] : 500;
+                $preview_min_height = $data['min_height'] ? $data['min_height'] : 0;
+                $preview_full_width = $data['full_width'] ? true : false;
+                $preview_aspect_ratio = $preview_width / $preview_height;
+                $preview_bg_color = $section['bg_color'] ? $section['bg_color'] : 'transparent';
+
+                $preview_styles .= 'width:' . $preview_width . 'px;';
+                $preview_styles .= 'height:' . $preview_height . 'px;';
+                if ($preview_min_height) {
+                    $preview_styles .= 'min-height:' . $preview_min_height . 'px;';
+                }
+                if ($preview_full_width) {
+                    $preview_styles .= 'width:100%;height:auto;';
+                }
+                $preview_styles .= 'aspect-ratio:' . $preview_aspect_ratio . ';';
+                $preview_styles .= 'background-color:' . $preview_bg_color . ';';
+
+                $preview_inner_styles = '';
+                $preview_inner_styles .= 'width:' . $preview_width . 'px;';
+                $preview_inner_styles .= 'height:' . $preview_height . 'px;';
+                if ($preview_min_height) {
+                    $preview_inner_styles .= 'min-height:' . $preview_min_height . 'px;';
+                }
+                if ($preview_full_width) {
+                    $preview_inner_styles .= 'width:100%;height:auto;';
+                }
+                $preview_inner_styles .= 'aspect-ratio:' . $preview_aspect_ratio . ';';
+
                 $data['sections'][] = array(
-                    'sort_order'   => $section['sort_order'],
-                    'link'   => $section['link'],
-                    'link_new_window'   => $section['link_new_window'],
-                    'duration'   => $section['duration'],
-                    'slide_kenburn'   => $section['slide_kenburn'],
-                    'bg_color'   => $section['bg_color'],
-                    'thumb_image'   => $section['thumb_image'],
-                    'groups'  => $groups
+                    'sort_order'            => $section['sort_order'],
+                    'link'                  => $section['link'],
+                    'link_new_window'       => $section['link_new_window'],
+                    'duration'              => $section['duration'],
+                    'slide_kenburns'        => $section['slide_kenburns'],
+                    'bg_color'              => $section['bg_color'],
+                    'thumb_image'           => $section['thumb_image'],
+
+                    'preview_styles'        => $preview_styles,
+                    'preview_inner_styles'  => $preview_inner_styles,
+
+                    'groups'                => $groups,
                 );
             }
             usort($data['sections'], function ($a, $b) {

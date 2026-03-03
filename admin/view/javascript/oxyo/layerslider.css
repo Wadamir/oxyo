@@ -184,7 +184,7 @@ table.g_fonts td.action {
 .preview-layer-holder {
 	position:absolute;
 	cursor:move;
-	white-space:nowrap;
+	/* white-space:nowrap; */
 	width:auto !important;
 	height:auto;
 }
@@ -193,9 +193,8 @@ table.g_fonts td.action {
 }
 
 .slide-preview .preview_single_layer {
-	
-	line-height:1.7em;
-	transform:translateY(-50%);
+	/* line-height:1.7em; */
+	/* transform:translateY(-50%); */
 }
 .slide-toolbar {
 	width:100%;
