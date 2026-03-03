@@ -304,13 +304,41 @@ class ControllerExtensionXdCheckoutShippingMethod extends Controller
 
             // $shipping_address['firstname'] = $this->request->post['firstname'];
             // $shipping_address['lastname'] = $this->request->post['lastname'];
-            $shipping_address['company'] = $this->request->post['company'];
-            $shipping_address['address_1'] = $this->request->post['address_1'];
-            $shipping_address['address_2'] = $this->request->post['address_2'];
-            $shipping_address['postcode'] = $this->request->post['postcode'];
-            $shipping_address['city'] = $this->request->post['city'];
-            $shipping_address['country_id'] = $this->request->post['country_id'];
-            $shipping_address['zone_id'] = $this->request->post['zone_id'];
+            if (isset($this->request->post['company'])) {
+                $shipping_address['company'] = $this->request->post['company'];
+            } else {
+                $shipping_address['company'] = '';
+            }
+            if (isset($this->request->post['address_1'])) {
+                $shipping_address['address_1'] = $this->request->post['address_1'];
+            } else {
+                $shipping_address['address_1'] = '';
+            }
+            if (isset($this->request->post['address_2'])) {
+                $shipping_address['address_2'] = $this->request->post['address_2'];
+            } else {
+                $shipping_address['address_2'] = '';
+            }
+            if (isset($this->request->post['postcode'])) {
+                $shipping_address['postcode'] = $this->request->post['postcode'];
+            } else {
+                $shipping_address['postcode'] = '';
+            }
+            if (isset($this->request->post['city'])) {
+                $shipping_address['city'] = $this->request->post['city'];
+            } else {
+                $shipping_address['city'] = '';
+            }
+            if (isset($this->request->post['country_id'])) {
+                $shipping_address['country_id'] = $this->request->post['country_id'];
+            } else {
+                $shipping_address['country_id'] = '';
+            }
+            if (isset($this->request->post['zone_id'])) {
+                $shipping_address['zone_id'] = $this->request->post['zone_id'];
+            } else {
+                $shipping_address['zone_id'] = '';
+            }
 
             $this->session->data['shipping_address'] = $shipping_address;
         }

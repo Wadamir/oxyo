@@ -1,11 +1,24 @@
-/*.*
+# Ignore everything by default
+*
+
+# System files
+.DS_Store
+**/.DS_Store
+
+# Allow .gitignore itself
 !.gitignore
+
+# Allow README files
 !README.md
+
+# Allow legacy
+/__legacy/*
+!/__legacy/
+!/__legacy/*.php
 
 
 
 /install/*
-
 
 
 /admin/*
@@ -304,4 +317,120 @@
 !/catalog/view/theme/default/template/extension/
 !/catalog/view/theme/default/template/extension/xd_checkout/
 
+# CDEK Module files (admin)
+!admin/
+!admin/cdek_integrator_cron.php
+!admin/controller/
+!admin/controller/extension/
+!/admin/controller/extension/module/
+!/admin/controller/extension/module/cdek_integrator.php
+!admin/controller/extension/payment/
+!admin/controller/extension/payment/cod_cdek.php
+!admin/controller/extension/shipping/
+!admin/controller/extension/shipping/cdek.php
+!admin/controller/extension/total/
+!admin/controller/extension/total/cdek.php
+!admin/controller/tool/
+!admin/controller/tool/cdek_tool.php
+!admin/language/
+!admin/language/*/
+!admin/language/*/extension/
+!admin/language/*/extension/module/
+!admin/language/*/extension/module/cdek_integrator.php
+!admin/language/*/extension/payment/
+!admin/language/*/extension/payment/cod_cdek.php
+!admin/language/*/extension/shipping/
+!admin/language/*/extension/shipping/cdek.php
+!admin/language/*/extension/total/
+!admin/language/*/extension/total/cod_cdek_total.php
+!admin/model/
+!admin/model/extension/
+!admin/model/extension/module/
+!admin/model/extension/module/cdek_integrator.php
+!admin/model/tool/
+!admin/model/tool/cdek_tool.php
+!admin/view/
+!admin/view/image/
+!admin/view/image/cdek/
+!admin/view/image/cdek/**
+!admin/view/image/cdek_integrator/
+!admin/view/image/cdek_integrator/**
+!admin/view/image/payment/
+!admin/view/image/payment/cod_cdek.*
+!admin/view/image/shipping-cdek.*
+!admin/view/javascript/
+!admin/view/javascript/jquery/
+!admin/view/javascript/jquery/cdek_integrator.js
+!admin/view/stylesheet/
+!admin/view/stylesheet/cdek.css
+!admin/view/stylesheet/cdek_integrator.css
+!admin/view/template/
+!admin/view/template/extension/
+!admin/view/template/extension/module/
+!admin/view/template/extension/module/cdek_integrator/
+!admin/view/template/extension/module/cdek_integrator/*
+!admin/view/template/extension/payment/
+!admin/view/template/extension/payment/cod_cdek.*
+!admin/view/template/extension/shipping/
+!admin/view/template/extension/shipping/cdek.*
+!admin/view/template/extension/shipping/cdek/
+!admin/view/template/extension/shipping/cdek/*
+!admin/view/template/extension/total/
+!admin/view/template/extension/total/cdek.*
+!admin/view/template/tool/
+!admin/view/template/tool/cdek_tool.*
+
+# CDEK Module files (catalog)
+!catalog/
+!catalog/controller/
+!catalog/controller/event/
+!catalog/controller/event/cdek_shipping.php
+!catalog/controller/extension/
+!catalog/controller/extension/payment/
+!catalog/controller/extension/payment/cod_cdek.php
+!catalog/controller/extension/shipping/
+!catalog/controller/extension/shipping/cdek.php
+!catalog/language/
+!catalog/language/*/
+!catalog/language/*/extension/
+!catalog/language/*/extension/payment/
+!catalog/language/*/extension/payment/cod_cdek.php
+!catalog/language/*/extension/shipping/
+!catalog/language/*/extension/shipping/cdek.php
+!catalog/language/*/extension/total/
+!catalog/language/*/extension/total/cdek.php
+!catalog/model/
+!catalog/model/extension/
+!catalog/model/extension/payment/
+!catalog/model/extension/payment/cod_cdek.php
+!catalog/model/extension/shipping/
+!catalog/model/extension/shipping/cdek.php
+!catalog/model/extension/shipping/cdek_calculate_price.php
+!catalog/model/extension/total/
+!catalog/model/extension/total/cdek.php
+!catalog/view/
+!catalog/view/javascript/
+!catalog/view/javascript/cdek.js
+!catalog/view/theme/
+!catalog/view/theme/default/
+!catalog/view/theme/default/stylesheet/
+!catalog/view/theme/default/stylesheet/cdek.css
+!catalog/view/theme/default/template/
+!catalog/view/theme/default/template/extension/
+!catalog/view/theme/default/template/extension/payment/
+!catalog/view/theme/default/template/extension/payment/cod_cdek.*
+!catalog/view/theme/default/template/extension/shipping/
+!catalog/view/theme/default/template/extension/shipping/cdek.*
+
+# CDEK Module files (system)
+!system/
+!system/cdek.ocmod.xml
+!system/config/
+!system/config/cdekcron.php
+!system/library/
+!system/library/cdek_integrator/
+!system/library/cdek_integrator/**
+
+
 /storage/*
+
