@@ -41,8 +41,11 @@
 !/admin/controller/extension/
 
 !/admin/controller/extension/blog/
+!/admin/controller/extension/blog/**
 !/admin/controller/extension/module/
+!/admin/controller/extension/module/**
 !/admin/controller/extension/oxyo/
+!/admin/controller/extension/oxyo/**
 
 /admin/controller/extension/theme/*
 !/admin/controller/extension/theme/
@@ -56,7 +59,8 @@
 /admin/language/en-gb/*
 !/admin/language/en-gb/
 
-!/admin/language/en-gb/blog
+!/admin/language/en-gb/blog/
+!/admin/language/en-gb/blog/**
 
 /admin/language/en-gb/catalog/*
 !/admin/language/en-gb/catalog/
@@ -73,12 +77,14 @@
 !/admin/language/en-gb/extension/theme/
 !/admin/language/en-gb/extension/theme/oxyo.php
 !/admin/language/en-gb/oxyo/
+!/admin/language/en-gb/oxyo/**
 
 
 /admin/language/ru-ru/*
 !/admin/language/ru-ru/
 
-/admin/language/ru-ru/blog
+!/admin/language/ru-ru/blog/
+!/admin/language/ru-ru/blog/**
 
 /admin/language/ru-ru/catalog/*
 !/admin/language/ru-ru/catalog/
@@ -95,6 +101,7 @@
 !/admin/language/ru-ru/extension/theme/
 !/admin/language/ru-ru/extension/theme/oxyo.php
 !/admin/language/ru-ru/oxyo/
+!/admin/language/ru-ru/oxyo/**
 
 
 
@@ -115,7 +122,9 @@
 !/admin/model/extension/
 
 !/admin/model/extension/blog/
+!/admin/model/extension/blog/**
 !/admin/model/extension/oxyo/
+!/admin/model/extension/oxyo/**
 
 
 
