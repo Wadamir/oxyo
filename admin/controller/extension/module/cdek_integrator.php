@@ -2340,6 +2340,8 @@ class ControllerExtensionModuleCdekIntegrator extends Controller
         $info = $this->api->loadComponent('info');
 
         $auth_token = $info->getAuthToken();
+
+        $this->log->write('auth_token: ' . print_r($auth_token, 1));
         if (isset($auth_token['access_token'])) {
             foreach ($countries as $country) {
 
@@ -2363,37 +2365,41 @@ class ControllerExtensionModuleCdekIntegrator extends Controller
                     curl_setopt($ch, CURLOPT_TIMEOUT, 50);
                     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 50);
 
+                    $this->log->write('СДЭК: отправляем запрос на получение городов для страны ' . $country . ' страница ' . $i);
+
                     $out = curl_exec($ch);
 
                     $out = json_decode($out, true);
 
                     $data = array();
 
-                    foreach ($out as $value) {
-                        if (!empty($value['code'])) {
-                            if (!empty($value['region'])) {
-                                $name = $value['city'] . ', ' . $value['region'];
-                                $region = $value['region'];
-                            } else {
-                                $name = $value['city'] . ',' . $value['country'];
-                                $region = '';
-                            }
-                            if (!empty($value['payment_limit'])) {
-                                $payment_limit = (float)$value['payment_limit'];
-                            } else {
-                                $payment_limit = (float)0;
-                            }
-                            if (!in_array($value['code'], $check_unique)) {
-                                // $this->log->write('СДЭК: добавляем город ' . $name . ' с кодом ' . $value['code']);
-                                $data[] = array(
-                                    'id' => $value['code'],
-                                    'name' => $name,
-                                    'cityName' => $value['city'],
-                                    'regionName' => $region,
-                                    'payment_limit' => $payment_limit,
-                                );
+                    if (is_array($out)) {
+                        foreach ($out as $value) {
+                            if (!empty($value['code'])) {
+                                if (!empty($value['region'])) {
+                                    $name = $value['city'] . ', ' . $value['region'];
+                                    $region = $value['region'];
+                                } else {
+                                    $name = $value['city'] . ',' . $value['country'];
+                                    $region = '';
+                                }
+                                if (!empty($value['payment_limit'])) {
+                                    $payment_limit = (float)$value['payment_limit'];
+                                } else {
+                                    $payment_limit = (float)0;
+                                }
+                                if (!in_array($value['code'], $check_unique)) {
+                                    // $this->log->write('СДЭК: добавляем город ' . $name . ' с кодом ' . $value['code']);
+                                    $data[] = array(
+                                        'id' => $value['code'],
+                                        'name' => $name,
+                                        'cityName' => $value['city'],
+                                        'regionName' => $region,
+                                        'payment_limit' => $payment_limit,
+                                    );
 
-                                $check_unique[] = $value['code'];
+                                    $check_unique[] = $value['code'];
+                                }
                             }
                         }
                     }
@@ -2403,7 +2409,7 @@ class ControllerExtensionModuleCdekIntegrator extends Controller
                     $this->model_extension_module_cdek_integrator->addCities($data);
 
 
-                    if (count($out) < 1000) {
+                    if ((is_array($out) && count($out) < 1000) || !is_array($out)) {
                         break;
                     }
 

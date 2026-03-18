@@ -237,6 +237,7 @@ class info extends cdek_integrator
             'client_id' => $this->account,
             'client_secret' => $this->secure_password
         );
+        $this->logger->write('Получаем auth_token с помощью данных: ' . print_r($data, 1));
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->ajax_url . 'v2/oauth/token?grant_type=client_credentials&client_id=' . $this->account . '&client_secret=' . $this->secure_password);

@@ -305,12 +305,14 @@
 !/catalog/controller/extension/xd_checkout/
 !/catalog/language/en-gb/extension/xd_checkout/
 !/catalog/language/ru-ru/extension/xd_checkout/
+!/catalog/model/extension/xd_checkout/
 !/catalog/view/javascript/jquery/xd_checkout/
 /catalog/view/theme/default/*
 !/catalog/view/theme/default/
 /catalog/view/theme/default/stylesheet/*
 !/catalog/view/theme/default/stylesheet/
 !/catalog/view/theme/default/stylesheet/xd_checkout/
+
 /catalog/view/theme/default/template/*
 !/catalog/view/theme/default/template/
 /catalog/view/theme/default/template/extension/*

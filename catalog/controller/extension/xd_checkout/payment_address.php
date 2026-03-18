@@ -247,6 +247,18 @@ class ControllerExtensionXdCheckoutPaymentAddress extends Controller
                     }
                 }
 
+                if (!isset($json['error']['city']) && !empty($this->request->post['city'])) {
+                    $this->load->model('extension/xd_checkout/city');
+
+                    if (!$this->model_extension_xd_checkout_city->isValidCity(
+                        $this->request->post['city'],
+                        isset($this->request->post['country_id']) ? (int)$this->request->post['country_id'] : 0,
+                        isset($this->request->post['zone_id']) ? (int)$this->request->post['zone_id'] : 0
+                    )) {
+                        $json['error']['city'] = $this->language->get('error_city');
+                    }
+                }
+
                 // Custom field validation
                 $this->load->model('account/custom_field');
 
@@ -292,45 +304,6 @@ class ControllerExtensionXdCheckoutPaymentAddress extends Controller
                     }
                 }
             }
-        }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
-    }
-
-    public function cityAutocomplete()
-    {
-        $json = array();
-
-        $filter_city = '';
-
-        if (isset($this->request->get['filter_city'])) {
-            $filter_city = $this->request->get['filter_city'];
-        }
-
-        $this->load->model('extension/xd_checkout/payment_address');
-
-        $results = $this->model_extension_xd_checkout_payment_address->getCitiesByName($filter_city, 15);
-
-        foreach ($results as $result) {
-            $label = $result['city'];
-
-            if (!empty($result['region'])) {
-                $label .= ' (' . $result['region'] . ')';
-            }
-
-            if (!empty($result['country'])) {
-                $label .= ', ' . $result['country'];
-            }
-
-            $json[] = array(
-                'value' => $result['city'],
-                'label' => $label,
-                'region' => $result['region'],
-                'country' => $result['country'],
-                'country_id' => (int)$result['country_id'],
-                'zone_id' => (int)$result['zone_id'],
-            );
         }
 
         $this->response->addHeader('Content-Type: application/json');
