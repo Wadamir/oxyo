@@ -42,8 +42,15 @@
 
 !/admin/controller/extension/blog/
 !/admin/controller/extension/blog/**
+
+!/admin/controller/extension/feed/
+!/admin/controller/extension/feed/yamarket_fusion.php
+!/admin/controller/extension/feed/yamarket_fusion/
+!/admin/controller/extension/feed/yamarket_fusion/**
+
 !/admin/controller/extension/module/
 !/admin/controller/extension/module/**
+
 !/admin/controller/extension/oxyo/
 !/admin/controller/extension/oxyo/**
 
@@ -71,6 +78,9 @@
 /admin/language/en-gb/extension/*
 !/admin/language/en-gb/extension/
 
+!/admin/language/en-gb/extension/feed/
+!/admin/language/en-gb/extension/feed/yamarket_fusion.php
+
 !/admin/language/en-gb/extension/module/
 
 /admin/language/en-gb/extension/theme/*
@@ -94,6 +104,9 @@
 
 /admin/language/ru-ru/extension/*
 !/admin/language/ru-ru/extension/
+
+!/admin/language/ru-ru/extension/feed/
+!/admin/language/ru-ru/extension/feed/yamarket_fusion.php
 
 !/admin/language/ru-ru/extension/module/
 
@@ -133,27 +146,42 @@
 
 /admin/view/javascript/*
 !/admin/view/javascript/
-!/admin/view/javascript/oxyo/
-!/admin/view/javascript/oxyo_megamenu/
+
 !/admin/view/javascript/manager_product/
+!/admin/view/javascript/manager_product/**
+!/admin/view/javascript/oxyo/
+!/admin/view/javascript/oxyo/**
+!/admin/view/javascript/oxyo_megamenu/
+!/admin/view/javascript/oxyo_megamenu/**
+!/admin/view/javascript/yamarket_fusion/
+!/admin/view/javascript/yamarket_fusion/**
 
 /admin/view/stylesheet/*
 !/admin/view/stylesheet/
-!/admin/view/stylesheet/bootstrap.colorpickersliders.min.css
-!/admin/view/stylesheet/stylesheet.css
-!/admin/view/stylesheet/bulk_copy.css
+
 !/admin/view/stylesheet/manager_product/
+!/admin/view/stylesheet/manager_product/**
+
+!/admin/view/stylesheet/yamarket_fusion/
+!/admin/view/stylesheet/yamarket_fusion/**
+
+!/admin/view/stylesheet/bootstrap.colorpickersliders.min.css
+!/admin/view/stylesheet/bulk_copy.css
+!/admin/view/stylesheet/stylesheet.css
 
 /admin/view/template/*
 !/admin/view/template/
 
 /admin/view/template/catalog/*
 !/admin/view/template/catalog/
+
+!/admin/view/template/catalog/manager_product/
+!/admin/view/template/catalog/manager_product/**
+
 !/admin/view/template/catalog/product_form.twig
 !/admin/view/template/catalog/product_list.twig
 !/admin/view/template/catalog/bulk_copy.twig
 
-!/admin/view/template/catalog/manager_product/
 
 /admin/view/template/common/*
 !/admin/view/template/common/
@@ -161,10 +189,13 @@
 
 /admin/view/template/extension/*
 !/admin/view/template/extension/
-!/admin/view/template/extension/blog/
-!/admin/view/template/extension/module/
 
+!/admin/view/template/extension/blog/
+!/admin/view/template/extension/blog/**
+!/admin/view/template/extension/module/
+!/admin/view/template/extension/module/**
 !/admin/view/template/extension/oxyo/
+!/admin/view/template/extension/oxyo/**
 
 /admin/view/template/extension/theme/*
 !/admin/view/template/extension/theme/
@@ -187,8 +218,13 @@
 !/catalog/controller/extension/
 
 !/catalog/controller/extension/blog/
+!/catalog/controller/extension/blog/**
+!/catalog/controller/extension/feed/
+!/catalog/controller/extension/feed/yamarket_fusion.php
 !/catalog/controller/extension/module/
+!/catalog/controller/extension/module/**
 !/catalog/controller/extension/oxyo/
+!/catalog/controller/extension/oxyo/**
 
 
 
@@ -197,32 +233,48 @@
 
 /catalog/language/en-gb/*
 !/catalog/language/en-gb/
+
 !/catalog/language/en-gb/blog/
+!/catalog/language/en-gb/blog/**
+
 /catalog/language/en-gb/product/*
 !/catalog/language/en-gb/product/
 !/catalog/language/en-gb/product/product.php
+
 /catalog/language/en-gb/extension/*
 !/catalog/language/en-gb/extension/
+
 !/catalog/language/en-gb/extension/blog/
+!/catalog/language/en-gb/extension/blog/**
 
 !/catalog/language/en-gb/extension/module/
+!/catalog/language/en-gb/extension/module/**
 
 !/catalog/language/en-gb/oxyo/
+!/catalog/language/en-gb/oxyo/**
 
 
 /catalog/language/ru-ru/*
 !/catalog/language/ru-ru/
+
 !/catalog/language/ru-ru/blog/
+!/catalog/language/ru-ru/blog/**
+
 /catalog/language/ru-ru/product/*
 !/catalog/language/ru-ru/product/
 !/catalog/language/ru-ru/product/product.php
+
 /catalog/language/ru-ru/extension/*
 !/catalog/language/ru-ru/extension/
+
 !/catalog/language/ru-ru/extension/blog/
+!/catalog/language/ru-ru/extension/blog/**
 
 !/catalog/language/ru-ru/extension/module/
+!/catalog/language/ru-ru/extension/module/**
 
 !/catalog/language/ru-ru/oxyo/
+!/catalog/language/ru-ru/oxyo/**
 
 
 
@@ -237,6 +289,7 @@
 !/catalog/model/extension/
 
 !/catalog/model/extension/blog/
+!/catalog/model/extension/blog/**
 
 /catalog/model/extension/module/*
 !/catalog/model/extension/module/
@@ -244,6 +297,7 @@
 !/catalog/model/extension/module/hpmodel.php
 
 !/catalog/model/extension/oxyo/
+!/catalog/model/extension/oxyo/**
 
 
 /catalog/view/*
@@ -251,27 +305,29 @@
 
 /catalog/view/javascript/*
 !/catalog/view/javascript/
-!/catalog/view/javascript/digitalElephantFilter/
 
 !/catalog/view/javascript/bootstrap/
+!/catalog/view/javascript/bootstrap/**
+
+!/catalog/view/javascript/digitalElephantFilter/
+!/catalog/view/javascript/digitalElephantFilter/**
+
+!/catalog/view/javascript/hpmodel/
+!/catalog/view/javascript/hpmodel/**
 
 /catalog/view/javascript/jquery/*
 !/catalog/view/javascript/jquery/
+
 /catalog/view/javascript/jquery/ui/*
 !/catalog/view/javascript/jquery/ui/
-!/catalog/view/javascript/jquery/ui/jquery-ui-slider-rtl.min.js
-!/catalog/view/javascript/jquery/ui/jquery-ui-slider.min.js
-!/catalog/view/javascript/jquery/ui/jquery-ui.min.css
-
-!/catalog/view/javascript/hpmodel/
+!/catalog/view/javascript/jquery/ui/**
 
 !/catalog/view/javascript/oxyo_megamenu/
+!/catalog/view/javascript/oxyo_megamenu/**
 
 
 /catalog/view/theme/*
 !/catalog/view/theme/
-!/catalog/view/theme/oxyo/
-
 
 /catalog/view/theme/default/*
 !/catalog/view/theme/default/
@@ -284,8 +340,12 @@
 
 /catalog/view/theme/default/template/extension/*
 !/catalog/view/theme/default/template/extension/
+
 !/catalog/view/theme/default/template/extension/module/
-!/catalog/view/theme/default/template/extension/module/*
+!/catalog/view/theme/default/template/extension/module/**
+
+!/catalog/view/theme/oxyo/
+!/catalog/view/theme/oxyo/**
 
 /image/*
 !/image/
@@ -304,29 +364,48 @@
 
 /system/library/*
 !/system/library/
+
 /system/library/cart/*
 !/system/library/cart/
 !/system/library/cart/weight.php
 
+!/system/library/yamarket_fusion/
+!/system/library/yamarket_fusion/**
+
 # XD Checkout module
-!/system/library/xd_checkout/
-!/system/xd_checkout.ocmod.xml
+!/admin/model/extension/module/xd_checkout.php
+
 !/catalog/controller/extension/xd_checkout/
+!/catalog/controller/extension/xd_checkout/**
+
 !/catalog/language/en-gb/extension/xd_checkout/
+!/catalog/language/en-gb/extension/xd_checkout/**
 !/catalog/language/ru-ru/extension/xd_checkout/
+!/catalog/language/ru-ru/extension/xd_checkout/**
+
 !/catalog/model/extension/xd_checkout/
+!/catalog/model/extension/xd_checkout/**
+
 !/catalog/view/javascript/jquery/xd_checkout/
+!/catalog/view/javascript/jquery/xd_checkout/**
+
 /catalog/view/theme/default/*
 !/catalog/view/theme/default/
 /catalog/view/theme/default/stylesheet/*
 !/catalog/view/theme/default/stylesheet/
 !/catalog/view/theme/default/stylesheet/xd_checkout/
+!/catalog/view/theme/default/stylesheet/xd_checkout/**
 
 /catalog/view/theme/default/template/*
 !/catalog/view/theme/default/template/
 /catalog/view/theme/default/template/extension/*
 !/catalog/view/theme/default/template/extension/
 !/catalog/view/theme/default/template/extension/xd_checkout/
+!/catalog/view/theme/default/template/extension/xd_checkout/**
+
+!/system/library/xd_checkout/
+!/system/library/xd_checkout/**
+!/system/xd_checkout.ocmod.xml
 
 # CDEK Module files (admin)
 !admin/

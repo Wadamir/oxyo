@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2019 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="500" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="500" ascent="425" descent="-75" />
+<missing-glyph horiz-adv-x="500" />
+<glyph glyph-name="address-card" unicode="&#xf2bb;" d="M286 109q0 18-3 33t-8 29-17 22-27 8q-2-1-8-5t-11-6-10-5-12-4-11-2-12 2-12 4-10 5-10 6-9 5q-16 0-27-8t-17-22-8-29-3-33 11-29 25-12h143q15 0 25 12t11 29z m-44 146q0 26-19 44t-44 19-45-19-19-44 19-45 45-19 44 19 19 45z m258-142v17q0 4-2 7t-7 2h-161q-4 0-6-2t-3-7v-17q0-4 3-7t6-2h161q4 0 7 2t2 7z m0 72v16q0 4-3 7t-7 3h-159q-4 0-7-3t-3-7v-16q0-4 3-7t7-3h159q4 0 7 3t3 7z m0 70v18q0 4-2 7t-7 2h-161q-4 0-6-2t-3-7v-18q0-4 3-6t6-3h161q4 0 7 3t2 6z m71 90v-340q0-18-13-31t-31-13h-98v26q0 4-3 7t-6 2h-18q-4 0-7-2t-2-7v-26h-214v26q0 4-3 7t-6 2h-18q-4 0-7-2t-2-7v-26h-98q-19 0-32 13t-13 31v340q0 18 13 31t32 13h482q18 0 31-13t13-31z" horiz-adv-x="571.5" />
+
+<glyph glyph-name="window-maximize" unicode="&#xf2d0;" d="M71 32h358v214h-358v-214z m429 313v-340q0-18-13-31t-32-13h-410q-19 0-32 13t-13 31v340q0 18 13 31t32 13h410q19 0 32-13t13-31z" horiz-adv-x="500" />
+</font>
+</defs>
+</svg>

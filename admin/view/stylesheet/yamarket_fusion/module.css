@@ -1,0 +1,369 @@
+.bootstrap .tree-panel-heading-controls {
+	line-height: 2.2em;
+	font-size: 1.1em;
+	color: #00aff0;
+}
+
+.bootstrap .tree-panel-heading-controls i {
+	font-size: 14px;
+}
+
+.bootstrap .tree {
+	list-style: none;
+	padding: 0 0 0 20px;
+}
+
+.bootstrap .tree input {
+	vertical-align: baseline;
+	margin-right: 4px;
+	line-height: normal;
+}
+
+.bootstrap .tree i {
+	font-size: 14px;
+}
+
+.bootstrap .tree .tree-item-name,
+.bootstrap .tree .tree-folder-name {
+	padding: 2px 5px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.bootstrap .tree .tree-item-name label,
+.bootstrap .tree .tree-folder-name label {
+	font-weight: 400;
+}
+
+.bootstrap .tree .tree-item-name:hover,
+.bootstrap .tree .tree-folder-name:hover {
+	background-color: #eee;
+	cursor: pointer;
+}
+
+.bootstrap .tree .tree-selected {
+	color: #fff;
+	background-color: #00aff0;
+}
+
+.bootstrap .tree .tree-selected:hover {
+	background-color: #009cd6;
+}
+
+.bootstrap .tree .tree-selected i.tree-dot {
+	background-color: #fff;
+}
+
+.bootstrap .panel-footer {
+	height: 73px;
+	border-color: #eee;
+	background-color: #fcfdfe;
+}
+
+.bootstrap .tree i.tree-dot {
+	display: inline-block;
+	position: relative;
+	width: 6px;
+	height: 6px;
+	margin: 0 4px;
+	background-color: #ccc;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.bootstrap .tree .tree-item-disable,
+.bootstrap .tree .tree-folder-name-disable {
+	color: #ccc;
+}
+
+.bootstrap .tree .tree-item-disable:hover,
+.bootstrap .tree .tree-folder-name-disable:hover {
+	color: #ccc;
+	background-color: none;
+}
+
+.bootstrap .tree-actions {
+	display: inline-block;
+}
+
+.bootstrap .tree-panel-heading-controls {
+	padding: 5px;
+	border-bottom: solid 1px #dfdfdf;
+}
+
+.bootstrap .tree-actions .twitter-typeahead {
+	padding: 0 0 0 4px;
+}
+
+.bootstrap #categoryBox {
+	padding: 10px 5px 5px 20px;
+}
+
+.bootstrap .tree-panel-label-title {
+	font-weight: 400;
+	margin: 0;
+	padding: 0 0 0 8px;
+}
+
+/* .scrollbox>div {
+	height: 23px;
+} */
+
+.table-market-options tbody tr td:first-child {
+	width: 30%;
+}
+
+.setting-profiles {
+	height: 50px;
+	width: auto;
+	position: absolute;
+	right: 20px;
+	top: 85px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	background-color: #fff;
+}
+.setting-profiles > * {
+	vertical-align: middle;
+}
+.setting-profiles select {
+	display: inline-block;
+	width: auto;
+	max-width: 120px;
+	transition: width .2s;
+}
+.setting-profiles select:focus {
+	max-width: none;
+}
+.setting-profiles label.control-label {
+	padding-top: 0;
+	margin-bottom: 0;
+}
+.setting-profiles label.control-label .yamf-address-card {
+	color: #4946af;
+}
+
+.module-yamarket-fusion .fixed-h400 {
+	max-height: 400px;
+	overflow: auto;
+}
+.module-yamarket-fusion .cur-pointer {
+	cursor: pointer;
+}
+.module-yamarket-fusion .text-normal {
+	font-weight: normal;
+}
+.module-yamarket-fusion .flex {
+	display: flex;
+}
+.module-yamarket-fusion .va-top {
+	vertical-align: top;
+}
+.module-yamarket-fusion .market-pricelist-update-url .form-group {
+	padding-bottom: 0;
+	padding-left: 15px;
+}
+.module-yamarket-fusion .icon-setting-profiles {
+	width: 10px;
+	height: 15px;
+	top: 1px;
+	overflow: hidden;
+	display: inline-block;
+	position: relative;
+}
+.module-yamarket-fusion .icon-setting-profiles::before {
+	font-family: fontello;
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: '\f2bb';
+	font-style: normal;
+	color: #4946af;
+	font-size: inherit;
+}
+.module-yamarket-fusion .table-delivery-in-stock input[type=text] {
+	max-width: 250px;
+}
+
+.module-yamarket-fusion .table-delivery-options,
+.module-yamarket-fusion .table-delivery-options thead th {
+	border: 1px solid #ddd;
+}
+.module-yamarket-fusion .table-delivery-options thead th {
+	vertical-align: middle;
+	background-color: #fafafa;
+}
+.module-yamarket-fusion .table-delivery-options .checkbox input[type=checkbox],
+.module-yamarket-fusion .table-custom-tags .checkbox input[type=checkbox] {
+	margin-left: 0;
+}
+.module-yamarket-fusion .table-delivery-options .col-compact {
+	max-width: 100px;
+	width: 100px;
+}
+.module-yamarket-fusion .table-delivery-options .col-weight {
+	white-space: nowrap;
+}
+.module-yamarket-fusion .table-delivery-options .col-weight input[type=text] {
+	width: 55px;
+	margin-bottom: 5px;
+}
+.module-yamarket-fusion .table-delivery-options .col-weight .checkbox {
+	padding-top: 0;
+}
+.module-yamarket-fusion .table-delivery-options .col-weight .input-block {
+	float: left;
+}
+.module-yamarket-fusion .table-delivery-options .col-weight .input-block + .input-block {
+	margin-left: 6px;
+}
+.module-yamarket-fusion .table-delivery-options .col-weight select {
+	width: auto;
+	max-width: 100px;
+	/* display: inline-block; */
+}
+.module-yamarket-fusion .table-delivery-options .col-stock-status {
+	width: 130px;
+	max-width: 130px;
+}
+.module-yamarket-fusion .table-custom-tags .table-delivery-options label,
+.module-yamarket-fusion .table-delivery-options label {
+	font-weight: normal;
+}
+.module-yamarket-fusion .table-custom-tags .col-delimiter {
+	width: 125px;
+	max-width: 125px;
+}
+.module-yamarket-fusion .table-custom-tags .col-unit {
+	width: 75px;
+	max-width: 75px;
+}
+.module-yamarket-fusion .table-custom-tags .col-tag-value {
+	width: 125px;
+	max-width: 125px;
+}
+.module-yamarket-fusion #popover-attribute-option-type + .popover {
+	max-width: 500px
+}
+.module-yamarket-fusion .attribute-option-type-desc {
+	width: 445px;
+}
+.module-yamarket-fusion .attribute-option-type-desc .format > * {
+	float:left;
+}
+.module-yamarket-fusion .attribute-option-type-desc [class*="attr-"] {
+	border: 1px solid #e5e5e5;
+	padding: 0 2px;
+	color: #fff;
+	line-height: 16px;
+}
+.module-yamarket-fusion .attribute-option-type-desc .attr-val {
+	background-color: #2aada1;
+}
+.module-yamarket-fusion .attribute-option-type-desc .attr-price-delimiter {
+	background-color: gray;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+.module-yamarket-fusion .attribute-option-type-desc .attr-price-sign {
+	background-color: #efc44c;
+}
+.module-yamarket-fusion .attribute-option-type-desc .attr-price {
+	background-color: #ca932c;
+}
+.module-yamarket-fusion .attribute-option-type-desc .attr-delimiter {
+	background-color: darkgray;
+}
+.module-yamarket-fusion .addon-with-setting {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 20px;
+}
+.module-yamarket-fusion .addon-with-setting .checkbox {
+	padding-top: 0px;
+	margin-bottom: -10px;
+}
+.module-yamarket-fusion .market-utm-inputs {
+	margin-bottom: 20px;
+}
+.module-yamarket-fusion .market-utm-inputs > * {
+	vertical-align: baseline;
+}
+.module-yamarket-fusion .market-utm-inputs .radio-inline,
+.module-yamarket-fusion .market-utm-inputs label {
+	vertical-align: super;
+}
+.module-yamarket-fusion .market-utm-inputs legend {
+	border-bottom: none;
+}
+.module-yamarket-fusion .market-utm-inputs legend .icon-setting-profiles {
+	font-size: 0.7em;
+}
+.module-yamarket-fusion .form-group.--no-offset {
+	padding: 0;
+}
+.module-yamarket-fusion .form-group .group-title {
+	background-color: #fbfbfb;
+	margin: 0 -15px 15px;
+	font-weight: 600;
+	padding: 10px 20px;
+	border-bottom: 1px dashed #ddd;
+}
+.module-yamarket-fusion .form-group.--collapsible .toggle-icon {
+	float: right;
+	font-size: 1.5em;
+	padding: 0 10px;
+	cursor: pointer;
+	line-height: .8em;
+}
+.module-yamarket-fusion .form-group.--collapsible .toggle-icon::before {
+	content: "\f0d8";
+	display: inline-block;
+	font-family: 'FontAwesome';
+	font-style: normal;
+	transform: none;
+	transition: transform .3s;
+	transform-origin: 50% 57%;
+}
+.module-yamarket-fusion .form-group.--collapsible .toggle-icon.collapsed::before {
+	transform: rotate(180deg);
+}
+.module-yamarket-fusion .form-group.--collapsible .group-title {
+	margin-bottom: 0;
+}
+.module-yamarket-fusion .form-group.--collapsible .group-title + .collapse.in {
+	margin-top: 15px;
+}
+.module-yamarket-fusion .form-group .group-title label {
+	margin-bottom: 0;
+}
+.module-yamarket-fusion span[data-toggle="tooltip"]:after {
+	font-family: FontAwesome;
+	color: #1E91CF;
+	content: "\f059";
+	margin-left: 4px;
+}
+.module-yamarket-fusion .php-version {
+	font-size: 0.75em;
+	color: #919191
+}
+.table-price-markup-option .col-price {
+	width: 250px;
+	max-width: 250px;
+}
+.table-price-markup-option label {
+	font-weight: normal;
+}
+
+.module-yamarket-fusion .help-icon::after {
+	font-family: FontAwesome;
+	color: #1E91CF;
+	content: "\f059";
+	margin-left: 4px;
+}
+.module-yamarket-fusion .icon-info::after {
+	font-family: FontAwesome;
+	color: #1E91CF;
+	content: "\f059";
+	margin-left: 4px;
+}
