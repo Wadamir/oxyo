@@ -4,7 +4,14 @@ class ControllerEventCdekShipping extends Controller
     public function addScripts()
     {
         $this->document->addStyle('catalog/view/theme/default/stylesheet/cdek.css');
-        $this->document->addScript('//api-maps.yandex.ru/2.1/?lang=ru_RU&ns=cdekymap');
+
+        $ymaps_api_key = $this->config->get('shipping_cdek_official__apiKey');
+        $ymaps_url = '//api-maps.yandex.ru/2.1/?lang=ru_RU&ns=cdekymap';
+        if (!empty($ymaps_api_key)) {
+            $ymaps_url .= '&apikey=' . rawurlencode($ymaps_api_key);
+        }
+        $this->document->addScript($ymaps_url);
+
         $this->document->addScript('catalog/view/javascript/cdek.js');
     }
 

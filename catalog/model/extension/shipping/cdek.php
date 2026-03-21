@@ -205,6 +205,9 @@ class ModelExtensionShippingCdek extends Model
                 if ($status) {
 
                     foreach ($cdek_cities as $city_info) {
+                        if (empty($city_info['city'])) {
+                            continue;
+                        }
 
                         list($city) = explode(',', $city_info['city']);
 
@@ -726,8 +729,9 @@ class ModelExtensionShippingCdek extends Model
                                             $names = array();
 
                                             $renderData['usePvz'] = false;
-
+                                            // var_dump($tariff_info['mode_id']);
                                             if (in_array($tariff_info['mode_id'], array(2, 4))) {
+                                                // var_dump($pvz_list);
                                                 if ($usePVZ && !$pvz_list) continue;
 
                                                 if ($usePVZ && $pvz_list) {
@@ -762,6 +766,8 @@ class ModelExtensionShippingCdek extends Model
                                             } else {
                                                 $names[] = $description;
                                             }
+
+                                            // var_dump($renderData['usePvz']);
 
                                             $cod = !isset($shipping_info['delivery_sum']) || ((float)$shipping_info['delivery_sum'] && $total >= (float)$shipping_info['delivery_sum']);
 
@@ -949,8 +955,17 @@ class ModelExtensionShippingCdek extends Model
 
                 $pvz_address = 'г. ' . $pvz_info['location']['city'] . ', ' . $this->mb_ucfirst($pvz_info['location']['address']) . '.';
 
-                if (!empty($pvz_info['phones']['number']) && trim($pvz_info['phones']['number']) != '-') {
-                    $pvz_address .= ' Телефон: ' . $pvz_info['phones'][0]['number'] . '.';
+                $phone = '';
+                if (!empty($pvz_info['phones']) && is_array($pvz_info['phones'])) {
+                    if (!empty($pvz_info['phones'][0]['number'])) {
+                        $phone = trim((string)$pvz_info['phones'][0]['number']);
+                    } elseif (!empty($pvz_info['phones']['number'])) {
+                        $phone = trim((string)$pvz_info['phones']['number']);
+                    }
+                }
+
+                if ($phone !== '' && $phone != '-') {
+                    $pvz_address .= ' Телефон: ' . $phone . '.';
                 }
 
                 $addarray['Code'] = '' . $pvz_info['code'];
@@ -958,7 +973,7 @@ class ModelExtensionShippingCdek extends Model
                 $addarray['City'] = '' . $pvz_info['location']['city'];
                 $addarray['WorkTime'] = '' . $pvz_info['work_time'];
                 $addarray['Address'] = '' . $pvz_info['location']['address'];
-                $addarray['Phone'] = '' . $pvz_info['phones'][0]['number'];
+                $addarray['Phone'] = $phone;
                 $addarray['coordX'] = '' . $pvz_info['location']['longitude'];
                 $addarray['coordY'] = '' . $pvz_info['location']['latitude'];
                 $full_info[] = $addarray;

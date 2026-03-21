@@ -42,7 +42,7 @@ class ControllerExtensionModuleXDAttributeValue extends Controller
         );
 
         $data['breadcrumbs'][] = array(
-            'text' => $this->language->get('heading_title'),
+            'text' => $this->language->get('heading_name'),
             'href' => $this->url->link('extension/module/xd_attribute_value', 'user_token=' . $this->session->data['user_token'], true)
         );
 
