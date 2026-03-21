@@ -29,6 +29,11 @@
     }
 }
 
+#xd_checkout-main .form-control {
+    padding: 12px 12px 8px 12px;
+    font-family: var(--font-family-header, 'ArtegraSansExtended'), sans-serif;
+}
+
 #xd_checkout-main .form-group {
     margin-bottom: 16px;
 }
@@ -622,7 +627,7 @@
 
 .method>label {
     margin: 0;
-    padding: 12px;
+    padding: 12px 12px 8px 12px;
 
     display: flex;
     justify-content: space-between;
@@ -641,10 +646,11 @@
 }
 
 .method>input[type="radio"]:checked+label {
-    background-color: #c0f1bb;
+    /* background-color: #c0f1bb; */
 
-    border-color: green;
-    box-shadow: 0 0 8px rgba(0, 128, 0, 0.5);
+    border-width: 2px;
+    border-color: var(--text-accent-color, #e61f80);
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); */
 }
 
 .method>label>img {
@@ -660,8 +666,8 @@
     width: 20%;
     text-align: right;
 
-    font-size: 1.25em;
-    font-weight: 600;
+    /* font-size: 1.25em; */
+    /* font-weight: 600; */
 }
 
 /*

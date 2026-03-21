@@ -15,8 +15,8 @@
                                     {% if shipping_logo[key] %}
                                         <img src="{{ shipping_logo[key] }}" alt="{{ shipping_method.title }}" title="{{ shipping_method.title }}" />
                                     {% endif %}
-                                    <div class="method-title">{{ quote.title }}</div>
-                                    <div class="method-price">{{ quote.text }}</div>
+                                    <span class="method-title">{{ quote.title }}</span>
+                                    <span class="method-price">{{ quote.text }}</span>
                                 </label>
                             </div>
                         {% endfor %}
