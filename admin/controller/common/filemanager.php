@@ -43,6 +43,81 @@ class ControllerCommonFileManager extends Controller
         return [$max_w, $max_h];
     }
 
+    private function pngHasTransparency($file)
+    {
+        $handle = fopen($file, 'rb');
+
+        if (!$handle) {
+            return false;
+        }
+
+        $signature = fread($handle, 8);
+
+        if ($signature !== "\x89PNG\r\n\x1a\n") {
+            fclose($handle);
+
+            return false;
+        }
+
+        $length_data = fread($handle, 4);
+        $chunk_type = fread($handle, 4);
+
+        if (strlen($length_data) !== 4 || $chunk_type !== 'IHDR') {
+            fclose($handle);
+
+            return false;
+        }
+
+        $chunk_length = unpack('N', $length_data)[1];
+        $ihdr = fread($handle, $chunk_length);
+        fread($handle, 4);
+
+        if (strlen($ihdr) < 10) {
+            fclose($handle);
+
+            return false;
+        }
+
+        $color_type = ord($ihdr[9]);
+
+        if ($color_type === 4 || $color_type === 6) {
+            fclose($handle);
+
+            return true;
+        }
+
+        while (!feof($handle)) {
+            $length_data = fread($handle, 4);
+
+            if (strlen($length_data) !== 4) {
+                break;
+            }
+
+            $chunk_length = unpack('N', $length_data)[1];
+            $chunk_type = fread($handle, 4);
+
+            if (strlen($chunk_type) !== 4) {
+                break;
+            }
+
+            if ($chunk_type === 'tRNS') {
+                fclose($handle);
+
+                return true;
+            }
+
+            if ($chunk_type === 'IDAT') {
+                break;
+            }
+
+            fseek($handle, $chunk_length + 4, SEEK_CUR);
+        }
+
+        fclose($handle);
+
+        return false;
+    }
+
     private function processOriginalImage($file)
     {
         if (!file_exists($file)) return;
@@ -71,15 +146,19 @@ class ControllerCommonFileManager extends Controller
         }
 
         // === PNG → JPG ===
-        if ($type == IMAGETYPE_PNG) {
+        if ($type == IMAGETYPE_PNG && !$this->pngHasTransparency($file)) {
 
             $jpg = preg_replace('/\.png$/i', '.jpg', $file);
 
             $img = imagecreatefrompng($file);
-            imagejpeg($img, $jpg, 85);
 
-            $file = $jpg;
-            $type = IMAGETYPE_JPEG;
+            if ($img) {
+                imagejpeg($img, $jpg, 85);
+                imagedestroy($img);
+
+                $file = $jpg;
+                $type = IMAGETYPE_JPEG;
+            }
         }
 
         // === JPEG optimize ===
