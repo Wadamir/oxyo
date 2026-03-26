@@ -372,6 +372,8 @@
 !/system/library/yamarket_fusion/
 !/system/library/yamarket_fusion/**
 
+/storage/*
+
 # XD Checkout module
 !/admin/model/extension/module/xd_checkout.php
 
@@ -521,6 +523,41 @@
 !system/library/cdek_integrator/
 !system/library/cdek_integrator/**
 
+# XD Flat Shipping module files
+/admin/controller/extension/shipping/*
+!/admin/controller/extension/shipping/
+!/admin/controller/extension/shipping/xd_flat.php
 
-/storage/*
+/admin/language/en-gb/extension/shipping/*
+!/admin/language/en-gb/extension/shipping/
+!/admin/language/en-gb/extension/shipping/xd_flat.php
 
+/admin/language/ru-ru/extension/shipping/*
+!/admin/language/ru-ru/extension/shipping/
+!/admin/language/ru-ru/extension/shipping/xd_flat.php
+
+/admin/model/extension/*
+!/admin/model/extension/
+/admin/model/extension/shipping/*
+!/admin/model/extension/shipping/
+!/admin/model/extension/shipping/xd_flat.php
+
+/admin/view/template/extension/shipping/*
+!/admin/view/template/extension/shipping/
+!/admin/view/template/extension/shipping/xd_flat.twig
+
+/catalog/language/en-gb/extension/shipping/*
+!/catalog/language/en-gb/extension/shipping/
+!/catalog/language/en-gb/extension/shipping/xd_flat.php
+
+/catalog/language/ru-ru/extension/shipping/*
+!/catalog/language/ru-ru/extension/shipping/
+!/catalog/language/ru-ru/extension/shipping/xd_flat.php
+
+/catalog/model/extension/shipping/*
+!/catalog/model/extension/shipping/
+!/catalog/model/extension/shipping/xd_flat.php
+
+/catalog/view/theme/default/stylesheet/xd_flat_shipping.css
+
+!/system/xd_flat.ocmod.xml
