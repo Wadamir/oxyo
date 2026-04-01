@@ -385,12 +385,123 @@ document.addEventListener('DOMContentLoaded', () => {
         target.addEventListener('pointermove', onPointerMove);
         target.addEventListener('pointerup', onPointerUp);
         target.addEventListener('pointercancel', onPointerUp);
+
+        // iOS Safari/Chrome fallback: ensure pinch works via touch events as well.
+        target.addEventListener('touchstart', onTouchStart, { passive: false });
+        target.addEventListener('touchmove', onTouchMove, { passive: false });
+        target.addEventListener('touchend', onTouchEnd, { passive: false });
+        target.addEventListener('touchcancel', onTouchEnd, { passive: false });
+    }
+
+    function getTouchDistance(t1, t2) {
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.hypot(dx, dy);
+    }
+
+    function onTouchStart(e) {
+        if (!isMobileGalleryMode()) return;
+
+        const target = e.currentTarget;
+        const touches = e.touches;
+        if (!touches || !touches.length) return;
+
+        if (touches.length === 2) {
+            e.preventDefault();
+            startDist = getTouchDistance(touches[0], touches[1]);
+            startScale = scale;
+            isPanning = false;
+            didPinch = true;
+            mainSwiper.allowTouchMove = false;
+            return;
+        }
+
+        if (touches.length === 1 && scale > 1) {
+            const t = touches[0];
+            isPanning = true;
+            panStartX = t.clientX;
+            panStartY = t.clientY;
+            startTranslateX = translateX;
+            startTranslateY = translateY;
+
+            // Avoid Swiper stealing one-finger pan when image is zoomed.
+            e.preventDefault();
+            mainSwiper.allowTouchMove = false;
+            applyTransform(target);
+        }
+    }
+
+    function onTouchMove(e) {
+        if (!isMobileGalleryMode()) return;
+
+        const target = e.currentTarget;
+        const touches = e.touches;
+        if (!touches || !touches.length) return;
+
+        if (touches.length === 2) {
+            const dist = getTouchDistance(touches[0], touches[1]);
+
+            if (!startDist) {
+                startDist = dist;
+                startScale = scale;
+            }
+
+            const nextScale = startScale * (dist / startDist);
+            scale = Math.min(Math.max(nextScale, 1), 4);
+
+            didPinch = true;
+            isPanning = false;
+            mainSwiper.allowTouchMove = false;
+
+            e.preventDefault();
+            applyTransform(target);
+            return;
+        }
+
+        if (touches.length === 1 && isPanning && scale > 1) {
+            const t = touches[0];
+            translateX = startTranslateX + (t.clientX - panStartX);
+            translateY = startTranslateY + (t.clientY - panStartY);
+            mainSwiper.allowTouchMove = false;
+
+            e.preventDefault();
+            applyTransform(target);
+        }
+    }
+
+    function onTouchEnd(e) {
+        if (!isMobileGalleryMode()) return;
+
+        const touches = e.touches;
+
+        if (!touches || touches.length < 2) {
+            startDist = null;
+            startScale = scale;
+        }
+
+        if (!touches || touches.length === 0) {
+            isPanning = false;
+            if (scale === 1) {
+                mainSwiper.allowTouchMove = true;
+            }
+        }
     }
 
     function onPointerDown(e) {
         if (!isZoomableElement(e.target)) return;
 
         pointers.set(e.pointerId, e);
+
+        // As soon as second finger appears, block Swiper drag and lock pinch baseline.
+        if (pointers.size === 2) {
+            const [p1, p2] = Array.from(pointers.values());
+            startDist = Math.hypot(
+                p1.clientX - p2.clientX,
+                p1.clientY - p2.clientY,
+            );
+            startScale = scale;
+            mainSwiper.allowTouchMove = false;
+        }
 
         if (scale > 1 && pointers.size === 1) {
             isPanning = true;
@@ -436,12 +547,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pointers.size === 2) {
             didPinch = true;
             isPanning = false;
+            mainSwiper.allowTouchMove = false;
 
             const [p1, p2] = Array.from(pointers.values());
             const dist = getDistance(p1, p2);
 
-            if (!startScale) startScale = scale;
-            scale = Math.min(Math.max(startScale * (dist / startDist), 1), 4);
+            if (!startDist) {
+                startDist = dist;
+            }
+
+            const nextScale = startScale * (dist / startDist);
+            scale = Math.min(Math.max(nextScale, 1), 4);
 
             applyTransform(e.target);
             return;

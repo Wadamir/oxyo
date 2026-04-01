@@ -270,6 +270,10 @@
 	.video-fullscreen-btn {
 		display: none !important;
 	}
+
+	.image-wrapper img {
+		touch-action: none;
+	}
 }
 
 
