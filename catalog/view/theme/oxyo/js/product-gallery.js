@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleMainArrows(swiper);
                 initVideoControls(swiper);
                 handleVideo(swiper);
-                bindZoomForActiveSlide();
+                requestAnimationFrame(() => bindZoomForActiveSlide(swiper));
                 debugSwiperUpdate({
                     event: 'init',
                     allowTouchMove: swiper.allowTouchMove,
@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
 
             transitionEnd(swiper) {
+                bindZoomForActiveSlide(swiper);
                 debugSwiperUpdate({
                     event: 'transitionEnd',
                 });
@@ -224,10 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     });
 
-    function bindZoomForActiveSlide() {
-        const active = document.querySelector(
-            '.swiper-slide-active img, .swiper-slide-active video',
-        );
+    function bindZoomForActiveSlide(swiper = mainSwiper) {
+        if (!swiper || !swiper.slides || !swiper.slides.length) return;
+
+        const activeSlide = swiper.slides[swiper.activeIndex];
+        if (!activeSlide) return;
+
+        const active = activeSlide.querySelector('img, video');
 
         if (active) {
             enablePinchZoom(active);
@@ -237,7 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* pinch to zoom support start */
     mainSwiper.on('slideChange', () => {
-        bindZoomForActiveSlide();
+        // Keep for non-animated/instant slide switches.
+        bindZoomForActiveSlide(mainSwiper);
     });
     /* pinch to zoom support end */
 
@@ -349,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             /* pinch to zoom support start */
             requestAnimationFrame(() => {
-                bindZoomForActiveSlide();
+                bindZoomForActiveSlide(mainSwiper);
             });
             /* pinch to zoom support end */
 
@@ -617,6 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scale = 1;
         startScale = 1;
         startDist = null;
+        pointers.clear();
 
         translateX = 0;
         translateY = 0;
@@ -632,6 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scale = 1;
         startScale = 1;
         startDist = null;
+        pointers.clear();
         isPanning = false;
         didPinch = false;
 
