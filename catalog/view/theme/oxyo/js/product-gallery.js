@@ -137,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let videoPointerStartX = 0;
     let videoPointerStartY = 0;
     let videoPointerMoved = false;
+
+    const MAX_EMPTY_GAP_PX = 15;
     /* pinch to zoom support end */
 
     const thumbsSwiper = new Swiper('.thumbs-swiper', {
@@ -627,8 +629,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function clampTranslateToContainer(el) {
+        if (!el || scale <= 1) return;
+
+        const container = el.closest('.media-wrapper');
+        if (!container) return;
+
+        const baseWidth = el.offsetWidth;
+        const baseHeight = el.offsetHeight;
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+
+        if (!baseWidth || !baseHeight || !containerWidth || !containerHeight)
+            return;
+
+        const scaledWidth = baseWidth * scale;
+        const scaledHeight = baseHeight * scale;
+
+        const maxShiftX = Math.max(
+            0,
+            (scaledWidth - containerWidth) / 2 + MAX_EMPTY_GAP_PX,
+        );
+        const maxShiftY = Math.max(
+            0,
+            (scaledHeight - containerHeight) / 2 + MAX_EMPTY_GAP_PX,
+        );
+
+        translateX = Math.min(maxShiftX, Math.max(-maxShiftX, translateX));
+        translateY = Math.min(maxShiftY, Math.max(-maxShiftY, translateY));
+    }
+
     function applyTransform(el) {
         normalizeToCenterIfBaseScale();
+        clampTranslateToContainer(el);
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 
         mainSwiper.allowTouchMove = scale === 1;
