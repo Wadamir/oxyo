@@ -477,6 +477,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function onTouchEnd(e) {
         if (!isMobileGalleryMode()) return;
 
+        const target = e.currentTarget;
+
         const touches = e.touches;
 
         if (!touches || touches.length < 2) {
@@ -486,8 +488,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!touches || touches.length === 0) {
             isPanning = false;
-            if (scale === 1) {
-                mainSwiper.allowTouchMove = true;
+            normalizeToCenterIfBaseScale();
+            if (target) {
+                applyTransform(target);
             }
         }
     }
@@ -596,6 +599,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (pointers.size === 0) {
             isPanning = false;
+            normalizeToCenterIfBaseScale();
+            applyTransform(e.currentTarget || e.target);
         }
 
         debugUpdate({
@@ -612,7 +617,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return dist;
     }
 
+    function normalizeToCenterIfBaseScale() {
+        // Snap near-1 scale back to exact base state so image recenters after pinch-out.
+        if (scale <= 1.02) {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            startScale = 1;
+        }
+    }
+
     function applyTransform(el) {
+        normalizeToCenterIfBaseScale();
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 
         mainSwiper.allowTouchMove = scale === 1;
