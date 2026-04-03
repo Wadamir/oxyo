@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isPanning = false;
             normalizeToCenterIfBaseScale();
             if (target) {
-                applyTransform(target);
+                applyTransformSmooth(target);
             }
         }
     }
@@ -603,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pointers.size === 0) {
             isPanning = false;
             normalizeToCenterIfBaseScale();
-            applyTransform(e.currentTarget || e.target);
+            applyTransformSmooth(e.currentTarget || e.target);
         }
 
         debugUpdate({
@@ -669,6 +669,30 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
 
         mainSwiper.allowTouchMove = scale === 1;
+    }
+
+    function applyTransformSmooth(el) {
+        normalizeToCenterIfBaseScale();
+
+        // Add smooth transition
+        el.style.transition = 'transform 300ms ease-out';
+
+        // Apply clamping
+        clampTranslateToContainer(el);
+        el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
+
+        mainSwiper.allowTouchMove = scale === 1;
+
+        // Remove transition after animation completes
+        el.addEventListener(
+            'transitionend',
+            function removeTransition() {
+                el.style.transition = '';
+                el.removeEventListener('transitionend', removeTransition);
+            },
+            { once: true },
+        );
     }
 
     function resetZoom(target) {
