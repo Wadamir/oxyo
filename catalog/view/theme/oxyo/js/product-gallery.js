@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let videoPointerStartY = 0;
     let videoPointerMoved = false;
 
-    const MAX_EMPTY_GAP_PX = 15;
+    const MAX_EMPTY_GAP_PX = 1;
     /* pinch to zoom support end */
 
     const thumbsSwiper = new Swiper('.thumbs-swiper', {
