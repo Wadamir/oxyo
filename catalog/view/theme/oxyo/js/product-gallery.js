@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainSwiper.allowTouchMove = false;
 
             e.preventDefault();
-            applyTransform(target, false);
+            applyTransform(target);
             return;
         }
 
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainSwiper.allowTouchMove = false;
 
             e.preventDefault();
-            applyTransform(target, false);
+            applyTransform(target);
         }
     }
 
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nextScale = startScale * (dist / startDist);
             scale = Math.min(Math.max(nextScale, 1), 4);
 
-            applyTransform(e.target, false);
+            applyTransform(e.target);
             return;
         }
 
@@ -582,7 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
             translateX = startTranslateX + dx;
             translateY = startTranslateY + dy;
 
-            applyTransform(e.target, false);
+            applyTransform(e.target);
         }
 
         debugUpdate({
@@ -660,11 +660,9 @@ document.addEventListener('DOMContentLoaded', () => {
         translateY = Math.min(maxShiftY, Math.max(-maxShiftY, translateY));
     }
 
-    function applyTransform(el, shouldClamp = true) {
+    function applyTransform(el) {
         normalizeToCenterIfBaseScale();
-        if (shouldClamp) {
-            clampTranslateToContainer(el);
-        }
+        clampTranslateToContainer(el);
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
 
