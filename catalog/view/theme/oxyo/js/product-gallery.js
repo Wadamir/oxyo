@@ -663,6 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function applyTransform(el) {
         normalizeToCenterIfBaseScale();
         clampTranslateToContainer(el);
+        el.style.transition = '';
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
 
@@ -671,26 +672,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function applyTransformSmooth(el) {
         normalizeToCenterIfBaseScale();
-
-        // Add smooth transition
-        el.style.transition = 'transform 300ms ease-out';
-
-        // Apply clamping
         clampTranslateToContainer(el);
+
+        // Use requestAnimationFrame to ensure smooth transition
+        el.style.transition = '';
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-        el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
 
-        mainSwiper.allowTouchMove = scale === 1;
+        // Force reflow and then apply transition
+        void el.offsetWidth;
 
-        // Remove transition after animation completes
-        el.addEventListener(
-            'transitionend',
-            function removeTransition() {
-                el.style.transition = '';
-                el.removeEventListener('transitionend', removeTransition);
-            },
-            { once: true },
-        );
+        requestAnimationFrame(() => {
+            el.style.transition = 'transform 300ms ease-out';
+            el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
+            mainSwiper.allowTouchMove = scale === 1;
+
+            el.addEventListener(
+                'transitionend',
+                function removeTransition() {
+                    el.style.transition = '';
+                    el.removeEventListener('transitionend', removeTransition);
+                },
+                { once: true },
+            );
+        });
     }
 
     function resetZoom(target) {
