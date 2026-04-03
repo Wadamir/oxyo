@@ -388,6 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target.__pinchZoomEnabled) return;
 
         target.__pinchZoomEnabled = true;
+        target.style.touchAction = 'pan-y';
         target.addEventListener('pointerdown', onPointerDown);
         target.addEventListener('pointermove', onPointerMove);
         target.addEventListener('pointerup', onPointerUp);
@@ -663,6 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
         normalizeToCenterIfBaseScale();
         clampTranslateToContainer(el);
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
 
         mainSwiper.allowTouchMove = scale === 1;
     }
@@ -680,6 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
         didPinch = false;
 
         target.style.transform = 'translate(0, 0) scale(1)';
+        target.style.touchAction = 'pan-y';
         mainSwiper.allowTouchMove = true;
     }
 
@@ -700,6 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = slide.querySelector('img');
             if (img) {
                 img.style.transform = 'translate(0, 0) scale(1)';
+                img.style.touchAction = 'pan-y';
             }
         });
     }

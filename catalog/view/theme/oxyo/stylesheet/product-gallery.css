@@ -272,7 +272,8 @@
 	}
 
 	.image-wrapper img {
-		touch-action: none;
+		/* Allow native vertical page scroll when image is not zoomed. */
+		touch-action: pan-y;
 	}
 }
 
