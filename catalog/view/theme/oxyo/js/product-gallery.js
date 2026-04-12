@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainSwiper.allowTouchMove = false;
 
             e.preventDefault();
-            applyTransform(target);
+            applyTransform(target, true);
             return;
         }
 
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
             translateX = pinchStartX - pinchStartImgX * scale;
             translateY = pinchStartY - pinchStartImgY * scale;
 
-            applyTransform(e.target);
+            applyTransform(e.target, true);
             return;
         }
 
@@ -700,9 +700,11 @@ document.addEventListener('DOMContentLoaded', () => {
         translateY = Math.min(maxShiftY, Math.max(-maxShiftY, translateY));
     }
 
-    function applyTransform(el) {
+    function applyTransform(el, skipClamp = false) {
         normalizeToCenterIfBaseScale();
-        clampTranslateToContainer(el);
+        if (!skipClamp) {
+            clampTranslateToContainer(el);
+        }
         el.style.transition = '';
         el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
         el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
