@@ -454,8 +454,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 startScale = scale;
             }
 
+            // Точка в середине двух пальцев (в координатах окна)
+            const pinchCenterX = (touches[0].clientX + touches[1].clientX) / 2;
+            const pinchCenterY = (touches[0].clientY + touches[1].clientY) / 2;
+
+            const oldScale = scale;
             const nextScale = startScale * (dist / startDist);
             scale = Math.min(Math.max(nextScale, 1), 4);
+
+            // Масштабировать от точки между пальцами
+            if (oldScale !== scale && target) {
+                const container = target.closest('.media-wrapper');
+                if (container) {
+                    const rect = container.getBoundingClientRect();
+                    // Координаты точки пинча относительно контейнера
+                    const pinchX = pinchCenterX - rect.left;
+                    const pinchY = pinchCenterY - rect.top;
+
+                    // Точка на изображении в координатах изображения (до масштабирования)
+                    const imgPointX = (pinchX - translateX) / oldScale;
+                    const imgPointY = (pinchY - translateY) / oldScale;
+
+                    // Новое смещение для зума к точке пальцев
+                    translateX = pinchX - imgPointX * scale;
+                    translateY = pinchY - imgPointY * scale;
+                }
+            }
 
             didPinch = true;
             isPanning = false;
@@ -567,8 +591,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 startDist = dist;
             }
 
+            // Точка в середине двух пальцев (в координатах окна)
+            const pinchCenterX = (p1.clientX + p2.clientX) / 2;
+            const pinchCenterY = (p1.clientY + p2.clientY) / 2;
+
+            const oldScale = scale;
             const nextScale = startScale * (dist / startDist);
             scale = Math.min(Math.max(nextScale, 1), 4);
+
+            // Масштабировать от точки между пальцами
+            if (oldScale !== scale && e.target) {
+                const container = e.target.closest('.media-wrapper');
+                if (container) {
+                    const rect = container.getBoundingClientRect();
+                    // Координаты точки пинча относительно контейнера
+                    const pinchX = pinchCenterX - rect.left;
+                    const pinchY = pinchCenterY - rect.top;
+
+                    // Точка на изображении в координатах изображения (до масштабирования)
+                    const imgPointX = (pinchX - translateX) / oldScale;
+                    const imgPointY = (pinchY - translateY) / oldScale;
+
+                    // Новое смещение для зума к точке пальцев
+                    translateX = pinchX - imgPointX * scale;
+                    translateY = pinchY - imgPointY * scale;
+                }
+            }
 
             applyTransform(e.target);
             return;
