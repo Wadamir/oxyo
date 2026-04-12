@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function debugSwiperUpdate(data = {}) {
         if (!DEBUG_GESTURES || !debugEl) return;
 
-        const base = 7; // индекс, где начинается Swiper-блок
+        const base = 7; // index where Swiper block starts
 
         if (data.event) {
             console.log(
@@ -428,24 +428,24 @@ document.addEventListener('DOMContentLoaded', () => {
             didPinch = true;
             mainSwiper.allowTouchMove = false;
 
-            // Сохраняем начальную точку между пальцами
+            // Save initial pinch center point
             const container = target.closest('.media-wrapper');
             if (container) {
                 const rect = container.getBoundingClientRect();
                 const containerCenterX = container.clientWidth / 2;
                 const containerCenterY = container.clientHeight / 2;
 
-                // Координаты в локальной системе контейнера
+                // Coordinates in local container coordinate system
                 const localX =
                     (touches[0].clientX + touches[1].clientX) / 2 - rect.left;
                 const localY =
                     (touches[0].clientY + touches[1].clientY) / 2 - rect.top;
 
-                // Координаты в центрированной системе (где 0,0 = центр контейнера)
+                // Coordinates in centered system (where 0,0 = container center)
                 pinchStartX = localX - containerCenterX;
                 pinchStartY = localY - containerCenterY;
 
-                // Координаты этой точки на исходном изображении
+                // Coordinates of this point on the original image
                 pinchStartImgX = (pinchStartX - translateX) / scale;
                 pinchStartImgY = (pinchStartY - translateY) / scale;
             }
@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nextScale = startScale * (dist / startDist);
             scale = Math.min(Math.max(nextScale, 1), 4);
 
-            // Масштабировать от начальной точки между пальцами
+            // Scale from initial pinch center point
             translateX = pinchStartX - pinchStartImgX * scale;
             translateY = pinchStartY - pinchStartImgY * scale;
 
@@ -545,22 +545,22 @@ document.addEventListener('DOMContentLoaded', () => {
             startScale = scale;
             mainSwiper.allowTouchMove = false;
 
-            // Сохраняем начальную точку между пальцами
+            // Save initial pinch center point
             const container = e.target.closest('.media-wrapper');
             if (container) {
                 const rect = container.getBoundingClientRect();
                 const containerCenterX = container.clientWidth / 2;
                 const containerCenterY = container.clientHeight / 2;
 
-                // Координаты в локальной системе контейнера
+                // Coordinates in local container coordinate system
                 const localX = (p1.clientX + p2.clientX) / 2 - rect.left;
                 const localY = (p1.clientY + p2.clientY) / 2 - rect.top;
 
-                // Координаты в центрированной системе (где 0,0 = центр контейнера)
+                // Coordinates in centered system (where 0,0 = container center)
                 pinchStartX = localX - containerCenterX;
                 pinchStartY = localY - containerCenterY;
 
-                // Координаты этой точки на исходном изображении
+                // Coordinates of this point on the original image
                 pinchStartImgX = (pinchStartX - translateX) / scale;
                 pinchStartImgY = (pinchStartY - translateY) / scale;
             }
@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nextScale = startScale * (dist / startDist);
             scale = Math.min(Math.max(nextScale, 1), 4);
 
-            // Масштабировать от начальной точки между пальцами
+            // Scale from initial pinch center point
             translateX = pinchStartX - pinchStartImgX * scale;
             translateY = pinchStartY - pinchStartImgY * scale;
 
