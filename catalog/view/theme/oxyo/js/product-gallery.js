@@ -432,10 +432,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const container = target.closest('.media-wrapper');
             if (container) {
                 const rect = container.getBoundingClientRect();
-                pinchStartX =
+                const containerCenterX = container.clientWidth / 2;
+                const containerCenterY = container.clientHeight / 2;
+
+                // Координаты в локальной системе контейнера
+                const localX =
                     (touches[0].clientX + touches[1].clientX) / 2 - rect.left;
-                pinchStartY =
+                const localY =
                     (touches[0].clientY + touches[1].clientY) / 2 - rect.top;
+
+                // Координаты в центрированной системе (где 0,0 = центр контейнера)
+                pinchStartX = localX - containerCenterX;
+                pinchStartY = localY - containerCenterY;
 
                 // Координаты этой точки на исходном изображении
                 pinchStartImgX = (pinchStartX - translateX) / scale;
@@ -541,8 +549,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const container = e.target.closest('.media-wrapper');
             if (container) {
                 const rect = container.getBoundingClientRect();
-                pinchStartX = (p1.clientX + p2.clientX) / 2 - rect.left;
-                pinchStartY = (p1.clientY + p2.clientY) / 2 - rect.top;
+                const containerCenterX = container.clientWidth / 2;
+                const containerCenterY = container.clientHeight / 2;
+
+                // Координаты в локальной системе контейнера
+                const localX = (p1.clientX + p2.clientX) / 2 - rect.left;
+                const localY = (p1.clientY + p2.clientY) / 2 - rect.top;
+
+                // Координаты в центрированной системе (где 0,0 = центр контейнера)
+                pinchStartX = localX - containerCenterX;
+                pinchStartY = localY - containerCenterY;
 
                 // Координаты этой точки на исходном изображении
                 pinchStartImgX = (pinchStartX - translateX) / scale;
