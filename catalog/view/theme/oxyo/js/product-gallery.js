@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainSwiper.allowTouchMove = false;
 
             e.preventDefault();
-            applyTransform(target, true);
+            applyTransform(target);
             return;
         }
 
@@ -626,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
             translateX = pinchStartX - pinchStartImgX * scale;
             translateY = pinchStartY - pinchStartImgY * scale;
 
-            applyTransform(e.target, true);
+            applyTransform(e.target);
             return;
         }
 
