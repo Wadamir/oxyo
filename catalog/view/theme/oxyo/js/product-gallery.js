@@ -215,6 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scale > 1) {
             resetZoom(e.currentTarget);
         } else {
+            document
+                .querySelector('.product-gallery-wrapper')
+                .classList.add('is-zoomed');
+
             const rect = e.currentTarget.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -531,6 +535,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document
             .querySelector('.product-gallery-wrapper')
             .classList.remove('is-fullscreen');
+        document
+            .querySelector('.product-gallery-wrapper')
+            .classList.remove('is-zoomed');
 
         /* debug gesture events */
         debugUpdate({ status: 'fullscreen closed' });
@@ -917,6 +924,10 @@ document.addEventListener('DOMContentLoaded', () => {
         startDist = null;
         pointers.clear();
 
+        document
+            .querySelector('.product-gallery-wrapper')
+            .classList.remove('is-zoomed');
+
         translateX = 0;
         translateY = 0;
 
@@ -935,6 +946,10 @@ document.addEventListener('DOMContentLoaded', () => {
         pointers.clear();
         isPanning = false;
         didPinch = false;
+
+        document
+            .querySelector('.product-gallery-wrapper')
+            .classList.remove('is-zoomed');
 
         translateX = 0;
         translateY = 0;
