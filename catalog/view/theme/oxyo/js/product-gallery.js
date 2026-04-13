@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isFullscreen = false;
     let userPausedVideo = false;
-    const DESKTOP_ZOOM_SCALE = 1.1;
+    const DESKTOP_ZOOM_SCALE = 3;
 
     let desktopDragActive = false;
     let desktopDragMoved = false;
@@ -205,10 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function onDesktopImageClick(e) {
         if (!isDesktopFullscreenMode()) return;
 
-        const galleryWrapper = document.querySelector(
-            '.product-gallery-wrapper',
-        );
-
         if (desktopDragMoved) {
             desktopDragMoved = false;
             e.preventDefault();
@@ -236,25 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Keep clicked point under cursor after zoom-in.
             translateX = (1 - DESKTOP_ZOOM_SCALE) * clickDx;
             translateY = (1 - DESKTOP_ZOOM_SCALE) * clickDy;
-            console.log('translateX', translateX, 'translateY', translateY);
 
-            // Point in percentage relative to image center, used as basis for panning during zoom.
-            translateXPercent = Math.max(
-                -1,
-                Math.min(1, clickDx / (rect.width / 2)),
-            );
-            translateYPercent = Math.max(
-                -1,
-                Math.min(1, clickDy / (rect.height / 2)),
-            );
-            console.log(
-                'translateXPercent',
-                translateXPercent,
-                'translateYPercent',
-                translateYPercent,
-            );
-
-            galleryWrapper?.classList.add('is-zoomed');
             applyTransformSmooth(e.currentTarget);
             mainSwiper.allowTouchMove = false;
         }
@@ -304,8 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let panStartY = 0;
     let translateX = 0;
     let translateY = 0;
-    let translateXPercent = 0;
-    let translateYPercent = 0;
     let startTranslateX = 0;
     let startTranslateY = 0;
 
@@ -520,13 +496,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isFullscreen) return;
         isFullscreen = true;
 
-        const galleryWrapper = document.querySelector(
-            '.product-gallery-wrapper',
-        );
-        if (!galleryWrapper) return;
-
         document.body.classList.add('no-scroll');
-        galleryWrapper.classList.add('is-fullscreen');
+        document
+            .querySelector('.product-gallery-wrapper')
+            .classList.add('is-fullscreen');
 
         /* debug gesture events */
         debugShow();
@@ -554,13 +527,10 @@ document.addEventListener('DOMContentLoaded', () => {
         resetAllZoom(mainSwiper);
         isFullscreen = false;
 
-        const galleryWrapper = document.querySelector(
-            '.product-gallery-wrapper',
-        );
-        if (!galleryWrapper) return;
-
         document.body.classList.remove('no-scroll');
-        galleryWrapper.classList.remove('is-fullscreen');
+        document
+            .querySelector('.product-gallery-wrapper')
+            .classList.remove('is-fullscreen');
 
         /* debug gesture events */
         debugUpdate({ status: 'fullscreen closed' });
@@ -915,17 +885,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function applyTransformSmooth(el) {
         normalizeToCenterIfBaseScale();
+        clampTranslateToContainer(el);
 
         // Use requestAnimationFrame to ensure smooth transition
         el.style.transition = '';
-        el.style.transform = `translate(${-translateXPercent * 50}%, ${-translateYPercent * 50}%) scale(${scale})`;
+        el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 
         // Force reflow and then apply transition
         void el.offsetWidth;
 
         requestAnimationFrame(() => {
             el.style.transition = 'transform 300ms ease-out';
-            el.style.transform = `translate(${-translateXPercent * 50}%, ${-translateYPercent * 50}%) scale(${scale})`;
+            el.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
             el.style.touchAction = scale > 1 ? 'none' : 'pan-y';
             mainSwiper.allowTouchMove = scale === 1;
 
@@ -946,14 +917,8 @@ document.addEventListener('DOMContentLoaded', () => {
         startDist = null;
         pointers.clear();
 
-        document
-            .querySelector('.product-gallery-wrapper')
-            ?.classList.remove('is-zoomed');
-
         translateX = 0;
         translateY = 0;
-        translateXPercent = 0;
-        translateYPercent = 0;
 
         isPanning = false;
         didPinch = false;
@@ -971,14 +936,8 @@ document.addEventListener('DOMContentLoaded', () => {
         isPanning = false;
         didPinch = false;
 
-        document
-            .querySelector('.product-gallery-wrapper')
-            ?.classList.remove('is-zoomed');
-
         translateX = 0;
         translateY = 0;
-        translateXPercent = 0;
-        translateYPercent = 0;
 
         mainSwiper.allowTouchMove = true;
 

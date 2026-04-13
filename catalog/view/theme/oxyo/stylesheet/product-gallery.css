@@ -812,10 +812,7 @@ body.no-scroll {
 	.product-gallery-wrapper.is-fullscreen .main-swiper {
 		max-width: min(100%, calc((100dvh - 224px) * var(--gallery-ratio, 1)));
 	}
-
-    .product-gallery-wrapper.is-fullscreen.is-zoomed .main-swiper {
-        max-width: 100%;
-    }
+}
 
 
 
