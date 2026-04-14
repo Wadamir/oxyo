@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isFullscreen = false;
     let userPausedVideo = false;
-    const DESKTOP_ZOOM_SCALE = 3;
+    const DESKTOP_ZOOM_SCALE = 2;
 
     let desktopDragActive = false;
     let desktopDragMoved = false;
