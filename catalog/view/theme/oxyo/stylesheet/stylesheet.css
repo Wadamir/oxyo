@@ -4429,6 +4429,7 @@ div.required .control-label:after {
 
 .single-blog .banner_wrap {
     margin-bottom: 8px;
+    border-radius: 12px;
 }
 
 .blog .date_added {
@@ -4486,7 +4487,7 @@ div.required .control-label:after {
     /* font-size: 16px; */
     margin-bottom: 12px;
     line-height: 1.1;
-    min-height: 2.2em;
+    /* min-height: 2.2em; */
 }
 
 @media (min-width: 992px) {
