@@ -17,7 +17,7 @@
             {% for blog in posts %}
                 <div class="item single-blog">
                     {% if blog.image and thumb %}
-                        <div class="banner_wrap hover-zoom hover-darken"{% if columns == 'list' %} style="width:{{ img_width }}px"{% endif %}>
+                        <div class="banner_wrap hover-zoom hover-darken__"{% if columns == 'list' %} style="width:{{ img_width }}px"{% endif %}>
                             {% if blog.vk_video %}
                                 <div class="video-holder">
                                     {{ blog.vk_video }}

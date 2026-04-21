@@ -4427,11 +4427,6 @@ div.required .control-label:after {
     /* text-align: center; */
 }
 
-.single-blog .banner_wrap {
-    margin-bottom: 8px;
-    border-radius: 12px;
-}
-
 .blog .date_added {
     position: absolute;
     top: 10px;
@@ -4480,6 +4475,12 @@ div.required .control-label:after {
 .single-blog .banner_wrap {
     margin-bottom: 12px;
     width: 100%;
+}
+
+.single-blog .banner_wrap .video-holder,
+.single-blog .banner_wrap iframe,
+.single-blog .banner_wrap img {
+    border-radius: 12px;
 }
 
 .single-blog .blog-title {
