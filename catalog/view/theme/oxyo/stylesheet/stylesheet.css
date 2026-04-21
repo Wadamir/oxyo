@@ -4563,7 +4563,11 @@ div.required .control-label:after {
 /* Single Blog Page */
 .blog_post .main_thumb {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+}
+
+.blog_post .main_thumb img {
+    border-radius: 12px;
 }
 
 .blog_post h1#page-title {
