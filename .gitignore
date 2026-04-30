@@ -146,6 +146,7 @@
 
 /admin/view/javascript/*
 !/admin/view/javascript/
+!/admin/view/javascript/common.js
 
 !/admin/view/javascript/manager_product/
 !/admin/view/javascript/manager_product/**

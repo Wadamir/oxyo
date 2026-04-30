@@ -947,15 +947,15 @@
                                                 </a>
 												<input type="hidden" name="image" value="{{ image }}" id="input-image"/>
                                             </td>
-                                            <td class="text-left">
-                                                <a href="" id="thumb-video" data-toggle="image" class="img-thumbnail">
+											<td class="text-left">
+												<a href="" id="thumb-video" data-toggle="image" class="img-thumbnail" data-video-placeholder="{{ no_video }}">
                                                     {% if video_thumb is defined and video_thumb %}
                                                         <video width="100%" height="auto" controls autoplay muted loop name="{{ video_name }}">
                                                             <source src="{{ video_thumb }}" type="video/{{ video_extension }}">
                                                             Your browser does not support the video tag.
                                                         </video>
                                                     {% else %}
-                                                        <img src="{{ no_video }}" alt="" title="no video" />
+														<img src="{{ no_video }}" alt="" title="no video" data-placeholder="{{ no_video }}" />
                                                     {% endif %}
                                                 </a>
 												<input type="hidden" name="video" value="{{ video }}" id="input-video"/>
