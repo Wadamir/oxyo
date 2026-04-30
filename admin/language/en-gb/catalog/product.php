@@ -63,6 +63,7 @@ $_['entry_width']            = 'Width';
 $_['entry_height']           = 'Height';
 $_['entry_image']            = 'Image';
 $_['entry_video']            = 'Video';
+$_['entry_video_image']      = 'Video Thumbnail';
 $_['entry_additional_image'] = 'Additional Images';
 $_['entry_customer_group']   = 'Customer Group';
 $_['entry_date_start']       = 'Date Start';

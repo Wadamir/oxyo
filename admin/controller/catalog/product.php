@@ -1089,6 +1089,15 @@ class ControllerCatalogProduct extends Controller
             $data['video'] = '';
         }
 
+        // Video image (custom video thumbnail)
+        if (isset($this->request->post['video_image'])) {
+            $data['video_image'] = $this->request->post['video_image'];
+        } elseif (!empty($product_info) && isset($product_info['video_image'])) {
+            $data['video_image'] = $product_info['video_image'];
+        } else {
+            $data['video_image'] = '';
+        }
+
         $this->load->model('tool/image');
 
         if (isset($this->request->post['image']) && is_file(DIR_IMAGE . $this->request->post['image'])) {
@@ -1100,6 +1109,18 @@ class ControllerCatalogProduct extends Controller
         }
 
         $data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+        if (isset($this->request->post['video_image']) && is_file(DIR_IMAGE . $this->request->post['video_image'])) {
+            $data['video_image_thumb'] = $this->model_tool_image->resize($this->request->post['video_image'], 100, 100);
+        } elseif (!empty($product_info) && !empty($product_info['video_image']) && is_file(DIR_IMAGE . $product_info['video_image'])) {
+            $data['video_image_thumb'] = $this->model_tool_image->resize($product_info['video_image'], 100, 100);
+        } else {
+            if (is_file(DIR_IMAGE . 'no_video2.png')) {
+                $data['video_image_thumb'] = $this->model_tool_image->resize('no_video2.png', 100, 100);
+            } else {
+                $data['video_image_thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+            }
+        }
 
         if (isset($this->request->post['video']) && is_file(DIR_IMAGE . $this->request->post['video'])) {
             if ($this->request->server['HTTPS']) {
@@ -1123,7 +1144,18 @@ class ControllerCatalogProduct extends Controller
             $data['video_name'] = '';
         }
 
-        $data['no_video'] = $this->model_tool_image->resize('no_video.png', 100, 100);
+        // $admin_video_placeholder = DIR_APPLICATION . 'view/image/no_video2.png';
+        $image_video_placeholder = DIR_IMAGE . 'no_video2.png';
+
+        // if (is_file($admin_video_placeholder) && !is_file($image_video_placeholder)) {
+        //     @copy($admin_video_placeholder, $image_video_placeholder);
+        // }
+
+        if (is_file($image_video_placeholder)) {
+            $data['no_video'] = $this->model_tool_image->resize('no_video2.png', 100, 100);
+        } else {
+            $data['no_video'] = 'view/image/no_video2.png';
+        }
 
         // Images
         if (isset($this->request->post['product_image'])) {

@@ -169,21 +169,26 @@ $(document).ready(function () {
             });
 
             $('#button-clear').on('click', function () {
+                var $video = $element.find('video');
                 var $image = $element.find('img');
                 var placeholder =
                     $image.attr('data-placeholder') ||
                     $element.attr('data-video-placeholder');
 
-                if ($image.length && placeholder) {
+                if ($video.length) {
+                    if (placeholder) {
+                        $element.html(
+                            '<img src="' +
+                                placeholder +
+                                '" alt="" title="" data-placeholder="' +
+                                placeholder +
+                                '">',
+                        );
+                    } else {
+                        $video.remove();
+                    }
+                } else if ($image.length && placeholder) {
                     $image.attr('src', placeholder);
-                } else if (placeholder) {
-                    $element.html(
-                        '<img src="' +
-                            placeholder +
-                            '" alt="" title="" data-placeholder="' +
-                            placeholder +
-                            '">',
-                    );
                 }
 
                 $element.parent().find('input').val('');

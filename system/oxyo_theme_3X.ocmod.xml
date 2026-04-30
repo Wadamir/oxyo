@@ -46,22 +46,6 @@
         </operation>
         <operation error="log">
             <search><![CDATA[
-                $data['thumb'] = $
-            ]]></search>
-            <add position="before"><![CDATA[
-                $data['thumb_sm'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_default_image_additional_width'), $this->config->get('theme_default_image_additional_height'));
-            ]]></add>
-        </operation>
-        <operation error="log">
-            <search><![CDATA[
-                'thumb' => $
-            ]]></search>
-            <add position="before"><![CDATA[
-                'thumb_lg' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_default_image_thumb_width'), $this->config->get('theme_default_image_thumb_height')),
-            ]]></add>
-        </operation>
-        <operation error="log">
-            <search><![CDATA[
                 if ($product_info) {
             ]]></search>
             <add position="after"><![CDATA[
