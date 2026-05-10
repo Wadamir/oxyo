@@ -63,6 +63,7 @@ $_['entry_width']            = 'Ширина';
 $_['entry_height']           = 'Высота';
 $_['entry_image']            = 'Изображение товара';
 $_['entry_video']            = 'Видео товара';
+$_['entry_video_image']      = 'Миниатюра для видео';
 $_['entry_additional_image'] = 'Дополнительные изображения';
 $_['entry_customer_group']   = 'Группа клиентов';
 $_['entry_date_start']       = 'Дата начала';

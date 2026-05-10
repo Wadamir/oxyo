@@ -144,8 +144,14 @@
 /admin/view/*
 !/admin/view/
 
+/admin/view/image/*
+!/admin/view/image/
+!/admin/view/image/no_video.png
+!/admin/view/image/no_video2.png
+
 /admin/view/javascript/*
 !/admin/view/javascript/
+!/admin/view/javascript/common.js
 
 !/admin/view/javascript/manager_product/
 !/admin/view/javascript/manager_product/**
@@ -350,6 +356,7 @@
 /image/*
 !/image/
 !/image/no_video.png
+!/image/no_video2.png
 /image/catalog/*
 !/image/catalog/
 !/image/catalog/oxyo-demo/

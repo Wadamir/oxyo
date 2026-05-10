@@ -28,6 +28,7 @@ class ModelCatalogProduct extends Model {
 				'stock_status'     => $query->row['stock_status'],
 				'image'            => $query->row['image'],
                 'video'            => $query->row['video'],  
+                'video_image'      => $query->row['video_image'],
 				'manufacturer_id'  => $query->row['manufacturer_id'],
 				'manufacturer'     => $query->row['manufacturer'],
 				'price'            => ($query->row['discount'] ? $query->row['discount'] : $query->row['price']),

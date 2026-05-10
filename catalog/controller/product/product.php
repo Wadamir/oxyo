@@ -289,6 +289,7 @@ class ControllerProductProduct extends Controller
             }
 
             if ($product_info['image']) {
+                $data['thumb_sm'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_default_image_additional_width'), $this->config->get('theme_default_image_additional_height'));
                 $data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
             } else {
                 $data['thumb'] = '';
@@ -304,7 +305,11 @@ class ControllerProductProduct extends Controller
                 $data['video'] = '';
             }
 
-            $data['video_placeholder'] = $this->model_tool_image->resize('no_video.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
+            if (!empty($product_info['video_image']) && is_file(DIR_IMAGE . $product_info['video_image'])) {
+                $data['video_placeholder'] = $this->model_tool_image->resize($product_info['video_image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
+            } else {
+                $data['video_placeholder'] = $this->model_tool_image->resize('no_video2.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
+            }
 
             $data['images'] = array();
 
@@ -314,11 +319,18 @@ class ControllerProductProduct extends Controller
             $additional_image_height = intval($this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height')) / 2 - 5;
             // var_dump($additional_image_height);
 
+            if ($data['video'] != '' && $data['thumb'] != '') {
+                $data['images'][] = array(
+                    'popup' => $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
+                    'thumb_lg' => $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_default_image_thumb_width'), $this->config->get('theme_default_image_thumb_height')),
+                    'thumb' => $this->model_tool_image->resize($product_info['image'], $additional_image_height / 1.33, $additional_image_height)
+                );
+            }
+
             foreach ($results as $result) {
                 $data['images'][] = array(
                     'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
-                    // 'popup' => $this->model_tool_image->resize($result['image'], $additional_image_height / 1.33, $additional_image_height),
-                    // 'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height'))
+                    'thumb_lg' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_default_image_thumb_width'), $this->config->get('theme_default_image_thumb_height')),
                     'thumb' => $this->model_tool_image->resize($result['image'], $additional_image_height / 1.33, $additional_image_height)
                 );
             }
