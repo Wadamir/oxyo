@@ -447,6 +447,10 @@
 !/system/library/cart/
 !/system/library/cart/weight.php
 
+!/system/simple*
+!/system/library/simple/
+!/system/library/simple/**
+
 !/system/library/yamarket_fusion/
 !/system/library/yamarket_fusion/**
 
