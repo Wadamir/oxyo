@@ -82,6 +82,7 @@
 !/admin/language/en-gb/extension/feed/yamarket_fusion.php
 
 !/admin/language/en-gb/extension/module/
+!/admin/language/en-gb/extension/module/**
 
 /admin/language/en-gb/extension/theme/*
 !/admin/language/en-gb/extension/theme/
@@ -109,7 +110,7 @@
 !/admin/language/ru-ru/extension/feed/yamarket_fusion.php
 
 !/admin/language/ru-ru/extension/module/
-
+!/admin/language/ru-ru/extension/module/**
 /admin/language/ru-ru/extension/theme/*
 !/admin/language/ru-ru/extension/theme/
 !/admin/language/ru-ru/extension/theme/oxyo.php
@@ -129,13 +130,16 @@
 
 /admin/model/tool/*
 !/admin/model/tool/
-# !/admin/model/tool/image.php
 
 /admin/model/extension/*
 !/admin/model/extension/
 
 !/admin/model/extension/blog/
 !/admin/model/extension/blog/**
+
+!/admin/model/extension/module/
+!/admin/model/extension/module/**
+
 !/admin/model/extension/oxyo/
 !/admin/model/extension/oxyo/**
 
@@ -152,6 +156,9 @@
 /admin/view/javascript/*
 !/admin/view/javascript/
 !/admin/view/javascript/common.js
+
+!/admin/view/javascript/font**
+!/admin/view/javascript/simple.js
 
 !/admin/view/javascript/manager_product/
 !/admin/view/javascript/manager_product/**
@@ -198,8 +205,10 @@
 
 !/admin/view/template/extension/blog/
 !/admin/view/template/extension/blog/**
+
 !/admin/view/template/extension/module/
 !/admin/view/template/extension/module/**
+
 !/admin/view/template/extension/oxyo/
 !/admin/view/template/extension/oxyo/**
 
@@ -216,6 +225,18 @@
 /catalog/controller/*
 !/catalog/controller/
 
+/catalog/controller/account/*
+!/catalog/controller/account/
+!/catalog/controller/account/simple*
+
+/catalog/controller/checkout/*
+!/catalog/controller/checkout/
+!/catalog/controller/checkout/simple*
+
+/catalog/controller/common/*
+!/catalog/controller/common/
+!/catalog/controller/common/simple*
+
 /catalog/controller/product/*
 !/catalog/controller/product/
 !/catalog/controller/product/product.php
@@ -225,10 +246,13 @@
 
 !/catalog/controller/extension/blog/
 !/catalog/controller/extension/blog/**
+
 !/catalog/controller/extension/feed/
 !/catalog/controller/extension/feed/yamarket_fusion.php
+
 !/catalog/controller/extension/module/
 !/catalog/controller/extension/module/**
+
 !/catalog/controller/extension/oxyo/
 !/catalog/controller/extension/oxyo/**
 
@@ -240,8 +264,16 @@
 /catalog/language/en-gb/*
 !/catalog/language/en-gb/
 
+/catalog/language/en-gb/account/*
+!/catalog/language/en-gb/account/
+!/catalog/language/en-gb/account/simple*
+
 !/catalog/language/en-gb/blog/
 !/catalog/language/en-gb/blog/**
+
+/catalog/language/en-gb/checkout/*
+!/catalog/language/en-gb/checkout/
+!/catalog/language/en-gb/checkout/simple*
 
 /catalog/language/en-gb/product/*
 !/catalog/language/en-gb/product/
@@ -259,12 +291,24 @@
 !/catalog/language/en-gb/oxyo/
 !/catalog/language/en-gb/oxyo/**
 
+/catalog/language/en-gb/tool/*
+!/catalog/language/en-gb/tool/
+!/catalog/language/en-gb/tool/simple*
+
 
 /catalog/language/ru-ru/*
 !/catalog/language/ru-ru/
 
+/catalog/language/ru-ru/account/*
+!/catalog/language/ru-ru/account/
+!/catalog/language/ru-ru/account/simple*
+
 !/catalog/language/ru-ru/blog/
 !/catalog/language/ru-ru/blog/**
+
+/catalog/language/ru-ru/checkout/*
+!/catalog/language/ru-ru/checkout/
+!/catalog/language/ru-ru/checkout/simple*
 
 /catalog/language/ru-ru/product/*
 !/catalog/language/ru-ru/product/
@@ -281,6 +325,10 @@
 
 !/catalog/language/ru-ru/oxyo/
 !/catalog/language/ru-ru/oxyo/**
+
+/catalog/language/ru-ru/tool/*
+!/catalog/language/ru-ru/tool/
+!/catalog/language/ru-ru/tool/simple*
 
 
 
@@ -305,31 +353,38 @@
 !/catalog/model/extension/oxyo/
 !/catalog/model/extension/oxyo/**
 
+/catalog/model/tool/*
+!/catalog/model/tool/
+!/catalog/model/tool/simple*
+
 
 /catalog/view/*
 !/catalog/view/
 
-/catalog/view/javascript/*
+!/catalog/view/image/
+!/catalog/view/image/**
+
 !/catalog/view/javascript/
+!/catalog/view/javascript/**
 
-!/catalog/view/javascript/bootstrap/
-!/catalog/view/javascript/bootstrap/**
+# !/catalog/view/javascript/bootstrap/
+# !/catalog/view/javascript/bootstrap/**
 
-!/catalog/view/javascript/digitalElephantFilter/
-!/catalog/view/javascript/digitalElephantFilter/**
+# !/catalog/view/javascript/digitalElephantFilter/
+# !/catalog/view/javascript/digitalElephantFilter/**
 
-!/catalog/view/javascript/hpmodel/
-!/catalog/view/javascript/hpmodel/**
+# !/catalog/view/javascript/hpmodel/
+# !/catalog/view/javascript/hpmodel/**
 
-/catalog/view/javascript/jquery/*
-!/catalog/view/javascript/jquery/
+# /catalog/view/javascript/jquery/*
+# !/catalog/view/javascript/jquery/
 
-/catalog/view/javascript/jquery/ui/*
-!/catalog/view/javascript/jquery/ui/
-!/catalog/view/javascript/jquery/ui/**
+# /catalog/view/javascript/jquery/ui/*
+# !/catalog/view/javascript/jquery/ui/
+# !/catalog/view/javascript/jquery/ui/**
 
-!/catalog/view/javascript/oxyo_megamenu/
-!/catalog/view/javascript/oxyo_megamenu/**
+# !/catalog/view/javascript/oxyo_megamenu/
+# !/catalog/view/javascript/oxyo_megamenu/**
 
 
 /catalog/view/theme/*
@@ -337,8 +392,24 @@
 
 /catalog/view/theme/default/*
 !/catalog/view/theme/default/
+
+!/catalog/view/theme/default/stylesheet/
+!/catalog/view/theme/default/stylesheet/**
+
 /catalog/view/theme/default/template/*
 !/catalog/view/theme/default/template/
+
+/catalog/view/theme/default/template/account/*
+!/catalog/view/theme/default/template/account/
+!/catalog/view/theme/default/template/account/simple*
+
+/catalog/view/theme/default/template/checkout/*
+!/catalog/view/theme/default/template/checkout/
+!/catalog/view/theme/default/template/checkout/simple*
+
+/catalog/view/theme/default/template/common/*
+!/catalog/view/theme/default/template/common/
+!/catalog/view/theme/default/template/common/simple*
 
 /catalog/view/theme/default/template/module/*
 !/catalog/view/theme/default/template/module/
@@ -382,7 +453,7 @@
 /storage/*
 
 # XD Checkout module
-!/admin/model/extension/module/xd_checkout.php
+# !/admin/model/extension/module/xd_checkout.php
 
 !/catalog/controller/extension/xd_checkout/
 !/catalog/controller/extension/xd_checkout/**
@@ -398,19 +469,19 @@
 !/catalog/view/javascript/jquery/xd_checkout/
 !/catalog/view/javascript/jquery/xd_checkout/**
 
-/catalog/view/theme/default/*
-!/catalog/view/theme/default/
-/catalog/view/theme/default/stylesheet/*
-!/catalog/view/theme/default/stylesheet/
-!/catalog/view/theme/default/stylesheet/xd_checkout/
-!/catalog/view/theme/default/stylesheet/xd_checkout/**
+# /catalog/view/theme/default/*
+# !/catalog/view/theme/default/
+# /catalog/view/theme/default/stylesheet/*
+# !/catalog/view/theme/default/stylesheet/
+# !/catalog/view/theme/default/stylesheet/xd_checkout/
+# !/catalog/view/theme/default/stylesheet/xd_checkout/**
 
-/catalog/view/theme/default/template/*
-!/catalog/view/theme/default/template/
-/catalog/view/theme/default/template/extension/*
-!/catalog/view/theme/default/template/extension/
-!/catalog/view/theme/default/template/extension/xd_checkout/
-!/catalog/view/theme/default/template/extension/xd_checkout/**
+# /catalog/view/theme/default/template/*
+# !/catalog/view/theme/default/template/
+# /catalog/view/theme/default/template/extension/*
+# !/catalog/view/theme/default/template/extension/
+# !/catalog/view/theme/default/template/extension/xd_checkout/
+# !/catalog/view/theme/default/template/extension/xd_checkout/**
 
 !/system/library/xd_checkout/
 !/system/library/xd_checkout/**
@@ -543,8 +614,6 @@
 !/admin/language/ru-ru/extension/shipping/
 !/admin/language/ru-ru/extension/shipping/xd_flat.php
 
-/admin/model/extension/*
-!/admin/model/extension/
 /admin/model/extension/shipping/*
 !/admin/model/extension/shipping/
 !/admin/model/extension/shipping/xd_flat.php

@@ -323,7 +323,7 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% if (contact['name'] == 'whatsapp_phone' or contact['name'] == 'telegram' or contact['name'] == 'vkontakte' or contact['name'] == 'avito' or contact['name'] == 'instagram' or contact['name'] == 'tiktok' ) %}
+                    {% if (contact['name'] == 'whatsapp' or contact['name'] == 'telegram' or contact['name'] == 'vkontakte' or contact['name'] == 'avito' or contact['name'] == 'instagram' or contact['name'] == 'tiktok' or contact['name'] == 'max' ) %}
                         <li>
                             <a href="{{contact.link}}" class="contact-item" target="_blank">
                                 {% if contact.icon != '' %}
