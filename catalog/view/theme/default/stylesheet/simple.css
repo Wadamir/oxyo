@@ -1572,6 +1572,10 @@
 
 
 @media (min-width: 576px) {
+    .method>label>img {
+        max-width: 60px;
+    }
+
     .modal-custom .modal-dialog.modal-dialog-centered {
         min-height: calc(100% - 3.5rem);
     }
