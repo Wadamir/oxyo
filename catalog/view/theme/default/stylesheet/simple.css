@@ -641,20 +641,37 @@
     box-sizing: border-box;
     min-height: 100px;
 }
-.simple-content input[type=text],
-.simple-content input[type=password],
-.simple-content input[type=email],
-.simple-content input[type=tel],
-.simple-content input[type=phone],
-.simple-content input[type=date],
-.simple-content input[type=time],
-.simple-content select,
-.simple-content textarea {
+.simple-content .simplecheckout-block-content input[type=text],
+.simple-content .simplecheckout-block-content input[type=password],
+.simple-content .simplecheckout-block-content input[type=email],
+.simple-content .simplecheckout-block-content input[type=tel],
+.simple-content .simplecheckout-block-content input[type=phone],
+.simple-content .simplecheckout-block-content input[type=date],
+.simple-content .simplecheckout-block-content input[type=time],
+.simple-content .simplecheckout-block-content select,
+.simple-content .simplecheckout-block-content textarea {
     width: 100%;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0px !important;
 }
+
+.simple-content .simplecheckout-block-content input:focus,
+.simple-content .simplecheckout-block-content select:focus,
+.simple-content .simplecheckout-block-content textarea:focus {
+    outline: none;
+}
+
+.simple-content .simplecheckout-block-content input:focus,
+.simple-content .simplecheckout-block-content select:focus,
+.simple-content .simplecheckout-block-content textarea:focus,
+.simple-content .simplecheckout-block-content .form-control:focus {
+    border-color: #212259;
+    box-shadow: none;
+    transition: border-color 500ms;
+}
+
+
 .checkout-heading:after {
     content:"";
     display:block;
@@ -1238,7 +1255,7 @@
     padding: 6px 12px;
 }
 
-/* 
+
 #payment-address #city-field,
 #shipping-address #city-field,
 #simplecheckout_payment_address .row-shipping_address_city > div,
@@ -1246,6 +1263,7 @@
     position: relative;
 }
 
+/* 
 #payment-address .form-group>label[for='city'],
 #shipping-address .form-group>label[for='city'],
 #simplecheckout_payment_address label[for='payment_address_city'],
@@ -1276,26 +1294,16 @@
 
     transition: box-shadow .2s ease, border-radius .2s ease;
 }
+*/
 
-#payment-address input[name='city']:focus,
-#shipping-address input[name='city']:focus,
-#simplecheckout_payment_address input[name='payment_address_city']:focus,
-#simplecheckout_shipping_address input[name='shipping_address_city']:focus {
+#simplecheckout_payment_address input#payment_address_city:focus,
+#simplecheckout_shipping_address input#shipping_address_city:focus {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-#payment-address input[name='city']::placeholder,
-#shipping-address input[name='city']::placeholder,
-#simplecheckout_payment_address input[name='payment_address_city']::placeholder,
-#simplecheckout_shipping_address input[name='shipping_address_city']::placeholder {
-    font-weight: 400;
-}
-
-#payment-address input[name='city']+ul.dropdown-menu,
-#shipping-address input[name='city']+ul.dropdown-menu,
-#simplecheckout_payment_address input[name='payment_address_city']+ul.dropdown-menu,
-#simplecheckout_shipping_address input[name='shipping_address_city']+ul.dropdown-menu {
+#simplecheckout_payment_address input#payment_address_city+ul.dropdown-menu,
+#simplecheckout_shipping_address input#shipping_address_city+ul.dropdown-menu {
     margin: -1px 0 0;
     padding: 8px 0;
 
@@ -1313,24 +1321,18 @@
     z-index: 1200;
 }
 
-#payment-address input[name='city']+ul.dropdown-menu::-webkit-scrollbar,
-#shipping-address input[name='city']+ul.dropdown-menu::-webkit-scrollbar,
-#simplecheckout_payment_address input[name='payment_address_city']+ul.dropdown-menu::-webkit-scrollbar,
-#simplecheckout_shipping_address input[name='shipping_address_city']+ul.dropdown-menu::-webkit-scrollbar {
+#simplecheckout_payment_address input#payment_address_city+ul.dropdown-menu::-webkit-scrollbar,
+#simplecheckout_shipping_address input#shipping_address_city+ul.dropdown-menu::-webkit-scrollbar {
     width: 6px;
 }
 
-#payment-address input[name='city']+ul.dropdown-menu>li,
-#shipping-address input[name='city']+ul.dropdown-menu>li,
-#simplecheckout_payment_address input[name='payment_address_city']+ul.dropdown-menu>li,
-#simplecheckout_shipping_address input[name='shipping_address_city']+ul.dropdown-menu>li {
+#simplecheckout_payment_address input#payment_address_city+ul.dropdown-menu>li,
+#simplecheckout_shipping_address input#shipping_address_city+ul.dropdown-menu>li {
     margin: 0;
 }
 
-#payment-address input[name='city']+ul.dropdown-menu>li>a,
-#shipping-address input[name='city']+ul.dropdown-menu>li>a,
-#simplecheckout_payment_address input[name='payment_address_city']+ul.dropdown-menu>li>a,
-#simplecheckout_shipping_address input[name='shipping_address_city']+ul.dropdown-menu>li>a {
+#simplecheckout_payment_address input#payment_address_city+ul.dropdown-menu>li>a,
+#simplecheckout_shipping_address input#shipping_address_city+ul.dropdown-menu>li>a {
     margin: 0;
     padding: 6px 12px;
 
@@ -1338,17 +1340,15 @@
     white-space: normal;
 }
 
-#payment-address input[name='city']+ul.dropdown-menu>.dropdown-header,
-#shipping-address input[name='city']+ul.dropdown-menu>.dropdown-header,
-#simplecheckout_payment_address input[name='payment_address_city']+ul.dropdown-menu>.dropdown-header,
-#simplecheckout_shipping_address input[name='shipping_address_city']+ul.dropdown-menu>.dropdown-header {
+#simplecheckout_payment_address input#payment_address_city+ul.dropdown-menu>.dropdown-header,
+#simplecheckout_shipping_address input#shipping_address_city+ul.dropdown-menu>.dropdown-header {
     padding: 10px 18px 6px;
 
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .04em;
 } 
-*/
+
 
 /* @media (max-width: 767px) {
 
