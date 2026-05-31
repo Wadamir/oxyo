@@ -608,6 +608,14 @@
         var $mainContainer = $(self.params.mainContainer);
 
         var setFields = function () {
+            console.log('[setAddressFields] start', {
+                block: block,
+                countryId: countryId,
+                zoneId: zoneId,
+                city: city,
+                postcode: postcode,
+            });
+
             if (countryId) {
                 $mainContainer.find('#' + block + '_country_id').val(countryId);
             }
@@ -620,6 +628,18 @@
             if (postcode) {
                 $mainContainer.find('#' + block + '_postcode').val(postcode);
             }
+
+            console.log('[setAddressFields] applied', {
+                block: block,
+                countryValue: $mainContainer
+                    .find('#' + block + '_country_id')
+                    .val(),
+                zoneValue: $mainContainer.find('#' + block + '_zone_id').val(),
+                cityValue: $mainContainer.find('#' + block + '_city').val(),
+                postcodeValue: $mainContainer
+                    .find('#' + block + '_postcode')
+                    .val(),
+            });
 
             if (typeof callbackAfterChanging === 'function') {
                 callbackAfterChanging();

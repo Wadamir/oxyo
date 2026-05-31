@@ -477,6 +477,14 @@
                         var id = $el.attr('id');
                         var value = localStorage.getItem(id);
 
+                        if (id && id.indexOf('_city') !== -1) {
+                            console.log('[initStorage] inspect city field', {
+                                id: id,
+                                storedValue: value,
+                                currentValue: $el.val(),
+                            });
+                        }
+
                         if (id && value) {
                             if ($el.is('select')) {
                                 if (
@@ -486,6 +494,16 @@
                                     if ($el.val() != value) {
                                         $el.val(value);
 
+                                        if (id && id.indexOf('_city') !== -1) {
+                                            console.log(
+                                                '[initStorage] applied city select value',
+                                                {
+                                                    id: id,
+                                                    value: value,
+                                                },
+                                            );
+                                        }
+
                                         if ($el.attr('data-onchange')) {
                                             needReloading = true;
                                         }
@@ -494,6 +512,16 @@
                             } else {
                                 if ($el.val() != value) {
                                     $el.val(value);
+
+                                    if (id && id.indexOf('_city') !== -1) {
+                                        console.log(
+                                            '[initStorage] applied city input value',
+                                            {
+                                                id: id,
+                                                value: value,
+                                            },
+                                        );
+                                    }
 
                                     if ($el.attr('data-onchange')) {
                                         needReloading = true;
@@ -532,6 +560,19 @@
                                 '#simplecheckout_payment_address',
                             )
                         ) {
+                            if (
+                                $el.attr('id') &&
+                                $el.attr('id').indexOf('_city') !== -1
+                            ) {
+                                console.log(
+                                    '[initStorage] save city to localStorage',
+                                    {
+                                        id: $el.attr('id'),
+                                        value: $el.val(),
+                                    },
+                                );
+                            }
+
                             localStorage.setItem($el.attr('id'), $el.val());
                         }
                     });
@@ -559,6 +600,14 @@
                 var name = $field.attr('name');
                 var id = $field.attr('id');
                 var value = $field.val();
+
+                if (id && id.indexOf('_city') !== -1) {
+                    console.log('[restorePaymentForm] restore city field', {
+                        id: id,
+                        name: name,
+                        value: value,
+                    });
+                }
 
                 if (
                     $field.is('input[type=text]') ||
