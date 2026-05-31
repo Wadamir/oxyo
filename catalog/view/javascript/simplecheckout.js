@@ -76,8 +76,67 @@
             }
         };
 
+        this.ensureCityDebugHooks = function () {
+            var self = this;
+
+            if (!window.__simpleCityValHooked) {
+                window.__simpleCityValHooked = true;
+
+                var originalVal = $.fn.val;
+
+                $.fn.val = function (value) {
+                    var hasElement = this.length > 0;
+                    var isCityField =
+                        hasElement &&
+                        this.is(
+                            '#shipping_address_city, #payment_address_city, input[name="city"], input[name$="[city]"]',
+                        );
+
+                    if (isCityField && arguments.length > 0) {
+                        var fromValue = originalVal.call(this);
+
+                        console.log('[city-debug][val-set]', {
+                            id: this.attr('id') || '',
+                            name: this.attr('name') || '',
+                            from: fromValue,
+                            to: value,
+                            stack: new Error().stack,
+                        });
+                    }
+
+                    return originalVal.apply(this, arguments);
+                };
+            }
+
+            if (!window.__simpleCityEventHooked) {
+                window.__simpleCityEventHooked = true;
+
+                $(document).on(
+                    'input.simpleCityDebug change.simpleCityDebug',
+                    '#shipping_address_city, #payment_address_city, input[name="city"], input[name$="[city]"]',
+                    function (e) {
+                        var $city = $(this);
+
+                        console.log('[city-debug][event]', {
+                            type: e.type,
+                            id: $city.attr('id') || '',
+                            name: $city.attr('name') || '',
+                            value: $city.val(),
+                        });
+                    },
+                );
+            }
+
+            if (!window.__simpleCityReloadHooked) {
+                window.__simpleCityReloadHooked = true;
+                console.log('[city-debug] hooks enabled');
+            }
+        };
+
         this.init = function (disableScroll, changeStep) {
             var self = this;
+
+            self.ensureCityDebugHooks();
 
             if (typeof disableScroll === 'undefined') {
                 disableScroll = false;
@@ -1986,6 +2045,11 @@
                     clearTimeout(overlayTimeoutId);
                     overlayTimeoutId = 0;
 
+                    console.log('[city-debug][reloadAll] before replace', {
+                        shippingCity: $('#shipping_address_city').val(),
+                        paymentCity: $('#payment_address_city').val(),
+                    });
+
                     var newData = $(self.params.mainContainer, $(data)).get(0);
                     if (!newData && data) {
                         newData = data;
@@ -1997,7 +2061,20 @@
                         console.error(e);
                     }
 
+                    console.log(
+                        '[city-debug][reloadAll] after replace before init',
+                        {
+                            shippingCity: $('#shipping_address_city').val(),
+                            paymentCity: $('#payment_address_city').val(),
+                        },
+                    );
+
                     self.init(disableScroll, changeStep);
+
+                    console.log('[city-debug][reloadAll] after init', {
+                        shippingCity: $('#shipping_address_city').val(),
+                        paymentCity: $('#payment_address_city').val(),
+                    });
 
                     if (typeof callback === 'function') {
                         callback.call(self);
