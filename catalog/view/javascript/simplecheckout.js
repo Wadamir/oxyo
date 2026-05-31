@@ -373,6 +373,16 @@
                     var $city = $block
                         .find("input[name='city'], input[name$='[city]']")
                         .first();
+                    var $address1 = $block
+                        .find(
+                            "input[name='address_1'], input[name$='[address_1]'], textarea[name='address_1'], textarea[name$='[address_1]']",
+                        )
+                        .first();
+                    var $address2 = $block
+                        .find(
+                            "input[name='address_2'], input[name$='[address_2]'], textarea[name='address_2'], textarea[name$='[address_2]']",
+                        )
+                        .first();
 
                     $zone
                         .data('simpleZoneCityAutofillRequestId', requestId)
@@ -396,6 +406,36 @@
                         });
                     };
 
+                    var clearAddressField = function ($field, label) {
+                        if (!$field.length) {
+                            return;
+                        }
+
+                        var previousValue = $field.val();
+
+                        if (previousValue === '') {
+                            return;
+                        }
+
+                        $field.val('');
+
+                        if (
+                            !$(self.params.mainContainer).attr('data-logged') &&
+                            $field.attr('id')
+                        ) {
+                            localStorage.setItem($field.attr('id'), '');
+                        }
+
+                        console.log(
+                            '[zone-city-autofill] address cleared on zone change',
+                            {
+                                zoneId: zoneId,
+                                field: label,
+                                previousValue: previousValue,
+                            },
+                        );
+                    };
+
                     if (!$city.length) {
                         finishAutofill();
                         return;
@@ -406,6 +446,9 @@
                         zoneId: zoneId,
                         currentCity: $city.val(),
                     });
+
+                    clearAddressField($address1, 'address_1');
+                    clearAddressField($address2, 'address_2');
 
                     if (!zoneId) {
                         if (cityRequest && cityRequest.readyState !== 4) {
