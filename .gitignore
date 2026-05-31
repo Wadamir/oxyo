@@ -150,6 +150,10 @@
 
 /admin/view/image/*
 !/admin/view/image/
+
+!/admin/view/image/shipping/
+!/admin/view/image/shipping/**
+
 !/admin/view/image/no_video.png
 !/admin/view/image/no_video2.png
 
@@ -392,6 +396,9 @@
 
 /catalog/view/theme/default/*
 !/catalog/view/theme/default/
+
+!/catalog/view/theme/default/image/
+!/catalog/view/theme/default/image/**
 
 !/catalog/view/theme/default/stylesheet/
 !/catalog/view/theme/default/stylesheet/**

@@ -55,6 +55,7 @@
 						<li class="hidden"><a href="#tab-delivery" data-toggle="tab"><i data-toggle="tooltip" title="{{ tab_delivery }}" class="fa fa-truck"></i></a></li>
 						<li class="hidden"><a href="#tab-countdown" data-toggle="tab"><i data-toggle="tooltip" title="{{ tab_countdown }}" class="fa fa-clock-o"></i></a></li>
 						<!--<li><a href="#tab-analytics" data-toggle="tab"><i data-toggle="tooltip" title="{{ tab_analytics }}" class="fa fa-line-chart"></i></a></li>-->
+                        <li><a href="#tab-cities" data-toggle="tab"><i data-toggle="tooltip" title="{{ tab_cities }}" class="fa fa-building"></i> {{ tab_cities }}</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane hidden" id="tab-home">
@@ -276,46 +277,7 @@
 										</select>
 									</div>
 								</div>
-							</div>            
-                            <hr />
-							<div class="row">
-								<div class="form-group col-sm-6">
-									<label class="col-sm-4 control-label" for="input-cdek-client-id">
-										{{ entry_cdek_client_id }}
-									</label>
-									<div class="col-sm-8">
-										<input type="text" name="xd_checkout[cdek_client_id]" id="input-cdek-client-id" class="form-control" value="{{ xd_checkout.cdek_client_id|default(xd_checkout.cdek_api_client_id|default('')) }}" autocomplete="off"/>
-									</div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label class="col-sm-4 control-label" for="input-cdek-client-secret">
-										{{ entry_cdek_client_secret }}
-									</label>
-									<div class="col-sm-8">
-										<input type="password" name="xd_checkout[cdek_client_secret]" id="input-cdek-client-secret" class="form-control" value="{{ xd_checkout.cdek_client_secret|default(xd_checkout.cdek_api_client_secret|default('')) }}" autocomplete="new-password"/>
-									</div>
-								</div>                              
-							</div>                            
-							<div class="row">
-								<div class="form-group col-sm-6">
-									<label class="col-sm-4 control-label" for="input-cdek-api-environment">
-										{{ entry_cdek_api_environment }}
-									</label>
-									<div class="col-sm-8">
-										<select name="xd_checkout[cdek_api_environment]" id="input-cdek-api-environment" class="form-control">
-											<option value="prod" {{ xd_checkout.cdek_api_environment|default('prod') == 'prod' ? ' selected="selected"' : '' }}>{{ text_cdek_api_environment_prod }}</option>
-											<option value="test" {{ xd_checkout.cdek_api_environment|default('prod') == 'test' ? ' selected="selected"' : '' }}>{{ text_cdek_api_environment_test }}</option>
-										</select>
-									</div>
-								</div>
-                                <div class="form-group col-sm-6 text-right">
-                                    <div class="col-sm-8 col-sm-offset-4">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadCitiesModal">
-                                            <i title="{{ entry_upload_cities }}" data-toggle="tooltip" class="fa fa-info-circle fa-lg"></i> {{ entry_upload_cities }}
-                                        </button>
-                                    </div>
-                                </div>                                  
-							</div>                                            
+							</div>                                          
 						</div>
 						<div class="tab-pane" id="tab-design">
 							<div class="row hidden d-none">
@@ -983,6 +945,86 @@
 								<a href="https://www.marketinsg.com/recover-abandoned-carts" class="btn btn-lg btn-warning" target="_blank">More Information</a>
 							{% endif %}
 						</div>
+                        <div class="tab-pane" id="tab-cities">
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label class="col-sm-4 control-label" for="input-cdek-client-id">
+										{{ entry_cdek_client_id }}
+									</label>
+									<div class="col-sm-8">
+										<input type="text" name="xd_checkout[cdek_client_id]" id="input-cdek-client-id" class="form-control" value="{{ xd_checkout.cdek_client_id|default(xd_checkout.cdek_api_client_id|default('')) }}" autocomplete="off"/>
+									</div>
+								</div>
+								<div class="form-group col-sm-6">
+									<label class="col-sm-4 control-label" for="input-cdek-client-secret">
+										{{ entry_cdek_client_secret }}
+									</label>
+									<div class="col-sm-8">
+										<input type="password" name="xd_checkout[cdek_client_secret]" id="input-cdek-client-secret" class="form-control" value="{{ xd_checkout.cdek_client_secret|default(xd_checkout.cdek_api_client_secret|default('')) }}" autocomplete="new-password"/>
+									</div>
+								</div>                              
+							</div>                            
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label class="col-sm-4 control-label" for="input-cdek-api-environment">
+										{{ entry_cdek_api_environment }}
+									</label>
+									<div class="col-sm-8">
+										<select name="xd_checkout[cdek_api_environment]" id="input-cdek-api-environment" class="form-control">
+											<option value="prod" {{ xd_checkout.cdek_api_environment|default('prod') == 'prod' ? ' selected="selected"' : '' }}>{{ text_cdek_api_environment_prod }}</option>
+											<option value="test" {{ xd_checkout.cdek_api_environment|default('prod') == 'test' ? ' selected="selected"' : '' }}>{{ text_cdek_api_environment_test }}</option>
+										</select>
+									</div>
+								</div>
+                                <div class="form-group col-sm-6 text-right">
+                                    <div class="col-sm-8 col-sm-offset-4">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadCitiesModal">
+                                            <i title="{{ entry_upload_cities }}" data-toggle="tooltip" class="fa fa-info-circle fa-lg"></i> {{ entry_upload_cities }}
+                                        </button>
+                                    </div>
+                                </div>                                  
+							</div>  
+                            <hr />
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group" style="margin-left: 0; margin-right: 0;">
+										<label class="control-label" for="cities-filter-country">{{ entry_field_country }}</label>
+										<select id="cities-filter-country" class="form-control">
+											<option value="">{{ text_select }}</option>
+											{% for country in countries %}
+												<option value="{{ country.country_id }}">{{ country.name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group" style="margin-left: 0; margin-right: 0;">
+										<label class="control-label" for="cities-filter-zone">{{ entry_field_zone }}</label>
+										<select id="cities-filter-zone" class="form-control" disabled="disabled">
+											<option value="">{{ text_select }}</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group" style="margin-left: 0; margin-right: 0; margin-bottom: 0;">
+										<label class="control-label" for="cities-capital-search">Столица региона</label>
+										<div class="cities-capital-controls">
+											<div class="input-group">
+												<input type="text" id="cities-capital-search" class="form-control" placeholder="Введите минимум 2 символа" autocomplete="off"/>
+												<span class="input-group-btn">
+													<button type="button" id="cities-capital-set" class="btn btn-primary" disabled="disabled">Сделать столицей</button>
+												</span>
+											</div>
+											<ul id="cities-capital-suggestions" class="cities-capital-suggestions hidden"></ul>
+										</div>
+										<label class="control-label" for="cities-output">{{ entry_field_locality }}</label>
+										<div id="cities-output" class="cities-output-box">
+											<div class="cities-output-placeholder">{{ text_upload_cities_ready }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+                        </div>
 					</div>
 				</form>
 			</div>
@@ -1045,6 +1087,76 @@
 
 	#upload-cities-status.upload-cities-status-bold {
 		font-weight: 700;
+	}
+
+	.cities-output-box {
+		height: 280px;
+		overflow-y: auto;
+		border: 1px solid #d9d9d9;
+		border-radius: 4px;
+		padding: 8px 10px;
+		background: #fff;
+	}
+
+	.cities-output-list {
+		margin: 0;
+		padding-left: 6px;
+	}
+
+	.cities-output-list li {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 0;
+	}
+
+	.cities-output-list li.city-capital {
+		color: #c9302c;
+		font-weight: 700;
+	}
+
+	.cities-capital-controls {
+		position: relative;
+		margin-bottom: 8px;
+	}
+
+	#cities-capital-search {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	#cities-capital-set {
+		white-space: nowrap;
+	}
+
+	.cities-capital-suggestions {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%;
+		z-index: 20;
+		margin: 2px 0 0;
+		padding: 0;
+		list-style: none;
+		max-height: 220px;
+		overflow-y: auto;
+		background: #fff;
+		border: 1px solid #d9d9d9;
+		border-radius: 4px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+	}
+
+	.cities-capital-suggestions li {
+		padding: 8px 10px;
+		cursor: pointer;
+	}
+
+	.cities-capital-suggestions li:hover {
+		background: #f5f5f5;
+	}
+
+	.cities-output-placeholder {
+		color: #777;
 	}
 </style>
 <script>
@@ -1166,6 +1278,9 @@
 
         var uploadCitiesInitUrl = '{{ upload_cities_init|replace({'&amp;': '&'}) }}';
 		var uploadCitiesBatchUrl = '{{ upload_cities_batch|replace({'&amp;': '&'}) }}';
+		var uploadCitiesByZoneUrl = '{{ upload_cities_by_zone|replace({'&amp;': '&'}) }}';
+		var uploadRegionCapitalsUrl = '{{ upload_region_capitals|replace({'&amp;': '&'}) }}';
+		var setRegionCapitalUrl = '{{ set_region_capital|replace({'&amp;': '&'}) }}';
 		var uploadCitiesBatchLimit = 1000;
 		var uploadCitiesInProgress = false;
 		var uploadCitiesCancelled = false;
@@ -1173,6 +1288,10 @@
 		var uploadCitiesRequest = null;
 		var uploadCitiesSelectedCountries = [];
 		var uploadCitiesUseApiRefresh = false;
+		var regionCapitalsByZone = {};
+		var currentCitiesByNormalized = {};
+		var currentCityNames = [];
+		var currentCapitalSuggestions = [];
 
 		function clearUploadCitiesRequest() {
 			if (uploadCitiesRequest && uploadCitiesRequest.readyState !== 4) {
@@ -1242,6 +1361,229 @@
 			});
 
 			return values;
+		}
+
+		function escapeHtml(value) {
+			return String(value)
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#039;');
+		}
+
+		function normalizeCityName(value) {
+			return String(value || '').trim().toLowerCase();
+		}
+
+		function hideCapitalSuggestions() {
+			$('#cities-capital-suggestions').addClass('hidden').empty();
+			currentCapitalSuggestions = [];
+		}
+
+		function renderCapitalSuggestions(items) {
+			var html = [];
+
+			for (var i = 0; i < items.length; i++) {
+				html.push('<li data-city="' + escapeHtml(items[i]) + '">' + escapeHtml(items[i]) + '</li>');
+			}
+
+			if (!html.length) {
+				hideCapitalSuggestions();
+				return;
+			}
+
+			$('#cities-capital-suggestions').html(html.join('')).removeClass('hidden');
+		}
+
+		function updateCapitalSuggestions() {
+			var term = normalizeCityName($('#cities-capital-search').val());
+			var results = [];
+
+			if (term.length < 2) {
+				hideCapitalSuggestions();
+				return;
+			}
+
+			for (var i = 0; i < currentCityNames.length; i++) {
+				if (normalizeCityName(currentCityNames[i]).indexOf(term) !== -1) {
+					results.push(currentCityNames[i]);
+
+					if (results.length >= 30) {
+						break;
+					}
+				}
+			}
+
+			currentCapitalSuggestions = results;
+			renderCapitalSuggestions(results);
+		}
+
+		function renderCitiesPlaceholder(message) {
+			currentCitiesByNormalized = {};
+			currentCityNames = [];
+			$('#cities-capital-search').val('');
+			$('#cities-capital-set').prop('disabled', true);
+			hideCapitalSuggestions();
+			$('#cities-output').html('<div class="cities-output-placeholder">' + escapeHtml(message || '') + '</div>');
+		}
+
+		function renderCitiesList(cities, capitalCity) {
+			var items = [];
+			var list = [];
+			var seen = {};
+			var capital = String(capitalCity || '').trim();
+			var capitalNormalized = normalizeCityName(capital);
+			var i;
+
+			currentCitiesByNormalized = {};
+			currentCityNames = [];
+
+			if (capital !== '') {
+				items.push('<li class="city-capital"><span>' + escapeHtml(capital) + '</span></li>');
+				currentCitiesByNormalized[capitalNormalized] = capital;
+				currentCityNames.push(capital);
+				seen[capitalNormalized] = true;
+			}
+
+			for (i = 0; i < cities.length; i++) {
+				var city = String(cities[i] || '').trim();
+				var normalized = normalizeCityName(city);
+
+				if (!city || seen[normalized]) {
+					continue;
+				}
+
+				seen[normalized] = true;
+				currentCitiesByNormalized[normalized] = city;
+				currentCityNames.push(city);
+				list.push(city);
+			}
+
+			for (i = 0; i < list.length; i++) {
+				items.push('<li><span>' + escapeHtml(list[i]) + '</span></li>');
+			}
+
+			$('#cities-capital-search').val(capital);
+			$('#cities-capital-set').prop('disabled', !currentCityNames.length);
+			hideCapitalSuggestions();
+
+			if (!items.length) {
+				renderCitiesPlaceholder('{{ text_none|e('js') }}');
+				return;
+			}
+
+			$('#cities-output').html('<ul class="cities-output-list">' + items.join('') + '</ul>');
+		}
+
+		function loadRegionCapitals(countryId, done) {
+			regionCapitalsByZone = {};
+
+			if (!countryId) {
+				if (typeof done === 'function') {
+					done();
+				}
+				return;
+			}
+
+			$.ajax({
+				url: uploadRegionCapitalsUrl,
+				type: 'GET',
+				dataType: 'json',
+				data: {
+					country_id: countryId
+				}
+			}).done(function (json) {
+				if (json && json.success && json.capitals && json.capitals.length) {
+					json.capitals.forEach(function (row) {
+						if (!row || typeof row.zone_id === 'undefined') {
+							return;
+						}
+
+						regionCapitalsByZone[String(row.zone_id)] = String(row.capital_city || '').trim();
+					});
+				}
+			}).always(function () {
+				if (typeof done === 'function') {
+					done();
+				}
+			});
+		}
+
+		function renderZoneCities(countryId, zoneId) {
+			if (!countryId || !zoneId) {
+				renderCitiesPlaceholder('{{ text_select|e('js') }}');
+				return;
+			}
+
+			renderCitiesPlaceholder('{{ text_upload_cities_reading_file|e('js') }}');
+
+			$.ajax({
+				url: uploadCitiesByZoneUrl,
+				type: 'GET',
+				dataType: 'json',
+				data: {
+					country_id: countryId,
+					zone_id: zoneId
+				}
+			}).done(function (json) {
+				if (!json || !json.success) {
+					renderCitiesPlaceholder('{{ text_upload_cities_batch_failed|e('js') }}');
+					return;
+				}
+
+				if (!json.cities || !json.cities.length) {
+					renderCitiesPlaceholder('{{ text_upload_cities_no_rows_for_selected_countries|e('js') }}');
+					return;
+				}
+
+				renderCitiesList(json.cities, regionCapitalsByZone[String(zoneId)] || '');
+			}).fail(function () {
+				renderCitiesPlaceholder('{{ text_upload_cities_batch_failed|e('js') }}');
+			});
+		}
+
+		function loadCitiesZones(countryId) {
+			var $zoneSelect = $('#cities-filter-zone');
+			$('#cities-capital-search').val('');
+			$('#cities-capital-set').prop('disabled', true);
+			hideCapitalSuggestions();
+
+			if (!countryId) {
+				$zoneSelect.prop('disabled', true).html('<option value="">{{ text_select|e('js') }}</option>');
+				renderCitiesPlaceholder('{{ text_upload_cities_ready|e('js') }}');
+				return;
+			}
+
+			$zoneSelect.prop('disabled', true).html('<option value="">{{ text_select|e('js') }}</option>');
+			renderCitiesPlaceholder('{{ text_upload_cities_reading_file|e('js') }}');
+
+			$.ajax({
+				url: 'index.php?route=extension/module/xd_checkout/country&user_token={{ user_token }}&country_id=' + encodeURIComponent(countryId),
+				type: 'GET',
+				dataType: 'json'
+			}).done(function (json) {
+				var options = ['<option value="">{{ text_select|e('js') }}</option>'];
+
+				if (json && json.zone && json.zone.length) {
+					json.zone.forEach(function (zone) {
+						options.push('<option value="' + zone.zone_id + '">' + zone.name + '</option>');
+					});
+				}
+
+				$zoneSelect.html(options.join('')).prop('disabled', !(json && json.zone && json.zone.length));
+
+				if (json && json.zone && json.zone.length) {
+					loadRegionCapitals(countryId, function () {
+						$zoneSelect.val(String(json.zone[0].zone_id)).trigger('change');
+					});
+				} else {
+					renderCitiesPlaceholder('{{ text_none|e('js') }}');
+				}
+			}).fail(function () {
+				$zoneSelect.prop('disabled', true).html('<option value="">{{ text_select|e('js') }}</option>');
+				renderCitiesPlaceholder('{{ text_upload_cities_batch_failed|e('js') }}');
+			});
 		}
 
 		function markUploadCitiesCompleted(message, hasError, options) {
@@ -1529,6 +1871,97 @@
 				resetUploadCitiesModal();
 			}
 		});
+
+		$('#cities-filter-country').on('change', function () {
+			loadCitiesZones($(this).val());
+		});
+
+		$('#cities-filter-zone').on('change', function () {
+			renderZoneCities($('#cities-filter-country').val(), $(this).val());
+		});
+
+		$('#cities-capital-set').on('click', function () {
+			var countryId = $('#cities-filter-country').val();
+			var zoneId = $('#cities-filter-zone').val();
+			var cityName = $('#cities-capital-search').val();
+			var normalized = normalizeCityName(cityName);
+
+			if (!countryId || !zoneId || !normalized) {
+				return;
+			}
+
+			if (!currentCitiesByNormalized[normalized]) {
+				window.alert('Выберите город из списка для установки столицы.');
+				return;
+			}
+
+			cityName = currentCitiesByNormalized[normalized];
+
+			if (!window.confirm('Вы хотите установить этот город столицей региона?')) {
+				return;
+			}
+
+			$.ajax({
+				url: setRegionCapitalUrl,
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					country_id: countryId,
+					zone_id: zoneId,
+					city_name: cityName
+				}
+			}).done(function (json) {
+				if (!json || !json.success) {
+					window.alert((json && json.error) ? json.error : '{{ text_upload_cities_batch_failed|e('js') }}');
+					return;
+				}
+
+				loadRegionCapitals(countryId, function () {
+					renderZoneCities(countryId, zoneId);
+				});
+			}).fail(function () {
+				window.alert('{{ text_upload_cities_batch_failed|e('js') }}');
+			});
+		});
+
+		$('#cities-capital-search').on('keydown', function (e) {
+			if (e.key === 'ArrowDown' && currentCapitalSuggestions.length) {
+				e.preventDefault();
+				$('#cities-capital-search').val(currentCapitalSuggestions[0]);
+				hideCapitalSuggestions();
+				return;
+			}
+
+			if (e.key === 'Enter') {
+				e.preventDefault();
+
+				if (!currentCitiesByNormalized[normalizeCityName($('#cities-capital-search').val())] && currentCapitalSuggestions.length) {
+					$('#cities-capital-search').val(currentCapitalSuggestions[0]);
+				}
+
+				$('#cities-capital-set').trigger('click');
+			}
+		});
+
+		$('#cities-capital-search').on('input focus', function () {
+			updateCapitalSuggestions();
+		});
+
+		$('#cities-capital-suggestions').on('click', 'li', function () {
+			var city = $(this).data('city') || '';
+			$('#cities-capital-search').val(city);
+			hideCapitalSuggestions();
+		});
+
+		$(document).on('click', function (e) {
+			if (!$(e.target).closest('.cities-capital-controls').length) {
+				hideCapitalSuggestions();
+			}
+		});
+
+		if ($('#cities-filter-country option').length > 1) {
+			$('#cities-filter-country').prop('selectedIndex', 1).trigger('change');
+		}
     });
 </script>
 {{ footer }}

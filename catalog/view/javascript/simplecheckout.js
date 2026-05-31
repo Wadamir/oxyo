@@ -1,35 +1,35 @@
-(function($) {
-    window.Simplecheckout = function(params) {
+(function ($) {
+    window.Simplecheckout = function (params) {
         this.params = params;
 
-        this.callback = params.javascriptCallback || function() {};
+        this.callback = params.javascriptCallback || function () {};
 
         this.selectors = {
-            paymentForm: "#simplecheckout_payment_form",
-            paymentButtons: "#simplecheckout_payment_form .buttons:last",
-            step: ".simplecheckout-step",
-            buttons: "#buttons",
-            buttonPrev: "#simplecheckout_button_prev",
-            buttonNext: "#simplecheckout_button_next",
-            buttonCreate: "#simplecheckout_button_confirm",
-            buttonBack: "#simplecheckout_button_back",
-            stepsMenu: "#simplecheckout_step_menu",
-            stepsMenuItem: ".simple-step",
-            stepsMenuDelimiter: ".simple-step-delimiter",
-            stepsMenuTop: ".simplecheckout-top-menu",
-            stepsMenuBottom: ".simplecheckout-bottom-menu",
-            stepsMenuVerticalItem: ".simple-step-vertical",
-            proceedText: "#simplecheckout_proceed_payment",
-            agreementCheckBox: "#agreement_checkbox",
-            agreementWarning: "#agreement_warning",
-            block: ".simplecheckout-block",
-            overlay: ".simplecheckout_overlay"
+            paymentForm: '#simplecheckout_payment_form',
+            paymentButtons: '#simplecheckout_payment_form .buttons:last',
+            step: '.simplecheckout-step',
+            buttons: '#buttons',
+            buttonPrev: '#simplecheckout_button_prev',
+            buttonNext: '#simplecheckout_button_next',
+            buttonCreate: '#simplecheckout_button_confirm',
+            buttonBack: '#simplecheckout_button_back',
+            stepsMenu: '#simplecheckout_step_menu',
+            stepsMenuItem: '.simple-step',
+            stepsMenuDelimiter: '.simple-step-delimiter',
+            stepsMenuTop: '.simplecheckout-top-menu',
+            stepsMenuBottom: '.simplecheckout-bottom-menu',
+            stepsMenuVerticalItem: '.simple-step-vertical',
+            proceedText: '#simplecheckout_proceed_payment',
+            agreementCheckBox: '#agreement_checkbox',
+            agreementWarning: '#agreement_warning',
+            block: '.simplecheckout-block',
+            overlay: '.simplecheckout_overlay',
         };
 
         this.classes = {
-            stepsMenuCompleted: "simple-step-completed",
-            stepsMenuCurrent: "simple-step-current",
-            stepsMenuVerticalCompleted: "simple-step-vertical-completed"
+            stepsMenuCompleted: 'simple-step-completed',
+            stepsMenuCurrent: 'simple-step-current',
+            stepsMenuVerticalCompleted: 'simple-step-vertical-completed',
         };
 
         this.blocks = [];
@@ -44,30 +44,30 @@
         this.storageUsed = false;
         this.paymentFormObserver = null;
 
-        var checkIsInContainer = function($element, selector) {
+        var checkIsInContainer = function ($element, selector) {
             if ($element.parents(selector).length) {
                 return true;
             }
             return false;
         };
 
-        this.callFunc = function(func, $target) {
+        this.callFunc = function (func, $target) {
             var self = this;
 
-            if (func && typeof self[func] === "function") {
+            if (func && typeof self[func] === 'function') {
                 self[func]($target);
             } else if (func) {
                 //console.log(func + " is not registered");
             }
         };
 
-        this.registerBlock = function(object) {
+        this.registerBlock = function (object) {
             var self = this;
             object.setParent(self);
             self.blocks.push(object);
         };
 
-        this.initBlocks = function() {
+        this.initBlocks = function () {
             var self = this;
             for (var i in self.blocks) {
                 if (!self.blocks.hasOwnProperty(i)) continue;
@@ -76,20 +76,20 @@
             }
         };
 
-        this.init = function(disableScroll, changeStep) {
+        this.init = function (disableScroll, changeStep) {
             var self = this;
 
-            if (typeof disableScroll === "undefined") {
+            if (typeof disableScroll === 'undefined') {
                 disableScroll = false;
             }
 
-            var callbackForComplexField = function($target) {
-                self.focusedFieldId = ''
-                var func = $target.attr("data-onchange");
+            var callbackForComplexField = function ($target) {
+                self.focusedFieldId = '';
+                var func = $target.attr('data-onchange');
                 if (!func) {
-                    func = $target.attr("data-onchange-delayed");
+                    func = $target.attr('data-onchange-delayed');
                 }
-                if (func && typeof self[func] === "function") {
+                if (func && typeof self[func] === 'function') {
                     self[func]($target);
                 } else if (func) {
                     //console.log(func + " is not registered");
@@ -119,13 +119,17 @@
             self.initDatepickers(callbackForComplexField);
             self.initTimepickers(callbackForComplexField);
             self.initSelect2();
-            self.initFileUploader(function() {
-                self.overlayAll();
-            }, function() {
-                self.removeOverlays();
-                self.setDirty();
-            });
+            self.initFileUploader(
+                function () {
+                    self.overlayAll();
+                },
+                function () {
+                    self.removeOverlays();
+                    self.setDirty();
+                },
+            );
             self.initHandlers();
+            self.initZoneCityAutofill();
             self.initBlocks();
             self.initSteps(changeStep);
 
@@ -137,13 +141,16 @@
 
             self.initValidationRules();
 
-            if (!self.isPaymentFormEmpty() && self.useReloadingOfPaymentForm()) {
+            if (
+                !self.isPaymentFormEmpty() &&
+                self.useReloadingOfPaymentForm()
+            ) {
                 self.initReloadingOfPaymentForm();
             }
 
             this.syncShippingAndPaymentAddresses();
 
-            if (typeof self.callback === "function") {
+            if (typeof self.callback === 'function') {
                 try {
                     self.callback();
                 } catch (e) {
@@ -153,15 +160,22 @@
 
             this.checkRedirect();
 
-            $(window).on("unload", function() {
+            $(window).on('unload', function () {
                 var doSomething = 1;
                 doSomething++;
-            });        
+            });
         };
 
-        this.useReloadingOfPaymentForm = function() {
-            if (typeof this.params.enableAutoReloaingOfPaymentFrom !== 'undefined' && this.params.enableAutoReloaingOfPaymentFrom) {
-                if (typeof window.simpleTypingSpeed !== 'undefined' && window.simpleTypingSpeed > 1000) {
+        ((this.useReloadingOfPaymentForm = function () {
+            if (
+                typeof this.params.enableAutoReloaingOfPaymentFrom !==
+                    'undefined' &&
+                this.params.enableAutoReloaingOfPaymentFrom
+            ) {
+                if (
+                    typeof window.simpleTypingSpeed !== 'undefined' &&
+                    window.simpleTypingSpeed > 1000
+                ) {
                     return false;
                 }
 
@@ -169,94 +183,179 @@
             }
 
             return false;
-        },
+        }),
+            (this.initHandlers = function () {
+                var self = this;
+                $(self.params.mainContainer)
+                    .find('*[data-onchange], *[data-onclick]')
+                    .each(function () {
+                        var bind = true,
+                            $element = $(this);
 
-        this.initHandlers = function() {
+                        for (var i in self.blocks) {
+                            if (!self.blocks.hasOwnProperty(i)) continue;
+
+                            if (
+                                checkIsInContainer(
+                                    $element,
+                                    self.blocks[i].currentContainer,
+                                )
+                            ) {
+                                bind = false;
+                                break;
+                            }
+                        }
+
+                        if (bind) {
+                            var funcOnChange = $element.attr('data-onchange');
+
+                            if (funcOnChange) {
+                                $element.on('change', function () {
+                                    self.setDirty($(this));
+                                    self.callFunc(funcOnChange, $element);
+                                });
+                            }
+
+                            var funcOnClick = $element.attr('data-onclick');
+
+                            if (funcOnClick) {
+                                $element.on('click', function () {
+                                    if ($(this).attr('disabled')) {
+                                        return;
+                                    }
+
+                                    var confirmText =
+                                        $(this).attr('data-confirm-text');
+
+                                    self.setDirty();
+
+                                    if (
+                                        !confirmText ||
+                                        (confirmText && confirm(confirmText))
+                                    ) {
+                                        self.callFunc(funcOnClick, $element);
+                                    }
+                                });
+                            }
+                        }
+                    });
+            }));
+
+        this.initZoneCityAutofill = function () {
             var self = this;
-            $(self.params.mainContainer).find("*[data-onchange], *[data-onclick]").each(function() {
-                var bind = true,
-                    $element = $(this);
+            var $mainContainer = $(self.params.mainContainer);
 
-                for (var i in self.blocks) {
-                    if (!self.blocks.hasOwnProperty(i)) continue;
+            $mainContainer
+                .find(
+                    "#simplecheckout_payment_address select[name='zone_id'], #simplecheckout_payment_address select[name$='[zone_id]'], #simplecheckout_shipping_address select[name='zone_id'], #simplecheckout_shipping_address select[name$='[zone_id]']",
+                )
+                .off('change.simpleZoneCityAutofill')
+                .on('change.simpleZoneCityAutofill', function () {
+                    var $zone = $(this);
+                    var zoneId = parseInt($zone.val(), 10) || 0;
+                    var $block = $zone.closest(
+                        '#simplecheckout_payment_address, #simplecheckout_shipping_address',
+                    );
+                    var $city = $block
+                        .find("input[name='city'], input[name$='[city]']")
+                        .first();
 
-                    if (checkIsInContainer($element, self.blocks[i].currentContainer)) {
-                        bind = false;
-                        break;
-                    }
-                }
-
-                if (bind) {
-                    var funcOnChange = $element.attr("data-onchange");
-
-                    if (funcOnChange) {
-                        $element.on("change", function() {
-                            self.setDirty($(this));
-                            self.callFunc(funcOnChange, $element);
-                        });
+                    if (!$city.length) {
+                        return;
                     }
 
-                    var funcOnClick = $element.attr("data-onclick");
-
-                    if (funcOnClick) {
-                        $element.on("click", function() {
-                            if ($(this).attr("disabled")) {
-                                return;
-                            }
-
-                            var confirmText = $(this).attr("data-confirm-text");
-
-                            self.setDirty();
-                            
-                            if (!confirmText || (confirmText && confirm(confirmText))) {
-                                self.callFunc(funcOnClick, $element);
-                            }
-                        });
+                    if (!zoneId) {
+                        $city.val('').trigger('change');
+                        return;
                     }
-                }
-            });
+
+                    $.ajax({
+                        url:
+                            'index.php?' +
+                            self.params.additionalParams +
+                            'route=common/simple_connector&method=getCityByZone&filter=' +
+                            zoneId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (city) {
+                            $city.val(city || '').trigger('change');
+                        },
+                    });
+                });
         };
 
-        this.skipKey = function(keyCode) {
-            if ($.inArray(keyCode,[9,13,16,17,18,19,20,27,35,36,37,38,39,40,91,93,224]) > -1) {
+        this.skipKey = function (keyCode) {
+            if (
+                $.inArray(
+                    keyCode,
+                    [
+                        9, 13, 16, 17, 18, 19, 20, 27, 35, 36, 37, 38, 39, 40,
+                        91, 93, 224,
+                    ],
+                ) > -1
+            ) {
                 return true;
             }
 
             return false;
         };
 
-        this.addObserver = function() {
+        this.addObserver = function () {
             var self = this;
 
-            $(self.params.mainContainer).find("input[type=radio], input[type=checkbox], select").on("change", function() {
-                if (!checkIsInContainer($(this), self.selectors.paymentForm) && !checkIsInContainer($(this), "#simplecheckout_login") && !checkIsInContainer($(this), "#slogin")) {
-                    self.setDirty($(this));
-                }
-            });
+            $(self.params.mainContainer)
+                .find('input[type=radio], input[type=checkbox], select')
+                .on('change', function () {
+                    if (
+                        !checkIsInContainer(
+                            $(this),
+                            self.selectors.paymentForm,
+                        ) &&
+                        !checkIsInContainer($(this), '#simplecheckout_login') &&
+                        !checkIsInContainer($(this), '#slogin')
+                    ) {
+                        self.setDirty($(this));
+                    }
+                });
 
-            $(self.params.mainContainer).find("input, textarea").on("keydown change paste propertychange keyup input", function(e) {
-                if (self.skipKey(e.keyCode)) {
-                    return;
-                }
+            $(self.params.mainContainer)
+                .find('input, textarea')
+                .on(
+                    'keydown change paste propertychange keyup input',
+                    function (e) {
+                        if (self.skipKey(e.keyCode)) {
+                            return;
+                        }
 
-                if (!checkIsInContainer($(this), self.selectors.paymentForm) && !checkIsInContainer($(this), "#simplecheckout_login") && !checkIsInContainer($(this), "#slogin")) {
-                    self.setDirty($(this));
-                }
-            });
+                        if (
+                            !checkIsInContainer(
+                                $(this),
+                                self.selectors.paymentForm,
+                            ) &&
+                            !checkIsInContainer(
+                                $(this),
+                                '#simplecheckout_login',
+                            ) &&
+                            !checkIsInContainer($(this), '#slogin')
+                        ) {
+                            self.setDirty($(this));
+                        }
+                    },
+                );
         };
 
-        this.initReloadingOfPaymentForm = function() {
+        this.initReloadingOfPaymentForm = function () {
             var self = this;
 
-            var reload = function(disableScroll) {
+            var reload = function (disableScroll) {
                 var $field = $(this);
 
-                if (typeof disableScroll === "undefined") {
+                if (typeof disableScroll === 'undefined') {
                     disableScroll = false;
                 }
 
                 if (!checkIsInContainer($field, self.selectors.paymentForm)) {
-                    self.validate(true).then(function(result) {
+                    self.validate(true).then(function (result) {
                         if (result) {
                             self.reloadAll(undefined, disableScroll);
                         }
@@ -264,76 +363,98 @@
                 }
             };
 
-            $(self.params.mainContainer).find("input[data-simple-mask][data-reload-payment-form], input[type=radio][data-reload-payment-form], input[type=checkbox][data-reload-payment-form], select[data-reload-payment-form], input[type=date][data-reload-payment-form], input[type=time][data-reload-payment-form]").on("change", reload);
+            $(self.params.mainContainer)
+                .find(
+                    'input[data-simple-mask][data-reload-payment-form], input[type=radio][data-reload-payment-form], input[type=checkbox][data-reload-payment-form], select[data-reload-payment-form], input[type=date][data-reload-payment-form], input[type=time][data-reload-payment-form]',
+                )
+                .on('change', reload);
 
             var timeoutId = 0;
 
-            $(self.params.mainContainer).find("input[type=text][data-reload-payment-form]:not([data-simple-mask]), input[type=email][data-reload-payment-form]:not([data-simple-mask]), input[type=tel][data-reload-payment-form]:not([data-simple-mask]), textarea[data-reload-payment-form]").on("keydown", function(e) {
-                if (self.skipKey(e.keyCode)) {
-                    return;
-                }
-
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                }
-
-                timeoutId = window.setTimeout(function() {
-                    clearTimeout(timeoutId);
-
-                    if ($(self.params.mainContainer).data("timeoutId") != timeoutId) {
+            $(self.params.mainContainer)
+                .find(
+                    'input[type=text][data-reload-payment-form]:not([data-simple-mask]), input[type=email][data-reload-payment-form]:not([data-simple-mask]), input[type=tel][data-reload-payment-form]:not([data-simple-mask]), textarea[data-reload-payment-form]',
+                )
+                .on('keydown', function (e) {
+                    if (self.skipKey(e.keyCode)) {
                         return;
                     }
 
-                    reload(true);
-                }, 500);
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
 
-                $(self.params.mainContainer).data("timeoutId", timeoutId);
-            });
+                    timeoutId = window.setTimeout(function () {
+                        clearTimeout(timeoutId);
+
+                        if (
+                            $(self.params.mainContainer).data('timeoutId') !=
+                            timeoutId
+                        ) {
+                            return;
+                        }
+
+                        reload(true);
+                    }, 500);
+
+                    $(self.params.mainContainer).data('timeoutId', timeoutId);
+                });
         };
 
-        this.savePaymentForm = function() {
+        this.savePaymentForm = function () {
             var self = this;
 
             if (!self.isPaymentFormEmpty()) {
-                self.$paymentForm = $(self.params.mainContainer).find(self.selectors.paymentForm).find("input[type=text],select,textarea,input[type=radio]:checked,input[type=checkbox]:checked");
+                self.$paymentForm = $(self.params.mainContainer)
+                    .find(self.selectors.paymentForm)
+                    .find(
+                        'input[type=text],select,textarea,input[type=radio]:checked,input[type=checkbox]:checked',
+                    );
             } else {
                 self.$paymentForm = false;
             }
         };
 
-        this.initStorage = function() {
+        this.initStorage = function () {
             var self = this;
 
             if (!self.storageUsed) {
                 var needReloading = false;
 
-                $(self.params.mainContainer).find("input[type=text], input[type=email], input[type=tel], select, textarea").each(function() {
-                    var $el = $(this);
-                    var id = $el.attr("id");
-                    var value = localStorage.getItem(id);
-                    
-                    if (id && value) {
-                        if ($el.is("select")) {
-                            if ($el.find("option[value='" + value + "']").length) {
+                $(self.params.mainContainer)
+                    .find(
+                        'input[type=text], input[type=email], input[type=tel], select, textarea',
+                    )
+                    .each(function () {
+                        var $el = $(this);
+                        var id = $el.attr('id');
+                        var value = localStorage.getItem(id);
+
+                        if (id && value) {
+                            if ($el.is('select')) {
+                                if (
+                                    $el.find("option[value='" + value + "']")
+                                        .length
+                                ) {
+                                    if ($el.val() != value) {
+                                        $el.val(value);
+
+                                        if ($el.attr('data-onchange')) {
+                                            needReloading = true;
+                                        }
+                                    }
+                                }
+                            } else {
                                 if ($el.val() != value) {
                                     $el.val(value);
 
-                                    if ($el.attr("data-onchange")) {
+                                    if ($el.attr('data-onchange')) {
                                         needReloading = true;
                                     }
                                 }
                             }
-                        } else {
-                            if ($el.val() != value) {
-                                $el.val(value);
-
-                                if ($el.attr("data-onchange")) {
-                                    needReloading = true;
-                                }
-                            }
                         }
-                    }
-                });
+                    });
 
                 if (needReloading) {
                     self.reloadAll();
@@ -342,48 +463,82 @@
                 self.storageUsed = true;
             }
 
-            if (!$(self.params.mainContainer).attr("data-logged")) {
-                $(self.params.mainContainer).find("input[type=text], input[type=email], input[type=tel], select, textarea").on("change", function() {
-                    var $el = $(this);
+            if (!$(self.params.mainContainer).attr('data-logged')) {
+                $(self.params.mainContainer)
+                    .find(
+                        'input[type=text], input[type=email], input[type=tel], select, textarea',
+                    )
+                    .on('change', function () {
+                        var $el = $(this);
 
-                    if (checkIsInContainer($el, "#simplecheckout_customer") || checkIsInContainer($el, "#simplecheckout_shipping_address") || checkIsInContainer($el, "#simplecheckout_payment_address")) {
-                        localStorage.setItem($el.attr("id"), $el.val());
-                    }
-                });
+                        if (
+                            checkIsInContainer(
+                                $el,
+                                '#simplecheckout_customer',
+                            ) ||
+                            checkIsInContainer(
+                                $el,
+                                '#simplecheckout_shipping_address',
+                            ) ||
+                            checkIsInContainer(
+                                $el,
+                                '#simplecheckout_payment_address',
+                            )
+                        ) {
+                            localStorage.setItem($el.attr('id'), $el.val());
+                        }
+                    });
             }
-        }
+        };
 
-        this.checkRedirect = function() {
-            var $redirect = $(this.params.mainContainer).find('#simple_redirect_url');
+        this.checkRedirect = function () {
+            var $redirect = $(this.params.mainContainer).find(
+                '#simple_redirect_url',
+            );
 
             if ($redirect.length) {
                 window.location = $redirect.val();
             }
-        }
+        };
 
-        this.restorePaymentForm = function($oldForm) {
+        this.restorePaymentForm = function ($oldForm) {
             var self = this;
-            var $paymentForm = $(self.params.mainContainer).find(self.selectors.paymentForm);
+            var $paymentForm = $(self.params.mainContainer).find(
+                self.selectors.paymentForm,
+            );
 
-            $oldForm.each(function() {
+            $oldForm.each(function () {
                 var $field = $(this);
-                var name = $field.attr("name");
-                var id = $field.attr("id");
+                var name = $field.attr('name');
+                var id = $field.attr('id');
                 var value = $field.val();
 
-                if ($field.is("input[type=text]") || $field.is("select") || $field.is("textarea")) {
+                if (
+                    $field.is('input[type=text]') ||
+                    $field.is('select') ||
+                    $field.is('textarea')
+                ) {
                     if (name) {
                         $paymentForm.find("[name='" + name + "']").val(value);
                     } else if (id) {
-                        $paymentForm.find("#" + id).val(value);
+                        $paymentForm.find('#' + id).val(value);
                     }
                 }
 
-                if ($field.is("input[type=radio]") || $field.is("input[type=checkbox]")) {
+                if (
+                    $field.is('input[type=radio]') ||
+                    $field.is('input[type=checkbox]')
+                ) {
                     if (name) {
-                        $paymentForm.find("[name='" + name + "'][value='" + value + "']").attr("checked", "checked");
+                        $paymentForm
+                            .find(
+                                "[name='" + name + "'][value='" + value + "']",
+                            )
+                            .attr('checked', 'checked');
                     } else if (id) {
-                        $paymentForm.find("#" + id + "[value='" + value + "']").attr("checked", "checked");
+                        $paymentForm
+                            .find('#' + id + "[value='" + value + "']")
+                            .attr('checked', 'checked');
                     }
                 }
             });
@@ -391,21 +546,28 @@
             delete $oldForm;
         };
 
-        this.initAbandonedCart = function() {
+        this.initAbandonedCart = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
-            
-            $mainContainer.find("input:not([data-onchange=reloadAll],[data-onclick=reloadAll]), select:not([data-onchange=reloadAll],[data-onclick=reloadAll]), textarea:not([data-onchange=reloadAll],[data-onclick=reloadAll])").on('change', function() {
-                $.ajax({
-                    url: "index.php?" + self.params.additionalParams + "route=checkout/simplecheckout/abandoned",
-                    data: self.createPostData(),
-                    type: "POST",
-                    dataType: "text"                    
+
+            $mainContainer
+                .find(
+                    'input:not([data-onchange=reloadAll],[data-onclick=reloadAll]), select:not([data-onchange=reloadAll],[data-onclick=reloadAll]), textarea:not([data-onchange=reloadAll],[data-onclick=reloadAll])',
+                )
+                .on('change', function () {
+                    $.ajax({
+                        url:
+                            'index.php?' +
+                            self.params.additionalParams +
+                            'route=checkout/simplecheckout/abandoned',
+                        data: self.createPostData(),
+                        type: 'POST',
+                        dataType: 'text',
+                    });
                 });
-            });
         };
 
-        this.setDirty = function($element) {
+        this.setDirty = function ($element) {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
 
@@ -414,34 +576,53 @@
             if (self.useReloadingOfPaymentForm()) {
                 self.savePaymentForm();
 
-                if ($element && ($element.attr("data-reload-payment-form") || ($element.attr("data-onchange") && $element.attr("data-onchange") == "reloadAll"))) {
-                    $mainContainer.find(self.selectors.paymentForm).attr("data-invalid", "true").find("input,select,textarea").attr("disabled", "disabled");
+                if (
+                    $element &&
+                    ($element.attr('data-reload-payment-form') ||
+                        ($element.attr('data-onchange') &&
+                            $element.attr('data-onchange') == 'reloadAll'))
+                ) {
+                    $mainContainer
+                        .find(self.selectors.paymentForm)
+                        .attr('data-invalid', 'true')
+                        .find('input,select,textarea')
+                        .attr('disabled', 'disabled');
                 }
             } else {
-                $mainContainer.find(self.selectors.paymentForm).attr("data-invalid", "true").empty();
+                $mainContainer
+                    .find(self.selectors.paymentForm)
+                    .attr('data-invalid', 'true')
+                    .empty();
             }
 
-            $mainContainer.find("*[data-payment-button=true]").remove();    
+            $mainContainer.find('*[data-payment-button=true]').remove();
             $mainContainer.find(self.selectors.proceedText).hide();
 
             self.isCreateOrderClicked = false;
-            
+
             if (self.currentStep == self.stepsCount) {
                 $mainContainer.find(self.selectors.buttons).show();
                 $mainContainer.find(self.selectors.buttonCreate).show();
             }
         };
 
-        this.preventOrderDeleting = function(callback) {
+        this.preventOrderDeleting = function (callback) {
             var self = this;
-            $.get("index.php?" + self.params.additionalParams + "route=" + self.params.mainRoute + "/prevent_delete", function() {
-                if (typeof callback === "function") {
-                    callback();
-                }
-            });
+            $.get(
+                'index.php?' +
+                    self.params.additionalParams +
+                    'route=' +
+                    self.params.mainRoute +
+                    '/prevent_delete',
+                function () {
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                },
+            );
         };
 
-        this.clickOnConfirmButton = function() {
+        this.clickOnConfirmButton = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
             var $paymentForm = $mainContainer.find(self.selectors.paymentForm);
@@ -450,35 +631,51 @@
                 return;
             }
 
-            var gatewayLink = $paymentForm.find(".buttons a:last").attr("href");
-            var $submitButton = $paymentForm.find(".buttons input[type=button]:last,.buttons input[type=submit]:last,.buttons input[type=image]:last,.buttons button:last,.buttons a.button:last[href='#'],.buttons a.btn:last[href='#'],.buttons a.button:last[href^='javascript'],.buttons a.btn:last[href^='javascript'],.buttons a.button:last:not([href]),.buttons a.btn:last:not([href])");
-            var $lastButton = $paymentForm.find("input[type=button]:last,input[type=submit]:last,input[type=image]:last,button:last");
-            var lastLink = $paymentForm.find("a:last").attr("href");
+            var gatewayLink = $paymentForm.find('.buttons a:last').attr('href');
+            var $submitButton = $paymentForm.find(
+                ".buttons input[type=button]:last,.buttons input[type=submit]:last,.buttons input[type=image]:last,.buttons button:last,.buttons a.button:last[href='#'],.buttons a.btn:last[href='#'],.buttons a.button:last[href^='javascript'],.buttons a.btn:last[href^='javascript'],.buttons a.button:last:not([href]),.buttons a.btn:last:not([href])",
+            );
+            var $lastButton = $paymentForm.find(
+                'input[type=button]:last,input[type=submit]:last,input[type=image]:last,button:last',
+            );
+            var lastLink = $paymentForm.find('a:last').attr('href');
 
-            var disableButton = function() {
-                $mainContainer.find(self.selectors.buttonCreate).attr("disabled", "disabled");
+            var disableButton = function () {
+                $mainContainer
+                    .find(self.selectors.buttonCreate)
+                    .attr('disabled', 'disabled');
             };
 
-            var enableButton = function() {
-                $mainContainer.find(self.selectors.buttonCreate).removeAttr("disabled");
+            var enableButton = function () {
+                $mainContainer
+                    .find(self.selectors.buttonCreate)
+                    .removeAttr('disabled');
             };
 
-            if (typeof gatewayLink !== "undefined" && gatewayLink !== "" && gatewayLink !== "#" && gatewayLink !== "javascript://") {
+            if (
+                typeof gatewayLink !== 'undefined' &&
+                gatewayLink !== '' &&
+                gatewayLink !== '#' &&
+                gatewayLink !== 'javascript://'
+            ) {
                 disableButton();
-                self.preventOrderDeleting(function() {
+                self.preventOrderDeleting(function () {
                     enableButton();
                     window.location = gatewayLink;
                     self.blockFieldsDuringPayment();
                     self.proceed();
                 });
             } else if ($submitButton.length) {
-                if ($submitButton.attr("href") == "#" || $submitButton.attr("href") == "javascript://") {
-                    $submitButton.removeAttr("href");
+                if (
+                    $submitButton.attr('href') == '#' ||
+                    $submitButton.attr('href') == 'javascript://'
+                ) {
+                    $submitButton.removeAttr('href');
                 }
                 disableButton();
-                self.preventOrderDeleting(function() {
+                self.preventOrderDeleting(function () {
                     enableButton();
-                    if (!$submitButton.attr("disabled")) {
+                    if (!$submitButton.attr('disabled')) {
                         $submitButton.mousedown().click();
                         self.blockFieldsDuringPayment($submitButton);
                         self.proceed();
@@ -486,17 +683,22 @@
                 });
             } else if ($lastButton.length) {
                 disableButton();
-                self.preventOrderDeleting(function() {
+                self.preventOrderDeleting(function () {
                     enableButton();
-                    if (!$lastButton.attr("disabled")) {
+                    if (!$lastButton.attr('disabled')) {
                         $lastButton.mousedown().click();
                         self.blockFieldsDuringPayment($lastButton);
                         self.proceed();
                     }
                 });
-            } else if (typeof lastLink !== "undefined" && lastLink !== "" && lastLink !== "#" && lastLink !== "javascript://") {
+            } else if (
+                typeof lastLink !== 'undefined' &&
+                lastLink !== '' &&
+                lastLink !== '#' &&
+                lastLink !== 'javascript://'
+            ) {
                 disableButton();
-                self.preventOrderDeleting(function() {
+                self.preventOrderDeleting(function () {
                     enableButton();
                     window.location = lastLink;
                     self.blockFieldsDuringPayment();
@@ -505,77 +707,100 @@
             }
         };
 
-        this.isPaymentFormValid = function() {
+        this.isPaymentFormValid = function () {
             var self = this;
-            return !self.isPaymentFormEmpty() && !$(self.params.mainContainer).find(self.selectors.paymentForm).attr("data-invalid") ? true : false;
+            return !self.isPaymentFormEmpty() &&
+                !$(self.params.mainContainer)
+                    .find(self.selectors.paymentForm)
+                    .attr('data-invalid')
+                ? true
+                : false;
         };
 
-        this.isPaymentFormVisible = function() {
+        this.isPaymentFormVisible = function () {
             var self = this;
-            var $paymentForm = $(self.params.mainContainer).find(self.selectors.paymentForm);
-            var $elements = $paymentForm.find(":visible:not(form)");
+            var $paymentForm = $(self.params.mainContainer).find(
+                self.selectors.paymentForm,
+            );
+            var $elements = $paymentForm.find(':visible:not(form)');
             var paymentFormHeight = $paymentForm.height();
             var ignoreHeight = 50;
 
-            return !self.isPaymentFormEmpty() && $elements.length > 0 && paymentFormHeight > ignoreHeight ? true : false;
+            return !self.isPaymentFormEmpty() &&
+                $elements.length > 0 &&
+                paymentFormHeight > ignoreHeight
+                ? true
+                : false;
         };
 
-        this.isPaymentFormEmpty = function() {
+        this.isPaymentFormEmpty = function () {
             var self = this;
-            var $paymentForm = $(self.params.mainContainer).find(self.selectors.paymentForm);
+            var $paymentForm = $(self.params.mainContainer).find(
+                self.selectors.paymentForm,
+            );
 
-            return $paymentForm.length && $paymentForm.find("*").length > 0 ? false : true;
+            return $paymentForm.length && $paymentForm.find('*').length > 0
+                ? false
+                : true;
         };
 
-        this.startPaymentFormObserving = function() {
+        this.startPaymentFormObserving = function () {
             var self = this;
-            var $paymentForm = $(self.params.mainContainer).find(self.selectors.paymentForm);
+            var $paymentForm = $(self.params.mainContainer).find(
+                self.selectors.paymentForm,
+            );
 
             if ($paymentForm.length) {
                 try {
                     var counter = 0;
                     var threshold = 3;
 
-                    self.paymentFormObserver = new MutationObserver(function(mutation) {
+                    self.paymentFormObserver = new MutationObserver(function (
+                        mutation,
+                    ) {
                         if (counter < threshold) {
                             self.replaceCreateButtonWithConfirm();
                         }
 
                         counter += 1;
                     });
-                    
+
                     self.paymentFormObserver.observe($paymentForm.get(0), {
                         childList: true,
                         subtree: true,
                         characterData: true,
-                        attributes: false
+                        attributes: false,
                     });
-                } catch (e) {
-
-                }
+                } catch (e) {}
             }
         };
 
-        this.stopPaymentFormObserving = function() {
+        this.stopPaymentFormObserving = function () {
             if (this.paymentFormObserver) {
                 this.paymentFormObserver.disconnect();
                 this.paymentFormObserver = null;
             }
         };
 
-        this.replaceCreateButtonWithConfirm = function() {
+        this.replaceCreateButtonWithConfirm = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
-            var $paymentForm = $(self.params.mainContainer).find(self.selectors.paymentForm);
+            var $paymentForm = $(self.params.mainContainer).find(
+                self.selectors.paymentForm,
+            );
 
             if (self.isPaymentFormEmpty()) {
                 return;
             }
 
-            var $gatewayLink = $paymentForm.find(".buttons a:last");
-            var $submitButton = $paymentForm.find(".buttons input[type=button]:last,.buttons input[type=submit]:last,.buttons input[type=image]:last,.buttons button:last,.buttons a.button:last[href='#'],.buttons a.btn:last[href='#'],.buttons a.button:last[href^='javascript'],.buttons a.btn:last[href^='javascript'],.buttons a.button:last:not([href]),.buttons a.btn:last:not([href])");
-            var $lastButton = $paymentForm.find("input[type=button]:last,input[type=submit]:last,input[type=image]:last,button:last");
-            var $lastLink = $paymentForm.find("a:last");
+            var $gatewayLink = $paymentForm.find('.buttons a:last');
+            var $submitButton = $paymentForm.find(
+                ".buttons input[type=button]:last,.buttons input[type=submit]:last,.buttons input[type=image]:last,.buttons button:last,.buttons a.button:last[href='#'],.buttons a.btn:last[href='#'],.buttons a.button:last[href^='javascript'],.buttons a.btn:last[href^='javascript'],.buttons a.button:last:not([href]),.buttons a.btn:last:not([href])",
+            );
+            var $lastButton = $paymentForm.find(
+                'input[type=button]:last,input[type=submit]:last,input[type=image]:last,button:last',
+            );
+            var $lastLink = $paymentForm.find('a:last');
 
             var $obj = false;
 
@@ -590,30 +815,39 @@
             }
 
             if ($obj) {
-                if ($obj.attr("href") == "#" || $obj.attr("href") == "javascript://") {
-                    $obj.removeAttr("href");
+                if (
+                    $obj.attr('href') == '#' ||
+                    $obj.attr('href') == 'javascript://'
+                ) {
+                    $obj.removeAttr('href');
                 }
 
-                var $clone = $obj.clone(false).removeAttr("onclick").addClass("btn button");
+                var $clone = $obj
+                    .clone(false)
+                    .removeAttr('onclick')
+                    .addClass('btn button');
 
-                $mainContainer.find("*[data-payment-button=true]").remove();
-                $mainContainer.find(self.selectors.buttonCreate).hide().before($clone);
+                $mainContainer.find('*[data-payment-button=true]').remove();
+                $mainContainer
+                    .find(self.selectors.buttonCreate)
+                    .hide()
+                    .before($clone);
 
                 $clone
-                    .attr("data-payment-button", "true")
-                    .bind("mousedown", function() {
-                        if ($obj.attr("disabled")) {
+                    .attr('data-payment-button', 'true')
+                    .bind('mousedown', function () {
+                        if ($obj.attr('disabled')) {
                             return;
                         }
 
                         $obj.mousedown();
                     })
-                    .bind("click", function() {
-                        if ($obj.attr("disabled")) {
+                    .bind('click', function () {
+                        if ($obj.attr('disabled')) {
                             return;
                         }
 
-                        self.preventOrderDeleting(function() {
+                        self.preventOrderDeleting(function () {
                             self.proceed();
                             $obj.click();
                             self.blockFieldsDuringPayment($obj);
@@ -628,14 +862,14 @@
             }
         };
 
-        this.blockFieldsDuringPayment = function($button) {
+        this.blockFieldsDuringPayment = function ($button) {
             var self = this;
 
             self.disableAllFieldsBeforePayment();
 
-            if (typeof $button !== "undefined") {
-                var timerId = setInterval(function() {
-                    if (!$button.attr("disabled")) {
+            if (typeof $button !== 'undefined') {
+                var timerId = setInterval(function () {
+                    if (!$button.attr('disabled')) {
                         self.enableAllFieldsAfterPayment();
                         clearInterval(timerId);
                     }
@@ -643,42 +877,55 @@
             }
         };
 
-        this.disableAllFieldsBeforePayment = function() {
+        this.disableAllFieldsBeforePayment = function () {
             var self = this;
 
-            $(self.params.mainContainer).find(self.selectors.block).each(function() {
-                if ($(this).attr("id") == "simplecheckout_payment_form") {
-                    return;
-                }
-                $(this).find("input,select,textarea").attr("disabled", "disabled");
-                $(this).find("[data-onclick]").attr("disabled", "disabled");
-            });
+            $(self.params.mainContainer)
+                .find(self.selectors.block)
+                .each(function () {
+                    if ($(this).attr('id') == 'simplecheckout_payment_form') {
+                        return;
+                    }
+                    $(this)
+                        .find('input,select,textarea')
+                        .attr('disabled', 'disabled');
+                    $(this).find('[data-onclick]').attr('disabled', 'disabled');
+                });
         };
 
-        this.enableAllFieldsAfterPayment = function() {
+        this.enableAllFieldsAfterPayment = function () {
             var self = this;
 
-            $(self.params.mainContainer).find(self.selectors.block).each(function() {
-                if ($(this).attr("id") == "simplecheckout_payment_form") {
-                    return;
-                }
-                $(this).find("input:not([data-dummy]),select,textarea").removeAttr("disabled");
-                $(this).find("[data-onclick]").removeAttr("disabled");
-            });
+            $(self.params.mainContainer)
+                .find(self.selectors.block)
+                .each(function () {
+                    if ($(this).attr('id') == 'simplecheckout_payment_form') {
+                        return;
+                    }
+                    $(this)
+                        .find('input:not([data-dummy]),select,textarea')
+                        .removeAttr('disabled');
+                    $(this).find('[data-onclick]').removeAttr('disabled');
+                });
         };
 
-        this.proceed = function() {
+        this.proceed = function () {
             var self = this;
-            if (self.params.displayProceedText && !self.isPaymentFormVisible()) {
-                $(self.params.mainContainer).find(self.selectors.proceedText).show();
+            if (
+                self.params.displayProceedText &&
+                !self.isPaymentFormVisible()
+            ) {
+                $(self.params.mainContainer)
+                    .find(self.selectors.proceedText)
+                    .show();
             }
         };
 
-        this.gotoStep = function($target) {
+        this.gotoStep = function ($target) {
             var self = this;
-            var step = $target.attr("data-step");
+            var step = $target.attr('data-step');
             if (step < self.currentStep) {
-                $.when(self.hideCurrentStep()).then(function() {
+                $.when(self.hideCurrentStep()).then(function () {
                     self.currentStep = step;
                     self.saveStepNumber = step;
                     self.setDirty();
@@ -689,10 +936,10 @@
             }
         };
 
-        this.previousStep = function($target) {
+        this.previousStep = function ($target) {
             var self = this;
             if (self.currentStep > 1) {
-                $.when(self.hideCurrentStep()).then(function() {
+                $.when(self.hideCurrentStep()).then(function () {
                     self.currentStep--;
                     self.saveStepNumber--;
                     self.setDirty();
@@ -701,74 +948,101 @@
             }
         };
 
-        this.nextStep = function($target) {
+        this.nextStep = function ($target) {
             var self = this;
 
-            if ($target.data("clicked")) {
+            if ($target.data('clicked')) {
                 return;
             }
 
-            $target.data("clicked", true);
+            $target.data('clicked', true);
 
-            self.validate(false).then(function(result) {
+            self.validate(false).then(function (result) {
                 if (result) {
                     if (self.currentStep < self.$steps.length) {
                         self.currentStep++;
                     }
 
                     self.hideCurrentStep();
-                    
+
                     self.submitForm(true);
                 } else {
-                    if (typeof toastr !== 'undefined' && self.params.notificationCheckForm) {
+                    if (
+                        typeof toastr !== 'undefined' &&
+                        self.params.notificationCheckForm
+                    ) {
                         toastr.error(self.params.notificationCheckFormText);
                     }
 
-                    $target.data("clicked", false);
+                    $target.data('clicked', false);
 
                     self.scroll();
                 }
             });
         };
 
-        this.saveStep = function() {
+        this.saveStep = function () {
             var self = this;
             if (self.currentStep) {
-                $(self.params.mainContainer).append($("<input/>").attr("type", "hidden").attr("name", "next_step").val(self.currentStep));
+                $(self.params.mainContainer).append(
+                    $('<input/>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'next_step')
+                        .val(self.currentStep),
+                );
             }
         };
 
-        this.ignorePost = function() {
+        this.ignorePost = function () {
             var self = this;
-            $(self.params.mainContainer).append($("<input/>").attr("type", "hidden").attr("name", "ignore_post").val(1));
+            $(self.params.mainContainer).append(
+                $('<input/>')
+                    .attr('type', 'hidden')
+                    .attr('name', 'ignore_post')
+                    .val(1),
+            );
         };
 
-        this.addSystemFieldsInForm = function() {
+        this.addSystemFieldsInForm = function () {
             var self = this;
             if (self.isCreateOrderClicked) {
-                $(self.params.mainContainer).append($("<input/>").attr("type", "hidden").attr("name", "create_order").val(1));
+                $(self.params.mainContainer).append(
+                    $('<input/>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'create_order')
+                        .val(1),
+                );
             }
             if (self.currentStep) {
-                $(self.params.mainContainer).append($("<input/>").attr("type", "hidden").attr("name", "next_step").val(self.currentStep));
+                $(self.params.mainContainer).append(
+                    $('<input/>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'next_step')
+                        .val(self.currentStep),
+                );
             }
         };
 
-        this.getAgreementCheckboxStep = function() {
-            var step = typeof this.params.agreementCheckboxStep !== "undefined" && this.params.agreementCheckboxStep !== "" ? (this.params.agreementCheckboxStep + 1) : this.stepsCount - 1;
+        this.getAgreementCheckboxStep = function () {
+            var step =
+                typeof this.params.agreementCheckboxStep !== 'undefined' &&
+                this.params.agreementCheckboxStep !== ''
+                    ? this.params.agreementCheckboxStep + 1
+                    : this.stepsCount - 1;
 
             if (step > this.stepsCount - 1) {
                 step = this.stepsCount - 1;
             }
 
             return step;
-        }
+        };
 
-        this.setLocationHash = function(hash) {
+        this.setLocationHash = function (hash) {
             window.location.hash = hash;
             this.backCount--;
         };
 
-        this.initSteps = function(changeStep) {
+        this.initSteps = function (changeStep) {
             var self = this;
             var i = 1;
             var $mainContainer = $(self.params.mainContainer);
@@ -778,11 +1052,13 @@
             self.$steps = [];
             self.stepsCount = $steps.length || 1;
 
-            $steps.each(function() {
+            $steps.each(function () {
                 var $step = $(this);
                 self.$steps.push($step);
                 // check steps before current for errors and set step with error as current
-                var $errorBlocks = $step.find(self.selectors.block + "[data-error=true]");
+                var $errorBlocks = $step.find(
+                    self.selectors.block + '[data-error=true]',
+                );
                 if (i < self.currentStep && $errorBlocks.length) {
                     self.currentStep = i;
                     self.stepReseted = true;
@@ -790,13 +1066,23 @@
                 i++;
             });
 
-            if (self.stepsCount > 1 && !self.stepReseted && (self.currentStep == self.stepsCount || self.currentStep > self.getAgreementCheckboxStep()) && $mainContainer.attr("data-error") == "true") {
+            if (
+                self.stepsCount > 1 &&
+                !self.stepReseted &&
+                (self.currentStep == self.stepsCount ||
+                    self.currentStep > self.getAgreementCheckboxStep()) &&
+                $mainContainer.attr('data-error') == 'true'
+            ) {
                 self.currentStep--;
                 self.stepReseted = true;
             }
 
             //a fix for case when some steps are suddenly hidden after ajax request
-            if (self.stepsCount > 1 && !self.stepReseted && self.currentStep > self.stepsCount) {
+            if (
+                self.stepsCount > 1 &&
+                !self.stepReseted &&
+                self.currentStep > self.stepsCount
+            ) {
                 self.currentStep = self.stepsCount;
             }
 
@@ -804,33 +1090,36 @@
 
             if (!self.isPaymentFormVisible()) {
                 $mainContainer.find(self.selectors.paymentForm).css({
-                    "margin": "0",
-                    "padding": "0"
+                    margin: '0',
+                    padding: '0',
                 });
             }
 
             self.displayCurrentStep(changeStep);
         };
 
-        this.hideCurrentStep = function() {
+        this.hideCurrentStep = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
-            
+
             $mainContainer.find(self.selectors.agreementWarning).hide();
-                
-            if (typeof self.params.menuType !== "undefined" && self.params.menuType == 2) {
+
+            if (
+                typeof self.params.menuType !== 'undefined' &&
+                self.params.menuType == 2
+            ) {
                 $mainContainer.find(self.selectors.buttons).hide();
-                return $mainContainer.find(self.selectors.step).slideUp("slow");
+                return $mainContainer.find(self.selectors.step).slideUp('slow');
             } else {
                 //return $mainContainer.find(self.selectors.step).hide();
-            }          
+            }
         };
 
-        this.displayCurrentStep = function(changeStep) {
+        this.displayCurrentStep = function (changeStep) {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
 
-            var initButtons = function() {
+            var initButtons = function () {
                 if (self.stepsCount > 1) {
                     if (self.currentStep == 1) {
                         $mainContainer.find(self.selectors.buttonPrev).hide();
@@ -840,25 +1129,38 @@
 
                     if (self.currentStep < self.stepsCount) {
                         $mainContainer.find(self.selectors.buttonNext).show();
-                        $mainContainer.find(self.selectors.buttonCreate).hide();                    
+                        $mainContainer.find(self.selectors.buttonCreate).hide();
                     }
 
-                    $mainContainer.find(self.selectors.agreementCheckBox).hide();
+                    $mainContainer
+                        .find(self.selectors.agreementCheckBox)
+                        .hide();
 
                     if (self.currentStep == self.getAgreementCheckboxStep()) {
-                        $mainContainer.find(self.selectors.agreementCheckBox).show();
+                        $mainContainer
+                            .find(self.selectors.agreementCheckBox)
+                            .show();
                     }
                 }
 
-                if (typeof self.params.stepButtons !== 'undefined' && typeof self.params.stepButtons[self.currentStep] !== 'undefined' && self.params.stepButtons[self.currentStep] != '') {
-                    var $button = $mainContainer.find(self.stepsCount > 1 ? self.selectors.buttonNext : self.selectors.buttonCreate);
+                if (
+                    typeof self.params.stepButtons !== 'undefined' &&
+                    typeof self.params.stepButtons[self.currentStep] !==
+                        'undefined' &&
+                    self.params.stepButtons[self.currentStep] != ''
+                ) {
+                    var $button = $mainContainer.find(
+                        self.stepsCount > 1
+                            ? self.selectors.buttonNext
+                            : self.selectors.buttonCreate,
+                    );
 
                     if ($button.find('span').length) {
                         $button = $button.find('span');
                     }
 
                     $button.html(self.params.stepButtons[self.currentStep]);
-                }  
+                }
 
                 if (self.currentStep == self.stepsCount) {
                     $mainContainer.find(self.selectors.buttonNext).hide();
@@ -867,68 +1169,149 @@
                 }
             };
 
-            var initStepsMenu = function() {
-                if (typeof self.params.menuType !== "undefined" && self.params.menuType == 2) {
+            var initStepsMenu = function () {
+                if (
+                    typeof self.params.menuType !== 'undefined' &&
+                    self.params.menuType == 2
+                ) {
                     for (var i = 1; i < self.stepsCount + 1; i++) {
-                        var $topItem = $mainContainer.find(self.selectors.stepsMenuTop + " " + self.selectors.stepsMenuVerticalItem + "[data-step=" + i + "]");
-                        var $bottomItem = $mainContainer.find(self.selectors.stepsMenuBottom + " " + self.selectors.stepsMenuVerticalItem + "[data-step=" + i + "]");
-                        
+                        var $topItem = $mainContainer.find(
+                            self.selectors.stepsMenuTop +
+                                ' ' +
+                                self.selectors.stepsMenuVerticalItem +
+                                '[data-step=' +
+                                i +
+                                ']',
+                        );
+                        var $bottomItem = $mainContainer.find(
+                            self.selectors.stepsMenuBottom +
+                                ' ' +
+                                self.selectors.stepsMenuVerticalItem +
+                                '[data-step=' +
+                                i +
+                                ']',
+                        );
+
                         if (i <= self.currentStep) {
                             $topItem.show();
-                            $topItem.addClass(self.classes.stepsMenuVerticalCompleted);
+                            $topItem.addClass(
+                                self.classes.stepsMenuVerticalCompleted,
+                            );
                             $bottomItem.hide();
                         } else {
-                            $topItem.removeClass(self.classes.stepsMenuVerticalCompleted);
+                            $topItem.removeClass(
+                                self.classes.stepsMenuVerticalCompleted,
+                            );
                             $topItem.hide();
                             $bottomItem.show();
                         }
                     }
                 } else {
-                    $mainContainer.find(self.selectors.stepsMenu + " " + self.selectors.stepsMenuItem).removeClass(self.classes.stepsMenuCompleted).removeClass(self.classes.stepsMenuCurrent);
-                    $mainContainer.find(self.selectors.stepsMenu + " " + self.selectors.stepsMenuDelimiter + " img").attr("src", self.params.additionalPath + self.resources.next);
+                    $mainContainer
+                        .find(
+                            self.selectors.stepsMenu +
+                                ' ' +
+                                self.selectors.stepsMenuItem,
+                        )
+                        .removeClass(self.classes.stepsMenuCompleted)
+                        .removeClass(self.classes.stepsMenuCurrent);
+                    $mainContainer
+                        .find(
+                            self.selectors.stepsMenu +
+                                ' ' +
+                                self.selectors.stepsMenuDelimiter +
+                                ' img',
+                        )
+                        .attr(
+                            'src',
+                            self.params.additionalPath + self.resources.next,
+                        );
 
                     for (var i = 1; i < self.currentStep; i++) {
-                        $mainContainer.find(self.selectors.stepsMenu + " " + self.selectors.stepsMenuItem + "[data-step=" + i + "]").addClass(self.classes.stepsMenuCompleted);
-                        $mainContainer.find(self.selectors.stepsMenu + " " + self.selectors.stepsMenuDelimiter + "[data-step=" + (i + 1) + "] img").attr("src", self.params.additionalPath + self.resources.nextCompleted);
+                        $mainContainer
+                            .find(
+                                self.selectors.stepsMenu +
+                                    ' ' +
+                                    self.selectors.stepsMenuItem +
+                                    '[data-step=' +
+                                    i +
+                                    ']',
+                            )
+                            .addClass(self.classes.stepsMenuCompleted);
+                        $mainContainer
+                            .find(
+                                self.selectors.stepsMenu +
+                                    ' ' +
+                                    self.selectors.stepsMenuDelimiter +
+                                    '[data-step=' +
+                                    (i + 1) +
+                                    '] img',
+                            )
+                            .attr(
+                                'src',
+                                self.params.additionalPath +
+                                    self.resources.nextCompleted,
+                            );
                     }
 
-                    $mainContainer.find(self.selectors.stepsMenu + " " + self.selectors.stepsMenuItem + "[data-step=" + self.currentStep + "]").addClass(self.classes.stepsMenuCurrent);
+                    $mainContainer
+                        .find(
+                            self.selectors.stepsMenu +
+                                ' ' +
+                                self.selectors.stepsMenuItem +
+                                '[data-step=' +
+                                self.currentStep +
+                                ']',
+                        )
+                        .addClass(self.classes.stepsMenuCurrent);
                 }
             };
 
-            var hideAllSteps = function() {
+            var hideAllSteps = function () {
                 $mainContainer.find(self.selectors.step).hide();
             };
 
-            var isLastStepHasOnlyPaymentForm = function() {
-                var $lastStep = $mainContainer.find(self.selectors.step + ":last");
-                return $lastStep.find(self.selectors.block).length == 1 && $lastStep.find(self.selectors.paymentForm).length == 1 ? true : false;
+            var isLastStepHasOnlyPaymentForm = function () {
+                var $lastStep = $mainContainer.find(
+                    self.selectors.step + ':last',
+                );
+                return $lastStep.find(self.selectors.block).length == 1 &&
+                    $lastStep.find(self.selectors.paymentForm).length == 1
+                    ? true
+                    : false;
             };
 
             hideAllSteps();
 
-            if (typeof self.$steps[self.currentStep - 1] !== "undefined") {
+            if (typeof self.$steps[self.currentStep - 1] !== 'undefined') {
                 if (changeStep) {
-                    if (typeof self.params.menuType !== "undefined" && self.params.menuType == 2) {
-                        self.$steps[self.currentStep - 1].slideDown("slow");
+                    if (
+                        typeof self.params.menuType !== 'undefined' &&
+                        self.params.menuType == 2
+                    ) {
+                        self.$steps[self.currentStep - 1].slideDown('slow');
                         $mainContainer.find(self.selectors.buttons).show();
                     } else {
                         self.$steps[self.currentStep - 1].show();
-
                     }
                 } else {
                     self.$steps[self.currentStep - 1].show();
-                }                
+                }
             }
 
             if (self.stepsCount > 1) {
-                self.setLocationHash("step_" + self.currentStep);
+                self.setLocationHash('step_' + self.currentStep);
             }
 
             initStepsMenu();
             initButtons();
 
-            if (self.currentStep == self.stepsCount && !self.isPaymentFormVisible() && self.isPaymentFormValid() && (isLastStepHasOnlyPaymentForm() || self.isCreateOrderClicked)) {
+            if (
+                self.currentStep == self.stepsCount &&
+                !self.isPaymentFormVisible() &&
+                self.isPaymentFormValid() &&
+                (isLastStepHasOnlyPaymentForm() || self.isCreateOrderClicked)
+            ) {
                 self.clickOnConfirmButton();
                 if (isLastStepHasOnlyPaymentForm()) {
                     self.currentStep--;
@@ -936,7 +1319,7 @@
             }
         };
 
-        this.scroll = function() {
+        this.scroll = function () {
             var self = this,
                 error = false,
                 top = 10000,
@@ -944,8 +1327,11 @@
 
             var $mainContainer = $(self.params.mainContainer);
 
-            var isOutsideOfViewport = function(y) {
-                if (y < $(window).scrollTop() || y > ($(window).scrollTop() + $(window).height())) {
+            var isOutsideOfViewport = function (y) {
+                if (
+                    y < $(window).scrollTop() ||
+                    y > $(window).scrollTop() + $(window).height()
+                ) {
                     return true;
                 }
                 return false;
@@ -956,61 +1342,89 @@
             }
 
             if (self.params.scrollToError) {
-                $($mainContainer.find("[data-error=true]:visible")).each(function() {
-                    var offset = $(this).offset();
-                    if (offset.top < top) {
-                        top = offset.top;
-                    }
-                    if (offset.bottom > bottom) {
-                        bottom = offset.bottom;
-                    }
-                });
-
-                $($mainContainer.find(".simplecheckout-warning-block:visible")).each(function() {
-                    var offset = $(this).offset();
-                    if (offset.top < top) {
-                        top = offset.top;
-                    }
-                    if (offset.bottom > bottom) {
-                        bottom = offset.bottom;
-                    }
-                });
-
-                $($mainContainer.find(".simplecheckout-rule:visible")).each(function() {
-                    if ($(this).parents(".simplecheckout-block").length) {
-                        var offset = $(this).parents(".simplecheckout-block").offset();
+                $($mainContainer.find('[data-error=true]:visible')).each(
+                    function () {
+                        var offset = $(this).offset();
                         if (offset.top < top) {
                             top = offset.top;
                         }
                         if (offset.bottom > bottom) {
                             bottom = offset.bottom;
                         }
+                    },
+                );
+
+                $(
+                    $mainContainer.find(
+                        '.simplecheckout-warning-block:visible',
+                    ),
+                ).each(function () {
+                    var offset = $(this).offset();
+                    if (offset.top < top) {
+                        top = offset.top;
+                    }
+                    if (offset.bottom > bottom) {
+                        bottom = offset.bottom;
                     }
                 });
 
+                $($mainContainer.find('.simplecheckout-rule:visible')).each(
+                    function () {
+                        if ($(this).parents('.simplecheckout-block').length) {
+                            var offset = $(this)
+                                .parents('.simplecheckout-block')
+                                .offset();
+                            if (offset.top < top) {
+                                top = offset.top;
+                            }
+                            if (offset.bottom > bottom) {
+                                bottom = offset.bottom;
+                            }
+                        }
+                    },
+                );
+
                 if (top < 10000 && isOutsideOfViewport(top)) {
-                    $("html, body").animate({
-                        scrollTop: top
-                    }, "slow");
+                    $('html, body').animate(
+                        {
+                            scrollTop: top,
+                        },
+                        'slow',
+                    );
                     error = true;
                 } else if (bottom && isOutsideOfViewport(bottom)) {
-                    $("html, body").animate({
-                        scrollTop: bottom
-                    }, "slow");
+                    $('html, body').animate(
+                        {
+                            scrollTop: bottom,
+                        },
+                        'slow',
+                    );
                     error = true;
                 }
             }
 
-            if ($mainContainer.find(self.selectors.stepsMenu).length && self.currentStep != self.saveStepNumber) {
-                var menu = $mainContainer.find(self.selectors.stepsMenu + " " + "[data-step=" + self.currentStep + "]:visible");
+            if (
+                $mainContainer.find(self.selectors.stepsMenu).length &&
+                self.currentStep != self.saveStepNumber
+            ) {
+                var menu = $mainContainer.find(
+                    self.selectors.stepsMenu +
+                        ' ' +
+                        '[data-step=' +
+                        self.currentStep +
+                        ']:visible',
+                );
 
                 if (menu.length) {
                     top = menu.offset().top;
 
                     if (top && isOutsideOfViewport(top)) {
-                        $("html, body").animate({
-                            scrollTop: top
-                        }, "slow");
+                        $('html, body').animate(
+                            {
+                                scrollTop: top,
+                            },
+                            'slow',
+                        );
                     }
                 }
             }
@@ -1018,23 +1432,43 @@
             var mainContainerTop = $mainContainer.offset().top;
             var mainContainerHeight = $mainContainer.outerHeight();
 
-            if ((mainContainerTop + mainContainerHeight) < $(window).scrollTop()) {
-                $("html, body").animate({
-                    scrollTop: mainContainerTop - 50
-                }, "slow");
+            if (
+                mainContainerTop + mainContainerHeight <
+                $(window).scrollTop()
+            ) {
+                $('html, body').animate(
+                    {
+                        scrollTop: mainContainerTop - 50,
+                    },
+                    'slow',
+                );
             }
 
             if (self.params.scrollToPaymentForm && !error) {
                 if (self.isPaymentFormVisible()) {
-                    var formTop = $mainContainer.find(self.selectors.paymentForm).offset().top;
-                    var formHeight = $mainContainer.find(self.selectors.paymentForm).outerHeight();
+                    var formTop = $mainContainer
+                        .find(self.selectors.paymentForm)
+                        .offset().top;
+                    var formHeight = $mainContainer
+                        .find(self.selectors.paymentForm)
+                        .outerHeight();
                     var scrollTo = 0;
 
                     if (formHeight < $(window).height()) {
                         if (formTop < $(window).scrollTop()) {
                             scrollTo = formTop;
-                        } else if ((formTop + formHeight) > ($(window).scrollTop() + $(window).height())) {
-                            scrollTo = formTop + formHeight - $(window).height() + 2 * $mainContainer.find(self.selectors.buttons).outerHeight();
+                        } else if (
+                            formTop + formHeight >
+                            $(window).scrollTop() + $(window).height()
+                        ) {
+                            scrollTo =
+                                formTop +
+                                formHeight -
+                                $(window).height() +
+                                2 *
+                                    $mainContainer
+                                        .find(self.selectors.buttons)
+                                        .outerHeight();
                         }
                     } else {
                         if (isOutsideOfViewport(formTop)) {
@@ -1043,47 +1477,62 @@
                     }
 
                     if (scrollTo) {
-                        $("html, body").animate({
-                            scrollTop: scrollTo
-                        }, "slow");
+                        $('html, body').animate(
+                            {
+                                scrollTop: scrollTo,
+                            },
+                            'slow',
+                        );
                     }
                 }
-            }            
+            }
 
             self.saveStepNumber = self.currentStep;
         };
 
-        this.validateAgreements = function(silent) {
+        this.validateAgreements = function (silent) {
             var self = this;
 
             var result = true;
 
-            var $agreementCheckbox = $(self.params.mainContainer).find(self.selectors.agreementCheckBox).find("input[type=checkbox]");
-            var $agreementCheckboxChecked = $(self.params.mainContainer).find(self.selectors.agreementCheckBox).find("input[type=checkbox]:checked");
-            var $agreementWarning = $(self.params.mainContainer).find(self.selectors.agreementWarning);
+            var $agreementCheckbox = $(self.params.mainContainer)
+                .find(self.selectors.agreementCheckBox)
+                .find('input[type=checkbox]');
+            var $agreementCheckboxChecked = $(self.params.mainContainer)
+                .find(self.selectors.agreementCheckBox)
+                .find('input[type=checkbox]:checked');
+            var $agreementWarning = $(self.params.mainContainer).find(
+                self.selectors.agreementWarning,
+            );
 
-            if ($agreementCheckbox.length && $agreementCheckbox.is(":visible") && $agreementCheckbox.length != $agreementCheckboxChecked.length) {
+            if (
+                $agreementCheckbox.length &&
+                $agreementCheckbox.is(':visible') &&
+                $agreementCheckbox.length != $agreementCheckboxChecked.length
+            ) {
                 if ($agreementWarning.length) {
                     if (!silent) {
-                        $agreementWarning.attr("data-error", "true");
+                        $agreementWarning.attr('data-error', 'true');
 
                         if (self.params.notificationDefault) {
                             $agreementWarning.show();
 
-                            $agreementCheckbox.each(function() {
-                                if ($(this).is(":checked")) {
-                                    $(".agreement_" + $(this).val()).hide();
+                            $agreementCheckbox.each(function () {
+                                if ($(this).is(':checked')) {
+                                    $('.agreement_' + $(this).val()).hide();
                                 } else {
-                                    $(".agreement_" + $(this).val()).show();
-                                }                        
+                                    $('.agreement_' + $(this).val()).show();
+                                }
                             });
                         }
 
                         if (self.params.notificationToasts) {
-                            $agreementCheckbox.each(function() {
-                                if (!$(this).is(":checked")) {
-                                    toastr.error($(".agreement_" + $(this).val()).text());
-                                }                        
+                            $agreementCheckbox.each(function () {
+                                if (!$(this).is(':checked')) {
+                                    toastr.error(
+                                        $('.agreement_' + $(this).val()).text(),
+                                    );
+                                }
                             });
                         }
                     }
@@ -1091,18 +1540,18 @@
                     result = false;
                 }
             } else {
-                $agreementWarning.hide().removeAttr("data-error");
+                $agreementWarning.hide().removeAttr('data-error');
             }
 
             return result;
         };
 
-        this.validate = function(silent) {
+        this.validate = function (silent) {
             var self = this;
             var result = true;
             var promises = [];
 
-            if (typeof silent === "undefined") {
+            if (typeof silent === 'undefined') {
                 silent = false;
             }
 
@@ -1113,44 +1562,49 @@
             for (var i in self.blocks) {
                 if (!self.blocks.hasOwnProperty(i)) continue;
 
-                var promise = self.blocks[i].validate(silent).then(function(validatorResult) {
-                    if (!validatorResult) {
-                        result = false;
-                    }
-                });
+                var promise = self.blocks[i]
+                    .validate(silent)
+                    .then(function (validatorResult) {
+                        if (!validatorResult) {
+                            result = false;
+                        }
+                    });
 
                 promises.push(promise);
             }
 
             if (typeof simpleValidate === 'function') {
                 if (!simpleValidate()) {
-                    result = false; 
+                    result = false;
                 }
             }
 
             var deferred = $.Deferred();
 
-            $.when.apply($, promises).then(function() {
+            $.when.apply($, promises).then(function () {
                 deferred.resolve(result);
             });
 
             return deferred.promise();
         };
 
-        this.backHistory = function() {
+        this.backHistory = function () {
             var self = this;
             history.go(self.backCount);
         };
 
-        this.createOrder = function() {
+        this.createOrder = function () {
             var self = this;
 
-            self.validate(false).then(function(result) {
+            self.validate(false).then(function (result) {
                 if (result) {
                     self.isCreateOrderClicked = true;
                     self.submitForm();
                 } else {
-                    if (typeof toastr !== 'undefined' && self.params.notificationCheckForm) {
+                    if (
+                        typeof toastr !== 'undefined' &&
+                        self.params.notificationCheckForm
+                    ) {
                         toastr.error(self.params.notificationCheckFormText);
                     }
 
@@ -1159,7 +1613,7 @@
             });
         };
 
-        this.submitForm = function(changeStep) {
+        this.submitForm = function (changeStep) {
             var self = this;
             self.requestReloadAll(null, changeStep);
         };
@@ -1168,18 +1622,18 @@
          * Adds delay for reload execution on 150 ms, it allows to check sequence of events and to execute only the last request to handle of more events in one reloading
          * @param  {Function} callback
          */
-        this.requestReloadAll = function(callback, changeStep) {
+        this.requestReloadAll = function (callback, changeStep) {
             var self = this;
             if (self.requestTimerId) {
                 clearTimeout(self.requestTimerId);
                 self.requestTimerId = 0;
             }
-            self.requestTimerId = window.setTimeout(function() {
+            self.requestTimerId = window.setTimeout(function () {
                 self.reloadAll(callback, false, changeStep);
             }, 150);
         };
 
-        this.overlayAll = function() {
+        this.overlayAll = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
 
@@ -1189,67 +1643,91 @@
                 self.blocks[i].overlay();
             }
 
-            $mainContainer.find(self.selectors.block).each(function() {
-                if (!$(this).data("initialized")) {
-                    SimplecheckoutBlock.prototype.overlay.apply(self, [$(this)]);
+            $mainContainer.find(self.selectors.block).each(function () {
+                if (!$(this).data('initialized')) {
+                    SimplecheckoutBlock.prototype.overlay.apply(self, [
+                        $(this),
+                    ]);
                 }
             });
 
-            $mainContainer.find("[data-onclick]").attr("disabled", "disabled");
+            $mainContainer.find('[data-onclick]').attr('disabled', 'disabled');
         };
 
-        this.removeOverlays = function() {
+        this.removeOverlays = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
 
             $mainContainer.find(self.selectors.overlay).remove();
-            $mainContainer.find("input:not([data-dummy]),select,textarea").removeAttr("disabled");
-            $mainContainer.find("[data-onclick]").removeAttr("disabled");
+            $mainContainer
+                .find('input:not([data-dummy]),select,textarea')
+                .removeAttr('disabled');
+            $mainContainer.find('[data-onclick]').removeAttr('disabled');
         };
 
-        this.syncShippingAndPaymentAddresses = function() {
+        this.syncShippingAndPaymentAddresses = function () {
             //$("#simplecheckout_payment_address").find("input:not([type=hidden]),select,textarea").on("change", )
         };
 
-        this.createPostData = function() {
+        this.createPostData = function () {
             var self = this;
             var usedBlocks = [];
             var fields = [];
 
-            var copyFields = function(serializedFields, skipUsed) {
+            var copyFields = function (serializedFields, skipUsed) {
                 for (var i in serializedFields) {
                     if (!serializedFields.hasOwnProperty(i)) continue;
 
                     var info = serializedFields[i];
-                    var pair = encodeURIComponent(info.name)+"="+encodeURIComponent(info.value);
+                    var pair =
+                        encodeURIComponent(info.name) +
+                        '=' +
+                        encodeURIComponent(info.value);
 
-                    if (typeof skipUsed === "undefined" || (skipUsed && $.inArray(pair, fields) == -1)) {
+                    if (
+                        typeof skipUsed === 'undefined' ||
+                        (skipUsed && $.inArray(pair, fields) == -1)
+                    ) {
                         fields.push(pair);
                     }
                 }
             };
 
-            $(self.params.mainContainer + " .simplecheckout-step:visible .simplecheckout-block:not(#simplecheckout_payment_form)").each(function() {
+            $(
+                self.params.mainContainer +
+                    ' .simplecheckout-step:visible .simplecheckout-block:not(#simplecheckout_payment_form)',
+            ).each(function () {
                 var $block = $(this);
 
-                if ($block.attr("id")) {
-                    usedBlocks.push($block.attr("id"));
+                if ($block.attr('id')) {
+                    usedBlocks.push($block.attr('id'));
                 }
 
                 copyFields(self.serializeFields($block));
             });
 
-            $(self.params.mainContainer + " .simplecheckout-step:not(:visible) .simplecheckout-block:not(#simplecheckout_payment_form)").each(function() {
+            $(
+                self.params.mainContainer +
+                    ' .simplecheckout-step:not(:visible) .simplecheckout-block:not(#simplecheckout_payment_form)',
+            ).each(function () {
                 var $block = $(this);
 
-                if ($block.attr("id") && $.inArray($block.attr("id"), usedBlocks) > -1) {
+                if (
+                    $block.attr('id') &&
+                    $.inArray($block.attr('id'), usedBlocks) > -1
+                ) {
                     return;
                 }
 
                 copyFields(self.serializeFields($block));
             });
 
-            var otherFields = self.serializeFields($(self.params.mainContainer + " *:not(#simplecheckout_payment_form)"));
+            var otherFields = self.serializeFields(
+                $(
+                    self.params.mainContainer +
+                        ' *:not(#simplecheckout_payment_form)',
+                ),
+            );
 
             copyFields(otherFields, true);
 
@@ -1257,25 +1735,25 @@
 
             copyFields(allFields, true);
 
-            return fields.join("&");
-        }
+            return fields.join('&');
+        };
 
         /**
          * Reload all blocks via main controller which includes all registered blocks as childs
          * @param  {Function} callback
          */
-        this.reloadAll = function(callback, disableScroll, changeStep) {
+        this.reloadAll = function (callback, disableScroll, changeStep) {
             var self = this;
 
             if (self.isReloading) {
                 return;
             }
 
-            if (typeof disableScroll === "undefined") {
+            if (typeof disableScroll === 'undefined') {
                 disableScroll = false;
             }
 
-            if (typeof changeStep === "undefined") {
+            if (typeof changeStep === 'undefined') {
                 changeStep = false;
             }
 
@@ -1287,19 +1765,26 @@
 
             $.ajax({
                 url: self.params.mainUrl,
-                data: postData + "&simple_ajax=1",
-                type: "POST",
-                dataType: "text",
-                beforeSend: function() {
+                data: postData + '&simple_ajax=1',
+                type: 'POST',
+                dataType: 'text',
+                beforeSend: function () {
                     $('.tooltip ').remove();
 
-                    overlayTimeoutId = window.setTimeout(function() {
-                        if (overlayTimeoutId && !(typeof self.params.menuType !== "undefined" && self.params.menuType == 2 && changeStep)) {
+                    overlayTimeoutId = window.setTimeout(function () {
+                        if (
+                            overlayTimeoutId &&
+                            !(
+                                typeof self.params.menuType !== 'undefined' &&
+                                self.params.menuType == 2 &&
+                                changeStep
+                            )
+                        ) {
                             self.overlayAll();
                         }
                     }, 250);
                 },
-                success: function(data) {
+                success: function (data) {
                     clearTimeout(overlayTimeoutId);
                     overlayTimeoutId = 0;
 
@@ -1316,36 +1801,38 @@
 
                     self.init(disableScroll, changeStep);
 
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                         callback.call(self);
                     }
 
                     self.removeOverlays();
                     self.isReloading = false;
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
+                error: function (xhr, ajaxOptions, thrownError) {
                     clearTimeout(overlayTimeoutId);
                     overlayTimeoutId = 0;
                     self.removeOverlays();
                     self.isReloading = false;
-                }
+                },
             });
         };
 
-        this.reloadBlock = function(container, callback) {
+        this.reloadBlock = function (container, callback) {
             var self = this;
             if (self.isReloading) {
                 return;
             }
             self.isReloading = true;
-            var postData = $(self.params.mainContainer).find("input,select,textarea").serialize();
+            var postData = $(self.params.mainContainer)
+                .find('input,select,textarea')
+                .serialize();
             $.ajax({
                 url: self.params.mainUrl,
-                data: postData + "&simple_ajax=1",
-                type: "POST",
-                dataType: "text",
-                beforeSend: function() {},
-                success: function(data) {
+                data: postData + '&simple_ajax=1',
+                type: 'POST',
+                dataType: 'text',
+                beforeSend: function () {},
+                success: function (data) {
                     var newData = $(container, $(data)).get(0);
 
                     if (!newData && data) {
@@ -1360,31 +1847,74 @@
 
                     self.init();
 
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                         callback.call(self);
                     }
 
                     self.isReloading = false;
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
+                error: function (xhr, ajaxOptions, thrownError) {
                     self.isReloading = false;
-                }
+                },
             });
         };
 
-        this.registerBlock(new SimplecheckoutCart("#simplecheckout_cart", "checkout/simplecheckout_cart"));
-        this.registerBlock(new SimplecheckoutShipping("#simplecheckout_shipping", "checkout/simplecheckout_shipping"));
-        this.registerBlock(new SimplecheckoutPayment("#simplecheckout_payment", "checkout/simplecheckout_payment"));
-        this.registerBlock(new SimplecheckoutForm("#simplecheckout_customer", "checkout/simplecheckout_customer"));
-        this.registerBlock(new SimplecheckoutForm("#simplecheckout_payment_address", "checkout/simplecheckout_payment_address"));
-        this.registerBlock(new SimplecheckoutForm("#simplecheckout_shipping_address", "checkout/simplecheckout_shipping_address"));
-        this.registerBlock(new SimplecheckoutComment("#simplecheckout_comment", "checkout/simplecheckout_comment"));
-        this.registerBlock(new SimplecheckoutBlock("#simplecheckout_summary", "checkout/simplecheckout_summary"));
+        this.registerBlock(
+            new SimplecheckoutCart(
+                '#simplecheckout_cart',
+                'checkout/simplecheckout_cart',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutShipping(
+                '#simplecheckout_shipping',
+                'checkout/simplecheckout_shipping',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutPayment(
+                '#simplecheckout_payment',
+                'checkout/simplecheckout_payment',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutForm(
+                '#simplecheckout_customer',
+                'checkout/simplecheckout_customer',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutForm(
+                '#simplecheckout_payment_address',
+                'checkout/simplecheckout_payment_address',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutForm(
+                '#simplecheckout_shipping_address',
+                'checkout/simplecheckout_shipping_address',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutComment(
+                '#simplecheckout_comment',
+                'checkout/simplecheckout_comment',
+            ),
+        );
+        this.registerBlock(
+            new SimplecheckoutBlock(
+                '#simplecheckout_summary',
+                'checkout/simplecheckout_summary',
+            ),
+        );
 
-        var login = new SimplecheckoutLogin("#simplecheckout_login", "checkout/simplecheckout_login");
+        var login = new SimplecheckoutLogin(
+            '#simplecheckout_login',
+            'checkout/simplecheckout_login',
+        );
         login.setParent(this);
         login.init();
-        login.shareMethod("open", "openLoginBox");
+        login.shareMethod('open', 'openLoginBox');
 
         this.instances.push(this);
     };
@@ -1400,13 +1930,13 @@
         this.currentRoute = route;
     }
 
-    SimplecheckoutBlock.prototype.setParent = function(object) {
+    SimplecheckoutBlock.prototype.setParent = function (object) {
         this.simplecheckout = object;
         this.params = object.params;
         this.resources = object.resources;
     };
 
-    SimplecheckoutBlock.prototype.reloadAll = function(callback) {
+    SimplecheckoutBlock.prototype.reloadAll = function (callback) {
         if (this.simplecheckout) {
             this.simplecheckout.requestReloadAll(callback, false);
         } else {
@@ -1414,70 +1944,88 @@
         }
     };
 
-    SimplecheckoutBlock.prototype.reload = function(callback) {
+    SimplecheckoutBlock.prototype.reload = function (callback) {
         var self = this;
         if (self.isReloading) {
             return;
         }
         self.isReloading = true;
-        var postData = $(self.params.mainContainer).find(self.currentContainer + ":visible").find("input,select,textarea").serialize();
+        var postData = $(self.params.mainContainer)
+            .find(self.currentContainer + ':visible')
+            .find('input,select,textarea')
+            .serialize();
         $.ajax({
-            url: "index.php?" + self.params.additionalParams + "route=" + self.currentRoute,
-            data: postData + "&simple_ajax=1",
-            type: "POST",
-            dataType: "text",
-            beforeSend: function() {
+            url:
+                'index.php?' +
+                self.params.additionalParams +
+                'route=' +
+                self.currentRoute,
+            data: postData + '&simple_ajax=1',
+            type: 'POST',
+            dataType: 'text',
+            beforeSend: function () {
                 self.overlay();
             },
-            success: function(data) {
+            success: function (data) {
                 var newData = $(self.currentContainer, $(data)).get(0);
-                
+
                 if (!newData && data) {
                     newData = data;
                 }
 
                 try {
-                    $(self.params.mainContainer).find(self.currentContainer + ":visible").replaceWith(newData);
+                    $(self.params.mainContainer)
+                        .find(self.currentContainer + ':visible')
+                        .replaceWith(newData);
                 } catch (e) {
                     console.error(e);
                 }
 
-                if (typeof callback === "function") {
+                if (typeof callback === 'function') {
                     callback.call(self);
                 }
-                
+
                 self.removeOverlay();
                 self.isReloading = false;
                 self.init();
             },
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function (xhr, ajaxOptions, thrownError) {
                 self.removeOverlay();
                 self.isReloading = false;
-            }
+            },
         });
     };
 
-    SimplecheckoutBlock.prototype.load = function(callback, container, params) {
+    SimplecheckoutBlock.prototype.load = function (
+        callback,
+        container,
+        params,
+    ) {
         var self = this;
         if (self.isLoading) {
             return;
         }
-        if (typeof callback !== "function") {
+        if (typeof callback !== 'function') {
             container = callback;
             callback = null;
         }
-        if (typeof params === "undefined") {
-            params = "";
+        if (typeof params === 'undefined') {
+            params = '';
         }
         self.isLoading = true;
         $.ajax({
-            url: "index.php?" + self.params.additionalParams + "route=" + self.currentRoute + params,
-            type: "GET",
-            dataType: "text",
-            beforeSend: function() {
+            url:
+                'index.php?' +
+                self.params.additionalParams +
+                'route=' +
+                self.currentRoute +
+                params,
+            type: 'GET',
+            dataType: 'text',
+            beforeSend: function () {
                 self.overlay();
             },
-            success: function(data) {
+            success: function (data) {
                 var newData = $(self.currentContainer, $(data)).get(0);
 
                 if (!newData && data) {
@@ -1496,7 +2044,7 @@
                     }
                 }
 
-                if (typeof callback === "function") {
+                if (typeof callback === 'function') {
                     callback();
                 }
 
@@ -1504,187 +2052,232 @@
                 self.isLoading = false;
                 self.init();
             },
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function (xhr, ajaxOptions, thrownError) {
                 self.removeOverlay();
                 self.isLoading = false;
-            }
+            },
         });
     };
 
-    SimplecheckoutBlock.prototype.overlay = function(useBlock) {
+    SimplecheckoutBlock.prototype.overlay = function (useBlock) {
         var self = this;
-        var $block = (useBlock && $(useBlock)) || $(self.params.mainContainer).find(self.currentContainer);
+        var $block =
+            (useBlock && $(useBlock)) ||
+            $(self.params.mainContainer).find(self.currentContainer);
 
         if ($block.length) {
             if (~~$block.height() < 50) {
                 return;
             }
-            $block.find("input,select,textarea").attr("disabled", "disabled");
-            $block.find("[data-onclick]").attr("disabled", "disabled");
-            $block.append("<div class='simplecheckout_overlay' id='" + $block.attr("id") + "_overlay'></div>");
-            $block.find(".simplecheckout_overlay")
+            $block.find('input,select,textarea').attr('disabled', 'disabled');
+            $block.find('[data-onclick]').attr('disabled', 'disabled');
+            $block.append(
+                "<div class='simplecheckout_overlay' id='" +
+                    $block.attr('id') +
+                    "_overlay'></div>",
+            );
+            $block
+                .find('.simplecheckout_overlay')
                 .css({
-                    "background": "url(" + self.params.additionalParams + self.resources.loading + ") no-repeat center center",
-                    "opacity": 0.4,
-                    "position": "absolute",
-                    "width": $block.width(),
-                    "height": $block.height(),
-                    "z-index": 5000
+                    background:
+                        'url(' +
+                        self.params.additionalParams +
+                        self.resources.loading +
+                        ') no-repeat center center',
+                    opacity: 0.4,
+                    position: 'absolute',
+                    width: $block.width(),
+                    height: $block.height(),
+                    'z-index': 5000,
                 })
                 .offset({
                     top: $block.offset().top,
-                    left: $block.offset().left
+                    left: $block.offset().left,
                 });
         }
     };
 
-    SimplecheckoutBlock.prototype.removeOverlay = function() {
+    SimplecheckoutBlock.prototype.removeOverlay = function () {
         var self = this;
         var $mainContainer = $(self.params.mainContainer);
 
-        if (typeof self.currentContainer !== "undefined") {
-            $mainContainer.find(self.currentContainer).find("input:not([data-dummy]),select,textarea").removeAttr("disabled");
-            $mainContainer.find(self.currentContainer).find("[data-onclick]").removeAttr("disabled");
-            $mainContainer.find(self.currentContainer + "_overlay").remove();
+        if (typeof self.currentContainer !== 'undefined') {
+            $mainContainer
+                .find(self.currentContainer)
+                .find('input:not([data-dummy]),select,textarea')
+                .removeAttr('disabled');
+            $mainContainer
+                .find(self.currentContainer)
+                .find('[data-onclick]')
+                .removeAttr('disabled');
+            $mainContainer.find(self.currentContainer + '_overlay').remove();
         }
     };
 
-    SimplecheckoutBlock.prototype.hasError = function() {
-        return $(this.params.mainContainer).find(this.currentContainer).attr("data-error") ? true : false;
+    SimplecheckoutBlock.prototype.hasError = function () {
+        return $(this.params.mainContainer)
+            .find(this.currentContainer)
+            .attr('data-error')
+            ? true
+            : false;
     };
 
-    SimplecheckoutBlock.prototype.init = function(useContainer) {
+    SimplecheckoutBlock.prototype.init = function (useContainer) {
         var self = this;
         var $mainContainer = $(self.params.mainContainer);
-        var $currentContainer = $mainContainer.find(self.currentContainer + ":visible");
+        var $currentContainer = $mainContainer.find(
+            self.currentContainer + ':visible',
+        );
 
         if (!$currentContainer.length) {
             return;
         }
 
-        var callFunc = function(func, $target, e) {
-            if (func && typeof self[func] === "function") {
+        var callFunc = function (func, $target, e) {
+            if (func && typeof self[func] === 'function') {
                 self[func]($target, e);
             } else if (func) {
                 //console.log(func + " is not registered");
             }
         };
 
-        $currentContainer.find("*[data-onchange]").on("change", function(e) {
-            if (typeof self.simplecheckout !== "undefined") {
+        $currentContainer.find('*[data-onchange]').on('change', function (e) {
+            if (typeof self.simplecheckout !== 'undefined') {
                 self.simplecheckout.setDirty($(this));
             }
-            callFunc($(this).attr("data-onchange"), $(this), e);
+            callFunc($(this).attr('data-onchange'), $(this), e);
         });
 
-        $currentContainer.find("*[data-onclick]").on("click", function(e) {
-            if ($(this).attr("disabled")) {
+        $currentContainer.find('*[data-onclick]').on('click', function (e) {
+            if ($(this).attr('disabled')) {
                 return;
             }
 
-            if (typeof self.simplecheckout !== "undefined") {
+            if (typeof self.simplecheckout !== 'undefined') {
                 self.simplecheckout.setDirty();
             }
 
-            var confirmText = $(this).attr("data-confirm-text");
+            var confirmText = $(this).attr('data-confirm-text');
 
             if (!confirmText || (confirmText && confirm(confirmText))) {
-                callFunc($(this).attr("data-onclick"), $(this), e);
+                callFunc($(this).attr('data-onclick'), $(this), e);
             }
         });
 
-        $currentContainer.find("*[data-onkeydown]").on("keydown", function(e) {
-            if (typeof self.simplecheckout !== "undefined") {
+        $currentContainer.find('*[data-onkeydown]').on('keydown', function (e) {
+            if (typeof self.simplecheckout !== 'undefined') {
                 self.simplecheckout.setDirty();
             }
 
-            callFunc($(this).attr("data-onkeydown"), $(this), e);
+            callFunc($(this).attr('data-onkeydown'), $(this), e);
         });
 
         if (self.isEmpty()) {
             ////console.log(self.currentContainer + " is empty");
         }
 
-        if (!self.hasError() && $currentContainer.attr("data-hide")) {
+        if (!self.hasError() && $currentContainer.attr('data-hide')) {
             $currentContainer.hide();
         }
 
         self.addFocusHandler();
         self.restoreFocus();
 
-        $currentContainer.data("initialized", true);
+        $currentContainer.data('initialized', true);
     };
 
-    SimplecheckoutBlock.prototype.validate = function(silent) {
+    SimplecheckoutBlock.prototype.validate = function (silent) {
         var self = this;
 
-        if (typeof silent === "undefined") {
+        if (typeof silent === 'undefined') {
             silent = false;
         }
 
         return self.simplecheckout.checkRules(self.currentContainer, silent);
     };
 
-    SimplecheckoutBlock.prototype.isEmpty = function() {
-        if ($(this.params.mainContainer).find(this.currentContainer).find("*").length) {
+    SimplecheckoutBlock.prototype.isEmpty = function () {
+        if (
+            $(this.params.mainContainer).find(this.currentContainer).find('*')
+                .length
+        ) {
             return false;
         }
         return true;
     };
 
-    SimplecheckoutBlock.prototype.shareMethod = function(name, asName) {
+    SimplecheckoutBlock.prototype.shareMethod = function (name, asName) {
         SimplecheckoutBlock.prototype[asName] = bind(this[name], this);
     };
 
-    SimplecheckoutBlock.prototype.displayWarning = function() {
-        var container = $(this.params.mainContainer).find(this.currentContainer);
+    SimplecheckoutBlock.prototype.displayWarning = function () {
+        var container = $(this.params.mainContainer).find(
+            this.currentContainer,
+        );
 
         if (this.params.notificationDefault) {
-            container.find(".simplecheckout-warning-block").show();
+            container.find('.simplecheckout-warning-block').show();
         }
 
         if (this.params.notificationToasts) {
-            container.find(".simplecheckout-warning-block").each(function() {
+            container.find('.simplecheckout-warning-block').each(function () {
                 toastr.error($(this).text());
-            });            
+            });
         }
 
-        if (container.find(".simplecheckout-warning-block").length) {
+        if (container.find('.simplecheckout-warning-block').length) {
             container.attr('data-error', true);
         }
     };
 
-    SimplecheckoutBlock.prototype.hideWarning = function() {
-        $(this.params.mainContainer).find(this.currentContainer).find(".simplecheckout-warning-block").hide();
+    SimplecheckoutBlock.prototype.hideWarning = function () {
+        $(this.params.mainContainer)
+            .find(this.currentContainer)
+            .find('.simplecheckout-warning-block')
+            .hide();
     };
 
-    SimplecheckoutBlock.prototype.focusedFieldId = "";
+    SimplecheckoutBlock.prototype.focusedFieldId = '';
 
-    SimplecheckoutBlock.prototype.addFocusHandler = function() {
+    SimplecheckoutBlock.prototype.addFocusHandler = function () {
         var self = this;
-        var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+        var $currentContainer = $(self.params.mainContainer).find(
+            self.currentContainer + ':visible',
+        );
 
-        $currentContainer.find("input,textarea,select").focus(function() {
-            self.simplecheckout.focusedFieldId = $(this).attr("id");
+        $currentContainer.find('input,textarea,select').focus(function () {
+            self.simplecheckout.focusedFieldId = $(this).attr('id');
         });
 
-        $(self.params.mainContainer).find("*:not(input,textarea,select)").focus(function() {
-            self.simplecheckout.focusedFieldId = "";
-        });
+        $(self.params.mainContainer)
+            .find('*:not(input,textarea,select)')
+            .focus(function () {
+                self.simplecheckout.focusedFieldId = '';
+            });
     };
 
-    SimplecheckoutBlock.prototype.restoreFocus = function() {
+    SimplecheckoutBlock.prototype.restoreFocus = function () {
         var self = this;
-        var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+        var $currentContainer = $(self.params.mainContainer).find(
+            self.currentContainer + ':visible',
+        );
         var focusedFieldId = self.simplecheckout.focusedFieldId;
 
         if (focusedFieldId && $currentContainer) {
-            var focusedField = $currentContainer.find("#" + focusedFieldId);
+            var focusedField = $currentContainer.find('#' + focusedFieldId);
 
-            if (focusedField.length && focusedField.is(":visible") && ((focusedField.attr("type") && focusedField.attr("type") == "text" && !focusedField.attr("data-type") && !focusedField.attr("data-simple-mask")) || focusedField.is("textarea"))) {
-                var $field = $currentContainer.find("#" + focusedFieldId);
+            if (
+                focusedField.length &&
+                focusedField.is(':visible') &&
+                ((focusedField.attr('type') &&
+                    focusedField.attr('type') == 'text' &&
+                    !focusedField.attr('data-type') &&
+                    !focusedField.attr('data-simple-mask')) ||
+                    focusedField.is('textarea'))
+            ) {
+                var $field = $currentContainer.find('#' + focusedFieldId);
                 var value = $field.val();
-                $field.val("").focus().val(value);
+                $field.val('').focus().val(value);
             }
         }
     };
@@ -1693,18 +2286,18 @@
         this.currentContainer = container;
         this.currentRoute = route;
 
-        this.init = function() {
+        this.init = function () {
             var self = this;
             SimplecheckoutBlock.prototype.init.apply(self, arguments);
             self.initMiniCart();
         };
 
-        this.validate = function(silent) {
+        this.validate = function (silent) {
             var self = this;
             var result = true;
             var deferred = $.Deferred();
 
-            if (typeof silent === "undefined") {
+            if (typeof silent === 'undefined') {
                 silent = false;
             }
 
@@ -1717,37 +2310,58 @@
             deferred.resolve(result);
 
             return deferred.promise();
-        };  
-
-        this.clearCart = function() {
-            var self = this;
-
-            $.get("index.php?" + self.params.additionalParams + "route=" + self.currentRoute + "/clear", function() {
-                self.reloadAll();
-            });
         };
 
-        this.initMiniCart = function() {
+        this.clearCart = function () {
+            var self = this;
+
+            $.get(
+                'index.php?' +
+                    self.params.additionalParams +
+                    'route=' +
+                    self.currentRoute +
+                    '/clear',
+                function () {
+                    self.reloadAll();
+                },
+            );
+        };
+
+        this.initMiniCart = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
-            var total = $mainContainer.find("#simplecheckout_cart_total").html();
-            var weight = $mainContainer.find("#simplecheckout_cart_weight").text();
+            var total = $mainContainer
+                .find('#simplecheckout_cart_total')
+                .html();
+            var weight = $mainContainer
+                .find('#simplecheckout_cart_weight')
+                .text();
 
             if (total) {
-                $.each(["#cart_total", "#cart-total", "#cart_menu .s_grand_total", "#cart .tb_items", "#cart .tb_total", "#menu_wrap #cart-total"], function(index, selector) {
-                    $(selector).html(total);
-                });
+                $.each(
+                    [
+                        '#cart_total',
+                        '#cart-total',
+                        '#cart_menu .s_grand_total',
+                        '#cart .tb_items',
+                        '#cart .tb_total',
+                        '#menu_wrap #cart-total',
+                    ],
+                    function (index, selector) {
+                        $(selector).html(total);
+                    },
+                );
 
-                $("#weight").text(weight);
+                $('#weight').text(weight);
             }
         };
 
-        this.increaseProductQuantity = function($target) {
+        this.increaseProductQuantity = function ($target) {
             var self = this;
 
-            var $quantity = $target.parents(".quantity").find("input");
+            var $quantity = $target.parents('.quantity').find('input');
             var quantity = parseFloat($quantity.val());
-            var step = +$quantity.attr("data-minimum") || 1;
+            var step = +$quantity.attr('data-minimum') || 1;
 
             if (!isNaN(quantity)) {
                 $quantity.val(quantity + step);
@@ -1758,23 +2372,23 @@
                     clearTimeout(self.timerId);
                     self.timerId = 0;
                 }
-                
-                self.timerId = window.setTimeout(function() {
+
+                self.timerId = window.setTimeout(function () {
                     self.reloadAll();
-                }, 300);                
+                }, 300);
             }
         };
 
-        this.decreaseProductQuantity = function($target) {
+        this.decreaseProductQuantity = function ($target) {
             var self = this;
 
-            var $quantity = $target.parents(".quantity").find("input");
+            var $quantity = $target.parents('.quantity').find('input');
             var quantity = parseFloat($quantity.val());
-            var step = +$quantity.attr("data-minimum") || 1;
-            
+            var step = +$quantity.attr('data-minimum') || 1;
+
             if (!isNaN(quantity) && quantity > step) {
                 $quantity.val(quantity - step);
-                
+
                 self.copyCartState($quantity);
 
                 if (self.timerId) {
@@ -1782,22 +2396,26 @@
                     self.timerId = 0;
                 }
 
-                self.timerId = window.setTimeout(function() {
+                self.timerId = window.setTimeout(function () {
                     self.reloadAll();
-                }, 300);  
+                }, 300);
             }
         };
 
-        this.changeProductQuantity = function($target) {
+        this.changeProductQuantity = function ($target) {
             var self = this;
 
-            if (typeof $target[0] !== "undefined" && typeof $target[0].tagName !== "undefined" && $target[0].tagName !== "INPUT") {
-                $target = $target.parents("td").find("input");
+            if (
+                typeof $target[0] !== 'undefined' &&
+                typeof $target[0].tagName !== 'undefined' &&
+                $target[0].tagName !== 'INPUT'
+            ) {
+                $target = $target.parents('td').find('input');
             }
 
-            var $quantity = $target.parents(".quantity").find("input");
+            var $quantity = $target.parents('.quantity').find('input');
             var quantity = parseFloat($quantity.val());
-            var step = +$quantity.attr("data-minimum") || 1;
+            var step = +$quantity.attr('data-minimum') || 1;
 
             quantity = Math.round(quantity / step) * step;
 
@@ -1814,71 +2432,81 @@
             }
         };
 
-        this.removeProduct = function($target) {
+        this.removeProduct = function ($target) {
             var self = this;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
 
-            var productKey = $target.attr("data-product-key");
+            var productKey = $target.attr('data-product-key');
 
-            var $target = $currentContainer.find("#simplecheckout_remove");
+            var $target = $currentContainer.find('#simplecheckout_remove');
             $target.val(productKey);
             self.copyCartState($target);
 
             self.reloadAll();
         };
 
-        this.removeGift = function($target) {
+        this.removeGift = function ($target) {
             var self = this;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
 
-            var giftKey = $target.attr("data-gift-key");
+            var giftKey = $target.attr('data-gift-key');
 
-            var $target = $currentContainer.find("#simplecheckout_remove");
+            var $target = $currentContainer.find('#simplecheckout_remove');
             $target.val(giftKey);
             self.copyCartState($target);
 
             self.reloadAll();
         };
 
-        this.removeCoupon = function($target) {
+        this.removeCoupon = function ($target) {
             var self = this;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
 
             $target = $currentContainer.find("input[name='coupon']");
-            $target.val("");
+            $target.val('');
             self.copyCartState($target);
 
             self.reloadAll();
         };
 
-        this.removeReward = function($target) {
+        this.removeReward = function ($target) {
             var self = this;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
 
             $target = $currentContainer.find("input[name='reward']");
-            $target.val("");
+            $target.val('');
             self.copyCartState($target);
-            
+
             self.reloadAll();
         };
 
-        this.removeVoucher = function($target) {
+        this.removeVoucher = function ($target) {
             var self = this;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
 
             $target = $currentContainer.find("input[name='voucher']");
-            $target.val("");
+            $target.val('');
             self.copyCartState($target);
 
             self.reloadAll();
         };
 
-        this.copyCartState = function($target) {
+        this.copyCartState = function ($target) {
             var $mainContainer = $(this.params.mainContainer);
             var name = $target.attr('name');
             var value = $target.val();
 
-            $mainContainer.find('[name="' + name + '"]').each(function() {
+            $mainContainer.find('[name="' + name + '"]').each(function () {
                 if (this != $target[0]) {
                     $(this).val(value);
                 }
@@ -1892,114 +2520,149 @@
         this.currentContainer = container;
         this.currentRoute = route;
 
-        this.init = function() {
+        this.init = function () {
             var self = this;
             SimplecheckoutBlock.prototype.init.apply(self, arguments);
         };
 
-        this.removeTransformCss = function() {
+        this.removeTransformCss = function () {
             $(this.params.mainContainer)
                 .parents()
-                .filter(function() {
-                    var transformStyle = $(this).css("transform");
-                    if (transformStyle && transformStyle != "none") {
+                .filter(function () {
+                    var transformStyle = $(this).css('transform');
+                    if (transformStyle && transformStyle != 'none') {
                         return true;
                     }
                     return false;
-                }).each(function() {
-                    var style = $(this).css("transform");
-                    $(this).css("transform", "none").data('transform-style', style);
+                })
+                .each(function () {
+                    var style = $(this).css('transform');
+                    $(this)
+                        .css('transform', 'none')
+                        .data('transform-style', style);
                 });
-        }
+        };
 
-        this.restoreTransformCss = function() {
+        this.restoreTransformCss = function () {
             $(this.params.mainContainer)
                 .parents()
-                .filter(function() {
-                    return $(this).data("transform-style");
-                }).each(function() {
-                    $(this).css("transform", $(this).data("transform-style")).data("transform-style", "");
+                .filter(function () {
+                    return $(this).data('transform-style');
+                })
+                .each(function () {
+                    $(this)
+                        .css('transform', $(this).data('transform-style'))
+                        .data('transform-style', '');
                 });
-        }
+        };
 
-        this.initPopupLayer = function() {
+        this.initPopupLayer = function () {
             var self = this;
-            var position = $("#simple_login_layer").parent().css("position");
-            if (!$("#simple_login_layer").length || position == "fixed" || position == "relative" || position == "absolute") {
-                $("#simple_login_layer").remove();
-                $("#simple_login").remove();
-                $(self.params.mainContainer).append("<div id='simple_login_layer'></div><div id='simple_login'><div id='temp_popup_container'></div></div>");
-                $("#simple_login_layer").on("click", function() {
+            var position = $('#simple_login_layer').parent().css('position');
+            if (
+                !$('#simple_login_layer').length ||
+                position == 'fixed' ||
+                position == 'relative' ||
+                position == 'absolute'
+            ) {
+                $('#simple_login_layer').remove();
+                $('#simple_login').remove();
+                $(self.params.mainContainer).append(
+                    "<div id='simple_login_layer'></div><div id='simple_login'><div id='temp_popup_container'></div></div>",
+                );
+                $('#simple_login_layer').on('click', function () {
                     self.close();
                 });
             }
 
             self.removeTransformCss();
 
-            $("#simple_login_layer")
-                .css("position", "fixed")
-                .css("top", "0")
-                .css("left", "0")
-                .css("right", "0")
-                .css("bottom", "0");
+            $('#simple_login_layer')
+                .css('position', 'fixed')
+                .css('top', '0')
+                .css('left', '0')
+                .css('right', '0')
+                .css('bottom', '0');
 
-            $("#simple_login_layer").fadeTo(500, 0.8);
+            $('#simple_login_layer').fadeTo(500, 0.8);
         };
 
-        this.openPopup = function() {
+        this.openPopup = function () {
             var self = this;
             self.initPopupLayer();
             if (!$(self.currentContainer).html()) {
-                self.load(function() {
+                self.load(function () {
                     if ($(self.currentContainer).html()) {
                         self.resizePopup();
                     } else {
                         self.closePopup();
                     }
-                }, "#temp_popup_container");
+                }, '#temp_popup_container');
             } else {
                 self.hideWarning();
                 self.resizePopup();
             }
         };
 
-        this.resizePopup = function() {
-            $("#simple_login").show();
-            $("#simple_login").css("height", $(this.currentContainer).outerHeight() + 20);
-            $("#simple_login").css("top", window.innerHeight / 2 - ($("#simple_login").outerHeight() ? $("#simple_login").outerHeight() : $("#simple_login").height()) / 2);
-            $("#simple_login").css("left", $(window).width() / 2 - ($("#simple_login").outerWidth() ? $("#simple_login").outerWidth() : $("#simple_login").width()) / 2);
+        this.resizePopup = function () {
+            $('#simple_login').show();
+            $('#simple_login').css(
+                'height',
+                $(this.currentContainer).outerHeight() + 20,
+            );
+            $('#simple_login').css(
+                'top',
+                window.innerHeight / 2 -
+                    ($('#simple_login').outerHeight()
+                        ? $('#simple_login').outerHeight()
+                        : $('#simple_login').height()) /
+                        2,
+            );
+            $('#simple_login').css(
+                'left',
+                $(window).width() / 2 -
+                    ($('#simple_login').outerWidth()
+                        ? $('#simple_login').outerWidth()
+                        : $('#simple_login').width()) /
+                        2,
+            );
         };
 
-        this.closePopup = function() {
+        this.closePopup = function () {
             var self = this;
-            $("#simple_login_layer").fadeOut(500, function() {
-                $(this).hide().css("opacity", "1");
+            $('#simple_login_layer').fadeOut(500, function () {
+                $(this).hide().css('opacity', '1');
                 self.restoreTransformCss();
             });
-            $("#simple_login").fadeOut(500, function() {
+            $('#simple_login').fadeOut(500, function () {
                 $(this).hide();
             });
         };
 
-        this.openFlat = function() {
+        this.openFlat = function () {
             var self = this;
             if (!$(self.currentContainer).length) {
-            $("<div id='temp_flat_container'><img src='" + self.params.additionalPath + self.resources.loading + "'></div>").insertBefore(self.params.loginBoxBefore);
-                self.load("#temp_flat_container");
+                $(
+                    "<div id='temp_flat_container'><img src='" +
+                        self.params.additionalPath +
+                        self.resources.loading +
+                        "'></div>",
+                ).insertBefore(self.params.loginBoxBefore);
+                self.load('#temp_flat_container');
             }
             self.hideWarning();
             $(self.currentContainer).show();
         };
 
-        this.closeFlat = function() {
+        this.closeFlat = function () {
             $(this.currentContainer).hide();
         };
 
-        this.isOpened = function() {
-            return $("#temp_flat_container *:visible").length ? true : false;
+        this.isOpened = function () {
+            return $('#temp_flat_container *:visible').length ? true : false;
         };
 
-        this.open = function() {
+        this.open = function () {
             var self = this;
             /*if (self.getParam("logged")) {
                 return;
@@ -2011,7 +2674,7 @@
             }
         };
 
-        this.close = function() {
+        this.close = function () {
             var self = this;
             if (self.params.loginBoxBefore) {
                 self.closeFlat();
@@ -2020,9 +2683,9 @@
             }
         };
 
-        this.login = function() {
+        this.login = function () {
             var self = this;
-            this.reload(function() {
+            this.reload(function () {
                 if (!self.hasError()) {
                     self.closePopup();
                     self.closeFlat();
@@ -2039,7 +2702,7 @@
             });
         };
 
-        this.detectEnterAndLogin = function($target, e) {
+        this.detectEnterAndLogin = function ($target, e) {
             if (e.keyCode == 13) {
                 this.login();
             }
@@ -2052,7 +2715,7 @@
         this.currentContainer = container;
         this.currentRoute = route;
 
-        this.init = function() {
+        this.init = function () {
             var self = this;
             SimplecheckoutBlock.prototype.init.apply(self, arguments);
         };
@@ -2064,56 +2727,79 @@
         this.currentContainer = container;
         this.currentRoute = route;
 
-        this.init = function() {
+        this.init = function () {
             var self = this;
             SimplecheckoutBlock.prototype.init.apply(self, arguments);
         };
 
-        this.validate = function(silent) {
+        this.validate = function (silent) {
             var self = this;
             var result = true;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
             var deferred = $.Deferred();
 
-            if (typeof silent === "undefined") {
+            if (typeof silent === 'undefined') {
                 silent = false;
             }
 
-            if ($currentContainer.length && !$currentContainer.find("input:checked").length && !$currentContainer.find("option:selected").length) {
+            if (
+                $currentContainer.length &&
+                !$currentContainer.find('input:checked').length &&
+                !$currentContainer.find('option:selected').length
+            ) {
                 if (!silent) {
                     self.displayWarning();
                 }
                 result = false;
             }
 
-            var fieldsValidator = SimplecheckoutBlock.prototype.validate.apply(self, arguments).then(function(validatorResult) {
-                result = result && validatorResult;
-            });
+            var fieldsValidator = SimplecheckoutBlock.prototype.validate
+                .apply(self, arguments)
+                .then(function (validatorResult) {
+                    result = result && validatorResult;
+                });
 
             var backendValidator = $.ajax({
-                url: "index.php?" + self.params.additionalParams + "route=" + self.currentRoute + "/validate",
-                data: $currentContainer.find("input:checked,option:selected"),
-                type: "POST",
-                dataType: "json",
-                success: function(json) {
+                url:
+                    'index.php?' +
+                    self.params.additionalParams +
+                    'route=' +
+                    self.currentRoute +
+                    '/validate',
+                data: $currentContainer.find('input:checked,option:selected'),
+                type: 'POST',
+                dataType: 'json',
+                success: function (json) {
                     if (json['error']) {
-                        $("<div/>")
-                            .addClass("alert alert-danger simplecheckout-warning-block simplecheckout-validator-result")
+                        $('<div/>')
+                            .addClass(
+                                'alert alert-danger simplecheckout-warning-block simplecheckout-validator-result',
+                            )
                             .html(json['error'])
-                            .insertBefore($currentContainer.find(".simplecheckout-block-content"));
+                            .insertBefore(
+                                $currentContainer.find(
+                                    '.simplecheckout-block-content',
+                                ),
+                            );
 
                         result = false;
 
                         return;
                     } else {
-                        $currentContainer.find(".simplecheckout-validator-result").remove();
+                        $currentContainer
+                            .find('.simplecheckout-validator-result')
+                            .remove();
                     }
-                },                   
+                },
             });
 
-            $.when.apply($, [fieldsValidator, backendValidator]).then(function () {
-                deferred.resolve(result);
-            });
+            $.when
+                .apply($, [fieldsValidator, backendValidator])
+                .then(function () {
+                    deferred.resolve(result);
+                });
 
             return deferred.promise();
         };
@@ -2125,31 +2811,39 @@
         this.currentContainer = container;
         this.currentRoute = route;
 
-        this.init = function() {
+        this.init = function () {
             var self = this;
             SimplecheckoutBlock.prototype.init.apply(self, arguments);
         };
 
-        this.validate = function(silent) {
+        this.validate = function (silent) {
             var self = this;
             var result = true;
-            var $currentContainer = $(self.params.mainContainer).find(self.currentContainer + ":visible");
+            var $currentContainer = $(self.params.mainContainer).find(
+                self.currentContainer + ':visible',
+            );
             var deferred = $.Deferred();
 
-            if (typeof silent === "undefined") {
+            if (typeof silent === 'undefined') {
                 silent = false;
             }
 
-            if ($currentContainer.length && !$currentContainer.find("input:checked").length && !$currentContainer.find("option:selected").length) {
+            if (
+                $currentContainer.length &&
+                !$currentContainer.find('input:checked').length &&
+                !$currentContainer.find('option:selected').length
+            ) {
                 if (!silent) {
                     self.displayWarning();
                 }
                 result = false;
             }
 
-            SimplecheckoutBlock.prototype.validate.apply(self, arguments).then(function(validatorResult) {
-                deferred.resolve(result && validatorResult);
-            });
+            SimplecheckoutBlock.prototype.validate
+                .apply(self, arguments)
+                .then(function (validatorResult) {
+                    deferred.resolve(result && validatorResult);
+                });
 
             return deferred.promise();
         };
@@ -2161,86 +2855,109 @@
         this.currentContainer = container;
         this.currentRoute = route;
 
-        this.init = function() {
+        this.init = function () {
             var self = this;
             SimplecheckoutBlock.prototype.init.apply(self, arguments);
         };
 
-        this.validate = function(silent) {
+        this.validate = function (silent) {
             var self = this;
             var result = true;
             var deferred = $.Deferred();
 
-            if (typeof silent === "undefined") {
+            if (typeof silent === 'undefined') {
                 silent = false;
             }
 
-            SimplecheckoutBlock.prototype.validate.apply(self, arguments).then(function(validatorResult) {
-                deferred.resolve(result && validatorResult);
-            });
+            SimplecheckoutBlock.prototype.validate
+                .apply(self, arguments)
+                .then(function (validatorResult) {
+                    deferred.resolve(result && validatorResult);
+                });
 
             return deferred.promise();
         };
 
-        this.reloadAll = function($element) {
+        this.reloadAll = function ($element) {
             var self = this;
-            window.setTimeout(function() {
-                if (!$element.attr("data-valid") || $element.attr("data-valid") == "true") {
-                    SimplecheckoutBlock.prototype.reloadAll.apply(self, arguments);
+            window.setTimeout(function () {
+                if (
+                    !$element.attr('data-valid') ||
+                    $element.attr('data-valid') == 'true'
+                ) {
+                    SimplecheckoutBlock.prototype.reloadAll.apply(
+                        self,
+                        arguments,
+                    );
                 }
             }, 0);
-
         };
     }
 
     SimplecheckoutForm.prototype = inherit(SimplecheckoutBlock.prototype);
 
-    (function() {
+    (function () {
         var inputs = {};
 
-        $(document).on("keyup", "input[type=text],input[type=email],input[type=tel],textarea", function(e) {
-            if ($.inArray(e.keyCode,[9,13,16,17,18,19,20,27,35,36,37,38,39,40,91,93,224]) > -1) {
-                return true;
-            }
+        $(document).on(
+            'keyup',
+            'input[type=text],input[type=email],input[type=tel],textarea',
+            function (e) {
+                if (
+                    $.inArray(
+                        e.keyCode,
+                        [
+                            9, 13, 16, 17, 18, 19, 20, 27, 35, 36, 37, 38, 39,
+                            40, 91, 93, 224,
+                        ],
+                    ) > -1
+                ) {
+                    return true;
+                }
 
-            var inputId = $(this).attr("id");
+                var inputId = $(this).attr('id');
 
-            if (inputId) {
-                var currentTime = new Date().getTime();
+                if (inputId) {
+                    var currentTime = new Date().getTime();
 
-                var delta = 500;
+                    var delta = 500;
 
-                if (typeof inputs[inputId] !== 'undefined') {
-                    if ((currentTime - inputs[inputId].time) < 10000) {
-                        delta = (currentTime - inputs[inputId].time + inputs[inputId].delta) / 2;
+                    if (typeof inputs[inputId] !== 'undefined') {
+                        if (currentTime - inputs[inputId].time < 10000) {
+                            delta =
+                                (currentTime -
+                                    inputs[inputId].time +
+                                    inputs[inputId].delta) /
+                                2;
+                        }
+                    }
+
+                    inputs[inputId] = {
+                        time: currentTime,
+                        delta: delta,
+                    };
+                }
+
+                var deltaSum = 0;
+                var deltaCounter = 0;
+
+                for (var i in inputs) {
+                    if (!inputs.hasOwnProperty(i)) continue;
+
+                    deltaSum += inputs[i].delta;
+                    deltaCounter++;
+                }
+
+                if (deltaCounter) {
+                    var speed = deltaSum / deltaCounter;
+
+                    if (speed > 500) {
+                        window.simpleTypingSpeed = speed;
+                    } else {
+                        window.simpleTypingSpeed = 500;
                     }
                 }
-
-                inputs[inputId] = {
-                    time: currentTime,
-                    delta: delta
-                };
-            }
-
-            var deltaSum = 0;
-            var deltaCounter = 0;
-
-            for (var i in inputs) {
-                if (!inputs.hasOwnProperty(i)) continue;
-
-                deltaSum += inputs[i].delta;
-                deltaCounter++;
-            }
-
-            if (deltaCounter) {
-                var speed = deltaSum / deltaCounter;
-
-                if (speed > 500) {
-                    window.simpleTypingSpeed = speed;
-                } else {
-                    window.simpleTypingSpeed = 500;
-                }
-            }
-        });
+            },
+        );
     })();
 })(jQuery || $);

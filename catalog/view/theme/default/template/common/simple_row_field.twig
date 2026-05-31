@@ -10,8 +10,9 @@
 		{% elseif type == 'radio' %}
 			<div>
 				{% for info in values %}
-					<div class="radio">
-						<label><input type="radio" name="{{ name }}" id="{{ id }}_{{ info['id'] }}" value="{{ info['id'] | escape }}" {{ value == info['id'] ? 'checked="checked"' : '' }} {{ reload ? 'data-onchange="reloadAll"' : '' }}>{{ info['text'] }}</label>
+					<div class="form-check form-check-inline form-radio">
+						<input class="form-check-input" type="radio" name="{{ name }}" id="{{ id }}_{{ info['id'] }}" value="{{ info['id'] | escape }}" {{ value == info['id'] ? 'checked="checked"' : '' }} {{ reload ? 'data-onchange="reloadAll"' : '' }}>
+						<label class="form-check-label" for="{{ id }}_{{ info['id'] }}">{{ info['text'] }}</label>
 					</div>
 				{% endfor %}
 			</div>
@@ -37,7 +38,7 @@
 				<input type="hidden" name="{{ name }}" id="{{ id }}" value="{{ value }}">
 				<script type="text/javascript">
 					function recaptchaCallback(value) {
-                        $('#{{ id }}').val(value).trigger('change');
+                        $('# {{ id }}').val(value).trigger('change');
                     }
                     function recaptchaInit() {
                         grecaptcha.render('simple-recaptcha');

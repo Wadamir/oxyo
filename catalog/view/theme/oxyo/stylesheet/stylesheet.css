@@ -601,15 +601,19 @@ label {
     line-height: 1;
 }
 
-input,
+label.form-check-label {
+    line-height: 1;
+}
+
+input:not(.form-check-input):not([type='checkbox']):not([type='radio']),
 textarea,
 select,
 .form-control {
     border: 1px solid #dfdfdf;
-    border-radius: 0;
+    border-radius: 6px;
     box-shadow: none;
     transition: border-color 500ms;
-    padding: 8px 12px;
+    padding: 12px 12px 8px 12px;
     font-size: 14px;
     outline: none;
 }
@@ -683,7 +687,7 @@ input[type='color'].form-control {
     max-width: none;
 }
 
-.form-check {
+/* .form-check:not(.form-check-inline) {
     margin: 0;
     padding: 0;
 
@@ -700,6 +704,10 @@ input[type='color'].form-control {
 .form-check > input[type='checkbox'].form-control {
     margin: 0;
     padding: 0;
+} */
+
+.form-check:not(.form-radio) {
+    font-size:24px;
 }
 
 input[type='checkbox'].form-control {
@@ -708,6 +716,8 @@ input[type='checkbox'].form-control {
     height: 24px;
     min-height: 24px;
     margin-right: 12px;
+
+    font-size:24px;
 }
 
 .form-check-input:checked {

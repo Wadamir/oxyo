@@ -5,13 +5,13 @@
 */
 
 class ModelToolSimpleApiMain extends Model {
-    static $data = array();
+    static $data = [];
 
     public function getCustomerGroups($filter = '') {
-        $values = array();
+        $values = [];
 
         $version = explode('.', VERSION);
-        $version = floatval($version[0].$version[1].$version[2].'.'.(isset($version[3]) ? $version[3] : 0));
+        $version = floatval($version[0] . $version[1] . $version[2] . '.' . (isset($version[3]) ? $version[3] : 0));
 
         $requiredGroupId = 0;
 
@@ -28,7 +28,7 @@ class ModelToolSimpleApiMain extends Model {
 
             $checked = false;
 
-            if ($this->config->get('simple_disable_method_checking')) { 
+            if ($this->config->get('simple_disable_method_checking')) {
                 $checked = true;
             } else {
                 if (method_exists($this->model_account_customer_group, 'getCustomerGroups') || property_exists($this->model_account_customer_group, 'getCustomerGroups') || (method_exists($this->model_account_customer_group, 'isExistForSimple') && $this->model_account_customer_group->isExistForSimple('getCustomerGroups'))) {
@@ -44,41 +44,41 @@ class ModelToolSimpleApiMain extends Model {
                 if (!empty($displayedGroups) && is_array($displayedGroups)) {
                     foreach ($customerGroups as $customerGroup) {
                         if (in_array($customerGroup['customer_group_id'], $displayedGroups) || $customerGroup['customer_group_id'] == $requiredGroupId) {
-                            $values[] = array(
-                                'id'   => $customerGroup['customer_group_id'],
-                                'text' => $customerGroup['name']
-                            );
+                            $values[] = [
+                                'id' => $customerGroup['customer_group_id'],
+                                'text' => $customerGroup['name'],
+                            ];
                         }
                     }
                 } else {
                     foreach ($customerGroups as $customerGroup) {
-                        $values[] = array(
-                            'id'   => $customerGroup['customer_group_id'],
-                            'text' => $customerGroup['name']
-                        );
+                        $values[] = [
+                            'id' => $customerGroup['customer_group_id'],
+                            'text' => $customerGroup['name'],
+                        ];
                     }
                 }
             }
         } else {
-            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group");
+            $query = $this->db->query('SELECT * FROM ' . DB_PREFIX . 'customer_group');
 
             $displayedGroups = $this->config->get('simple_customer_group_display');
 
             if (!empty($displayedGroups) && is_array($displayedGroups)) {
                 foreach ($query->rows as $row) {
                     if (in_array($row['customer_group_id'], $displayedGroups) || $row['customer_group_id'] == $requiredGroupId) {
-                        $values[] = array(
-                            'id'   => $row['customer_group_id'],
-                            'text' => $row['name']
-                        );
+                        $values[] = [
+                            'id' => $row['customer_group_id'],
+                            'text' => $row['name'],
+                        ];
                     }
                 }
             } else {
                 foreach ($query->rows as $row) {
-                    $values[] = array(
-                        'id'   => $row['customer_group_id'],
-                        'text' => $row['name']
-                    );
+                    $values[] = [
+                        'id' => $row['customer_group_id'],
+                        'text' => $row['name'],
+                    ];
                 }
             }
         }
@@ -87,87 +87,87 @@ class ModelToolSimpleApiMain extends Model {
     }
 
     public function getCountries($filter = '') {
-        $values = array(
-            array(
-                'id'   => '',
-                'text' => $this->language->get('text_select')
-            )
-        );
+        $values = [
+            [
+                'id' => '',
+                'text' => $this->language->get('text_select'),
+            ],
+        ];
 
         $this->load->model('localisation/country');
 
         $results = $this->model_localisation_country->getCountries();
 
         foreach ($results as $result) {
-            $values[] =  array(
-                'id'   => $result['country_id'],
-                'text' => $result['name']
-            );
+            $values[] = [
+                'id' => $result['country_id'],
+                'text' => $result['name'],
+            ];
         }
 
         if (!$results) {
-            $values[] = array(
-                'id'   => 0,
-                'text' => $this->language->get('text_none')
-            );
+            $values[] = [
+                'id' => 0,
+                'text' => $this->language->get('text_none'),
+            ];
         }
 
         return $values;
     }
 
     public function getZones($countryId) {
-        $values = array(
-            array(
-                'id'   => '',
-                'text' => $this->language->get('text_select')
-            )
-        );
+        $values = [
+            [
+                'id' => '',
+                'text' => $this->language->get('text_select'),
+            ],
+        ];
 
         $this->load->model('localisation/zone');
 
         $results = $this->model_localisation_zone->getZonesByCountryId($countryId);
 
         foreach ($results as $result) {
-            $values[] = array(
-                'id'   => $result['zone_id'],
-                'text' => $result['name']
-            );
+            $values[] = [
+                'id' => $result['zone_id'],
+                'text' => $result['name'],
+            ];
         }
 
         if (!$results) {
-            $values[] = array(
-                'id'   => 0,
-                'text' => $this->language->get('text_none')
-            );
+            $values[] = [
+                'id' => 0,
+                'text' => $this->language->get('text_none'),
+            ];
         }
 
         return $values;
     }
 
     public function getCities($zoneId) {
-        $values = array(
-            array(
-                'id'   => '',
-                'text' => $this->language->get('text_select')
-            )
-        );
+        $values = [
+            [
+                'id' => '',
+                'text' => $this->language->get('text_select'),
+            ],
+        ];
 
         $this->load->model('localisation/city');
 
         $results = $this->model_localisation_city->getCitiesByZoneId($zoneId);
 
         foreach ($results as $result) {
-            $values[] = array(
-                'id'   => $result['name'],
-                'text' => $result['name']
-            );
+            $values[] = [
+                'id' => $result['name'],
+                'text' => $result['name'],
+            ];
         }
 
         if (!$results) {
-            $values[] = array(
-                'id'   => 0,
-                'text' => $this->language->get('text_none')
-            );
+            $values[] = [
+                'id' => 0,
+                'text' => $this->language->get('text_none'),
+            ];
         }
 
         return $values;
@@ -180,12 +180,12 @@ class ModelToolSimpleApiMain extends Model {
             return $values;
         }
 
-        $values = array(
-            array(
-                'id'   => '',
-                'text' => $this->language->get('text_select')
-            )
-        );
+        $values = [
+            [
+                'id' => '',
+                'text' => $this->language->get('text_select'),
+            ],
+        ];
 
         $geo_links = $this->config->get('simple_geo_links');
 
@@ -197,20 +197,20 @@ class ModelToolSimpleApiMain extends Model {
             $zoneId = $geo_links[$zoneId];
         }
 
-        $query = $this->db->query("SELECT * FROM simple_geo WHERE zone_id = '" . (int)$zoneId . "'");
+        $query = $this->db->query("SELECT * FROM simple_geo WHERE zone_id = '" . (int) $zoneId . "'");
 
         if ($query->num_rows) {
             foreach ($query->rows as $result) {
-                $values[] = array(
-                    'id'   => $result['name'],
-                    'text' => $result['fullname']
-                );
+                $values[] = [
+                    'id' => $result['name'],
+                    'text' => $result['fullname'],
+                ];
             }
         } else {
-            $values[] = array(
-                'id'   => 0,
-                'text' => $this->language->get('text_none')
-            );
+            $values[] = [
+                'id' => 0,
+                'text' => $this->language->get('text_none'),
+            ];
         }
 
         $this->cache->set('geo_cities.' . $zoneId, $values);
@@ -219,23 +219,23 @@ class ModelToolSimpleApiMain extends Model {
     }
 
     public function getYesNo($filter = '') {
-        return array(
-            array(
-                'id'   => '1',
-                'text' => $this->language->get('text_yes')
-            ),
-            array(
-                'id'   => '0',
-                'text' => $this->language->get('text_no')
-            )
-        );
+        return [
+            [
+                'id' => '1',
+                'text' => $this->language->get('text_yes'),
+            ],
+            [
+                'id' => '0',
+                'text' => $this->language->get('text_no'),
+            ],
+        ];
     }
 
     public function checkTelephoneForUniqueness($telephone, $register) {
         $telephone = trim($telephone);
 
         if ($telephone && (!$this->customer->isLogged() || ($this->customer->isLogged() && $telephone != $this->customer->getTelephone()))) {
-            $query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE telephone = '" . $this->db->escape($telephone) . "'");
+            $query = $this->db->query('SELECT COUNT(*) AS total FROM ' . DB_PREFIX . "customer WHERE telephone = '" . $this->db->escape($telephone) . "'");
 
             return $query->row['total'] > 0 ? false : true;
         }
@@ -258,11 +258,10 @@ class ModelToolSimpleApiMain extends Model {
         if (!empty($this->session->data['captcha_verified'])) {
             return true;
         }
-        
+
         if ($this->config->get('simple_use_google_captcha') && $this->config->get('simple_captcha_secret_key')) {
-            
             $g_recaptcha_response = isset($this->request->post['g-recaptcha-response']) ? $this->request->post['g-recaptcha-response'] : $value;
-            
+
             if (!empty($g_recaptcha_response)) {
                 $secret = $this->config->get('simple_captcha_secret_key');
 
@@ -285,7 +284,7 @@ class ModelToolSimpleApiMain extends Model {
                 $this->session->data['captcha_verified'] = true;
 
                 return true;
-            }            
+            }
 
             return false;
         }
@@ -296,7 +295,7 @@ class ModelToolSimpleApiMain extends Model {
     public function getDefaultGroup() {
         if ($this->customer->isLogged()) {
             $version = explode('.', VERSION);
-            $version = floatval($version[0].$version[1].$version[2].'.'.(isset($version[3]) ? $version[3] : 0));
+            $version = floatval($version[0] . $version[1] . $version[2] . '.' . (isset($version[3]) ? $version[3] : 0));
 
             if ($version < 200) {
                 return $this->customer->getCustomerGroupId();
@@ -313,7 +312,7 @@ class ModelToolSimpleApiMain extends Model {
             return self::$data['password'];
         }
 
-        $eng = "qwertyuiopasdfghjklzxcvbnm1234567890";
+        $eng = 'qwertyuiopasdfghjklzxcvbnm1234567890';
         $length = 6;
         $password = '';
 
@@ -333,65 +332,52 @@ class ModelToolSimpleApiMain extends Model {
             $this->load->model('account/address');
             $this->load->model('tool/simplecustom');
 
-            $result = array();
+            $result = [];
 
             $addresses = $this->model_account_address->getAddresses();
             $format = $this->config->get('simple_address_format');
 
-            $find = array(
-                '{firstname}',
-                '{lastname}',
-                '{company}',
-                '{address_1}',
-                '{address_2}',
-                '{city}',
-                '{postcode}',
-                '{zone}',
-                '{zone_code}',
-                '{country}',
-                '{company_id}',
-                '{tax_id}'
-            );
+            $find = ['{firstname}', '{lastname}', '{company}', '{address_1}', '{address_2}', '{city}', '{postcode}', '{zone}', '{zone_code}', '{country}', '{company_id}', '{tax_id}'];
 
-            $result[] = array(
-                'id'   => 0,
-                'text' => $this->language->get('text_add_new')
-            );
+            $result[] = [
+                'id' => 0,
+                'text' => $this->language->get('text_add_new'),
+            ];
 
             foreach ($addresses as $address) {
-                $replace = array(
+                $replace = [
                     'firstname' => $address['firstname'],
-                    'lastname'  => $address['lastname'],
-                    'company'   => $address['company'],
+                    'lastname' => $address['lastname'],
+                    'company' => $address['company'],
                     'address_1' => $address['address_1'],
                     'address_2' => $address['address_2'],
-                    'city'      => $address['city'],
-                    'postcode'  => $address['postcode'],
-                    'zone'      => $address['zone'],
+                    'city' => $address['city'],
+                    'postcode' => $address['postcode'],
+                    'zone' => $address['zone'],
                     'zone_code' => $address['zone_code'],
-                    'country'   => $address['country']
-                );
+                    'country' => $address['country'],
+                ];
 
                 $replace['company_id'] = isset($address['company_id']) ? $address['company_id'] : '';
                 $replace['tax_id'] = isset($address['tax_id']) ? $address['tax_id'] : '';
 
                 $customInfo = $this->model_tool_simplecustom->getCustomFields('address', $address['address_id']);
 
-                foreach($customInfo as $id => $value) {
-                    $find[] = '{'.$id.'}';
+                foreach ($customInfo as $id => $value) {
+                    $find[] = '{' . $id . '}';
                     $replace[$id] = $value;
                 }
 
-                $result[] = array(
-                    'id'   => $address['address_id'],
-                    'text' => str_replace($find, $replace, $format)
-                );
+                $result[] = [
+                    'id' => $address['address_id'],
+                    'text' => str_replace($find, $replace, $format),
+                ];
             }
 
             return $result;
         }
 
-        return array();
+        return [];
     }
 
     public function getDefaultAddressId($filter) {
@@ -438,7 +424,37 @@ class ModelToolSimpleApiMain extends Model {
                 break;
             case 220:
                 return '+38(999)9999999';
-                break;  
+                break;
         }
+    }
+
+    public function getZoneCapital($zone_id) {
+        $zone_id = (int) $zone_id;
+
+        if ($zone_id <= 0) {
+            return '';
+        }
+
+        $query = $this->db->query('SELECT city_name, name FROM ' . DB_PREFIX . "xd_checkout_city WHERE zone_id = '" . $zone_id . "' ORDER BY is_center DESC, city_name ASC, name ASC LIMIT 1");
+
+        if ($query->num_rows) {
+            $city_name = isset($query->row['city_name']) ? trim((string) $query->row['city_name']) : '';
+
+            if ($city_name !== '') {
+                return $city_name;
+            }
+
+            $name = isset($query->row['name']) ? trim((string) $query->row['name']) : '';
+
+            if ($name !== '') {
+                return $name;
+            }
+        }
+
+        return '';
+    }
+
+    public function getCityByZone($zone_id) {
+        return $this->getZoneCapital($zone_id);
     }
 }

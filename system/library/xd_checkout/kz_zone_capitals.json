@@ -1,0 +1,104 @@
+[
+    {
+        "zone": "Акмолинская область",
+        "zone_id": 22,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Актюбинская область",
+        "zone_id": 23,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Алматинская область",
+        "zone_id": 20,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Алматы - город республ-го значения",
+        "zone_id": 21,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Астана - город республ-го значения",
+        "zone_id": 24,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Атырауская область",
+        "zone_id": 25,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Байконур - город республ-го значения",
+        "zone_id": 27,
+        "capital": "Байконур",
+        "capital_id": 1210610
+    },
+    {
+        "zone": "Восточно-Казахстанская область",
+        "zone_id": 34,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Жамбылская область",
+        "zone_id": 36,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Западно-Казахстанская область",
+        "zone_id": 26,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Карагандинская область",
+        "zone_id": 31,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Костанайская область",
+        "zone_id": 32,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Кызылординская область",
+        "zone_id": 33,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Мангистауская область",
+        "zone_id": 28,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Павлодарская область",
+        "zone_id": 30,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Северо-Казахстанская область",
+        "zone_id": 35,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Южно-Казахстанская область",
+        "zone_id": 29,
+        "capital": "",
+        "capital_id": 0
+    }
+]

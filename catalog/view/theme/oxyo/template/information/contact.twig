@@ -136,8 +136,8 @@
                                 {% if contact_agree_status %}
                                     <div class="form-group required">
                                         <div class="form-check">
-                                            <input type="checkbox" name="agreement" value="1" id="input-agreement" />
-                                            <label for="input-agreement">{{ entry_agreement }}</label>
+                                            <input class="form-check-input form-control" type="checkbox" name="agreement" value="1" id="input-agreement" />
+                                            <label class="form-check-label" for="input-agreement">{{ entry_agreement }}</label>
                                         </div>
                                         {% if error_agreement %}
                                             <div class="text-danger">{{ error_agreement }}</div>

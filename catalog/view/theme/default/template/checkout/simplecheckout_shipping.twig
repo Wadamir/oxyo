@@ -1,9 +1,11 @@
 <div class="simplecheckout-block" id="simplecheckout_shipping" {{ hide ? 'data-hide="true"' : '' }} {{ display_error and has_error ? 'data-error="true"' : '' }}>
-	{% if display_header %}
-		<div class="xd_checkout-heading">{{ text_checkout_shipping_method }}</div>
-	{% endif %}
-	<div class="alert alert-danger simplecheckout-warning-block" {{ display_error and has_error_shipping ? '' : 'style="display:none"' }}>{{ error_shipping }}</div>
-	<div class="simplecheckout-block-content">
+	<div class="simplecheckout-block-content pb-0">
+        {% if display_header %}
+            <div class="xd_checkout-heading">{{ text_checkout_shipping_method }}</div>
+        {% endif %}
+        <div class="alert alert-danger simplecheckout-warning-block" {{ display_error and has_error_shipping ? '' : 'style="display:none"' }}>{{ error_shipping }}</div>
+    </div>
+    <div class="simplecheckout-block-content">
 		{% if shipping_methods is not empty %}
 			{% if display_type == 2  %}
 				{% set current_method = false %}
@@ -39,7 +41,6 @@
 					{% endif %}
 				{% endif %}
 			{% else %}
-
 				{% for shipping_method in shipping_methods %}
 					{% if shipping_method['title'] is not empty %}
 						<p>
@@ -51,12 +52,12 @@
 					{% endif %}
 					{% if shipping_method['error'] is empty %}
 						{% for quote in shipping_method['quote'] %}
-							<div class="radio">
-								<label for="{{ quote['code'] }}">
-									<input type="radio" data-onchange="reloadAll" name="shipping_method" {{ quote['dummy'] is not empty ? 'disabled="disabled"' : '' }} {{ quote['dummy'] is not empty ? 'data-dummy="true"' : '' }} value="{{ quote['code'] }}" id="{{ quote['code'] }}" {% if quote['code'] == code %} checked="checked" {% endif %}/>
-									{{ quote['title'] is not empty ? quote['title'] : '' }}{{ quote['text'] is not empty ? ' - ' ~ quote['text'] : '' }}
-								</label>
-							</div>
+                            <div class="method mb-2">
+                                <input class="form-check-input" type="radio" data-onchange="reloadAll" name="shipping_method" {{ quote['dummy'] is not empty ? 'disabled="disabled"' : '' }} {{ quote['dummy'] is not empty ? 'data-dummy="true"' : '' }} value="{{ quote['code'] }}" id="{{ quote['code'] }}" {% if quote['code'] == code %} checked="checked" {% endif %}/>
+                                <label class="form-check-label" for="{{ quote['code'] }}">
+                                    {{ quote['title'] is not empty ? quote['title'] : '' }}{{ quote['text'] is not empty ? ' - ' ~ quote['text'] : '' }}
+                                </label>
+                            </div>
 							{% if quote['description'] is not empty and (display_for_selected is empty or (display_for_selected is not empty and quote['code'] == code)) %}
 								<div class="form-group">
 									<label for="{{ quote['code'] }}">{{ quote['description'] }}</label>

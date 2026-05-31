@@ -1,0 +1,542 @@
+[
+    {
+        "zone": "Республика Адыгея",
+        "zone_id": 82,
+        "capital": "Майкоп",
+        "capital_id": 1233
+    },
+    {
+        "zone": "Республика Башкортостан",
+        "zone_id": 114,
+        "capital": "Уфа",
+        "capital_id": 256
+    },
+    {
+        "zone": "Республика Бурятия",
+        "zone_id": 116,
+        "capital": "Улан-Удэ",
+        "capital_id": 230
+    },
+    {
+        "zone": "Республика Алтай",
+        "zone_id": 62,
+        "capital": "Горно-Алтайск",
+        "capital_id": 822
+    },
+    {
+        "zone": "Республика Дагестан",
+        "zone_id": 81,
+        "capital": "Махачкала",
+        "capital_id": 442
+    },
+    {
+        "zone": "Республика Ингушетия",
+        "zone_id": 87,
+        "capital": "Магас",
+        "capital_id": 1736
+    },
+    {
+        "zone": "Республика Кабардино-Балкария",
+        "zone_id": 85,
+        "capital": "Нальчик",
+        "capital_id": 1081
+    },
+    {
+        "zone": "Республика Калмыкия",
+        "zone_id": 60,
+        "capital": "Элиста",
+        "capital_id": 207
+    },
+    {
+        "zone": "Карачаево-Черкесия",
+        "zone_id": 57,
+        "capital": "Черкесск",
+        "capital_id": 1085
+    },
+    {
+        "zone": "Республика Карелия",
+        "zone_id": 97,
+        "capital": "Петрозаводск",
+        "capital_id": 450
+    },
+    {
+        "zone": "Республика Коми",
+        "zone_id": 108,
+        "capital": "Сыктывкар",
+        "capital_id": 404
+    },
+    {
+        "zone": "Республика Марий Эл",
+        "zone_id": 127,
+        "capital": "Йошкар-Ола",
+        "capital_id": 141
+    },
+    {
+        "zone": "Республика Мордовия",
+        "zone_id": 103,
+        "capital": "Саранск",
+        "capital_id": 417
+    },
+    {
+        "zone": "Республика Саха",
+        "zone_id": 124,
+        "capital": "Якутск",
+        "capital_id": 283
+    },
+    {
+        "zone": "Республика Северная Осетия",
+        "zone_id": 117,
+        "capital": "Владикавказ",
+        "capital_id": 1082
+    },
+    {
+        "zone": "Республика Татарстан",
+        "zone_id": 69,
+        "capital": "Казань",
+        "capital_id": 424
+    },
+    {
+        "zone": "Республика Тыва",
+        "zone_id": 78,
+        "capital": "Кызыл",
+        "capital_id": 871
+    },
+    {
+        "zone": "Удмуртская Республика",
+        "zone_id": 66,
+        "capital": "Ижевск",
+        "capital_id": 224
+    },
+    {
+        "zone": "Республика Хакасия",
+        "zone_id": 45,
+        "capital": "Абакан",
+        "capital_id": 823
+    },
+    {
+        "zone": "Чеченская Республика",
+        "zone_id": 63,
+        "capital": "Грозный",
+        "capital_id": 441
+    },
+    {
+        "zone": "Чувашская Республика",
+        "zone_id": 55,
+        "capital": "Чебоксары",
+        "capital_id": 419
+    },
+    {
+        "zone": "Алтайский край",
+        "zone_id": 50,
+        "capital": "Барнаул",
+        "capital_id": 274
+    },
+    {
+        "zone": "Краснодарский край",
+        "zone_id": 74,
+        "capital": "Краснодар",
+        "capital_id": 435
+    },
+    {
+        "zone": "Красноярский край",
+        "zone_id": 75,
+        "capital": "Красноярск",
+        "capital_id": 278
+    },
+    {
+        "zone": "Приморский край",
+        "zone_id": 119,
+        "capital": "Владивосток",
+        "capital_id": 288
+    },
+    {
+        "zone": "Ставропольский край",
+        "zone_id": 107,
+        "capital": "Ставрополь",
+        "capital_id": 439
+    },
+    {
+        "zone": "Хабаровский край",
+        "zone_id": 71,
+        "capital": "Хабаровск",
+        "capital_id": 287
+    },
+    {
+        "zone": "Амурская область",
+        "zone_id": 53,
+        "capital": "Благовещенск",
+        "capital_id": 286
+    },
+    {
+        "zone": "Архангельская область",
+        "zone_id": 48,
+        "capital": "Архангельск",
+        "capital_id": 402
+    },
+    {
+        "zone": "Астраханская область",
+        "zone_id": 49,
+        "capital": "Астрахань",
+        "capital_id": 432
+    },
+    {
+        "zone": "Белгородская область",
+        "zone_id": 51,
+        "capital": "Белгород",
+        "capital_id": 337
+    },
+    {
+        "zone": "Брянская область",
+        "zone_id": 54,
+        "capital": "Брянск",
+        "capital_id": 220
+    },
+    {
+        "zone": "Владимирская область",
+        "zone_id": 118,
+        "capital": "Владимир",
+        "capital_id": 94
+    },
+    {
+        "zone": "Волгоградская область",
+        "zone_id": 120,
+        "capital": "Волгоград",
+        "capital_id": 426
+    },
+    {
+        "zone": "Вологодская область",
+        "zone_id": 121,
+        "capital": "Вологда",
+        "capital_id": 246
+    },
+    {
+        "zone": "Воронежская область",
+        "zone_id": 122,
+        "capital": "Воронеж",
+        "capital_id": 506
+    },
+    {
+        "zone": "Ивановская область",
+        "zone_id": 65,
+        "capital": "Иваново",
+        "capital_id": 164
+    },
+    {
+        "zone": "Иркутская область",
+        "zone_id": 64,
+        "capital": "Иркутск",
+        "capital_id": 281
+    },
+    {
+        "zone": "Калининградская область",
+        "zone_id": 67,
+        "capital": "Калининград",
+        "capital_id": 152
+    },
+    {
+        "zone": "Калужская область",
+        "zone_id": 68,
+        "capital": "Калуга",
+        "capital_id": 142
+    },
+    {
+        "zone": "Камчатский край",
+        "zone_id": 96,
+        "capital": "Петропавловск-Камчатский",
+        "capital_id": 285
+    },
+    {
+        "zone": "Кемеровская область",
+        "zone_id": 70,
+        "capital": "Кемерово",
+        "capital_id": 272
+    },
+    {
+        "zone": "Кировская область",
+        "zone_id": 123,
+        "capital": "Киров",
+        "capital_id": 415
+    },
+    {
+        "zone": "Костромская область",
+        "zone_id": 73,
+        "capital": "Кострома",
+        "capital_id": 165
+    },
+    {
+        "zone": "Курганская область",
+        "zone_id": 76,
+        "capital": "Курган",
+        "capital_id": 93
+    },
+    {
+        "zone": "Курская область",
+        "zone_id": 77,
+        "capital": "Курск",
+        "capital_id": 699
+    },
+    {
+        "zone": "Ленинградская область",
+        "zone_id": 59,
+        "capital": "Гатчина",
+        "capital_id": 981
+    },
+    {
+        "zone": "Липецкая область",
+        "zone_id": 79,
+        "capital": "Липецк",
+        "capital_id": 320
+    },
+    {
+        "zone": "Магаданская область",
+        "zone_id": 80,
+        "capital": "Магадан",
+        "capital_id": 314
+    },
+    {
+        "zone": "Московская область",
+        "zone_id": 46,
+        "capital": "Красногорск",
+        "capital_id": 521
+    },
+    {
+        "zone": "Мурманская область",
+        "zone_id": 84,
+        "capital": "Мурманск",
+        "capital_id": 265
+    },
+    {
+        "zone": "Нижегородская область",
+        "zone_id": 88,
+        "capital": "Нижний Новгород",
+        "capital_id": 414
+    },
+    {
+        "zone": "Новгородская область",
+        "zone_id": 89,
+        "capital": "Великий Новгород",
+        "capital_id": 139
+    },
+    {
+        "zone": "Новосибирская область",
+        "zone_id": 90,
+        "capital": "Новосибирск",
+        "capital_id": 270
+    },
+    {
+        "zone": "Омская область",
+        "zone_id": 91,
+        "capital": "Омск",
+        "capital_id": 268
+    },
+    {
+        "zone": "Оренбургская область",
+        "zone_id": 93,
+        "capital": "Оренбург",
+        "capital_id": 261
+    },
+    {
+        "zone": "Орловская область",
+        "zone_id": 92,
+        "capital": "Орёл",
+        "capital_id": 149
+    },
+    {
+        "zone": "Пензенская область",
+        "zone_id": 94,
+        "capital": "Пенза",
+        "capital_id": 504
+    },
+    {
+        "zone": "Пермский край",
+        "zone_id": 95,
+        "capital": "Пермь",
+        "capital_id": 248
+    },
+    {
+        "zone": "Псковская область",
+        "zone_id": 98,
+        "capital": "Псков",
+        "capital_id": 393
+    },
+    {
+        "zone": "Ростовская область",
+        "zone_id": 99,
+        "capital": "Ростов-на-Дону",
+        "capital_id": 438
+    },
+    {
+        "zone": "Рязанская область",
+        "zone_id": 100,
+        "capital": "Рязань",
+        "capital_id": 159
+    },
+    {
+        "zone": "Самарская область",
+        "zone_id": 102,
+        "capital": "Самара",
+        "capital_id": 430
+    },
+    {
+        "zone": "Саратовская область",
+        "zone_id": 104,
+        "capital": "Саратов",
+        "capital_id": 428
+    },
+    {
+        "zone": "Сахалинская область",
+        "zone_id": 61,
+        "capital": "Южно-Сахалинск",
+        "capital_id": 473
+    },
+    {
+        "zone": "Свердловская область",
+        "zone_id": 126,
+        "capital": "Екатеринбург",
+        "capital_id": 250
+    },
+    {
+        "zone": "Смоленская область",
+        "zone_id": 105,
+        "capital": "Смоленск",
+        "capital_id": 395
+    },
+    {
+        "zone": "Тамбовская область",
+        "zone_id": 109,
+        "capital": "Тамбов",
+        "capital_id": 298
+    },
+    {
+        "zone": "Тверская область",
+        "zone_id": 112,
+        "capital": "Тверь",
+        "capital_id": 245
+    },
+    {
+        "zone": "Томская область",
+        "zone_id": 110,
+        "capital": "Томск",
+        "capital_id": 269
+    },
+    {
+        "zone": "Тульская область",
+        "zone_id": 111,
+        "capital": "Тула",
+        "capital_id": 150
+    },
+    {
+        "zone": "Тюменская область",
+        "zone_id": 113,
+        "capital": "Тюмень",
+        "capital_id": 252
+    },
+    {
+        "zone": "Ульяновская область",
+        "zone_id": 115,
+        "capital": "Ульяновск",
+        "capital_id": 422
+    },
+    {
+        "zone": "Челябинская область",
+        "zone_id": 56,
+        "capital": "Челябинск",
+        "capital_id": 259
+    },
+    {
+        "zone": "Забайкальский край",
+        "zone_id": 58,
+        "capital": "Чита",
+        "capital_id": 231
+    },
+    {
+        "zone": "Ярославская область",
+        "zone_id": 125,
+        "capital": "Ярославль",
+        "capital_id": 146
+    },
+    {
+        "zone": "Еврейская АО",
+        "zone_id": 52,
+        "capital": "Биробиджан",
+        "capital_id": 914
+    },
+    {
+        "zone": "Чукотский АО",
+        "zone_id": 47,
+        "capital": "Анадырь",
+        "capital_id": 2381
+    },
+    {
+        "zone": "Ханты-Мансийский АО - Югра",
+        "zone_id": 72,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Москва",
+        "zone_id": 83,
+        "capital": "Москва",
+        "capital_id": 44
+    },
+    {
+        "zone": "Ненецкий АО",
+        "zone_id": 86,
+        "capital": "Нарьян-Мар",
+        "capital_id": 943
+    },
+    {
+        "zone": "Ямало-Ненецкий АО",
+        "zone_id": 101,
+        "capital": "Салехард",
+        "capital_id": 677
+    },
+    {
+        "zone": "Санкт-Петербург",
+        "zone_id": 106,
+        "capital": "Санкт-Петербург",
+        "capital_id": 137
+    },
+    {
+        "zone": "Байконур - город республ-го значения",
+        "zone_id": 169,
+        "capital": "Байконур",
+        "capital_id": 1210610
+    },
+    {
+        "zone": "Республика Крым",
+        "zone_id": 291,
+        "capital": "Симферополь",
+        "capital_id": 15345
+    },
+    {
+        "zone": "Севастополь",
+        "zone_id": 292,
+        "capital": "Севастополь",
+        "capital_id": 15256
+    },
+    {
+        "zone": "Донецкая Народная Республика",
+        "zone_id": 293,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Луганская Народная Республика",
+        "zone_id": 294,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Запорожская область",
+        "zone_id": 295,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Херсонская область",
+        "zone_id": 296,
+        "capital": "",
+        "capital_id": 0
+    }
+]

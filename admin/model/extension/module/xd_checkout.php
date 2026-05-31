@@ -1,20 +1,20 @@
 <?php
-class ModelExtensionModuleXdCheckout extends Model
-{
-
+class ModelExtensionModuleXdCheckout extends Model {
     protected $cityTable = 'xd_checkout_city';
     protected $zoneIndexReady = false;
-    protected $zoneByNormalized = array();
-    protected $zoneByCompact = array();
-    protected $zoneByCollapsed = array();
+    protected $zoneByNormalized = [];
+    protected $zoneByCompact = [];
+    protected $zoneByCollapsed = [];
     protected $countryIndexReady = false;
-    protected $countryByNormalized = array();
+    protected $countryByNormalized = [];
 
-    public function ensureCitiesTable()
-    {
+    public function ensureCitiesTable(): void {
         $table = DB_PREFIX . $this->cityTable;
 
-        $this->db->query("CREATE TABLE IF NOT EXISTS `" . $table . "` (
+        $this->db->query(
+            'CREATE TABLE IF NOT EXISTS `' .
+                $table .
+                "` (
             `city_id` INT(10) UNSIGNED NOT NULL,
             `name` VARCHAR(255) NOT NULL,
             `city_name` VARCHAR(128) NOT NULL,
@@ -30,21 +30,20 @@ class ModelExtensionModuleXdCheckout extends Model
             KEY `region_name` (`region_name`),
             KEY `zone_id` (`zone_id`),
             KEY `country_id` (`country_id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        );
 
         $this->ensureColumnExists($table, 'zone_id', "INT(11) NOT NULL DEFAULT '0' AFTER `region_name`");
         $this->ensureColumnExists($table, 'country_id', "INT(11) NOT NULL DEFAULT '0' AFTER `zone_id`");
-        $this->ensureIndexExists($table, 'zone_id', "(`zone_id`)");
-        $this->ensureIndexExists($table, 'country_id', "(`country_id`)");
+        $this->ensureIndexExists($table, 'zone_id', '(`zone_id`)');
+        $this->ensureIndexExists($table, 'country_id', '(`country_id`)');
     }
 
-    public function truncateCities()
-    {
-        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . $this->cityTable . "`");
+    public function truncateCities(): void {
+        $this->db->query('TRUNCATE TABLE `' . DB_PREFIX . $this->cityTable . '`');
     }
 
-    public function insertCitiesBatch($cities)
-    {
+    public function insertCitiesBatch(array $cities): int {
         if (!is_array($cities) || !$cities) {
             return 0;
         }
@@ -52,7 +51,7 @@ class ModelExtensionModuleXdCheckout extends Model
         $this->ensureCitiesTable();
         $this->prepareZoneIndex();
 
-        $values = array();
+        $values = [];
         $now = date('Y-m-d H:i:s');
 
         foreach ($cities as $city) {
@@ -67,68 +66,136 @@ class ModelExtensionModuleXdCheckout extends Model
             }
 
             $resolved = $this->resolveZoneAndRegion($row);
-            $region_name = ($resolved['region_name'] !== '') ? $resolved['region_name'] : $row['region_name'];
+            $region_name = $resolved['region_name'] !== '' ? $resolved['region_name'] : $row['region_name'];
 
-            $values[] = "('" . (int)$row['city_id'] . "', '" . $this->db->escape($row['name']) . "', '" . $this->db->escape($row['city_name']) . "', '" . $this->db->escape($region_name) . "', '" . (int)$resolved['zone_id'] . "', '" . (int)$resolved['country_id'] . "', '" . (int)$row['is_center'] . "', '" . (float)$row['cache_limit'] . "', '" . $now . "', '" . $now . "')";
+            $values[] = "('" . (int) $row['city_id'] . "', '" . $this->db->escape($row['name']) . "', '" . $this->db->escape($row['city_name']) . "', '" . $this->db->escape($region_name) . "', '" . (int) $resolved['zone_id'] . "', '" . (int) $resolved['country_id'] . "', '" . (int) $row['is_center'] . "', '" . (float) $row['cache_limit'] . "', '" . $now . "', '" . $now . "')";
         }
 
         if (!$values) {
             return 0;
         }
 
-        $this->db->query("INSERT INTO `" . DB_PREFIX . $this->cityTable . "` (`city_id`, `name`, `city_name`, `region_name`, `zone_id`, `country_id`, `is_center`, `cache_limit`, `date_added`, `date_modified`) VALUES " . implode(', ', $values) . " ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `city_name` = VALUES(`city_name`), `region_name` = VALUES(`region_name`), `zone_id` = VALUES(`zone_id`), `country_id` = VALUES(`country_id`), `is_center` = VALUES(`is_center`), `cache_limit` = VALUES(`cache_limit`), `date_modified` = VALUES(`date_modified`)");
+        $this->db->query('INSERT INTO `' . DB_PREFIX . $this->cityTable . '` (`city_id`, `name`, `city_name`, `region_name`, `zone_id`, `country_id`, `is_center`, `cache_limit`, `date_added`, `date_modified`) VALUES ' . implode(', ', $values) . ' ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `city_name` = VALUES(`city_name`), `region_name` = VALUES(`region_name`), `zone_id` = VALUES(`zone_id`), `country_id` = VALUES(`country_id`), `is_center` = VALUES(`is_center`), `cache_limit` = VALUES(`cache_limit`), `date_modified` = VALUES(`date_modified`)');
 
         return count($values);
     }
 
-    public function getCitiesTotal()
-    {
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . $this->cityTable . "`");
-        return isset($query->row['total']) ? (int)$query->row['total'] : 0;
+    public function getCitiesTotal(): int {
+        $query = $this->db->query('SELECT COUNT(*) AS total FROM `' . DB_PREFIX . $this->cityTable . '`');
+        return isset($query->row['total']) ? (int) $query->row['total'] : 0;
     }
 
-    private function normalizeCityRow($city)
-    {
-        if (!is_array($city) || !isset($city['id'])) {
-            return array();
+    public function getCitiesByCountryAndZone(int $country_id, int $zone_id): array {
+        if ($country_id <= 0 || $zone_id <= 0) {
+            return [];
         }
 
-        return array(
-            'city_id' => (int)$city['id'],
-            'name' => isset($city['name']) ? (string)$city['name'] : '',
-            'city_name' => isset($city['cityName']) ? (string)$city['cityName'] : '',
-            'region_name' => isset($city['regionName']) ? $this->fixRegionSpacing((string)$city['regionName']) : '',
-            'is_center' => !empty($city['center']) ? 1 : 0,
-            'cache_limit' => isset($city['cache_limit']) ? (float)$city['cache_limit'] : 0.0
-        );
+        $query = $this->db->query('SELECT city_name, name FROM `' . DB_PREFIX . $this->cityTable . "` WHERE country_id = '" . $country_id . "' AND zone_id = '" . $zone_id . "' ORDER BY city_name ASC, name ASC");
+
+        return $query->rows;
     }
 
-    private function shouldSkipCityByRegionName($region_name)
-    {
-        $region_name = trim((string)$region_name);
+    public function getRegionCapitalsByCountry(int $country_id): array {
+        if ($country_id <= 0) {
+            return [];
+        }
+
+        $this->ensureCitiesTable();
+
+        $query = $this->db->query('SELECT z.zone_id, z.name AS zone_name, c.city_id, c.city_name, c.name FROM `' . DB_PREFIX . 'zone` z LEFT JOIN `' . DB_PREFIX . $this->cityTable . "` c ON (c.zone_id = z.zone_id AND c.country_id = z.country_id AND c.is_center = '1') WHERE z.country_id = '" . $country_id . "' ORDER BY z.name ASC, c.city_name ASC, c.name ASC");
+
+        $capitals_by_zone = [];
+
+        foreach ($query->rows as $row) {
+            $zone_id = (int) $row['zone_id'];
+
+            if (!isset($capitals_by_zone[$zone_id])) {
+                $capitals_by_zone[$zone_id] = [
+                    'zone_id' => $zone_id,
+                    'zone_name' => isset($row['zone_name']) ? (string) $row['zone_name'] : '',
+                    'capital_city' => '',
+                    'capital_id' => 0,
+                ];
+            }
+
+            if ($capitals_by_zone[$zone_id]['capital_city'] !== '') {
+                continue;
+            }
+
+            $capital_city = isset($row['city_name']) ? trim((string) $row['city_name']) : '';
+
+            if ($capital_city === '' && isset($row['name'])) {
+                $capital_city = trim((string) $row['name']);
+            }
+
+            if ($capital_city !== '') {
+                $capitals_by_zone[$zone_id]['capital_city'] = $capital_city;
+                $capitals_by_zone[$zone_id]['capital_id'] = isset($row['city_id']) ? (int) $row['city_id'] : 0;
+            }
+        }
+
+        return array_values($capitals_by_zone);
+    }
+
+    public function setZoneCapital(int $country_id, int $zone_id, string $city_name): bool {
+        $city_name = trim($city_name);
+
+        if ($country_id <= 0 || $zone_id <= 0 || $city_name === '') {
+            return false;
+        }
+
+        $this->ensureCitiesTable();
+
+        $this->db->query('UPDATE `' . DB_PREFIX . $this->cityTable . "` SET `is_center` = '0', `date_modified` = NOW() WHERE `country_id` = '" . $country_id . "' AND `zone_id` = '" . $zone_id . "'");
+
+        $escaped_city = $this->db->escape($city_name);
+
+        $this->db->query('UPDATE `' . DB_PREFIX . $this->cityTable . "` SET `is_center` = '1', `date_modified` = NOW() WHERE `country_id` = '" . $country_id . "' AND `zone_id` = '" . $zone_id . "' AND (`city_name` = '" . $escaped_city . "' OR `name` = '" . $escaped_city . "')");
+
+        $query = $this->db->query('SELECT COUNT(*) AS total FROM `' . DB_PREFIX . $this->cityTable . "` WHERE `country_id` = '" . $country_id . "' AND `zone_id` = '" . $zone_id . "' AND `is_center` = '1'");
+
+        return isset($query->row['total']) && (int) $query->row['total'] > 0;
+    }
+
+    private function normalizeCityRow(array $city): array {
+        if (!is_array($city) || !isset($city['id'])) {
+            return [];
+        }
+
+        return [
+            'city_id' => (int) $city['id'],
+            'name' => isset($city['name']) ? (string) $city['name'] : '',
+            'city_name' => isset($city['cityName']) ? (string) $city['cityName'] : '',
+            'region_name' => isset($city['regionName']) ? $this->fixRegionSpacing((string) $city['regionName']) : '',
+            'is_center' => !empty($city['center']) ? 1 : 0,
+            'cache_limit' => isset($city['cache_limit']) ? (float) $city['cache_limit'] : 0.0,
+        ];
+    }
+
+    private function shouldSkipCityByRegionName(string $region_name): bool {
+        $region_name = trim((string) $region_name);
 
         if ($region_name === '') {
             return false;
         }
 
-        return (bool)preg_match('/\(\s*удал(?:ен|ён)\s*\)|фиктивн\p{L}*/ui', $region_name);
+        return (bool) preg_match('/\(\s*удал(?:ен|ён)\s*\)|фиктивн\p{L}*/ui', $region_name);
     }
 
-    private function resolveZoneAndRegion($row)
-    {
-        $default = array(
+    private function resolveZoneAndRegion(array $row): array {
+        $default = [
             'zone_id' => 0,
             'country_id' => 0,
-            'region_name' => ''
-        );
+            'region_name' => '',
+        ];
 
         $region_override = $this->extractRegionOverride($row);
         $region_from_field = $this->mapKnownRegionCenters($this->fixRegionSpacing(isset($row['region_name']) ? $row['region_name'] : ''));
         $region_from_city_name = $this->mapKnownRegionCenters($this->extractRegionFromCityName(isset($row['city_name']) ? $row['city_name'] : ''));
         $region_from_name = $this->mapKnownRegionCenters($this->extractRegionFromName(isset($row['name']) ? $row['name'] : ''));
 
-        $candidates = array();
-        $seen = array();
+        $candidates = [];
+        $seen = [];
 
         $this->addRegionCandidate($candidates, $seen, $region_override);
         $this->addRegionCandidate($candidates, $seen, $region_from_field);
@@ -139,11 +206,11 @@ class ModelExtensionModuleXdCheckout extends Model
             $zone = $this->resolveZoneData($candidate);
 
             if (!empty($zone['zone_id'])) {
-                return array(
-                    'zone_id' => (int)$zone['zone_id'],
-                    'country_id' => (int)$zone['country_id'],
-                    'region_name' => $candidate
-                );
+                return [
+                    'zone_id' => (int) $zone['zone_id'],
+                    'country_id' => (int) $zone['country_id'],
+                    'region_name' => $candidate,
+                ];
             }
         }
 
@@ -164,19 +231,18 @@ class ModelExtensionModuleXdCheckout extends Model
         return $default;
     }
 
-    private function prepareZoneIndex()
-    {
+    private function prepareZoneIndex(): void {
         if ($this->zoneIndexReady) {
             return;
         }
 
-        $query = $this->db->query("SELECT zone_id, country_id, name FROM `" . DB_PREFIX . "zone` WHERE name <> ''");
+        $query = $this->db->query('SELECT zone_id, country_id, name FROM `' . DB_PREFIX . "zone` WHERE name <> ''");
 
         foreach ($query->rows as $row) {
-            $zone = array(
-                'zone_id' => (int)$row['zone_id'],
-                'country_id' => (int)$row['country_id']
-            );
+            $zone = [
+                'zone_id' => (int) $row['zone_id'],
+                'country_id' => (int) $row['country_id'],
+            ];
 
             $normalized = $this->normalizeRegionName($row['name']);
 
@@ -200,12 +266,11 @@ class ModelExtensionModuleXdCheckout extends Model
         $this->zoneIndexReady = true;
     }
 
-    private function resolveZoneData($regionName)
-    {
-        $default = array(
+    private function resolveZoneData(string $regionName): array {
+        $default = [
             'zone_id' => 0,
-            'country_id' => 0
-        );
+            'country_id' => 0,
+        ];
 
         $normalized = $this->normalizeRegionName($regionName);
 
@@ -260,8 +325,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return $default;
     }
 
-    private function normalizeRegionName($value)
-    {
+    private function normalizeRegionName(string $value): string {
         $value = $this->fixRegionSpacing($value);
 
         if ($value === '') {
@@ -269,7 +333,7 @@ class ModelExtensionModuleXdCheckout extends Model
         }
 
         $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-        $value = str_replace(array('Ё', 'ё'), array('Е', 'е'), $value);
+        $value = str_replace(['Ё', 'ё'], ['Е', 'е'], $value);
         $value = $this->toLower($value);
 
         // Bring AO variants to one form so "авт. округ" and "АО" match each other.
@@ -311,11 +375,10 @@ class ModelExtensionModuleXdCheckout extends Model
         return trim($value);
     }
 
-    private function extractRegionOverride($row)
-    {
-        $region_from_field = isset($row['region_name']) ? (string)$row['region_name'] : '';
-        $name_value = isset($row['name']) ? (string)$row['name'] : '';
-        $city_name_value = isset($row['city_name']) ? (string)$row['city_name'] : '';
+    private function extractRegionOverride(array $row): string {
+        $region_from_field = isset($row['region_name']) ? (string) $row['region_name'] : '';
+        $name_value = isset($row['name']) ? (string) $row['name'] : '';
+        $city_name_value = isset($row['city_name']) ? (string) $row['city_name'] : '';
 
         if ($this->isGlukhovUkraineName($name_value) || $this->isGlukhovUkraineName($city_name_value)) {
             return 'Сумы';
@@ -333,7 +396,7 @@ class ModelExtensionModuleXdCheckout extends Model
             return 'Байконур - город республиканского значения';
         }
 
-        $name = isset($row['name']) ? trim((string)$row['name']) : '';
+        $name = isset($row['name']) ? trim((string) $row['name']) : '';
 
         if ($name === '' || strpos($name, ',') === false) {
             return '';
@@ -358,8 +421,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return '';
     }
 
-    private function mapKnownRegionCenters($value)
-    {
+    private function mapKnownRegionCenters(string $value): string {
         $value = $this->fixRegionSpacing($value);
 
         if ($value === '') {
@@ -545,41 +607,36 @@ class ModelExtensionModuleXdCheckout extends Model
         return $value;
     }
 
-    private function isAlmatyRegionName($value)
-    {
-        return ($this->normalizeRegionName($value) === 'алматинская область');
+    private function isAlmatyRegionName(string $value): bool {
+        return $this->normalizeRegionName($value) === 'алматинская область';
     }
 
-    private function isAlmatyCityName($value)
-    {
-        $value = trim((string)$value);
+    private function isAlmatyCityName(string $value): bool {
+        $value = trim((string) $value);
 
         if ($value === '') {
             return false;
         }
 
-        return (bool)preg_match('/^алматы(?:\s*,|$)/ui', $value);
+        return (bool) preg_match('/^алматы(?:\s*,|$)/ui', $value);
     }
 
-    private function isAkmolaRegionName($value)
-    {
-        return ($this->normalizeRegionName($value) === 'акмолинская область');
+    private function isAkmolaRegionName(string $value): bool {
+        return $this->normalizeRegionName($value) === 'акмолинская область';
     }
 
-    private function isAstanaCityName($value)
-    {
-        $value = trim((string)$value);
+    private function isAstanaCityName(string $value): bool {
+        $value = trim((string) $value);
 
         if ($value === '') {
             return false;
         }
 
-        return (bool)preg_match('/^(астана|нур[-\s]*султан)(?:\s*,|$)/ui', $value);
+        return (bool) preg_match('/^(астана|нур[-\s]*султан)(?:\s*,|$)/ui', $value);
     }
 
-    private function isBaikonurKazakhstanName($value)
-    {
-        $value = trim((string)$value);
+    private function isBaikonurKazakhstanName(string $value): bool {
+        $value = trim((string) $value);
 
         if ($value === '') {
             return false;
@@ -589,12 +646,11 @@ class ModelExtensionModuleXdCheckout extends Model
             return false;
         }
 
-        return (bool)preg_match('/казахстан/ui', $value);
+        return (bool) preg_match('/казахстан/ui', $value);
     }
 
-    private function isGlukhovUkraineName($value)
-    {
-        $value = trim((string)$value);
+    private function isGlukhovUkraineName(string $value): bool {
+        $value = trim((string) $value);
 
         if ($value === '') {
             return false;
@@ -604,12 +660,11 @@ class ModelExtensionModuleXdCheckout extends Model
             return false;
         }
 
-        return (bool)preg_match('/украин/ui', $value);
+        return (bool) preg_match('/украин/ui', $value);
     }
 
-    private function extractRegionFromCityName($city_name)
-    {
-        $city_name = trim((string)$city_name);
+    private function extractRegionFromCityName(string $city_name): string {
+        $city_name = trim((string) $city_name);
 
         if ($city_name === '' || strpos($city_name, ',') === false) {
             return '';
@@ -632,9 +687,8 @@ class ModelExtensionModuleXdCheckout extends Model
         return '';
     }
 
-    private function extractRegionFromName($name)
-    {
-        $name = trim((string)$name);
+    private function extractRegionFromName(string $name): string {
+        $name = trim((string) $name);
 
         if ($name === '' || strpos($name, ',') === false) {
             return '';
@@ -657,8 +711,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return '';
     }
 
-    private function addRegionCandidate(&$candidates, &$seen, $value)
-    {
+    private function addRegionCandidate(array &$candidates, array &$seen, string $value): void {
         $value = $this->fixRegionSpacing($value);
 
         if ($value === '') {
@@ -675,9 +728,8 @@ class ModelExtensionModuleXdCheckout extends Model
         $candidates[] = $value;
     }
 
-    private function fixRegionSpacing($value)
-    {
-        $value = trim((string)$value);
+    private function fixRegionSpacing(string $value): string {
+        $value = trim((string) $value);
 
         if ($value === '') {
             return '';
@@ -692,18 +744,15 @@ class ModelExtensionModuleXdCheckout extends Model
         return trim($value);
     }
 
-    private function hasRegionMarker($value)
-    {
-        return (bool)preg_match('/\b(обл\.?|область|респ\.?|республика|край|ао|автоном|округ|р-н|район)\b/ui', $value);
+    private function hasRegionMarker(string $value): bool {
+        return (bool) preg_match('/\b(обл\.?|область|респ\.?|республика|край|ао|автоном|округ|р-н|район)\b/ui', $value);
     }
 
-    private function isCountryChunk($value)
-    {
-        return (bool)preg_match('/(беларус|белорус|росси|казах|украин|груз|армени|киргиз|узбеки|латви|литв|эстон|польш|герман|франц|итал|испан|turk|turkey|china|usa)/ui', $value);
+    private function isCountryChunk(string $value): bool {
+        return (bool) preg_match('/(беларус|белорус|росси|казах|украин|груз|армени|киргиз|узбеки|латви|литв|эстон|польш|герман|франц|итал|испан|turk|turkey|china|usa)/ui', $value);
     }
 
-    private function compactRegionName($value)
-    {
+    private function compactRegionName(string $value): string {
         if ($value === '') {
             return '';
         }
@@ -714,8 +763,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return trim($value);
     }
 
-    private function collapseRegionName($value)
-    {
+    private function collapseRegionName(string $value): string {
         if ($value === '') {
             return '';
         }
@@ -723,8 +771,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return preg_replace('/[\s-]+/u', '', $value);
     }
 
-    private function resolveFallbackCountryId($regionName, $name)
-    {
+    private function resolveFallbackCountryId(string $regionName, string $name): int {
         $country_id = $this->resolveCountryIdByName($regionName);
 
         if ($country_id) {
@@ -744,8 +791,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return 0;
     }
 
-    private function resolveCountryIdByName($value)
-    {
+    private function resolveCountryIdByName(string $value): int {
         $this->prepareCountryIndex();
 
         $normalized = $this->normalizeCountryName($value);
@@ -758,16 +804,15 @@ class ModelExtensionModuleXdCheckout extends Model
 
         foreach ($aliases as $alias) {
             if (isset($this->countryByNormalized[$alias])) {
-                return (int)$this->countryByNormalized[$alias];
+                return (int) $this->countryByNormalized[$alias];
             }
         }
 
         return 0;
     }
 
-    private function getCountryNameAliases($normalized)
-    {
-        $aliases = array();
+    private function getCountryNameAliases(string $normalized): array {
+        $aliases = [];
         $aliases[$normalized] = $normalized;
 
         if (preg_match('/(росси|^рф$|russia|russian\s+federation)/u', $normalized)) {
@@ -789,27 +834,25 @@ class ModelExtensionModuleXdCheckout extends Model
         return array_values($aliases);
     }
 
-    private function extractCountryFromName($name)
-    {
-        $name = trim((string)$name);
+    private function extractCountryFromName(string $name): string {
+        $name = trim((string) $name);
 
         if ($name === '' || strpos($name, ',') === false) {
             return '';
         }
 
         $parts = explode(',', $name);
-        $last = trim((string)end($parts));
+        $last = trim((string) end($parts));
 
         return $last;
     }
 
-    private function prepareCountryIndex()
-    {
+    private function prepareCountryIndex(): void {
         if ($this->countryIndexReady) {
             return;
         }
 
-        $query = $this->db->query("SELECT country_id, name FROM `" . DB_PREFIX . "country` WHERE name <> ''");
+        $query = $this->db->query('SELECT country_id, name FROM `' . DB_PREFIX . "country` WHERE name <> ''");
 
         foreach ($query->rows as $row) {
             $normalized = $this->normalizeCountryName($row['name']);
@@ -818,22 +861,21 @@ class ModelExtensionModuleXdCheckout extends Model
                 continue;
             }
 
-            $this->countryByNormalized[$normalized] = (int)$row['country_id'];
+            $this->countryByNormalized[$normalized] = (int) $row['country_id'];
         }
 
         $this->countryIndexReady = true;
     }
 
-    private function normalizeCountryName($value)
-    {
-        $value = trim((string)$value);
+    private function normalizeCountryName(string $value): string {
+        $value = trim((string) $value);
 
         if ($value === '') {
             return '';
         }
 
         $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-        $value = str_replace(array('Ё', 'ё'), array('Е', 'е'), $value);
+        $value = str_replace(['Ё', 'ё'], ['Е', 'е'], $value);
         $value = $this->toLower($value);
         $value = preg_replace('/[^\p{L}\p{N}\s-]+/u', ' ', $value);
         $value = preg_replace('/\s+/u', ' ', $value);
@@ -841,8 +883,7 @@ class ModelExtensionModuleXdCheckout extends Model
         return trim($value);
     }
 
-    private function toLower($value)
-    {
+    private function toLower(string $value): string {
         if (function_exists('mb_strtolower')) {
             return mb_strtolower($value, 'UTF-8');
         }
@@ -850,21 +891,19 @@ class ModelExtensionModuleXdCheckout extends Model
         return strtolower($value);
     }
 
-    private function ensureColumnExists($table, $column, $definition)
-    {
-        $query = $this->db->query("SHOW COLUMNS FROM `" . $table . "` LIKE '" . $this->db->escape($column) . "'");
+    private function ensureColumnExists(string $table, string $column, string $definition): void {
+        $query = $this->db->query('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $this->db->escape($column) . "'");
 
         if (!$query->num_rows) {
-            $this->db->query("ALTER TABLE `" . $table . "` ADD `" . $column . "` " . $definition);
+            $this->db->query('ALTER TABLE `' . $table . '` ADD `' . $column . '` ' . $definition);
         }
     }
 
-    private function ensureIndexExists($table, $index_name, $definition)
-    {
-        $query = $this->db->query("SHOW INDEX FROM `" . $table . "` WHERE Key_name = '" . $this->db->escape($index_name) . "'");
+    private function ensureIndexExists(string $table, string $index_name, string $definition): void {
+        $query = $this->db->query('SHOW INDEX FROM `' . $table . "` WHERE Key_name = '" . $this->db->escape($index_name) . "'");
 
         if (!$query->num_rows) {
-            $this->db->query("ALTER TABLE `" . $table . "` ADD KEY `" . $index_name . "` " . $definition);
+            $this->db->query('ALTER TABLE `' . $table . '` ADD KEY `' . $index_name . '` ' . $definition);
         }
     }
 }

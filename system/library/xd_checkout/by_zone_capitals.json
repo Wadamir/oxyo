@@ -1,0 +1,44 @@
+[
+    {
+        "zone": "Брест",
+        "zone_id": 1,
+        "capital": "Брест",
+        "capital_id": 5624
+    },
+    {
+        "zone": "Витебск",
+        "zone_id": 7,
+        "capital": "Витебск",
+        "capital_id": 6215
+    },
+    {
+        "zone": "Гомель",
+        "zone_id": 2,
+        "capital": "Гомель",
+        "capital_id": 6539
+    },
+    {
+        "zone": "Гродно",
+        "zone_id": 4,
+        "capital": "Гродно",
+        "capital_id": 6668
+    },
+    {
+        "zone": "Минск",
+        "zone_id": 3,
+        "capital": "Минск",
+        "capital_id": 9220
+    },
+    {
+        "zone": "Минская область",
+        "zone_id": 6,
+        "capital": "",
+        "capital_id": 0
+    },
+    {
+        "zone": "Могилев",
+        "zone_id": 5,
+        "capital": "Могилёв",
+        "capital_id": 9263
+    }
+]
