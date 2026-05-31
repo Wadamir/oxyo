@@ -244,6 +244,7 @@
         this.initZoneCityAutofill = function () {
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
+            var cityRequest = null;
 
             $mainContainer
                 .find(
@@ -265,11 +266,19 @@
                     }
 
                     if (!zoneId) {
+                        if (cityRequest && cityRequest.readyState !== 4) {
+                            cityRequest.abort();
+                        }
+
                         $city.val('').trigger('change');
                         return;
                     }
 
-                    $.ajax({
+                    if (cityRequest && cityRequest.readyState !== 4) {
+                        cityRequest.abort();
+                    }
+
+                    cityRequest = $.ajax({
                         url:
                             'index.php?' +
                             self.params.additionalParams +
@@ -278,6 +287,10 @@
                         type: 'GET',
                         dataType: 'json',
                         success: function (city) {
+                            if (parseInt($zone.val(), 10) !== zoneId) {
+                                return;
+                            }
+
                             $city.val(city || '').trigger('change');
                         },
                     });
