@@ -43,7 +43,6 @@
         this.$paymentForm = false;
         this.storageUsed = false;
         this.paymentFormObserver = null;
-        this.pendingZoneCapitalByBlock = {};
 
         var checkIsInContainer = function ($element, selector) {
             if ($element.parents(selector).length) {
@@ -315,11 +314,6 @@
                     var $city = $block
                         .find("input[name='city'], input[name$='[city]']")
                         .first();
-                    var blockId = $block.attr('id') || '';
-
-                    if (blockId) {
-                        self.pendingZoneCapitalByBlock[blockId] = zoneId;
-                    }
 
                     $zone
                         .data('simpleZoneCityAutofillRequestId', requestId)
@@ -409,85 +403,34 @@
                                     city: city,
                                 },
                             );
-                            $city.val(city || '').trigger('change');
+
+                            var cityValue = city || '';
+                            $city.val(cityValue).trigger('change');
+
+                            if (
+                                !$(self.params.mainContainer).attr(
+                                    'data-logged',
+                                ) &&
+                                $city.attr('id')
+                            ) {
+                                localStorage.setItem(
+                                    $city.attr('id'),
+                                    cityValue,
+                                );
+                                console.log(
+                                    '[zone-city-autofill] sync city to localStorage',
+                                    {
+                                        cityId: $city.attr('id'),
+                                        city: cityValue,
+                                    },
+                                );
+                            }
                         },
                         complete: function () {
                             finishAutofill();
                         },
                     });
                 });
-        };
-
-        this.applyPendingZoneCapitalAfterReload = function () {
-            var self = this;
-            var pending = self.pendingZoneCapitalByBlock || {};
-            var hasPending = false;
-
-            for (var key in pending) {
-                if (pending.hasOwnProperty(key)) {
-                    hasPending = true;
-                    break;
-                }
-            }
-
-            if (!hasPending) {
-                return;
-            }
-
-            var $mainContainer = $(self.params.mainContainer);
-
-            $.each(pending, function (blockId, expectedZoneId) {
-                var zoneId = parseInt(expectedZoneId, 10) || 0;
-                var $block = $mainContainer.find('#' + blockId).first();
-
-                if (!$block.length) {
-                    return;
-                }
-
-                var $zone = $block
-                    .find("select[name='zone_id'], select[name$='[zone_id]']")
-                    .first();
-                var $city = $block
-                    .find("input[name='city'], input[name$='[city]']")
-                    .first();
-
-                if (!$zone.length || !$city.length) {
-                    return;
-                }
-
-                if ((parseInt($zone.val(), 10) || 0) !== zoneId) {
-                    return;
-                }
-
-                $.ajax({
-                    url:
-                        'index.php?' +
-                        self.params.additionalParams +
-                        'route=common/simple_connector&method=getCityByZone&filter=' +
-                        zoneId,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (city) {
-                        var cityValue = city || '';
-
-                        console.log(
-                            '[zone-city-autofill] apply capital after reloadAll',
-                            {
-                                blockId: blockId,
-                                zoneId: zoneId,
-                                city: cityValue,
-                                previousCity: $city.val(),
-                            },
-                        );
-
-                        if ($city.val() !== cityValue) {
-                            $city.val(cityValue).trigger('change');
-                        }
-                    },
-                });
-            });
-
-            self.pendingZoneCapitalByBlock = {};
         };
 
         this.skipKey = function (keyCode) {
@@ -2055,7 +1998,6 @@
                     }
 
                     self.init(disableScroll, changeStep);
-                    self.applyPendingZoneCapitalAfterReload();
 
                     if (typeof callback === 'function') {
                         callback.call(self);
