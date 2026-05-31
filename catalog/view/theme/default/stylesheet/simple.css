@@ -1570,12 +1570,7 @@
     min-height: calc(100% - 1rem);
 }
 
-
 @media (min-width: 576px) {
-    .method>label>img {
-        max-width: 60px;
-    }
-
     .modal-custom .modal-dialog.modal-dialog-centered {
         min-height: calc(100% - 3.5rem);
     }
@@ -1583,6 +1578,12 @@
     .modal-custom .modal-dialog.modal-dialog-centered {
         max-width: 500px;
         margin: 1.75rem auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .method>label>img {
+        max-width: 60px;
     }
 }
 
