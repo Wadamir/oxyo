@@ -2417,10 +2417,53 @@
         };
 
         $currentContainer.find('*[data-onchange]').on('change', function (e) {
-            if (typeof self.simplecheckout !== 'undefined') {
-                self.simplecheckout.setDirty($(this));
+            var $changed = $(this);
+            var funcOnChange = $changed.attr('data-onchange');
+            var isZoneField = $changed.is(
+                "#simplecheckout_payment_address select[name='zone_id'], #simplecheckout_payment_address select[name$='[zone_id]'], #simplecheckout_shipping_address select[name='zone_id'], #simplecheckout_shipping_address select[name$='[zone_id]']",
+            );
+
+            if (
+                typeof self.simplecheckout !== 'undefined' &&
+                funcOnChange === 'reloadAll' &&
+                isZoneField &&
+                $changed.data('simpleZoneCityAutofillRunning')
+            ) {
+                console.log(
+                    '[zone-city-autofill] defer reloadAll from block handler until city autofill is done',
+                    {
+                        zoneId: parseInt($changed.val(), 10) || 0,
+                    },
+                );
+
+                $changed
+                    .off('simpleZoneCityAutofillDone.simpleDeferredReloadBlock')
+                    .one(
+                        'simpleZoneCityAutofillDone.simpleDeferredReloadBlock',
+                        function () {
+                            console.log(
+                                '[zone-city-autofill] run deferred reloadAll from block handler after city autofill',
+                                {
+                                    zoneId: parseInt($changed.val(), 10) || 0,
+                                },
+                            );
+
+                            if (typeof self.simplecheckout !== 'undefined') {
+                                self.simplecheckout.setDirty($changed);
+                            }
+
+                            callFunc(funcOnChange, $changed, e);
+                        },
+                    );
+
+                return;
             }
-            callFunc($(this).attr('data-onchange'), $(this), e);
+
+            if (typeof self.simplecheckout !== 'undefined') {
+                self.simplecheckout.setDirty($changed);
+            }
+
+            callFunc(funcOnChange, $changed, e);
         });
 
         $currentContainer.find('*[data-onclick]').on('click', function (e) {
