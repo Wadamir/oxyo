@@ -1490,6 +1490,10 @@
     width: 55%;
 }
 
+.method>label>.method_title {
+    width: 100%;
+}
+
 .method>label>.method-price {
     width: 20%;
     text-align: right;
@@ -1660,7 +1664,7 @@ a.apiship_points {
     width: 95px;
 
     text-align: center;
-    
+
     border: 1px solid;
     border-radius: 6px;
     outline: none;
