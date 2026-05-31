@@ -128,8 +128,8 @@
                     self.setDirty();
                 },
             );
-            self.initHandlers();
             self.initZoneCityAutofill();
+            self.initHandlers();
             self.initBlocks();
             self.initSteps(changeStep);
 
@@ -211,8 +211,59 @@
 
                             if (funcOnChange) {
                                 $element.on('change', function () {
-                                    self.setDirty($(this));
-                                    self.callFunc(funcOnChange, $element);
+                                    var $changed = $(this);
+                                    var isZoneField = $changed.is(
+                                        "#simplecheckout_payment_address select[name='zone_id'], #simplecheckout_payment_address select[name$='[zone_id]'], #simplecheckout_shipping_address select[name='zone_id'], #simplecheckout_shipping_address select[name$='[zone_id]']",
+                                    );
+
+                                    if (
+                                        funcOnChange === 'reloadAll' &&
+                                        isZoneField &&
+                                        $changed.data(
+                                            'simpleZoneCityAutofillRunning',
+                                        )
+                                    ) {
+                                        console.log(
+                                            '[zone-city-autofill] defer reloadAll until city autofill is done',
+                                            {
+                                                zoneId:
+                                                    parseInt(
+                                                        $changed.val(),
+                                                        10,
+                                                    ) || 0,
+                                            },
+                                        );
+
+                                        $changed
+                                            .off(
+                                                'simpleZoneCityAutofillDone.simpleDeferredReload',
+                                            )
+                                            .one(
+                                                'simpleZoneCityAutofillDone.simpleDeferredReload',
+                                                function () {
+                                                    console.log(
+                                                        '[zone-city-autofill] run deferred reloadAll after city autofill',
+                                                        {
+                                                            zoneId:
+                                                                parseInt(
+                                                                    $changed.val(),
+                                                                    10,
+                                                                ) || 0,
+                                                        },
+                                                    );
+                                                    self.setDirty($changed);
+                                                    self.callFunc(
+                                                        funcOnChange,
+                                                        $changed,
+                                                    );
+                                                },
+                                            );
+
+                                        return;
+                                    }
+
+                                    self.setDirty($changed);
+                                    self.callFunc(funcOnChange, $changed);
                                 });
                             }
 
@@ -254,6 +305,9 @@
                 .on('change.simpleZoneCityAutofill', function () {
                     var $zone = $(this);
                     var zoneId = parseInt($zone.val(), 10) || 0;
+                    var requestId =
+                        ($zone.data('simpleZoneCityAutofillRequestId') || 0) +
+                        1;
                     var $block = $zone.closest(
                         '#simplecheckout_payment_address, #simplecheckout_shipping_address',
                     );
@@ -261,7 +315,30 @@
                         .find("input[name='city'], input[name$='[city]']")
                         .first();
 
+                    $zone
+                        .data('simpleZoneCityAutofillRequestId', requestId)
+                        .data('simpleZoneCityAutofillRunning', true);
+
+                    var finishAutofill = function () {
+                        if (
+                            ($zone.data('simpleZoneCityAutofillRequestId') ||
+                                0) !== requestId
+                        ) {
+                            return;
+                        }
+
+                        $zone
+                            .data('simpleZoneCityAutofillRunning', false)
+                            .trigger('simpleZoneCityAutofillDone');
+
+                        console.log('[zone-city-autofill] done', {
+                            zoneId: zoneId,
+                            cityValue: $city.val(),
+                        });
+                    };
+
                     if (!$city.length) {
+                        finishAutofill();
                         return;
                     }
 
@@ -281,6 +358,7 @@
 
                         $city.val('').trigger('change');
                         console.log('[zone-city-autofill] city cleared');
+                        finishAutofill();
                         return;
                     }
 
@@ -326,6 +404,9 @@
                                 },
                             );
                             $city.val(city || '').trigger('change');
+                        },
+                        complete: function () {
+                            finishAutofill();
                         },
                     });
                 });
