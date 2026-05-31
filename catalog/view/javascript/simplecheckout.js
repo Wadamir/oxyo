@@ -265,18 +265,36 @@
                         return;
                     }
 
+                    console.log('[zone-city-autofill] zone change', {
+                        blockId: $block.attr('id'),
+                        zoneId: zoneId,
+                        currentCity: $city.val(),
+                    });
+
                     if (!zoneId) {
                         if (cityRequest && cityRequest.readyState !== 4) {
+                            console.log(
+                                '[zone-city-autofill] abort previous request because zone is empty',
+                            );
                             cityRequest.abort();
                         }
 
                         $city.val('').trigger('change');
+                        console.log('[zone-city-autofill] city cleared');
                         return;
                     }
 
                     if (cityRequest && cityRequest.readyState !== 4) {
+                        console.log(
+                            '[zone-city-autofill] abort previous request before sending new one',
+                        );
                         cityRequest.abort();
                     }
+
+                    console.log(
+                        '[zone-city-autofill] request city for zone',
+                        zoneId,
+                    );
 
                     cityRequest = $.ajax({
                         url:
@@ -288,9 +306,25 @@
                         dataType: 'json',
                         success: function (city) {
                             if (parseInt($zone.val(), 10) !== zoneId) {
+                                console.log(
+                                    '[zone-city-autofill] ignore stale response',
+                                    {
+                                        requestedZoneId: zoneId,
+                                        currentZoneId:
+                                            parseInt($zone.val(), 10) || 0,
+                                        city: city,
+                                    },
+                                );
                                 return;
                             }
 
+                            console.log(
+                                '[zone-city-autofill] apply city from zone request',
+                                {
+                                    zoneId: zoneId,
+                                    city: city,
+                                },
+                            );
                             $city.val(city || '').trigger('change');
                         },
                     });

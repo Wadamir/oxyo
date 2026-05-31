@@ -803,6 +803,18 @@
                     source: function (request, response) {
                         var cityContext = getCheckoutCityContext($field);
 
+                        console.log('[city-autocomplete] source called', {
+                            fieldId: $field.attr('id'),
+                            term:
+                                typeof request.term !== 'undefined'
+                                    ? request.term
+                                    : request,
+                            isCheckoutCityField:
+                                cityContext.isCheckoutCityField,
+                            countryId: cityContext.countryId,
+                            zoneId: cityContext.zoneId,
+                        });
+
                         var url =
                             'index.php?' +
                             self.params.additionalParams +
@@ -829,9 +841,28 @@
                             dataType: 'json',
                             data: data,
                             beforeSend: function () {
-                                console.log('Loading cities');
+                                console.log(
+                                    '[city-autocomplete] loading cities',
+                                    {
+                                        url: url,
+                                        data: data,
+                                    },
+                                );
                             },
                             success: function (data) {
+                                console.log(
+                                    '[city-autocomplete] response received',
+                                    {
+                                        fieldId: $field.attr('id'),
+                                        count:
+                                            data && data.length
+                                                ? data.length
+                                                : 0,
+                                        isCheckoutCityField:
+                                            cityContext.isCheckoutCityField,
+                                    },
+                                );
+
                                 response(
                                     $.map(data, function (item) {
                                         if (cityContext.isCheckoutCityField) {
