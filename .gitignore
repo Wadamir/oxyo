@@ -10,6 +10,7 @@
 
 # Allow README files
 !README.md
+!robots.txt
 
 # Allow legacy
 /__legacy/*
