@@ -18,8 +18,7 @@
  * Render filter panel
  * Class ControllerExtensionModuleDigitalElephantFilter
  */
-class ControllerExtensionModuleDigitalElephantFilter extends Controller
-{
+class ControllerExtensionModuleDigitalElephantFilter extends Controller {
     /**
      * @var ControllerExtensionModuleDigitalElephantFilterSeo
      */
@@ -30,18 +29,14 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
      */
     private $panel = null;
 
-
-    public function __construct($registry)
-    {
+    public function __construct($registry) {
         parent::__construct($registry);
         $this->seo = $this->load->controller('extension/module/digital_elephant_filter/seo/prototype');
         $this->panel = $this->load->controller('extension/module/digital_elephant_filter/panel/prototype');
     }
 
-    public function index()
-    {
-
-        if ((float)VERSION >= 3.0) {
+    public function index() {
+        if ((float) VERSION >= 3.0) {
             $setting = $this->config->get('module_digitalElephantFilter_settings');
         } else {
             $setting = $this->config->get('digitalElephantFilter_settings');
@@ -54,9 +49,7 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
             return $rendered_panel;
         }
     }
-    protected function setScript()
-    {
-
+    protected function setScript() {
         if ($this->request->server['HTTPS']) {
             $server = $this->config->get('config_ssl');
         } else {
@@ -64,41 +57,39 @@ class ControllerExtensionModuleDigitalElephantFilter extends Controller
         }
 
         if ($this->language->get('direction') == 'rtl') {
-            $this->document->addScript($server . '/catalog/view/javascript/jquery/ui/jquery-ui-slider-rtl.min.js');
+            $this->document->addScript($server . 'catalog/view/javascript/jquery/ui/jquery-ui-slider-rtl.min.js');
         } else {
-            $this->document->addScript($server . '/catalog/view/javascript/jquery/ui/jquery-ui-slider.min.js');
+            $this->document->addScript($server . 'catalog/view/javascript/jquery/ui/jquery-ui-slider.min.js');
         }
 
-        $this->document->addScript($server . '/catalog/view/theme/oxyo/js/jquery.ui.touch-punch.min.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/main.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/controller.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/helper.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/slider_price.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/url_private.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/url.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/pagination.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/show_more.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/quantity_products.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/sync.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/container_products.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/panel.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/limit.js');
-        $this->document->addScript($server . '/catalog/view/javascript/digitalElephantFilter/classes/sort.js');
+        $this->document->addScript($server . 'catalog/view/theme/oxyo/js/jquery.ui.touch-punch.min.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/main.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/controller.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/helper.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/slider_price.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/url_private.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/url.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/pagination.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/show_more.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/quantity_products.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/sync.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/container_products.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/panel.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/limit.js');
+        $this->document->addScript($server . 'catalog/view/javascript/digitalElephantFilter/classes/sort.js');
     }
 
-    protected function setStyle()
-    {
+    protected function setStyle() {
         if ($this->request->server['HTTPS']) {
             $server = $this->config->get('config_ssl');
         } else {
             $server = $this->config->get('config_url');
         }
 
-        $this->document->addStyle($server . '/catalog/view/javascript/jquery/ui/jquery-ui.min.css');
+        $this->document->addStyle($server . 'catalog/view/javascript/jquery/ui/jquery-ui.min.css');
     }
 
-    private function runSEO($setting)
-    {
+    private function runSEO($setting) {
         if (isset($setting['DEF_settings']['seo']['is_keywords']) && isset($this->request->get['ajax_digitalElephantFilter'])) {
             $this->seo->setMetaKeywords();
         }
