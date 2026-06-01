@@ -36,7 +36,7 @@
     <file path="catalog/controller/product/product.php">
         <operation error="log">
             <search><![CDATA[
-                $data['products'] = [];
+                $data['products'] = array();
             ]]></search>
             <add position="before"><![CDATA[
                 if ($this->config->get('theme_default_directory') == 'oxyo') {
