@@ -363,6 +363,14 @@
                 .off('change.simpleZoneCityAutofill')
                 .on('change.simpleZoneCityAutofill', function () {
                     var $zone = $(this);
+                    var isInitialAutofill =
+                        $zone.data('simpleZoneCityAutofillInitialSync') ===
+                        true;
+
+                    if (isInitialAutofill) {
+                        $zone.removeData('simpleZoneCityAutofillInitialSync');
+                    }
+
                     var zoneId = parseInt($zone.val(), 10) || 0;
                     var requestId =
                         ($zone.data('simpleZoneCityAutofillRequestId') || 0) +
@@ -399,6 +407,24 @@
                         $zone
                             .data('simpleZoneCityAutofillRunning', false)
                             .trigger('simpleZoneCityAutofillDone');
+
+                        if (
+                            isInitialAutofill &&
+                            zoneId &&
+                            $.trim($city.val()) !== ''
+                        ) {
+                            console.log(
+                                '[zone-city-autofill] initial city resolved, request reloadAll',
+                                {
+                                    zoneId: zoneId,
+                                    cityValue: $city.val(),
+                                },
+                            );
+
+                            if (typeof self.requestReloadAll === 'function') {
+                                self.requestReloadAll();
+                            }
+                        }
 
                         console.log('[zone-city-autofill] done', {
                             zoneId: zoneId,
@@ -445,10 +471,13 @@
                         blockId: $block.attr('id'),
                         zoneId: zoneId,
                         currentCity: $city.val(),
+                        isInitialAutofill: isInitialAutofill,
                     });
 
-                    clearAddressField($address1, 'address_1');
-                    clearAddressField($address2, 'address_2');
+                    if (!isInitialAutofill) {
+                        clearAddressField($address1, 'address_1');
+                        clearAddressField($address2, 'address_2');
+                    }
 
                     if (!zoneId) {
                         if (cityRequest && cityRequest.readyState !== 4) {
@@ -532,6 +561,37 @@
                             finishAutofill();
                         },
                     });
+                });
+
+            $mainContainer
+                .find(
+                    "#simplecheckout_payment_address select[name='zone_id'], #simplecheckout_payment_address select[name$='[zone_id]'], #simplecheckout_shipping_address select[name='zone_id'], #simplecheckout_shipping_address select[name$='[zone_id]']",
+                )
+                .each(function () {
+                    var $zone = $(this);
+                    var zoneId = parseInt($zone.val(), 10) || 0;
+                    var $block = $zone.closest(
+                        '#simplecheckout_payment_address, #simplecheckout_shipping_address',
+                    );
+                    var $city = $block
+                        .find("input[name='city'], input[name$='[city]']")
+                        .first();
+
+                    if (!zoneId || !$city.length || $.trim($city.val()) !== '') {
+                        return;
+                    }
+
+                    console.log(
+                        '[zone-city-autofill] initial sync for preselected zone',
+                        {
+                            blockId: $block.attr('id'),
+                            zoneId: zoneId,
+                        },
+                    );
+
+                    $zone
+                        .data('simpleZoneCityAutofillInitialSync', true)
+                        .triggerHandler('change.simpleZoneCityAutofill');
                 });
         };
 

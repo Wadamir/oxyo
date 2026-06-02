@@ -42,11 +42,42 @@ class ApishipMap {
             },
 
             open: () => {
-                $('#' + this.ID_MODAL).modal('show');
+                const $modal = $('#' + this.ID_MODAL);
+
+                if ($modal.length === 0) {
+                    return;
+                }
+
+                if (typeof $modal.modal === 'function') {
+                    $modal.modal('show');
+                    return;
+                }
+
+                // Fallback for contexts where bootstrap jQuery modal plugin is not available.
+                $modal.show();
+                $modal.addClass('in').attr('aria-hidden', 'false');
+                if (!$('.modal-backdrop').length) {
+                    $('body').append('<div class="modal-backdrop fade in"></div>');
+                }
+                $('body').addClass('modal-open');
             },
 
             close: () => {
-                $('#' + this.ID_MODAL).modal('hide');
+                const $modal = $('#' + this.ID_MODAL);
+
+                if ($modal.length === 0) {
+                    return;
+                }
+
+                if (typeof $modal.modal === 'function') {
+                    $modal.modal('hide');
+                    return;
+                }
+
+                $modal.hide();
+                $modal.removeClass('in').attr('aria-hidden', 'true');
+                $('.modal-backdrop').remove();
+                $('body').removeClass('modal-open');
             },
 
             destroy: () => {

@@ -738,6 +738,116 @@ class ModelExtensionShippingApiship extends Model
 						});
 					}
 
+                    function apishipEnsureLoadingOverlay() {
+                        if (document.getElementById('apiship_loading_overlay')) {
+                            return;
+                        }
+
+                        if (!document.getElementById('apiship_loading_overlay_style')) {
+                            var style = document.createElement('style');
+                            style.id = 'apiship_loading_overlay_style';
+                            style.textContent =
+                                '#apiship_loading_overlay{display:none;position:fixed;inset:0;z-index:20000;background:rgba(255,255,255,.78);backdrop-filter:blur(2px)}' +
+                                '#apiship_loading_overlay .apiship_loading_box{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:260px;padding:24px 28px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.18);text-align:center;font-size:14px;color:#333}' +
+                                '#apiship_loading_overlay .apiship_loading_spinner{width:30px;height:30px;border:3px solid #e5e5e5;border-top-color:#2f7ed8;border-radius:50%;margin:0 auto 12px auto;animation:apiship-spin 0.9s linear infinite}' +
+                                '#apiship_loading_overlay .apiship_loading_text{font-size:14px;line-height:1.4;color:#333}' +
+                                '@keyframes apiship-spin{to{transform:rotate(360deg)}}';
+                            document.head.appendChild(style);
+                        }
+
+                        var wrapper = document.createElement('div');
+                        wrapper.innerHTML =
+                            '<div id="apiship_loading_overlay" aria-hidden="true">' +
+                                '<div class="apiship_loading_box">' +
+                                    '<div class="apiship_loading_spinner"></div>' +
+                                    '<div class="apiship_loading_text">Загружаем карту ПВЗ...</div>' +
+                                '</div>' +
+                            '</div>';
+                        document.body.appendChild(wrapper.firstChild);
+                    }
+
+                    function apishipShowLoadingOverlay() {
+                        apishipEnsureLoadingOverlay();
+
+                        var overlayEl = $('#apiship_loading_overlay');
+                        if (!overlayEl.length) {
+                            return;
+                        }
+
+                        overlayEl.stop(true, true).fadeIn(0).attr('aria-hidden', 'false');
+                    }
+
+                    function apishipHideLoadingOverlay() {
+                        var overlayEl = $('#apiship_loading_overlay');
+                        if (!overlayEl.length) {
+                            return;
+                        }
+
+                        overlayEl.stop(true, true).fadeOut(0).attr('aria-hidden', 'true');
+                    }
+
+                    function apishipEnsureLibrary(callback) {
+                        if (typeof ApishipMap !== 'undefined') {
+                            callback();
+                            return;
+                        }
+
+                        if (window.__apishipLoadingInProgress) {
+                            window.__apishipLoadingCallbacks = window.__apishipLoadingCallbacks || [];
+                            window.__apishipLoadingCallbacks.push(callback);
+                            return;
+                        }
+
+                        window.__apishipLoadingInProgress = true;
+                        window.__apishipLoadingCallbacks = window.__apishipLoadingCallbacks || [];
+                        window.__apishipLoadingCallbacks.push(callback);
+
+                        var scriptSrc = 'catalog/view/javascript/apiship.js?v=$shipping_apiship_version_js_mod';
+                        var existing = document.querySelector('script[src*="catalog/view/javascript/apiship.js"]');
+
+                        var finish = function () {
+                            window.__apishipLoadingInProgress = false;
+                            var callbacks = window.__apishipLoadingCallbacks || [];
+                            window.__apishipLoadingCallbacks = [];
+                            for (var i = 0; i < callbacks.length; i++) {
+                                if (typeof callbacks[i] === 'function') {
+                                    callbacks[i]();
+                                }
+                            }
+                        };
+
+                        if (existing) {
+                            if (typeof ApishipMap !== 'undefined') {
+                                finish();
+                                return;
+                            }
+
+                            // Existing tag may be stale or previously failed; force a fresh load.
+                            var retryScript = document.createElement('script');
+                            retryScript.type = 'text/javascript';
+                            retryScript.src = scriptSrc + '&r=' + Date.now();
+                            retryScript.onload = finish;
+                            retryScript.onerror = function () {
+                                window.__apishipLoadingInProgress = false;
+                                window.__apishipLoadingCallbacks = [];
+                                alert('Не удалось загрузить скрипт ApiShip карты');
+                            };
+                            document.head.appendChild(retryScript);
+                            return;
+                        }
+
+                        var script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.src = scriptSrc;
+                        script.onload = finish;
+                        script.onerror = function () {
+                            window.__apishipLoadingInProgress = false;
+                            window.__apishipLoadingCallbacks = [];
+                            alert('Не удалось загрузить скрипт ApiShip карты');
+                        };
+                        document.head.appendChild(script);
+                    }
+
 
 					$(document).ready(function(){
 
@@ -753,6 +863,7 @@ class ModelExtensionShippingApiship extends Model
 
 
 					function apiship_open(code) {  
+                        apishipShowLoadingOverlay();
 						$.ajax({
 							url: '$shipping_apiship_get_points_url',
 							type: 'post',
@@ -766,24 +877,37 @@ class ModelExtensionShippingApiship extends Model
 							},
 							success: function(data_points) {
 								if (data_points['error']=='no_error') {
-									const apiship = new ApishipMap;
-									apiship.open(data_points['points'], apiship_function, code);
+                                    apishipEnsureLibrary(function () {
+                                        if (typeof ApishipMap === 'undefined') {
+                                            apishipHideLoadingOverlay();
+                                            alert('ApiShip карта не инициализирована');
+                                            return;
+                                        }
+
+                                        const apiship = new ApishipMap;
+                                        apishipHideLoadingOverlay();
+                                        apiship.open(data_points['points'], apiship_function, code);
+                                    });
 									return
 								}
 
 								if (data_points['error']=='no_products') {
+                                    apishipHideLoadingOverlay();
 									window.location.reload();
 									return
 								}
 
 								if (data_points['error']=='no_city') {
+                                    apishipHideLoadingOverlay();
 									window.location.reload();
 									return
 								}
 
+                                apishipHideLoadingOverlay();
 								alert(data_points['error']);
 							},
 							error: function(xhr, ajaxOptions, thrownError) {
+                                apishipHideLoadingOverlay();
 								alert(thrownError + '\\r\\n' + xhr.statusText + '\\r\\n' + xhr.responseText);
 							}
 						});
