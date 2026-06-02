@@ -278,7 +278,7 @@
 
 /catalog/language/en-gb/checkout/*
 !/catalog/language/en-gb/checkout/
-!/catalog/language/en-gb/checkout/simple*
+!/catalog/language/en-gb/checkout/**
 
 /catalog/language/en-gb/product/*
 !/catalog/language/en-gb/product/
@@ -313,7 +313,7 @@
 
 /catalog/language/ru-ru/checkout/*
 !/catalog/language/ru-ru/checkout/
-!/catalog/language/ru-ru/checkout/simple*
+!/catalog/language/ru-ru/checkout/**
 
 /catalog/language/ru-ru/product/*
 !/catalog/language/ru-ru/product/

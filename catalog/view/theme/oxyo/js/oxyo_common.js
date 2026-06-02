@@ -712,24 +712,18 @@ var cart = {
                     ).remove();
                     html = '<div class="popup-note">';
                     html += '<div class="inner">';
-                    html +=
-                        '<a class="popup-note-close" onclick="$(this).parent().parent().remove()">&times;</a>';
+                    html += '<a class="popup-note-close" onclick="$(this).parent().parent().remove()">&times;</a>';
                     html += '<div class="table">';
-                    html +=
-                        '<div class="table-cell v-top img"><img src="' +
-                        json['image'] +
-                        '" /></div>';
-                    html +=
-                        '<div class="table-cell v-top">' +
-                        json['success'] +
-                        '</div>';
+                    html += '<div class="table-cell v-top img"><img src="' + json['image'] + '" /></div>';
+                    html += '<div class="table-cell v-top">' + json['success'] + '</div>';
                     html += '</div>';
                     html += '</div>';
+                    html += '<div class="p-2 pt-0 text-center"><a href="index.php?route=checkout/cart" class="btn btn-sm btn-contrast">' + json['text_cart'] + '</a></div>';                    
                     html += '</div>';
                     $('body').append(html);
                     setTimeout(function () {
                         $('.popup-note').hide();
-                    }, 8100);
+                    }, 810000);
                     // Need to set timeout otherwise it wont update the total
                     setTimeout(function () {
                         $('.cart-total-items').html(json['total_items']);

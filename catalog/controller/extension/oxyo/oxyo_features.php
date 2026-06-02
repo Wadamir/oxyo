@@ -123,6 +123,7 @@ class ControllerExtensionOxyoOxyoFeatures extends Controller
                 if ($this->config->get('oxyo_cart_action') == 'redirect_checkout') $json['success_redirect'] = $this->url->link('checkout/checkout', '', true);
 
                 $json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
+                $json['text_cart'] = $this->language->get('text_cart');
 
                 $this->load->model('tool/image');
                 if ($product_info['image']) {

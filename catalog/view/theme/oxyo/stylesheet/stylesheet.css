@@ -11930,12 +11930,21 @@ html.fl-anim .featherlight .featherlight-content {
 }
 
 .popup-note .table .table-cell {
-    padding: 15px;
+    padding: 12px;
 }
 
 .popup-note .table .table-cell.img {
-    padding-right: 2px;
+    padding-right: 0;
     min-width: 70px;
+}
+
+.popup-note .table .table-cell.img > img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    border-radius: 6px;
+    overflow: hidden;    
 }
 
 .popup-note .table a {
