@@ -278,17 +278,9 @@ function runConvertImagesStream($button, $result) {
 	formData.append('enable_convert_log', $('#convert-images-enable-log').is(':checked') ? '1' : '0');
 	formData.append('stream', '1');
 
-	return fetch(url, {
-		method: 'POST',
-		credentials: 'same-origin',
-		body: formData
-	}).then(function(response) {
-		if (!response.ok || !response.body || !response.body.getReader) {
-			throw response;
-		}
-
-		var reader = response.body.getReader();
-		var decoder = new TextDecoder('utf-8');
+	return new Promise(function(resolve, reject) {
+		var xhr = new XMLHttpRequest();
+		var lastLength = 0;
 		var buffer = '';
 		var resultJson = null;
 
@@ -309,57 +301,51 @@ function runConvertImagesStream($button, $result) {
 			appendConvertProgressLine(line);
 		}
 
-		function readChunk() {
-			return reader.read().then(function(step) {
-				if (step.done) {
-					if (buffer) {
-						buffer.split(/\r?\n/).forEach(handleLine);
-					}
+		function consumeResponseText() {
+			var chunk = xhr.responseText.substring(lastLength);
+			lastLength = xhr.responseText.length;
+			buffer += chunk;
 
-					if (!resultJson) {
-						throw new Error('{{ text_convert_images_error|e('js') }}');
-					}
+			var lines = buffer.split(/\r?\n/);
+			buffer = lines.pop();
 
-					return resultJson;
-				}
-
-				buffer += decoder.decode(step.value, { stream: true });
-				var lines = buffer.split(/\r?\n/);
-				buffer = lines.pop();
-
-				for (var i = 0; i < lines.length; i++) {
-					handleLine(lines[i]);
-				}
-
-				return readChunk();
-			});
+			for (var i = 0; i < lines.length; i++) {
+				handleLine(lines[i]);
+			}
 		}
 
-		return readChunk();
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		xhr.onload = function() {
+			consumeResponseText();
+
+			if (buffer) {
+				handleLine(buffer);
+				buffer = '';
+			}
+
+			if (!resultJson) {
+				var message = '{{ text_convert_images_error|e('js') }}';
+				if (xhr.responseText) {
+					message += ' | ' + xhr.responseText.replace(/\s+/g, ' ').substr(0, 350);
+				}
+				reject(new Error(message));
+				return;
+			}
+
+			resolve(resultJson);
+		};
+		xhr.onerror = function() {
+			reject(new Error('{{ text_convert_images_error|e('js') }} | network error'));
+		};
+		xhr.onprogress = function() {
+			consumeResponseText();
+		};
+		xhr.send(formData);
 	}).then(function(json) {
 		showConvertImagesResult($result, json || {});
 	}).catch(function(error) {
-		var message = '{{ text_convert_images_error|e('js') }}';
-
-		if (error && error.status) {
-			message += ' HTTP ' + error.status;
-		}
-
-		if (error && typeof error.text === 'function') {
-			return error.text().then(function(text) {
-				if (text) {
-					message += ' | ' + text.replace(/\s+/g, ' ').substr(0, 350);
-				}
-
-				$result.addClass('alert-danger').text(message).show();
-				appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
-			});
-		}
-
-		if (error && error.message) {
-			message += ' | ' + error.message;
-		}
-
+		var message = error && error.message ? error.message : '{{ text_convert_images_error|e('js') }}';
 		$result.addClass('alert-danger').text(message).show();
 		appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
 	});
@@ -381,8 +367,8 @@ $('#button-convert-images-force').on('click', function() {
 	$button.prop('disabled', true);
 	$result.removeClass('alert-success alert-danger').hide();
 
-	if (window.fetch && window.ReadableStream && window.TextDecoder) {
-		runConvertImagesStream($button, $result).finally(function() {
+	if (window.XMLHttpRequest && window.Promise) {
+		runConvertImagesStream($button, $result).then(function() {
 			$button.prop('disabled', false);
 		});
 		return;
