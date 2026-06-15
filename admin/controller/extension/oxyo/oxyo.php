@@ -880,7 +880,6 @@ class ControllerExtensionOxyoOxyo extends Controller
 
         $source_root = rtrim(DIR_IMAGE, '/') . '/catalog';
         $mapping = array();
-        $planned_files = array();
         $planned_renames = array();
 
         $this->logConvertImages('Step 1 started: scanning image files', array(
@@ -946,7 +945,6 @@ class ControllerExtensionOxyoOxyo extends Controller
             $old_relative = str_replace('\\', '/', substr($absolute_path, strlen(rtrim(DIR_IMAGE, '/') . '/')));
             $new_relative = str_replace('\\', '/', substr($target_path, strlen(rtrim(DIR_IMAGE, '/') . '/')));
 
-            $planned_files[] = $old_relative;
             $planned_renames[] = $old_relative . ' => ' . $new_relative;
 
             if ($dry_run) {
@@ -963,7 +961,6 @@ class ControllerExtensionOxyoOxyo extends Controller
             }
         }
 
-        $this->logConvertImagesList('Files to convert', $planned_files);
         $this->logConvertImagesList('Proposed filenames', $planned_renames);
         $this->logConvertImages('Step 2 finished: conversion plan built', array('planned_total' => count($planned_renames)));
 
@@ -1080,6 +1077,8 @@ class ControllerExtensionOxyoOxyo extends Controller
         $name = $this->transliterateToLatinForConvert($name);
         $name = preg_replace('/[^A-Za-z0-9_-]+/', '_', $name);
         $name = preg_replace('/_+/', '_', $name);
+        $name = preg_replace('/^-+/', '', $name);
+        $name = preg_replace('/_+-+/', '_', $name);
         $name = trim($name, '_');
         $name = utf8_strtolower($name);
 
@@ -1113,7 +1112,10 @@ class ControllerExtensionOxyoOxyo extends Controller
             return $value;
         }
 
-        $encodings = array('Windows-1251', 'CP1251', 'KOI8-R', 'ISO-8859-5');
+        $encodings = array('UTF-8', 'Windows-1251', 'CP1251', 'CP866', 'KOI8-R', 'ISO-8859-5');
+
+        $best_value = $value;
+        $best_score = -1;
 
         foreach ($encodings as $encoding) {
             $converted = false;
@@ -1127,11 +1129,16 @@ class ControllerExtensionOxyoOxyo extends Controller
             }
 
             if ($converted !== false && $converted !== '' && (!function_exists('mb_check_encoding') || mb_check_encoding($converted, 'UTF-8'))) {
-                return $converted;
+                $score = preg_match_all('/[\p{L}\p{N}]/u', $converted, $matches);
+
+                if ($score > $best_score) {
+                    $best_score = $score;
+                    $best_value = $converted;
+                }
             }
         }
 
-        return $value;
+        return $best_value;
     }
 
     private function transliterateToLatinForConvert($value)
