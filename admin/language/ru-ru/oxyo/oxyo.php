@@ -361,6 +361,54 @@ $_['text_oxyo_questions_published']          = 'Опубликовано';
 $_['entry_oxyo_related_products_per_row']    = 'Товаров в строке';
 
 
+/*** Tab Image Sizes Settings ***/
+$_['text_image_sizes_settings']                  = 'Размеры изображений';
+$_['entry_oxyo_optimize_images']                 = 'Оптимизировать изображения';
+$_['entry_convert_images_dry_run']                = 'Dry-run (только проверка, без изменений)';
+$_['entry_convert_images_log']                    = 'Логгировать конвертацию';
+$_['button_convert_images_force']                 = 'Принудительно конвертировать все изображения';
+$_['text_confirm_convert_images']                 = 'Вы уверены? Все названия изображений будут переписаны в латиницу, ссылки в базе обновлены, кеш изображений очищен.';
+$_['text_convert_images_processing']              = 'Действие запускает массовую конвертацию имен файлов, обновление путей в базе и полную очистку кеша изображений.';
+$_['text_convert_images_done']                    = 'Конвертация завершена.';
+$_['text_convert_images_dry_run_done']            = 'Dry-run завершен. Изменения не применялись.';
+$_['text_convert_images_error']                   = 'Ошибка при запуске конвертации изображений.';
+$_['text_convert_images_progress_title']           = 'Прогресс конвертации изображений';
+$_['text_convert_images_progress_started']         = 'Старт задачи...';
+$_['text_convert_images_progress_done_prefix']      = 'ГОТОВО:';
+$_['text_convert_images_progress_error_prefix']     = 'ОШИБКА:';
+$_['text_convert_images_progress_warn_prefix']      = 'ПРЕДУПРЕЖДЕНИЕ:';
+$_['text_convert_images_result_renamed']            = 'Переименовано';
+$_['text_convert_images_result_db_updates']         = 'Обновлений в БД';
+$_['text_convert_images_result_cache_removed']      = 'Очищено кеша';
+$_['text_convert_images_result_errors']             = 'Ошибки';
+
+$_['text_image_sizes_product_pages']             = 'Карточка товара';
+$_['entry_image_main_product']                   = 'Основное изображение товара (Ш x В)';
+$_['entry_image_additional']                     = 'Дополнительные изображения (Ш x В)';
+$_['entry_image_popup']                          = 'Изображение Zoom/Popup (Ш x В)';
+$_['entry_image_related']                        = 'Сопутствующие товары (Ш x В)';
+
+$_['text_image_sizes_category_pages']            = 'Страницы категорий';
+$_['entry_image_main_category']                  = 'Основное изображение категории (Ш x В)';
+$_['entry_image_subcategory_thumbs']             = 'Миниатюры подкатегорий (Ш x В)';
+$_['entry_image_product_listings']               = 'Изображения в списках товаров (Ш x В)';
+
+$_['text_image_sizes_quickview_popup']           = 'Быстрый просмотр';
+$_['entry_image_quickview']                      = 'Изображение в быстром просмотре (Ш x В)';
+
+$_['text_image_sizes_comparison_pages']          = 'Страницы сравнения товаров';
+$_['entry_image_compare']                        = 'Изображение сравнения (Ш x В)';
+
+$_['text_image_sizes_wishlist_pages']            = 'Страницы избранного';
+$_['entry_image_wishlist']                       = 'Изображение в избранном (Ш x В)';
+
+$_['text_image_sizes_cart_page']                 = 'Страница корзины';
+$_['entry_image_cart']                           = 'Изображение корзины (Ш x В)';
+
+$_['text_image_sizes_contact_page']              = 'Страница контактов';
+$_['entry_image_store']                          = 'Изображение магазина (Ш x В)';
+
+
 
 /*** Tab Contact page settings ***/
 $_['text_contact_page']                 = 'Страница контактов';

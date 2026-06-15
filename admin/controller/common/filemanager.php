@@ -1,6 +1,228 @@
 <?php
 class ControllerCommonFileManager extends Controller
 {
+    private $enableFilenameDebugLog = true;
+
+    private function logFilenameDebug($stage, $value, $context = array())
+    {
+        if (!$this->enableFilenameDebugLog) {
+            return;
+        }
+
+        $string_value = (string)$value;
+        $hex_preview = bin2hex(substr($string_value, 0, 64));
+        $message = '[' . date('Y-m-d H:i:s') . '] [filemanager][filename][' . $stage . '] value="' . $string_value . '" len=' . strlen($string_value) . ' hex64=' . $hex_preview;
+
+        if (!empty($context)) {
+            $message .= ' context=' . json_encode($context, JSON_UNESCAPED_UNICODE);
+        }
+
+        $log_file = defined('DIR_LOGS') ? DIR_LOGS . 'error.log' : '';
+
+        if ($log_file) {
+            @file_put_contents($log_file, $message . PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else {
+            error_log($message);
+        }
+    }
+
+    private function normalizeToUtf8($value)
+    {
+        $this->logFilenameDebug('normalizeToUtf8.input', $value);
+
+        if (function_exists('mb_check_encoding') && mb_check_encoding($value, 'UTF-8')) {
+            $this->logFilenameDebug('normalizeToUtf8.already_utf8', $value);
+            return $value;
+        }
+
+        $encodings = array('Windows-1251', 'CP1251', 'KOI8-R', 'ISO-8859-5');
+        $best = '';
+        $best_score = -1;
+
+        foreach ($encodings as $encoding) {
+            $converted = false;
+
+            if (function_exists('iconv')) {
+                $converted = @iconv($encoding, 'UTF-8//IGNORE', $value);
+            }
+
+            if (($converted === false || $converted === '') && function_exists('mb_convert_encoding')) {
+                $converted = @mb_convert_encoding($value, 'UTF-8', $encoding);
+            }
+
+            if ($converted === false || $converted === '' || (function_exists('mb_check_encoding') && !mb_check_encoding($converted, 'UTF-8'))) {
+                continue;
+            }
+
+            // Prefer conversion that preserves most Cyrillic symbols before transliteration.
+            $score = 0;
+            if (preg_match_all('/[А-Яа-яЁё]/u', $converted, $matches)) {
+                $score = count($matches[0]);
+            }
+
+            if ($score > $best_score) {
+                $best_score = $score;
+                $best = $converted;
+            }
+
+            $this->logFilenameDebug('normalizeToUtf8.try.' . $encoding, $converted, array('score' => $score));
+        }
+
+        if ($best !== '') {
+            $this->logFilenameDebug('normalizeToUtf8.best', $best, array('best_score' => $best_score));
+            return $best;
+        }
+
+        $this->logFilenameDebug('normalizeToUtf8.fallback_original', $value);
+        return $value;
+    }
+
+    private function safeBasename($value)
+    {
+        $value = (string)$value;
+        $value = str_replace('\\', '/', $value);
+        $parts = explode('/', $value);
+        $base = end($parts);
+
+        if ($base === false) {
+            return '';
+        }
+
+        return $base;
+    }
+
+    private function splitFilenameAndExtension($filename)
+    {
+        $filename = (string)$filename;
+        $dot_pos = strrpos($filename, '.');
+
+        if ($dot_pos === false || $dot_pos === 0) {
+            return array($filename, '');
+        }
+
+        $name = substr($filename, 0, $dot_pos);
+        $ext = substr($filename, $dot_pos + 1);
+
+        return array($name, $ext);
+    }
+
+    private function transliterateToLatin($value)
+    {
+        $value = $this->normalizeToUtf8($value);
+
+        $cyrillic_map = array(
+            'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'E', 'Ж' => 'Zh',
+            'З' => 'Z', 'И' => 'I', 'Й' => 'Y', 'К' => 'K', 'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O',
+            'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U', 'Ф' => 'F', 'Х' => 'Kh', 'Ц' => 'Ts',
+            'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Shch', 'Ъ' => '', 'Ы' => 'Y', 'Ь' => '', 'Э' => 'E', 'Ю' => 'Yu',
+            'Я' => 'Ya',
+            'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'e', 'ж' => 'zh',
+            'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o',
+            'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'kh', 'ц' => 'ts',
+            'ч' => 'ch', 'ш' => 'sh', 'щ' => 'shch', 'ъ' => '', 'ы' => 'y', 'ь' => '', 'э' => 'e', 'ю' => 'yu',
+            'я' => 'ya'
+        );
+
+        $value = strtr($value, $cyrillic_map);
+
+        if (class_exists('Transliterator')) {
+            $transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
+
+            if ($transliterator) {
+                $value = $transliterator->transliterate($value);
+            }
+        } elseif (function_exists('iconv')) {
+            $converted = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+
+            if ($converted !== false) {
+                $value = $converted;
+            }
+        }
+
+        return $value;
+    }
+
+    private function buildUniqueFilename($directory, $filename)
+    {
+        list($name, $ext) = $this->splitFilenameAndExtension($filename);
+
+        if ($name === '') {
+            $name = 'file';
+        }
+
+        $ext = $ext !== '' ? '.' . $ext : '';
+
+        $name = utf8_strtolower($name);
+        $ext = utf8_strtolower($ext);
+
+        $candidate = $name . $ext;
+        $i = 1;
+
+        while (file_exists(rtrim($directory, '/') . '/' . $candidate)) {
+            $candidate = $name . '-' . $i . $ext;
+            $i++;
+        }
+
+        return $candidate;
+    }
+
+    private function normalizeUploadedFilename($filename, $directory)
+    {
+        $this->logFilenameDebug('normalizeUploadedFilename.input', $filename, array('directory' => $directory));
+
+        $decoded = $this->safeBasename($filename);
+        $this->logFilenameDebug('normalizeUploadedFilename.safe_basename', $decoded);
+        $this->logFilenameDebug('normalizeUploadedFilename.basename', $decoded);
+
+        list($name, $ext) = $this->splitFilenameAndExtension($decoded);
+        $ext = utf8_strtolower($ext);
+        $this->logFilenameDebug('normalizeUploadedFilename.name_ext', $name, array('ext' => $ext));
+
+        $name = $this->normalizeToUtf8($name);
+        $this->logFilenameDebug('normalizeUploadedFilename.after_utf8', $name);
+
+        // Decode entities only after the string is normalized to UTF-8.
+        $name = html_entity_decode($name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->logFilenameDebug('normalizeUploadedFilename.after_entity_decode', $name);
+
+        // Step 1: replace spaces and unreadable/special symbols with underscore.
+        $name = preg_replace('/[\x00-\x1F\x7F]+/', '_', $name);
+        $name = str_replace(array(' ', "\t", "\r", "\n"), '_', $name);
+        $name = preg_replace('/[^\p{L}\p{N}_-]+/u', '_', $name);
+        $this->logFilenameDebug('normalizeUploadedFilename.after_step1', $name);
+
+        // Step 2: convert Cyrillic and any non-Latin symbols to a safe ASCII filename.
+        $name = $this->transliterateToLatin($name);
+        $this->logFilenameDebug('normalizeUploadedFilename.after_translit', $name);
+
+        $name = preg_replace('/[^A-Za-z0-9_]+/', '_', $name);
+        $name = preg_replace('/_+/', '_', $name);
+        $name = trim($name, '_');
+        $name = utf8_strtolower($name);
+        $this->logFilenameDebug('normalizeUploadedFilename.after_cleanup', $name);
+
+        if ($name === '') {
+            $name = 'file';
+            $this->logFilenameDebug('normalizeUploadedFilename.empty_fallback', $name);
+        }
+
+        $normalized = $name . ($ext !== '' ? '.' . $ext : '');
+        $this->logFilenameDebug('normalizeUploadedFilename.normalized', $normalized);
+
+        $unique = $this->buildUniqueFilename($directory, $normalized);
+        $this->logFilenameDebug('normalizeUploadedFilename.unique', $unique);
+
+        return $unique;
+    }
+
+    private function isImageOptimizationEnabled()
+    {
+        $value = $this->config->get('oxyo_optimize_images');
+
+        // Keep optimization enabled by default when the setting is absent.
+        return $value !== '0' && $value !== 0;
+    }
+
     private function hasBinary($name)
     {
         $result = shell_exec("which $name");
@@ -120,7 +342,7 @@ class ControllerCommonFileManager extends Controller
 
     private function processOriginalImage($file)
     {
-        if (!file_exists($file)) return;
+        if (!file_exists($file) || !$this->isImageOptimizationEnabled()) return;
 
         list($max_w, $max_h) = $this->getMaxImageSize();
 
@@ -149,6 +371,9 @@ class ControllerCommonFileManager extends Controller
         if ($type == IMAGETYPE_PNG && !$this->pngHasTransparency($file)) {
 
             $jpg = preg_replace('/\.png$/i', '.jpg', $file);
+            $jpg_directory = dirname($jpg);
+            $jpg_filename = basename($jpg);
+            $jpg = rtrim($jpg_directory, '/') . '/' . $this->buildUniqueFilename($jpg_directory, $jpg_filename);
 
             $img = imagecreatefrompng($file);
 
@@ -242,7 +467,7 @@ class ControllerCommonFileManager extends Controller
         $images = array_splice($images, ($page - 1) * 16, 16);
 
         foreach ($images as $image) {
-            $name = str_split(basename($image), 14);
+            $name = basename($image);
 
             if (is_dir($image)) {
                 $url = '';
@@ -257,7 +482,7 @@ class ControllerCommonFileManager extends Controller
 
                 $data['images'][] = array(
                     'thumb' => '',
-                    'name'  => implode(' ', $name),
+                    'name'  => $name,
                     'type'  => 'directory',
                     'path'  => utf8_substr($image, utf8_strlen(DIR_IMAGE)),
                     'href'  => $this->url->link('common/filemanager', 'user_token=' . $this->session->data['user_token'] . '&directory=' . urlencode(utf8_substr($image, utf8_strlen(DIR_IMAGE . 'catalog/'))) . $url, true)
@@ -272,7 +497,7 @@ class ControllerCommonFileManager extends Controller
 
                 $data['images'][] = array(
                     'thumb' => $this->model_tool_image->resize(utf8_substr($image, utf8_strlen(DIR_IMAGE)), 100, 100),
-                    'name'  => implode(' ', $name),
+                    'name'  => $name,
                     // 'type'  => 'image',
                     'type'  => $type, // Video support
                     'extension' => $extension, // Video support
@@ -417,9 +642,14 @@ class ControllerCommonFileManager extends Controller
             }
 
             foreach ($files as $file) {
+                $filename = '';
+
                 if (is_file($file['tmp_name'])) {
                     // Sanitize the filename
-                    $filename = basename(html_entity_decode($file['name'], ENT_QUOTES, 'UTF-8'));
+                    $filename = $this->safeBasename($file['name']);
+                    $this->logFilenameDebug('upload.raw_filename', $file['name']);
+                    $this->logFilenameDebug('upload.safe_basename_filename', $filename);
+                    $this->logFilenameDebug('upload.basename_filename', $filename);
 
                     // Validate the filename length
                     if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 255)) {
@@ -472,6 +702,8 @@ class ControllerCommonFileManager extends Controller
                 }
 
                 if (!$json) {
+                    $filename = $this->normalizeUploadedFilename($filename, $directory);
+                    $this->logFilenameDebug('upload.final_filename', $filename);
                     move_uploaded_file($file['tmp_name'], $directory . '/' . $filename);
                     $this->processOriginalImage($directory . '/' . $filename);
                 }

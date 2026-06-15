@@ -1,186 +1,306 @@
-<legend>Image Sizes</legend>
+<legend>{{ text_image_sizes_settings }}</legend>
 
+<div class="form-field radio-switcher">
+	<p class="radio-switcher-title">
+        <span class="title">{{ entry_oxyo_optimize_images }}</span>
+        <i class="bi bi-question-circle-fill" data-toggle="tooltip" title="{{ entry_oxyo_optimize_images }}"></i>
+    </p>
+	<div class="form-radio-switcher-wrapper">
+		<label class="label-switcher label-switcher-pre" for="oxyo_optimize_images_0">{{ text_disabled }}</label>
+		<div class="form-radio form-radio-inline form-radio-switcher">
+            <input type="radio" name="settings[oxyo][oxyo_optimize_images]" value="0" {% if oxyo_optimize_images == '0' %} checked="checked" {% endif %} id="oxyo_optimize_images_0"/>
+            <input type="radio" name="settings[oxyo][oxyo_optimize_images]" value="1" {% if oxyo_optimize_images == '1' %} checked="checked" {% endif %} id="oxyo_optimize_images_1"/>
+		</div>
+		<label class="label-switcher label-switcher-post" for="oxyo_optimize_images_1">{{ text_enabled }}</label>
+	</div>
+</div>
 
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ button_convert_images_force }}</label>
+	<div class="col-sm-10">
+		<div class="checkbox" style="margin-top:0;">
+			<label>
+				<input type="checkbox" id="convert-images-dry-run" value="1" /> {{ entry_convert_images_dry_run }}
+			</label>
+		</div>
+		<div class="checkbox" style="margin-top:0;">
+			<label>
+				<input type="checkbox" id="convert-images-enable-log" value="1" checked="checked" /> {{ entry_convert_images_log }}
+			</label>
+		</div>
+		<button type="button" id="button-convert-images-force" class="btn btn-danger">{{ button_convert_images_force }}</button>
+		<p class="help-block">{{ text_convert_images_processing }}</p>
+		<div id="convert-images-result" class="alert" style="display:none;margin-top:10px;"></div>
+	</div>
+</div>
 
-<legend class="sub">Product Pages</legend>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Main Product Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_thumb_width]" value="{{ theme_default_image_thumb_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_thumb_height]" value="{{ theme_default_image_thumb_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Additional Images (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_additional_width]" value="{{ theme_default_image_additional_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_additional_height]" value="{{ theme_default_image_additional_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Zoom/Popup image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_popup_width]" value="{{ theme_default_image_popup_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_popup_height]" value="{{ theme_default_image_popup_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Related Products (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_related_width]" value="{{ theme_default_image_related_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_related_height]" value="{{ theme_default_image_related_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            
-            
-            
-<legend class="sub">Category Pages</legend>           
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Main Category Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_category_width]" value="{{ theme_default_image_category_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_category_height]" value="{{ theme_default_image_category_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Sub-categoriy Thumbs (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[oxyo][subcat_image_width]" value="{{ subcat_image_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[oxyo][subcat_image_height]" value="{{ subcat_image_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-                        
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Product Listings Images (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_product_width]" value="{{ theme_default_image_product_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_product_height]" value="{{ theme_default_image_product_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <legend class="sub">Quickview Popup</legend>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Quickview Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[oxyo][quickview_popup_image_width]" value="{{ quickview_popup_image_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[oxyo][quickview_popup_image_height]" value="{{ quickview_popup_image_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            
-            
-            <legend class="sub">Product Comparison Pages</legend>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Compare Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_compare_width]" value="{{ theme_default_image_compare_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_compare_height]" value="{{ theme_default_image_compare_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <legend class="sub">Wishlist Pages</legend>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Wish List Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_wishlist_width]" value="{{ theme_default_image_wishlist_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_wishlist_height]" value="{{ theme_default_image_wishlist_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <legend class="sub">Shopping Cart Page</legend>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Cart Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_cart_width]" value="{{ theme_default_image_cart_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_cart_height]" value="{{ theme_default_image_cart_height }}"  class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <legend class="sub">Contact Page</legend>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Store Image (W x H)</label>
-              <div class="col-sm-10">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_location_width]" value="{{ theme_default_image_location_width }}" class="form-control" />
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text" name="settings[theme_default][theme_default_image_location_height]" value="{{ theme_default_image_location_height }}" class="form-control" />
-                  </div>
-                </div>
-              </div>
-            </div>
+<div class="modal fade" id="convert-images-progress-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{{ text_convert_images_progress_title }}</h4>
+			</div>
+			<div class="modal-body">
+				<pre id="convert-images-progress-log" style="max-height:420px;overflow:auto;white-space:pre-wrap;"></pre>
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_product_pages }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_main_product }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_thumb_width]" value="{{ theme_default_image_thumb_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_thumb_height]" value="{{ theme_default_image_thumb_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_additional }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_additional_width]" value="{{ theme_default_image_additional_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_additional_height]" value="{{ theme_default_image_additional_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_popup }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_popup_width]" value="{{ theme_default_image_popup_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_popup_height]" value="{{ theme_default_image_popup_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_related }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_related_width]" value="{{ theme_default_image_related_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_related_height]" value="{{ theme_default_image_related_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_category_pages }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_main_category }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_category_width]" value="{{ theme_default_image_category_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_category_height]" value="{{ theme_default_image_category_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_subcategory_thumbs }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[oxyo][subcat_image_width]" value="{{ subcat_image_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[oxyo][subcat_image_height]" value="{{ subcat_image_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_product_listings }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_product_width]" value="{{ theme_default_image_product_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_product_height]" value="{{ theme_default_image_product_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_quickview_popup }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_quickview }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[oxyo][quickview_popup_image_width]" value="{{ quickview_popup_image_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[oxyo][quickview_popup_image_height]" value="{{ quickview_popup_image_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_comparison_pages }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_compare }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_compare_width]" value="{{ theme_default_image_compare_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_compare_height]" value="{{ theme_default_image_compare_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_wishlist_pages }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_wishlist }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_wishlist_width]" value="{{ theme_default_image_wishlist_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_wishlist_height]" value="{{ theme_default_image_wishlist_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_cart_page }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_cart }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_cart_width]" value="{{ theme_default_image_cart_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_cart_height]" value="{{ theme_default_image_cart_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<legend class="sub">{{ text_image_sizes_contact_page }}</legend>
+<div class="form-group">
+	<label class="col-sm-2 control-label">{{ entry_image_store }}</label>
+	<div class="col-sm-10">
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_location_width]" value="{{ theme_default_image_location_width }}" class="form-control" />
+			</div>
+			<div class="col-sm-6">
+				<input type="text" name="settings[theme_default][theme_default_image_location_height]" value="{{ theme_default_image_location_height }}" class="form-control" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+function appendConvertProgressLine(line) {
+	var $log = $('#convert-images-progress-log');
+	var current = $log.text();
+	$log.text(current ? (current + "\n" + line) : line);
+	$log.scrollTop($log[0].scrollHeight);
+}
+
+function renderServerProgress(progress) {
+	if (!progress || !progress.length) {
+		return;
+	}
+
+	for (var i = 0; i < progress.length; i++) {
+		appendConvertProgressLine(progress[i]);
+	}
+}
+
+$('#button-convert-images-force').on('click', function() {
+	if (!confirm('{{ text_confirm_convert_images|e('js') }}')) {
+		return;
+	}
+
+	var $button = $(this);
+	var $result = $('#convert-images-result');
+	var $modal = $('#convert-images-progress-modal');
+
+	$('#convert-images-progress-log').text('');
+	$modal.modal('show');
+	appendConvertProgressLine('{{ text_convert_images_progress_started|e('js') }}');
+
+	$button.prop('disabled', true);
+	$result.removeClass('alert-success alert-danger').hide();
+
+	$.ajax({
+		url: '{{ action_convert_images|replace({'&amp;': '&'}) }}',
+		type: 'post',
+		data: {
+			dry_run: $('#convert-images-dry-run').is(':checked') ? 1 : 0,
+			enable_convert_log: $('#convert-images-enable-log').is(':checked') ? 1 : 0
+		},
+		dataType: 'json',
+		complete: function() {
+			$button.prop('disabled', false);
+		},
+		success: function(json) {
+			renderServerProgress(json.progress || []);
+
+			if (json.error) {
+				$result.addClass('alert-danger').text(json.error).show();
+				appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + json.error);
+				return;
+			}
+
+			var message = json.success || '{{ text_convert_images_done|e('js') }}';
+			message += ' {{ text_convert_images_result_renamed|e('js') }}: ' + (json.renamed || 0);
+			message += ', {{ text_convert_images_result_db_updates|e('js') }}: ' + (json.db_updates || 0);
+			message += ', {{ text_convert_images_result_cache_removed|e('js') }}: ' + (json.cache_removed || 0);
+
+			if (json.errors && json.errors.length) {
+				message += '. {{ text_convert_images_result_errors|e('js') }}: ' + json.errors.join(' | ');
+				appendConvertProgressLine('{{ text_convert_images_progress_warn_prefix|e('js') }} ' + json.errors.join(' | '));
+			}
+
+			$result.addClass('alert-success').text(message).show();
+			appendConvertProgressLine('{{ text_convert_images_progress_done_prefix|e('js') }} ' + message);
+		},
+		error: function(xhr) {
+			var message = '{{ text_convert_images_error|e('js') }}';
+			message += ' HTTP ' + (xhr && xhr.status ? xhr.status : 0);
+
+			if (xhr && xhr.responseText) {
+				message += ' | ' + xhr.responseText.replace(/\s+/g, ' ').substr(0, 350);
+			}
+
+			$result.addClass('alert-danger').text(message).show();
+			appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
+		}
+	});
+});
+</script>

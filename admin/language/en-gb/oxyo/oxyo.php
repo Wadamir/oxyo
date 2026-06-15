@@ -361,6 +361,54 @@ $_['text_oxyo_questions_published']          = 'Published';
 $_['entry_oxyo_related_products_per_row']    = 'Products per row';
 
 
+/*** Tab Image Sizes Settings ***/
+$_['text_image_sizes_settings']                  = 'Image Sizes';
+$_['entry_oxyo_optimize_images']                 = 'Optimize images';
+$_['entry_convert_images_dry_run']                = 'Dry-run (preview only, no changes)';
+$_['entry_convert_images_log']                    = 'Log conversion steps';
+$_['button_convert_images_force']                 = 'Force convert all images';
+$_['text_confirm_convert_images']                 = 'Are you sure? All image filenames will be converted to latin, database references will be updated and image cache will be cleared.';
+$_['text_convert_images_processing']              = 'This action runs a bulk filename conversion, updates database image paths and clears all image cache.';
+$_['text_convert_images_done']                    = 'Conversion completed.';
+$_['text_convert_images_dry_run_done']            = 'Dry-run completed. No changes were applied.';
+$_['text_convert_images_error']                   = 'Failed to run image conversion.';
+$_['text_convert_images_progress_title']           = 'Image conversion progress';
+$_['text_convert_images_progress_started']         = 'Task started...';
+$_['text_convert_images_progress_done_prefix']      = 'DONE:';
+$_['text_convert_images_progress_error_prefix']     = 'ERROR:';
+$_['text_convert_images_progress_warn_prefix']      = 'WARNING:';
+$_['text_convert_images_result_renamed']            = 'Renamed';
+$_['text_convert_images_result_db_updates']         = 'DB updates';
+$_['text_convert_images_result_cache_removed']      = 'Cache removed';
+$_['text_convert_images_result_errors']             = 'Errors';
+
+$_['text_image_sizes_product_pages']             = 'Product Pages';
+$_['entry_image_main_product']                   = 'Main Product Image (W x H)';
+$_['entry_image_additional']                     = 'Additional Images (W x H)';
+$_['entry_image_popup']                          = 'Zoom/Popup image (W x H)';
+$_['entry_image_related']                        = 'Related Products (W x H)';
+
+$_['text_image_sizes_category_pages']            = 'Category Pages';
+$_['entry_image_main_category']                  = 'Main Category Image (W x H)';
+$_['entry_image_subcategory_thumbs']             = 'Sub-category Thumbs (W x H)';
+$_['entry_image_product_listings']               = 'Product Listings Images (W x H)';
+
+$_['text_image_sizes_quickview_popup']           = 'Quickview Popup';
+$_['entry_image_quickview']                      = 'Quickview Image (W x H)';
+
+$_['text_image_sizes_comparison_pages']          = 'Product Comparison Pages';
+$_['entry_image_compare']                        = 'Compare Image (W x H)';
+
+$_['text_image_sizes_wishlist_pages']            = 'Wishlist Pages';
+$_['entry_image_wishlist']                       = 'Wish List Image (W x H)';
+
+$_['text_image_sizes_cart_page']                 = 'Shopping Cart Page';
+$_['entry_image_cart']                           = 'Cart Image (W x H)';
+
+$_['text_image_sizes_contact_page']              = 'Contact Page';
+$_['entry_image_store']                          = 'Store Image (W x H)';
+
+
 
 /*** Tab Contact page settings ***/
 $_['text_contact_page']                 = 'Contact Page';

@@ -4,6 +4,8 @@ class ControllerExtensionOxyoOxyo extends Controller
 
     private $error = array();
     private $store_id = 0;
+    private $enableConvertImagesLog = true;
+    private $convertImagesProgress = array();
 
     public function index()
     {
@@ -494,6 +496,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'quickview_popup_image_height',
             'subcat_image_width',
             'subcat_image_height',
+            'oxyo_optimize_images',
             'oxyo_custom_css_status',
             'oxyo_custom_css',
             'oxyo_custom_js_status',
@@ -617,8 +620,26 @@ class ControllerExtensionOxyoOxyo extends Controller
 
         $data['text_disabled'] = $this->language->get('text_disabled');
         $data['text_enabled'] = $this->language->get('text_enabled');
+        $data['button_convert_images_force'] = $this->language->get('button_convert_images_force');
+        $data['text_convert_images_processing'] = $this->language->get('text_convert_images_processing');
+        $data['text_confirm_convert_images'] = $this->language->get('text_confirm_convert_images');
+        $data['text_convert_images_done'] = $this->language->get('text_convert_images_done');
+        $data['text_convert_images_dry_run_done'] = $this->language->get('text_convert_images_dry_run_done');
+        $data['text_convert_images_error'] = $this->language->get('text_convert_images_error');
+        $data['text_convert_images_progress_title'] = $this->language->get('text_convert_images_progress_title');
+        $data['text_convert_images_progress_started'] = $this->language->get('text_convert_images_progress_started');
+        $data['text_convert_images_progress_done_prefix'] = $this->language->get('text_convert_images_progress_done_prefix');
+        $data['text_convert_images_progress_error_prefix'] = $this->language->get('text_convert_images_progress_error_prefix');
+        $data['text_convert_images_progress_warn_prefix'] = $this->language->get('text_convert_images_progress_warn_prefix');
+        $data['text_convert_images_result_renamed'] = $this->language->get('text_convert_images_result_renamed');
+        $data['text_convert_images_result_db_updates'] = $this->language->get('text_convert_images_result_db_updates');
+        $data['text_convert_images_result_cache_removed'] = $this->language->get('text_convert_images_result_cache_removed');
+        $data['text_convert_images_result_errors'] = $this->language->get('text_convert_images_result_errors');
+        $data['entry_convert_images_dry_run'] = $this->language->get('entry_convert_images_dry_run');
+        $data['entry_convert_images_log'] = $this->language->get('entry_convert_images_log');
 
         $data['action'] = $this->url->link('extension/oxyo/oxyo', $token_prefix . '=' . $this->session->data[$token_prefix], true);
+        $data['action_convert_images'] = $this->url->link('extension/oxyo/oxyo/convertImageFilenames', $token_prefix . '=' . $this->session->data[$token_prefix] . '&store_id=' . (int)$data['store_id'], true);
 
 
         // Stores
@@ -714,6 +735,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         if (is_null($this->getConfig('quickview_popup_image_height'))) $data['quickview_popup_image_height'] = '590';
         if (is_null($this->getConfig('subcat_image_width'))) $data['subcat_image_width'] = '200';
         if (is_null($this->getConfig('subcat_image_height'))) $data['subcat_image_height'] = '264';
+        if (is_null($this->getConfig('oxyo_optimize_images'))) $data['oxyo_optimize_images'] = '1';
         if (is_null($this->getConfig('oxyo_thumb_swap'))) $data['oxyo_thumb_swap'] = '1';
         if (is_null($this->getConfig('oxyo_price_update'))) $data['oxyo_price_update'] = '1';
         if (is_null($this->getConfig('oxyo_sharing_style'))) $data['oxyo_sharing_style'] = 'small';
@@ -775,6 +797,530 @@ class ControllerExtensionOxyoOxyo extends Controller
         $this->response->setOutput($this->load->view('extension/oxyo/oxyo', $data));
 
         unset($this->session->data['permission_error']);
+    }
+
+    public function convertImageFilenames()
+    {
+        $this->load->language('oxyo/oxyo');
+
+        if (isset($this->request->get['store_id'])) {
+            $this->store_id = (int)$this->request->get['store_id'];
+        }
+
+        $json = array();
+        $dry_run = !empty($this->request->post['dry_run']);
+        $this->enableConvertImagesLog = !empty($this->request->post['enable_convert_log']);
+        $this->convertImagesProgress = array();
+
+        $this->logConvertImages('Request started', array(
+            'dry_run' => $dry_run ? 1 : 0,
+            'enable_convert_log' => $this->enableConvertImagesLog ? 1 : 0,
+            'store_id' => (int)$this->store_id,
+            'user_id' => isset($this->session->data['user_id']) ? (int)$this->session->data['user_id'] : 0
+        ));
+
+        if (!$this->user->hasPermission('modify', 'extension/oxyo/oxyo')) {
+            $json['error'] = $this->language->get('error_permission');
+            $this->logConvertImages('Permission denied', array('dry_run' => $dry_run ? 1 : 0));
+        }
+
+        if (!$json) {
+            try {
+                $result = $this->runBulkImageFilenameConversion($dry_run);
+            } catch (\Throwable $exception) {
+                $json['error'] = $this->language->get('text_convert_images_error');
+                $json['progress'] = $this->convertImagesProgress;
+                $this->logConvertImages('Unhandled exception', array(
+                    'message' => $exception->getMessage(),
+                    'file' => $exception->getFile(),
+                    'line' => $exception->getLine()
+                ));
+
+                $this->response->addHeader('Content-Type: application/json');
+                $this->response->setOutput(json_encode($json));
+
+                return;
+            }
+
+            $json['success'] = $dry_run
+                ? $this->language->get('text_convert_images_dry_run_done')
+                : $this->language->get('text_convert_images_done');
+            $json['renamed'] = $result['renamed'];
+            $json['db_updates'] = $result['db_updates'];
+            $json['cache_removed'] = $result['cache_removed'];
+            $json['errors'] = $result['errors'];
+            $json['dry_run'] = $dry_run ? 1 : 0;
+            $json['progress'] = $this->convertImagesProgress;
+
+            $this->logConvertImages('Request finished', array(
+                'dry_run' => $dry_run ? 1 : 0,
+                'renamed' => (int)$result['renamed'],
+                'db_updates' => (int)$result['db_updates'],
+                'cache_removed' => (int)$result['cache_removed'],
+                'errors_count' => count($result['errors'])
+            ));
+
+            if (!empty($result['errors'])) {
+                $this->logConvertImages('Request errors', array('errors' => $result['errors']));
+            }
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
+    private function runBulkImageFilenameConversion($dry_run = false)
+    {
+        $result = array(
+            'renamed' => 0,
+            'db_updates' => 0,
+            'cache_removed' => 0,
+            'errors' => array()
+        );
+
+        $source_root = rtrim(DIR_IMAGE, '/') . '/catalog';
+        $mapping = array();
+        $planned_files = array();
+        $planned_renames = array();
+
+        $this->logConvertImages('Step 1 started: scanning image files', array(
+            'dry_run' => $dry_run ? 1 : 0,
+            'source_root' => $source_root
+        ));
+
+        if (!is_dir($source_root)) {
+            $this->logConvertImages('Catalog directory not found', array('path' => $source_root));
+            return $result;
+        }
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($source_root, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        $files = array();
+        foreach ($iterator as $file_info) {
+            if ($file_info->isFile()) {
+                $files[] = $file_info->getPathname();
+            }
+        }
+
+        $this->logConvertImages('Files scanned', array(
+            'dry_run' => $dry_run ? 1 : 0,
+            'source_root' => $source_root,
+            'files_total' => count($files)
+        ));
+
+        $this->logConvertImages('Step 1 finished: scanning image files', array('files_total' => count($files)));
+
+        $this->logConvertImages('Step 2 started: building conversion plan');
+
+        usort($files, function ($a, $b) {
+            return strlen($b) - strlen($a);
+        });
+
+        foreach ($files as $absolute_path) {
+            $filename = $this->safeBasenameForConvert($absolute_path);
+            list($original_name, $original_ext) = $this->splitFilenameAndExtension($filename);
+            $extension = utf8_strtolower($original_ext);
+
+            if (!in_array($extension, array('jpg', 'jpeg', 'png', 'gif', 'webp'))) {
+                continue;
+            }
+
+            $directory = dirname($absolute_path);
+
+            $normalized_name = $this->normalizeFilenameToLatin($filename);
+
+            if ($normalized_name === $filename) {
+                continue;
+            }
+
+            $target_name = $this->buildUniqueFilenameForDirectory($directory, $normalized_name, $filename);
+            $target_path = $directory . '/' . $target_name;
+
+            if ($target_path === $absolute_path) {
+                continue;
+            }
+
+            $old_relative = str_replace('\\', '/', substr($absolute_path, strlen(rtrim(DIR_IMAGE, '/') . '/')));
+            $new_relative = str_replace('\\', '/', substr($target_path, strlen(rtrim(DIR_IMAGE, '/') . '/')));
+
+            $planned_files[] = $old_relative;
+            $planned_renames[] = $old_relative . ' => ' . $new_relative;
+
+            if ($dry_run) {
+                $mapping[$old_relative] = $new_relative;
+                $result['renamed']++;
+            } else {
+                if (@rename($absolute_path, $target_path)) {
+                    $mapping[$old_relative] = $new_relative;
+                    $result['renamed']++;
+                } else {
+                    $result['errors'][] = 'rename_failed: ' . $absolute_path;
+                    $this->logConvertImages('Rename failed', array('path' => $absolute_path));
+                }
+            }
+        }
+
+        $this->logConvertImagesList('Files to convert', $planned_files);
+        $this->logConvertImagesList('Proposed filenames', $planned_renames);
+        $this->logConvertImages('Step 2 finished: conversion plan built', array('planned_total' => count($planned_renames)));
+
+        if (!empty($mapping)) {
+            $this->logConvertImages('Step 3 started: database references processing', array(
+                'mode' => $dry_run ? 'dry_run_count' : 'rewrite',
+                'mapping_total' => count($mapping)
+            ));
+
+            if ($dry_run) {
+                $result['db_updates'] = $this->countImageReferencesInDatabase($mapping);
+            } else {
+                $result['db_updates'] = $this->rewriteImageReferencesInDatabase($mapping);
+            }
+
+            $this->logConvertImages('Step 3 finished: database references processing', array(
+                'db_updates' => (int)$result['db_updates']
+            ));
+        } else {
+            $this->logConvertImages('Step 3 skipped: no files selected for conversion');
+        }
+
+        $this->logConvertImages('Step 4 started: image cache processing', array(
+            'mode' => $dry_run ? 'dry_run_count' : 'clear'
+        ));
+
+        $result['cache_removed'] = $dry_run
+            ? $this->countImageCacheFiles()
+            : $this->clearImageCacheFiles();
+
+        $this->logConvertImages('Step 4 finished: image cache processing', array(
+            'cache_removed' => (int)$result['cache_removed']
+        ));
+
+        $this->logConvertImages('Bulk conversion summary', array(
+            'dry_run' => $dry_run ? 1 : 0,
+            'mapping_count' => count($mapping),
+            'renamed' => (int)$result['renamed'],
+            'db_updates' => (int)$result['db_updates'],
+            'cache_removed' => (int)$result['cache_removed']
+        ));
+
+        return $result;
+    }
+
+    private function logConvertImages($message, $context = array())
+    {
+        $line = '[oxyo_convert_images] ' . $message;
+        $progress_line = date('H:i:s') . ' | ' . $message;
+
+        if (!empty($context)) {
+            $line .= ' | ' . json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $progress_line .= ' | ' . json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        $this->convertImagesProgress[] = $progress_line;
+
+        if (count($this->convertImagesProgress) > 5000) {
+            $this->convertImagesProgress = array_slice($this->convertImagesProgress, -5000);
+        }
+
+        if (empty($this->enableConvertImagesLog)) {
+            return;
+        }
+
+        try {
+            if (isset($this->log) && is_object($this->log) && method_exists($this->log, 'write')) {
+                $this->log->write($line);
+                return;
+            }
+
+            if (defined('DIR_LOGS') && class_exists('Log')) {
+                $fallback_log = new Log('error.log');
+                $fallback_log->write($line);
+            }
+        } catch (\Throwable $exception) {
+            // Ignore logging exceptions to avoid breaking the main flow.
+        }
+    }
+
+    private function splitFilenameAndExtension($filename)
+    {
+        $dot_pos = strrpos($filename, '.');
+
+        if ($dot_pos === false || $dot_pos === 0) {
+            return array($filename, '');
+        }
+
+        return array(substr($filename, 0, $dot_pos), substr($filename, $dot_pos + 1));
+    }
+
+    private function safeBasenameForConvert($path)
+    {
+        $path = str_replace('\\', '/', (string)$path);
+
+        if ($path === '') {
+            return '';
+        }
+
+        $parts = explode('/', $path);
+
+        return (string)end($parts);
+    }
+
+    private function normalizeFilenameToLatin($filename)
+    {
+        list($name, $ext) = $this->splitFilenameAndExtension($filename);
+
+        $name = $this->normalizeToUtf8ForConvert($name);
+        $name = html_entity_decode($name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $name = preg_replace('/[\x00-\x1F\x7F]+/', '_', $name);
+        $name = str_replace(array(' ', "\t", "\r", "\n"), '_', $name);
+        $name = preg_replace('/[^\p{L}\p{N}_-]+/u', '_', $name);
+        $name = $this->transliterateToLatinForConvert($name);
+        $name = preg_replace('/[^A-Za-z0-9_-]+/', '_', $name);
+        $name = preg_replace('/_+/', '_', $name);
+        $name = trim($name, '_');
+        $name = utf8_strtolower($name);
+
+        if ($name === '') {
+            $name = 'file';
+        }
+
+        $ext = utf8_strtolower($ext);
+
+        return $name . ($ext !== '' ? '.' . $ext : '');
+    }
+
+    private function buildUniqueFilenameForDirectory($directory, $filename, $original_name = '')
+    {
+        list($name, $ext) = $this->splitFilenameAndExtension($filename);
+        $suffix = $ext !== '' ? '.' . $ext : '';
+        $candidate = $name . $suffix;
+        $i = 1;
+
+        while (file_exists($directory . '/' . $candidate) && $candidate !== $original_name) {
+            $candidate = $name . '-' . $i . $suffix;
+            $i++;
+        }
+
+        return $candidate;
+    }
+
+    private function normalizeToUtf8ForConvert($value)
+    {
+        if (function_exists('mb_check_encoding') && mb_check_encoding($value, 'UTF-8')) {
+            return $value;
+        }
+
+        $encodings = array('Windows-1251', 'CP1251', 'KOI8-R', 'ISO-8859-5');
+
+        foreach ($encodings as $encoding) {
+            $converted = false;
+
+            if (function_exists('iconv')) {
+                $converted = @iconv($encoding, 'UTF-8//IGNORE', $value);
+            }
+
+            if (($converted === false || $converted === '') && function_exists('mb_convert_encoding')) {
+                $converted = @mb_convert_encoding($value, 'UTF-8', $encoding);
+            }
+
+            if ($converted !== false && $converted !== '' && (!function_exists('mb_check_encoding') || mb_check_encoding($converted, 'UTF-8'))) {
+                return $converted;
+            }
+        }
+
+        return $value;
+    }
+
+    private function transliterateToLatinForConvert($value)
+    {
+        $map = array(
+            'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'E', 'Ж' => 'Zh',
+            'З' => 'Z', 'И' => 'I', 'Й' => 'Y', 'К' => 'K', 'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O',
+            'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U', 'Ф' => 'F', 'Х' => 'Kh', 'Ц' => 'Ts',
+            'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Shch', 'Ъ' => '', 'Ы' => 'Y', 'Ь' => '', 'Э' => 'E', 'Ю' => 'Yu',
+            'Я' => 'Ya',
+            'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'e', 'ж' => 'zh',
+            'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o',
+            'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'kh', 'ц' => 'ts',
+            'ч' => 'ch', 'ш' => 'sh', 'щ' => 'shch', 'ъ' => '', 'ы' => 'y', 'ь' => '', 'э' => 'e', 'ю' => 'yu',
+            'я' => 'ya'
+        );
+
+        $value = strtr($value, $map);
+
+        if (class_exists('Transliterator')) {
+            $transliterator = \Transliterator::create('Any-Latin; Latin-ASCII');
+            if ($transliterator) {
+                $value = $transliterator->transliterate($value);
+            }
+        } elseif (function_exists('iconv')) {
+            $converted = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+            if ($converted !== false) {
+                $value = $converted;
+            }
+        }
+
+        return $value;
+    }
+
+    private function rewriteImageReferencesInDatabase($mapping)
+    {
+        $affected = 0;
+
+        $this->logConvertImages('DB rewrite started', array('mapping_total' => count($mapping)));
+
+        $columns = $this->getImageTextColumns();
+
+        if (empty($columns)) {
+            $this->logConvertImages('DB rewrite skipped: no text columns found');
+            return $affected;
+        }
+
+        foreach ($mapping as $old_rel => $new_rel) {
+            $replacements = array(
+                $old_rel => $new_rel,
+                'image/' . $old_rel => 'image/' . $new_rel,
+                '/image/' . $old_rel => '/image/' . $new_rel
+            );
+
+            foreach ($columns as $column) {
+                $table = $column['TABLE_NAME'];
+                $field = $column['COLUMN_NAME'];
+
+                foreach ($replacements as $old_value => $new_value) {
+                    $query = "UPDATE `" . $table . "` SET `" . $field . "` = REPLACE(CONVERT(`" . $field . "` USING utf8mb4), CONVERT('" . $this->db->escape($old_value) . "' USING utf8mb4), CONVERT('" . $this->db->escape($new_value) . "' USING utf8mb4)) WHERE CONVERT(`" . $field . "` USING utf8mb4) LIKE CONCAT('%', CONVERT('" . $this->db->escape($old_value) . "' USING utf8mb4), '%')";
+                    $this->db->query($query);
+                    $affected += $this->db->countAffected();
+                }
+            }
+        }
+
+        $this->logConvertImages('DB rewrite finished', array('affected_rows' => (int)$affected));
+
+        return $affected;
+    }
+
+    private function countImageReferencesInDatabase($mapping)
+    {
+        $matched = 0;
+
+        $this->logConvertImages('DB count started', array('mapping_total' => count($mapping)));
+
+        $columns = $this->getImageTextColumns();
+
+        if (empty($columns)) {
+            $this->logConvertImages('DB count skipped: no text columns found');
+            return $matched;
+        }
+
+        foreach ($mapping as $old_rel => $new_rel) {
+            $replacements = array(
+                $old_rel => $new_rel,
+                'image/' . $old_rel => 'image/' . $new_rel,
+                '/image/' . $old_rel => '/image/' . $new_rel
+            );
+
+            foreach ($columns as $column) {
+                $table = $column['TABLE_NAME'];
+                $field = $column['COLUMN_NAME'];
+
+                foreach ($replacements as $old_value => $new_value) {
+                    $count_query = $this->db->query("SELECT COUNT(*) AS total FROM `" . $table . "` WHERE CONVERT(`" . $field . "` USING utf8mb4) LIKE CONCAT('%', CONVERT('" . $this->db->escape($old_value) . "' USING utf8mb4), '%')");
+                    $matched += (int)$count_query->row['total'];
+                }
+            }
+        }
+
+        $this->logConvertImages('DB count finished', array('matched_rows' => (int)$matched));
+
+        return $matched;
+    }
+
+    private function getImageTextColumns()
+    {
+        $columns = $this->db->query("SELECT TABLE_NAME, COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" . $this->db->escape(DB_DATABASE) . "' AND TABLE_NAME LIKE '" . $this->db->escape(DB_PREFIX) . "%' AND DATA_TYPE IN ('char','varchar','text','mediumtext','longtext')");
+
+        return $columns->rows;
+    }
+
+    private function countImageCacheFiles()
+    {
+        $cache_dir = rtrim(DIR_IMAGE, '/') . '/cache';
+
+        $this->logConvertImages('Cache count started', array('cache_dir' => $cache_dir));
+
+        if (!is_dir($cache_dir)) {
+            $this->logConvertImages('Cache count skipped: cache dir not found', array('cache_dir' => $cache_dir));
+            return 0;
+        }
+
+        $count = 0;
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($cache_dir, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $file_info) {
+            $count++;
+        }
+
+        $this->logConvertImages('Cache count finished', array('items_total' => (int)$count));
+
+        return $count;
+    }
+
+    private function clearImageCacheFiles()
+    {
+        $cache_dir = rtrim(DIR_IMAGE, '/') . '/cache';
+
+        $this->logConvertImages('Cache clear started', array('cache_dir' => $cache_dir));
+
+        if (!is_dir($cache_dir)) {
+            $this->logConvertImages('Cache clear skipped: cache dir not found', array('cache_dir' => $cache_dir));
+            return 0;
+        }
+
+        $removed = 0;
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($cache_dir, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        foreach ($iterator as $file_info) {
+            $path = $file_info->getPathname();
+
+            if ($file_info->isDir()) {
+                if (@rmdir($path)) {
+                    $removed++;
+                }
+            } else {
+                if (@unlink($path)) {
+                    $removed++;
+                }
+            }
+        }
+
+        $this->logConvertImages('Cache clear finished', array('removed_items' => (int)$removed));
+
+        return $removed;
+    }
+
+    private function logConvertImagesList($title, $items)
+    {
+        if (empty($this->enableConvertImagesLog)) {
+            return;
+        }
+
+        $this->logConvertImages($title, array('count' => count($items)));
+
+        foreach ($items as $item) {
+            $this->logConvertImages($title . ' item', array('value' => $item));
+        }
     }
 
     private function validate()
