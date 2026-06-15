@@ -1216,6 +1216,7 @@ class ControllerExtensionOxyoOxyo extends Controller
     private function rewriteImageReferencesInDatabase($mapping)
     {
         $affected = 0;
+        $processed = 0;
 
         $this->logConvertImages('DB rewrite started', array('mapping_total' => count($mapping)));
 
@@ -1227,6 +1228,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         }
 
         foreach ($mapping as $old_rel => $new_rel) {
+            $processed++;
             $replacements = array(
                 $old_rel => $new_rel,
                 'image/' . $old_rel => 'image/' . $new_rel,
@@ -1243,6 +1245,14 @@ class ControllerExtensionOxyoOxyo extends Controller
                     $affected += $this->db->countAffected();
                 }
             }
+
+            if ($processed % 5 === 0 || $processed === count($mapping)) {
+                $this->logConvertImages('DB rewrite progress', array(
+                    'processed' => $processed,
+                    'total' => count($mapping),
+                    'affected_rows' => (int)$affected
+                ));
+            }
         }
 
         $this->logConvertImages('DB rewrite finished', array('affected_rows' => (int)$affected));
@@ -1253,6 +1263,7 @@ class ControllerExtensionOxyoOxyo extends Controller
     private function countImageReferencesInDatabase($mapping)
     {
         $matched = 0;
+        $processed = 0;
 
         $this->logConvertImages('DB count started', array('mapping_total' => count($mapping)));
 
@@ -1264,6 +1275,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         }
 
         foreach ($mapping as $old_rel => $new_rel) {
+            $processed++;
             $replacements = array(
                 $old_rel => $new_rel,
                 'image/' . $old_rel => 'image/' . $new_rel,
@@ -1278,6 +1290,14 @@ class ControllerExtensionOxyoOxyo extends Controller
                     $count_query = $this->db->query("SELECT COUNT(*) AS total FROM `" . $table . "` WHERE CONVERT(`" . $field . "` USING utf8mb4) LIKE CONCAT('%', CONVERT('" . $this->db->escape($old_value) . "' USING utf8mb4), '%')");
                     $matched += (int)$count_query->row['total'];
                 }
+            }
+
+            if ($processed % 5 === 0 || $processed === count($mapping)) {
+                $this->logConvertImages('DB count progress', array(
+                    'processed' => $processed,
+                    'total' => count($mapping),
+                    'matched_rows' => (int)$matched
+                ));
             }
         }
 
@@ -1311,8 +1331,18 @@ class ControllerExtensionOxyoOxyo extends Controller
             RecursiveIteratorIterator::SELF_FIRST
         );
 
+        $processed = 0;
+
         foreach ($iterator as $file_info) {
+            $processed++;
             $count++;
+
+            if ($processed % 250 === 0) {
+                $this->logConvertImages('Cache count progress', array(
+                    'processed' => $processed,
+                    'items_total' => (int)$count
+                ));
+            }
         }
 
         $this->logConvertImages('Cache count finished', array('items_total' => (int)$count));
@@ -1332,6 +1362,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         }
 
         $removed = 0;
+        $processed = 0;
 
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($cache_dir, FilesystemIterator::SKIP_DOTS),
@@ -1339,6 +1370,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         );
 
         foreach ($iterator as $file_info) {
+            $processed++;
             $path = $file_info->getPathname();
 
             if ($file_info->isDir()) {
@@ -1349,6 +1381,13 @@ class ControllerExtensionOxyoOxyo extends Controller
                 if (@unlink($path)) {
                     $removed++;
                 }
+            }
+
+            if ($processed % 250 === 0) {
+                $this->logConvertImages('Cache clear progress', array(
+                    'processed' => $processed,
+                    'removed_items' => (int)$removed
+                ));
             }
         }
 
