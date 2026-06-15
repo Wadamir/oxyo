@@ -34,20 +34,6 @@
 	</div>
 </div>
 
-<div class="modal fade" id="convert-images-progress-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{{ text_convert_images_progress_title }}</h4>
-			</div>
-			<div class="modal-body">
-				<pre id="convert-images-progress-log" style="max-height:420px;overflow:auto;white-space:pre-wrap;"></pre>
-			</div>
-		</div>
-	</div>
-</div>
-
 <legend class="sub">{{ text_image_sizes_product_pages }}</legend>
 <div class="form-group">
 	<label class="col-sm-2 control-label">{{ entry_image_main_product }}</label>
@@ -224,23 +210,6 @@
 </div>
 
 <script type="text/javascript">
-function appendConvertProgressLine(line) {
-	var $log = $('#convert-images-progress-log');
-	var current = $log.text();
-	$log.text(current ? (current + "\n" + line) : line);
-	$log.scrollTop($log[0].scrollHeight);
-}
-
-function renderServerProgress(progress) {
-	if (!progress || !progress.length) {
-		return;
-	}
-
-	for (var i = 0; i < progress.length; i++) {
-		appendConvertProgressLine(progress[i]);
-	}
-}
-
 function buildConvertImagesMessage(json) {
 	var message = json.success || '{{ text_convert_images_done|e('js') }}';
 	message += ' {{ text_convert_images_result_renamed|e('js') }}: ' + (json.renamed || 0);
@@ -257,98 +226,12 @@ function buildConvertImagesMessage(json) {
 function showConvertImagesResult($result, json) {
 	if (json.error) {
 		$result.addClass('alert-danger').text(json.error).show();
-		appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + json.error);
 		return;
 	}
 
 	var message = buildConvertImagesMessage(json);
 
-	if (json.errors && json.errors.length) {
-		appendConvertProgressLine('{{ text_convert_images_progress_warn_prefix|e('js') }} ' + json.errors.join(' | '));
-	}
-
 	$result.addClass('alert-success').text(message).show();
-	appendConvertProgressLine('{{ text_convert_images_progress_done_prefix|e('js') }} ' + message);
-}
-
-function runConvertImagesStream($button, $result) {
-	var url = '{{ action_convert_images|replace({'&amp;': '&'}) }}';
-	var formData = new FormData();
-	formData.append('dry_run', $('#convert-images-dry-run').is(':checked') ? '1' : '0');
-	formData.append('enable_convert_log', $('#convert-images-enable-log').is(':checked') ? '1' : '0');
-	formData.append('stream', '1');
-
-	return new Promise(function(resolve, reject) {
-		var xhr = new XMLHttpRequest();
-		var lastLength = 0;
-		var buffer = '';
-		var resultJson = null;
-
-		function handleLine(line) {
-			if (!line) {
-				return;
-			}
-
-			if (line.indexOf('__RESULT__ ') === 0) {
-				try {
-					resultJson = JSON.parse(line.substring(11));
-				} catch (error) {
-					resultJson = { error: '{{ text_convert_images_error|e('js') }}' };
-				}
-				return;
-			}
-
-			appendConvertProgressLine(line);
-		}
-
-		function consumeResponseText() {
-			var chunk = xhr.responseText.substring(lastLength);
-			lastLength = xhr.responseText.length;
-			buffer += chunk;
-
-			var lines = buffer.split(/\r?\n/);
-			buffer = lines.pop();
-
-			for (var i = 0; i < lines.length; i++) {
-				handleLine(lines[i]);
-			}
-		}
-
-		xhr.open('POST', url, true);
-		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		xhr.onload = function() {
-			consumeResponseText();
-
-			if (buffer) {
-				handleLine(buffer);
-				buffer = '';
-			}
-
-			if (!resultJson) {
-				var message = '{{ text_convert_images_error|e('js') }}';
-				if (xhr.responseText) {
-					message += ' | ' + xhr.responseText.replace(/\s+/g, ' ').substr(0, 350);
-				}
-				reject(new Error(message));
-				return;
-			}
-
-			resolve(resultJson);
-		};
-		xhr.onerror = function() {
-			reject(new Error('{{ text_convert_images_error|e('js') }} | network error'));
-		};
-		xhr.onprogress = function() {
-			consumeResponseText();
-		};
-		xhr.send(formData);
-	}).then(function(json) {
-		showConvertImagesResult($result, json || {});
-	}).catch(function(error) {
-		var message = error && error.message ? error.message : '{{ text_convert_images_error|e('js') }}';
-		$result.addClass('alert-danger').text(message).show();
-		appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
-	});
 }
 
 $('#button-convert-images-force').on('click', function() {
@@ -358,21 +241,9 @@ $('#button-convert-images-force').on('click', function() {
 
 	var $button = $(this);
 	var $result = $('#convert-images-result');
-	var $modal = $('#convert-images-progress-modal');
-
-	$('#convert-images-progress-log').text('');
-	$modal.modal('show');
-	appendConvertProgressLine('{{ text_convert_images_progress_started|e('js') }}');
 
 	$button.prop('disabled', true);
 	$result.removeClass('alert-success alert-danger').hide();
-
-	if (window.XMLHttpRequest && window.Promise) {
-		runConvertImagesStream($button, $result).then(function() {
-			$button.prop('disabled', false);
-		});
-		return;
-	}
 
 	$.ajax({
 		url: '{{ action_convert_images|replace({'&amp;': '&'}) }}',
@@ -386,7 +257,6 @@ $('#button-convert-images-force').on('click', function() {
 			$button.prop('disabled', false);
 		},
 		success: function(json) {
-			renderServerProgress(json.progress || []);
 			showConvertImagesResult($result, json);
 		},
 		error: function(xhr) {
@@ -398,7 +268,6 @@ $('#button-convert-images-force').on('click', function() {
 			}
 
 			$result.addClass('alert-danger').text(message).show();
-			appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
 		}
 	});
 });
