@@ -241,6 +241,130 @@ function renderServerProgress(progress) {
 	}
 }
 
+function buildConvertImagesMessage(json) {
+	var message = json.success || '{{ text_convert_images_done|e('js') }}';
+	message += ' {{ text_convert_images_result_renamed|e('js') }}: ' + (json.renamed || 0);
+	message += ', {{ text_convert_images_result_db_updates|e('js') }}: ' + (json.db_updates || 0);
+	message += ', {{ text_convert_images_result_cache_removed|e('js') }}: ' + (json.cache_removed || 0);
+
+	if (json.errors && json.errors.length) {
+		message += '. {{ text_convert_images_result_errors|e('js') }}: ' + json.errors.join(' | ');
+	}
+
+	return message;
+}
+
+function showConvertImagesResult($result, json) {
+	if (json.error) {
+		$result.addClass('alert-danger').text(json.error).show();
+		appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + json.error);
+		return;
+	}
+
+	var message = buildConvertImagesMessage(json);
+
+	if (json.errors && json.errors.length) {
+		appendConvertProgressLine('{{ text_convert_images_progress_warn_prefix|e('js') }} ' + json.errors.join(' | '));
+	}
+
+	$result.addClass('alert-success').text(message).show();
+	appendConvertProgressLine('{{ text_convert_images_progress_done_prefix|e('js') }} ' + message);
+}
+
+function runConvertImagesStream($button, $result) {
+	var url = '{{ action_convert_images|replace({'&amp;': '&'}) }}';
+	var formData = new FormData();
+	formData.append('dry_run', $('#convert-images-dry-run').is(':checked') ? '1' : '0');
+	formData.append('enable_convert_log', $('#convert-images-enable-log').is(':checked') ? '1' : '0');
+	formData.append('stream', '1');
+
+	return fetch(url, {
+		method: 'POST',
+		credentials: 'same-origin',
+		body: formData
+	}).then(function(response) {
+		if (!response.ok || !response.body || !response.body.getReader) {
+			throw response;
+		}
+
+		var reader = response.body.getReader();
+		var decoder = new TextDecoder('utf-8');
+		var buffer = '';
+		var resultJson = null;
+
+		function handleLine(line) {
+			if (!line) {
+				return;
+			}
+
+			if (line.indexOf('__RESULT__ ') === 0) {
+				try {
+					resultJson = JSON.parse(line.substring(11));
+				} catch (error) {
+					resultJson = { error: '{{ text_convert_images_error|e('js') }}' };
+				}
+				return;
+			}
+
+			appendConvertProgressLine(line);
+		}
+
+		function readChunk() {
+			return reader.read().then(function(step) {
+				if (step.done) {
+					if (buffer) {
+						buffer.split(/\r?\n/).forEach(handleLine);
+					}
+
+					if (!resultJson) {
+						throw new Error('{{ text_convert_images_error|e('js') }}');
+					}
+
+					return resultJson;
+				}
+
+				buffer += decoder.decode(step.value, { stream: true });
+				var lines = buffer.split(/\r?\n/);
+				buffer = lines.pop();
+
+				for (var i = 0; i < lines.length; i++) {
+					handleLine(lines[i]);
+				}
+
+				return readChunk();
+			});
+		}
+
+		return readChunk();
+	}).then(function(json) {
+		showConvertImagesResult($result, json || {});
+	}).catch(function(error) {
+		var message = '{{ text_convert_images_error|e('js') }}';
+
+		if (error && error.status) {
+			message += ' HTTP ' + error.status;
+		}
+
+		if (error && typeof error.text === 'function') {
+			return error.text().then(function(text) {
+				if (text) {
+					message += ' | ' + text.replace(/\s+/g, ' ').substr(0, 350);
+				}
+
+				$result.addClass('alert-danger').text(message).show();
+				appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
+			});
+		}
+
+		if (error && error.message) {
+			message += ' | ' + error.message;
+		}
+
+		$result.addClass('alert-danger').text(message).show();
+		appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + message);
+	});
+}
+
 $('#button-convert-images-force').on('click', function() {
 	if (!confirm('{{ text_confirm_convert_images|e('js') }}')) {
 		return;
@@ -257,6 +381,13 @@ $('#button-convert-images-force').on('click', function() {
 	$button.prop('disabled', true);
 	$result.removeClass('alert-success alert-danger').hide();
 
+	if (window.fetch && window.ReadableStream && window.TextDecoder) {
+		runConvertImagesStream($button, $result).finally(function() {
+			$button.prop('disabled', false);
+		});
+		return;
+	}
+
 	$.ajax({
 		url: '{{ action_convert_images|replace({'&amp;': '&'}) }}',
 		type: 'post',
@@ -270,25 +401,7 @@ $('#button-convert-images-force').on('click', function() {
 		},
 		success: function(json) {
 			renderServerProgress(json.progress || []);
-
-			if (json.error) {
-				$result.addClass('alert-danger').text(json.error).show();
-				appendConvertProgressLine('{{ text_convert_images_progress_error_prefix|e('js') }} ' + json.error);
-				return;
-			}
-
-			var message = json.success || '{{ text_convert_images_done|e('js') }}';
-			message += ' {{ text_convert_images_result_renamed|e('js') }}: ' + (json.renamed || 0);
-			message += ', {{ text_convert_images_result_db_updates|e('js') }}: ' + (json.db_updates || 0);
-			message += ', {{ text_convert_images_result_cache_removed|e('js') }}: ' + (json.cache_removed || 0);
-
-			if (json.errors && json.errors.length) {
-				message += '. {{ text_convert_images_result_errors|e('js') }}: ' + json.errors.join(' | ');
-				appendConvertProgressLine('{{ text_convert_images_progress_warn_prefix|e('js') }} ' + json.errors.join(' | '));
-			}
-
-			$result.addClass('alert-success').text(message).show();
-			appendConvertProgressLine('{{ text_convert_images_progress_done_prefix|e('js') }} ' + message);
+			showConvertImagesResult($result, json);
 		},
 		error: function(xhr) {
 			var message = '{{ text_convert_images_error|e('js') }}';

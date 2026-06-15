@@ -5,6 +5,7 @@ class ControllerExtensionOxyoOxyo extends Controller
     private $error = array();
     private $store_id = 0;
     private $enableConvertImagesLog = true;
+    private $enableConvertImagesStream = false;
     private $convertImagesProgress = array();
 
     public function index()
@@ -810,11 +811,17 @@ class ControllerExtensionOxyoOxyo extends Controller
         $json = array();
         $dry_run = !empty($this->request->post['dry_run']);
         $this->enableConvertImagesLog = !empty($this->request->post['enable_convert_log']);
+        $this->enableConvertImagesStream = !empty($this->request->post['stream']);
         $this->convertImagesProgress = array();
+
+        if ($this->enableConvertImagesStream) {
+            $this->prepareConvertImagesStreamOutput();
+        }
 
         $this->logConvertImages('Request started', array(
             'dry_run' => $dry_run ? 1 : 0,
             'enable_convert_log' => $this->enableConvertImagesLog ? 1 : 0,
+            'enable_convert_stream' => $this->enableConvertImagesStream ? 1 : 0,
             'store_id' => (int)$this->store_id,
             'user_id' => isset($this->session->data['user_id']) ? (int)$this->session->data['user_id'] : 0
         ));
@@ -836,9 +843,7 @@ class ControllerExtensionOxyoOxyo extends Controller
                     'line' => $exception->getLine()
                 ));
 
-                $this->response->addHeader('Content-Type: application/json');
-                $this->response->setOutput(json_encode($json));
-
+                $this->finishConvertImagesResponse($json);
                 return;
             }
 
@@ -865,8 +870,37 @@ class ControllerExtensionOxyoOxyo extends Controller
             }
         }
 
+        $this->finishConvertImagesResponse($json);
+    }
+
+    private function finishConvertImagesResponse(array $json)
+    {
+        if ($this->enableConvertImagesStream) {
+            echo '__RESULT__ ' . json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";
+            @ob_flush();
+            @flush();
+            return;
+        }
+
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
+    }
+
+    private function prepareConvertImagesStreamOutput()
+    {
+        if (!headers_sent()) {
+            $this->response->addHeader('Content-Type: text/plain; charset=utf-8');
+            $this->response->addHeader('Cache-Control: no-cache, no-transform');
+            $this->response->addHeader('X-Accel-Buffering: no');
+        }
+
+        while (ob_get_level() > 0) {
+            @ob_end_flush();
+        }
+
+        @ini_set('output_buffering', 'off');
+        @ini_set('zlib.output_compression', '0');
+        @ob_implicit_flush(true);
     }
 
     private function runBulkImageFilenameConversion($dry_run = false)
@@ -1017,6 +1051,12 @@ class ControllerExtensionOxyoOxyo extends Controller
         }
 
         $this->convertImagesProgress[] = $progress_line;
+
+        if ($this->enableConvertImagesStream) {
+            echo $progress_line . "\n";
+            @ob_flush();
+            @flush();
+        }
 
         if (count($this->convertImagesProgress) > 5000) {
             $this->convertImagesProgress = array_slice($this->convertImagesProgress, -5000);
