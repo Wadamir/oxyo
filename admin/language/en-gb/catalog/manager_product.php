@@ -209,6 +209,7 @@ $_['text_tags_tag']    						= 'Available tags: <strong>[product], [model], [man
 											  
 // Column
 $_['column_image']           				= 'Image';
+$_['column_video']           				= 'Video';
 $_['column_name']            				= 'Product Name';
 $_['column_category']        				= 'Categories';
 $_['column_manufacturer']    				= 'Manufacturer';

@@ -209,6 +209,7 @@ $_['text_tags_tag']    						= 'Доступные теги: <strong>[product], 
 											  
 // Column
 $_['column_image']           				= 'Изображение';
+$_['column_video']           				= 'Видео';
 $_['column_name']            				= 'Название товара';
 $_['column_category']        				= 'Категории';
 $_['column_manufacturer']    				= 'Производитель';

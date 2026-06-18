@@ -1280,4 +1280,10 @@ class ModelCatalogManagerProduct extends Model {
 
 		$this->cache->delete('product');
 	}
+
+	public function saveProductVideo($product_id, $video) {
+		$this->db->query("UPDATE " . DB_PREFIX . "product SET video = '" . $this->db->escape($video) . "', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
+
+		$this->cache->delete('product');
+	}
 }

@@ -204,6 +204,7 @@ class ControllerCatalogManagerProduct extends Controller {
 		$this->load->model('tool/image');
 		
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		$data['no_video_placeholder'] = HTTP_SERVER . 'view/image/no_video.svg';
 		
 		$data['presence_column_meta_h1'] = $this->model_catalog_manager_product->getProductPresenceMetaH1();
 		
@@ -693,6 +694,9 @@ class ControllerCatalogManagerProduct extends Controller {
 		$this->load->model('catalog/manager_product');	
 		$this->load->model('catalog/category');
 
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		$data['no_video_placeholder'] = HTTP_SERVER . 'view/image/no_video.svg';
+
 		$product_total = $this->model_catalog_manager_product->getTotalProducts($filter_data);
 
 		$results = $this->model_catalog_manager_product->getProducts($filter_data);
@@ -719,8 +723,14 @@ class ControllerCatalogManagerProduct extends Controller {
 			} else {
 				$thumb = $this->model_tool_image->resize('no_image.png', 100, 100);
 			}
-			
-			$placeholder = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+			if (!empty($result['video']) && file_exists(DIR_IMAGE . $result['video'])) {
+				$video = $result['video'];
+				$video_thumb = $server . 'image/' . $result['video'];
+			} else {
+				$video = '';
+				$video_thumb = '';
+			}
 			
 			$special = false;
 
@@ -762,6 +772,8 @@ class ControllerCatalogManagerProduct extends Controller {
 			$data['products'][] = array(
 				'product_id' 		 => $result['product_id'],
 				'name'        		 => $result['name'],
+				'video'      		 => $video,
+				'video_thumb'     => $video_thumb,
 				'image'       		 => $image,
 				'thumb'       		 => $thumb,
 				'img'         		 => $img,
@@ -1615,6 +1627,34 @@ class ControllerCatalogManagerProduct extends Controller {
 			}
 		}
 		
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function saveProductVideo() {
+		$this->load->language('catalog/manager_product');
+		$this->load->model('catalog/manager_product');
+
+		$json = array();
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+			if (!$this->user->hasPermission('modify', 'catalog/manager_product')) {
+				$json['error'] = $this->language->get('error_permission');
+			}
+
+			if (!isset($this->request->post['product_id'])) {
+				$json['error'] = $this->language->get('error_select_product');
+			}
+
+			if (!isset($json['error'])) {
+				$product_id = (int)$this->request->post['product_id'];
+				$video = isset($this->request->post['video']) ? (string)$this->request->post['video'] : '';
+
+				$this->model_catalog_manager_product->saveProductVideo($product_id, $video);
+				$json['success'] = $this->language->get('text_success_data');
+			}
+		}
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

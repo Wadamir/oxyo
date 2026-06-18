@@ -123,6 +123,7 @@
 .btn-hover-list {
     cursor: pointer;
 }
+
 .checkbox {
     margin: -5px -5px 0 -20px;
     padding: 0;
@@ -385,4 +386,34 @@ ul.child-menu .label {
 
 .popover-content .img-thumbnail {
     max-width: none;
+}
+
+
+#products .popover.popover-image {
+    min-width: 140px;
+    text-align: center;
+}
+
+.popover-image .popover-content .popover-media-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    min-height: 110px;
+    padding: 4px;
+    border: 1px dashed #d6dbe3;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+.popover-image .popover-content .popover-media-link:hover,
+.popover-image .popover-content .popover-media-link:focus {
+    text-decoration: none;
+    background-color: #f7f9fc;
+    border-color: #a9b7ca;
+}
+
+.popover-image .popover-content .popover-media-link > img {
+    width: 100%;
+    height: auto;
 }
