@@ -157,6 +157,7 @@
 
 !/admin/view/image/no_video.png
 !/admin/view/image/no_video2.png
+!/admin/view/image/no_video.svg
 
 /admin/view/javascript/*
 !/admin/view/javascript/
