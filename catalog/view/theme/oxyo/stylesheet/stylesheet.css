@@ -10365,6 +10365,9 @@ a.label-link:not(:hover) {
 
         height: auto;
         width: 100%;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: auto;
+        overscroll-behavior: auto;
 
         display: block;
     }
