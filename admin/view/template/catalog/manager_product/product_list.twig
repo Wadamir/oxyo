@@ -306,7 +306,7 @@
 									<div class="row">
 										<a onclick="linkImage('{{ product.product_id }}', 'video');" class="btn btn-link popover-media-link" id="product-video-preview-{{ product.product_id }}" data-video-placeholder="{{ no_video_placeholder }}">
 											{% if product.video_thumb %}
-												<video width="100%" height="auto" controls muted preload="metadata" autoplay="autoplay" style="max-width: 100%; object-fit: cover;">
+												<video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" style="max-width: 100%; object-fit: cover;">
 													<source src="{{ product.video_thumb }}" type="video/mp4"/>
 												</video>
 											{% else %}
