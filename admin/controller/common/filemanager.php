@@ -496,7 +496,7 @@ class ControllerCommonFileManager extends Controller
                 }
 
                 $data['images'][] = array(
-                    'thumb' => $this->model_tool_image->resize(utf8_substr($image, utf8_strlen(DIR_IMAGE)), 100, 100),
+                    'thumb' => $this->model_tool_image->resize(utf8_substr($image, utf8_strlen(DIR_IMAGE)), 200, 200),
                     'name'  => $name,
                     // 'type'  => 'image',
                     'type'  => $type, // Video support
