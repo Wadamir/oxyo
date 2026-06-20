@@ -265,7 +265,7 @@
 							</td>
 						{% endif %}
 						<td class="text-center">
-							<a data-toggle="popover-maxy" data-target="#product-video-{{ product.product_id }}" id="product-video{{ product.product_id }}" class="btn-hover-list">
+							<a data-toggle="modal" data-target="#product-video-{{ product.product_id }}" id="product-video{{ product.product_id }}" class="btn-hover-list">
 								{% if product.video_thumb %}
 									<video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" style="object-fit: cover;">
 										<source src="{{ product.video_thumb }}" type="video/mp4"/>
@@ -274,36 +274,6 @@
 									<img src="{{ no_video_placeholder }}" alt="" style="width: 40px; height: 40px; object-fit: contain;"/>
 								{% endif %}
 							</a>
-							<div id="product-video-{{ product.product_id }}" class="popover popover-primary popover-image">
-								<div class="arrow"></div>
-								<h3 class="popover-title">{{ column_video }}
-									<a id="close-video-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs">
-										<i class="fa fa-close"></i>
-									</a>
-								</h3>
-								<div class="popover-content">
-									<div class="row">
-										<a onclick="linkImage('{{ product.product_id }}', 'video');" class="btn btn-link popover-media-link" id="product-video-preview-{{ product.product_id }}" data-video-placeholder="{{ no_video_placeholder }}">
-											{% if product.video_thumb %}
-												<video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" style="max-width: 100%; object-fit: cover;">
-													<source src="{{ product.video_thumb }}" type="video/mp4"/>
-												</video>
-											{% else %}
-												<img src="{{ no_video_placeholder }}" class="img-thumbnail" data-placeholder="{{ no_video_placeholder }}" style="max-width: 100%; object-fit: cover;"/>
-											{% endif %}
-										</a>
-										<input type="hidden" name="video" value="{{ product.video }}" id="input-video-{{ product.product_id }}"/>
-									</div>
-								</div>
-								<div class="popover-footer">
-									<a onclick="editData('{{ product.product_id }}', 'video');" class="btn btn-primary btn-sm">
-										<i class="fa fa-save fa-fw"></i>
-									</a>
-									<a onclick="clearData('{{ product.product_id }}', 'video');" class="btn btn-danger btn-sm">
-										<i class="fa fa-eraser fa-fw"></i>
-									</a>
-								</div>
-							</div>
 						</td>
 						<td class="text-left">
 							{% if manager_product_name %}
@@ -1313,14 +1283,14 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body text-center">
                         <a onclick="linkImage('{{ product.product_id }}', 'video');" class="btn btn-link popover-media-link" id="product-video-preview-{{ product.product_id }}" data-video-placeholder="{{ no_video_placeholder }}">
                             {% if product.video_thumb %}
                                 <video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" style="max-width: 100%; object-fit: cover;">
                                     <source src="{{ product.video_thumb }}" type="video/mp4"/>
                                 </video>
                             {% else %}
-                                <img src="{{ no_video_placeholder }}" class="img-thumbnail" data-placeholder="{{ no_video_placeholder }}" style="max-width: 100%; object-fit: cover;"/>
+                                <img src="{{ no_video_placeholder }}" class="img-thumbnail" data-placeholder="{{ no_video_placeholder }}" style="max-width: 100%; width:200px; object-fit: cover;"/>
                             {% endif %}
                         </a>
                         <input type="hidden" name="video" value="{{ product.video }}" id="input-video-{{ product.product_id }}"/>
