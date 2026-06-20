@@ -393,7 +393,7 @@ ul.child-menu .label {
 
 
 #products .popover.popover-image {
-    min-width: 140px;
+    min-width: 180px;
     text-align: center;
 }
 #product-list .btn-hover-list {
@@ -415,11 +415,11 @@ ul.child-menu .label {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 110px;
-    min-height: 110px;
-    padding: 4px;
-    border: 1px dashed #d6dbe3;
-    border-radius: 3px;
+    width: 170px;
+    min-height: 170px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
     background-color: #ffffff;
 }
 
