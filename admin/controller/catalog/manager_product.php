@@ -711,17 +711,17 @@ class ControllerCatalogManagerProduct extends Controller {
 			$product_info = $this->model_catalog_manager_product->getProduct($result['product_id']);
 			
 			if ($product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
-				$image = $this->model_tool_image->resize($product_info['image'], 180, 180);
+				$image = $this->model_tool_image->resize($product_info['image'], 400, 600);
 				$img = $product_info['image'];
 			} else {
-				$image = $this->model_tool_image->resize('no_image.png', 180, 180);
+				$image = $this->model_tool_image->resize('no_image.png', 400, 600);
 				$img = '';
 			}
 			
 			if ($product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
-				$thumb = $this->model_tool_image->resize($product_info['image'], 100, 100);
+				$thumb = $this->model_tool_image->resize($product_info['image'], 400, 600);
 			} else {
-				$thumb = $this->model_tool_image->resize('no_image.png', 100, 100);
+				$thumb = $this->model_tool_image->resize('no_image.png', 400, 600);
 			}
 
 			if (!empty($result['video']) && file_exists(DIR_IMAGE . $result['video'])) {

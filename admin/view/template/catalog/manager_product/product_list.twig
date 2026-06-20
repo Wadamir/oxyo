@@ -257,29 +257,8 @@
 						</td>
 						{% if image_view %}
 							<td class="text-center">
-								{% if manager_product_image %}
-									<a data-toggle="popover-maxy" data-target="#product-image-{{ product.product_id }}" id="product-image{{ product.product_id }}" class="btn-hover-list"><img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail"/></a>
-									<div id="product-image-{{ product.product_id }}" class="popover popover-primary popover-image">
-										<div class="arrow"></div>
-										<h3 class="popover-title">{{ column_image }}
-											<a id="close-image-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs">
-												<i class="fa fa-close"></i>
-											</a>
-										</h3>
-										<div class="popover-content">
-											<div class="row">
-												<a onclick="linkImage('{{ product.product_id }}');" class="btn btn-link popover-media-link"><img src="{{ product.image }}" class="img-thumbnail"/></a><input type="hidden" name="image" value="{{ product.img }}" id="product-current-image-{{ product.product_id }}"/>
-											</div>
-										</div>
-										<div class="popover-footer">
-											<a onclick="editData('{{ product.product_id }}', 'image');" class="btn btn-primary btn-sm">
-												<i class="fa fa-save fa-fw"></i>
-											</a>
-											<a onclick="clearData('{{ product.product_id }}', 'image');" class="btn btn-danger btn-sm">
-												<i class="fa fa-eraser fa-fw"></i>
-											</a>
-										</div>
-									</div>
+								{% if manager_product_image %}             
+									<a data-toggle="modal" data-target="#product-image-{{ product.product_id }}" id="product-image{{ product.product_id }}" class="btn-hover-list"><img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail"/></a>
 								{% else %}
 									<img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail"/>
 								{% endif %}
@@ -385,27 +364,26 @@
 												<i class="fa fa-eraser fa-fw"></i>
 											</a>
 										</div>
-										<script
-											type="text/javascript">
+										<script type="text/javascript">
 											<!--
 											$('#product-manufacturer_id- {{ product.product_id }}input[name=\'manufacturer\']').autocomplete({
-'source': function (request, response) {
-$.ajax({
-url: 'index.php?route=catalog/manager_product/autocomplete_manufacturer&user_token= {{ user_token }}&filter_name=' + encodeURIComponent(request),
-dataType: 'json',
-success: function (json) {
-response($.map(json, function (item) {
-return {label: item['name'], value: item['manufacturer_id']}
-}));
-}
-});
-},
-'select': function (item) {
-$('#product-manufacturer_id- {{ product.product_id }}input[name=\'manufacturer\']').val(item['label']);
-$('#product-manufacturer_id- {{ product.product_id }}input[name=\'manufacturer_id\']').val(item['value']);
-}
-});
-//--></script>
+                                                'source': function (request, response) {
+                                                    $.ajax({
+                                                        url: 'index.php?route=catalog/manager_product/autocomplete_manufacturer&user_token= {{ user_token }}&filter_name=' + encodeURIComponent(request),
+                                                        dataType: 'json',
+                                                        success: function (json) {
+                                                            response($.map(json, function (item) {
+                                                                return {label: item['name'], value: item['manufacturer_id']}
+                                                            }));
+                                                        }
+                                                    });
+                                                },
+                                                'select': function (item) {
+                                                    $('#product-manufacturer_id- {{ product.product_id }}input[name=\'manufacturer\']').val(item['label']);
+                                                    $('#product-manufacturer_id- {{ product.product_id }}input[name=\'manufacturer_id\']').val(item['value']);
+                                                }
+                                            });
+                                            //--></script>
 									</div>
 								{% else %}
 									{% if product.manufacturer %}
@@ -1281,22 +1259,83 @@ $('#product-manufacturer_id- {{ product.product_id }}input[name=\'manufacturer_i
 	<div class="col-sm-6 text-left">{{ pagination }}</div>
 	<div class="col-sm-6 text-right">{{ results }}</div>
 </div>
-<script
-	type="text/javascript">
+<script	type="text/javascript">
 	<!--
 	$(document).ready(function () {
-$('#product-list-title input[type=\'checkbox\'], #product-list input[type=\'checkbox\']').on('change', function () {
-if ($('#product-list input[type=\'checkbox\']:checked').val()) {
-$('#option-mass-update').find('a').removeClass('disabled');
-$('#option-mass-delete').find('a').removeClass('disabled');
-} else {
-$('#option-mass-update').find('a').addClass('disabled');
-$('#option-mass-delete').find('a').addClass('disabled');
-}
-});
+        $('#product-list-title input[type=\'checkbox\'], #product-list input[type=\'checkbox\']').on('change', function () {
+            if ($('#product-list input[type=\'checkbox\']:checked').val()) {
+                $('#option-mass-update').find('a').removeClass('disabled');
+                $('#option-mass-delete').find('a').removeClass('disabled');
+            } else {
+                $('#option-mass-update').find('a').addClass('disabled');
+                $('#option-mass-delete').find('a').addClass('disabled');
+            }
+        });
 
-$(document).on('click', '.noclose', function (e) {
-e.stopPropagation();
-});
-});
-//--></script>
+        $(document).on('click', '.noclose', function (e) {
+            e.stopPropagation();
+        });
+    });
+    //-->
+</script>
+<!-- Modals -->
+{% if products %}
+    {% for product in products %}
+        {% if image_view %}
+            <div class="modal fade" id="product-image-{{ product.product_id }}" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                        
+                            <h5 class="modal-title" id="imgModalLabel">{{ product.name }}</h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            <a onclick="linkImage('{{ product.product_id }}');" class="btn btn-link popover-media-link"><img src="{{ product.image }}" class="img-thumbnail"/></a><input type="hidden" name="image" value="{{ product.img }}" id="product-current-image-{{ product.product_id }}"/>
+                        </div>
+                        <div class="modal-footer">
+                            <a onclick="editData('{{ product.product_id }}', 'image');" class="btn btn-primary btn-sm">
+                                <i class="fa fa-save fa-fw"></i>
+                            </a>
+                            <a onclick="clearData('{{ product.product_id }}', 'image');" class="btn btn-danger btn-sm">
+                                <i class="fa fa-eraser fa-fw"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>                                    
+        {% endif %}
+        <div class="modal fade" id="product-video-{{ product.product_id }}" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="videoModalLabel">{{ product.name }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <a onclick="linkImage('{{ product.product_id }}', 'video');" class="btn btn-link popover-media-link" id="product-video-preview-{{ product.product_id }}" data-video-placeholder="{{ no_video_placeholder }}">
+                            {% if product.video_thumb %}
+                                <video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" style="max-width: 100%; object-fit: cover;">
+                                    <source src="{{ product.video_thumb }}" type="video/mp4"/>
+                                </video>
+                            {% else %}
+                                <img src="{{ no_video_placeholder }}" class="img-thumbnail" data-placeholder="{{ no_video_placeholder }}" style="max-width: 100%; object-fit: cover;"/>
+                            {% endif %}
+                        </a>
+                        <input type="hidden" name="video" value="{{ product.video }}" id="input-video-{{ product.product_id }}"/>
+                    </div>
+                    <div class="modal-footer">
+                        <a onclick="editData('{{ product.product_id }}', 'video');" class="btn btn-primary btn-sm">
+                            <i class="fa fa-save fa-fw"></i>
+                        </a>
+                        <a onclick="clearData('{{ product.product_id }}', 'video');" class="btn btn-danger btn-sm">
+                            <i class="fa fa-eraser fa-fw"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>               
+    {% endfor %}
+{% endif %}
+<!-- End Modals -->
