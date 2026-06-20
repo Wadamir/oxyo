@@ -382,6 +382,9 @@ ul.child-menu .label {
 
 .table #product-list > tr > td {
     position: relative;
+
+    padding: 8px 4px 8px 4px;
+    vertical-align: middle;
 }
 
 .popover-content .img-thumbnail {
@@ -392,6 +395,20 @@ ul.child-menu .label {
 #products .popover.popover-image {
     min-width: 140px;
     text-align: center;
+}
+#product-list .btn-hover-list {
+    display: inline-block;
+    width: 100%;
+}
+
+#product-list .btn-hover-list > .img-thumbnail {
+    padding: 0;
+
+    max-width: 100%;
+    height: auto;
+
+    border: none;
+    border-radius: 0;
 }
 
 .popover-image .popover-content .popover-media-link {

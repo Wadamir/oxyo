@@ -711,10 +711,10 @@ class ControllerCatalogManagerProduct extends Controller {
 			$product_info = $this->model_catalog_manager_product->getProduct($result['product_id']);
 			
 			if ($product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
-				$image = $this->model_tool_image->resize($product_info['image'], 40, 40);
+				$image = $this->model_tool_image->resize($product_info['image'], 100, 100);
 				$img = $product_info['image'];
 			} else {
-				$image = $this->model_tool_image->resize('no_image.png', 40, 40);
+				$image = $this->model_tool_image->resize('no_image.png', 100, 100);
 				$img = '';
 			}
 			
