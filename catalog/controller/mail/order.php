@@ -420,6 +420,88 @@ class ControllerMailOrder extends Controller {
             $data['email'] = $order_info['email'];
             $data['telephone'] = $order_info['telephone'];
             $data['ip'] = $order_info['ip'];               
+
+            $order_status_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE order_status_id = '" . (int)$order_status_id . "' AND language_id = '" . (int)$order_info['language_id'] . "'");
+        
+            if ($order_status_query->num_rows) {
+                $data['order_status'] = $order_status_query->row['name'];
+            } else {
+                $data['order_status'] = '';
+            }
+
+            if ($comment && $notify) {
+                $data['comment'] = nl2br($comment);
+            } else {
+                $data['comment'] = '';
+            }
+
+            if ($order_info['payment_address_format']) {
+                $format = $order_info['payment_address_format'];
+            } else {
+                $format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+            }
+
+            $find = array(
+                '{firstname}',
+                '{lastname}',
+                '{company}',
+                '{address_1}',
+                '{address_2}',
+                '{city}',
+                '{postcode}',
+                '{zone}',
+                '{zone_code}',
+                '{country}'
+            );
+
+            $replace = array(
+                'firstname' => $order_info['payment_firstname'],
+                'lastname'  => $order_info['payment_lastname'],
+                'company'   => $order_info['payment_company'],
+                'address_1' => $order_info['payment_address_1'],
+                'address_2' => $order_info['payment_address_2'],
+                'city'      => $order_info['payment_city'],
+                'postcode'  => $order_info['payment_postcode'],
+                'zone'      => $order_info['payment_zone'],
+                'zone_code' => $order_info['payment_zone_code'],
+                'country'   => $order_info['payment_country']
+            );
+
+            $data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));
+
+            if ($order_info['shipping_address_format']) {
+                $format = $order_info['shipping_address_format'];
+            } else {
+                $format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+            }
+
+            $find = array(
+                '{firstname}',
+                '{lastname}',
+                '{company}',
+                '{address_1}',
+                '{address_2}',
+                '{city}',
+                '{postcode}',
+                '{zone}',
+                '{zone_code}',
+                '{country}'
+            );
+
+            $replace = array(
+                'firstname' => $order_info['shipping_firstname'],
+                'lastname'  => $order_info['shipping_lastname'],
+                'company'   => $order_info['shipping_company'],
+                'address_1' => $order_info['shipping_address_1'],
+                'address_2' => $order_info['shipping_address_2'],
+                'city'      => $order_info['shipping_city'],
+                'postcode'  => $order_info['shipping_postcode'],
+                'zone'      => $order_info['shipping_zone'],
+                'zone_code' => $order_info['shipping_zone_code'],
+                'country'   => $order_info['shipping_country']
+            );
+
+            $data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));            
 			
 			// HTML Mail
 			$data['text_received'] = $this->language->get('text_received');
