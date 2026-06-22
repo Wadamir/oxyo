@@ -119,7 +119,7 @@ class ControllerExtensionModuleDigitalElephantFilterPanel extends Controller
                 'categoryProduct' => $this->url->link('product/category'),
                 'ajaxRenderPagination' => $this->url->link('extension/module/digital_elephant_filter/pagination/ajaxRender'),
                 'ajaxRenderQuantityProducts' => $this->url->link('extension/module/digital_elephant_filter/quantity_product/ajaxRender'),
-                'getProduct' => $this->url->link('extension/module/digital_elephant_filter/get_product', '', true),
+                'getProduct' => $this->url->link('extension/module/digital_elephant_filter/get_product'),
                 'ajaxCheckToRenderShowMore' => $this->url->link('extension/module/digital_elephant_filter/show_more/ajaxCheckToRender'),
                 'ajaxRenderPanel' => $this->url->link('extension/module/digital_elephant_filter/panel/ajaxRender'),
                 'ajaxSetStateSection' => $this->url->link('extension/module/digital_elephant_filter/panel/ajaxSetStateSection')
