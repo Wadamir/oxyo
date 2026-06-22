@@ -448,6 +448,7 @@
 !/system/oxyo_video_support.ocmod.xml
 !/system/tweak.ocmod.xml
 !/system/hyper_multi_product_models.ocmod.xml
+!/system/yandex_metrika.ocmod.xml
 
 /system/library/*
 !/system/library/

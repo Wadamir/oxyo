@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Yandex.Metrica</name>
+  <code>Yandex.Metrica</code>
+  <version>1.1.9</version>
+  <author>opencart.ru</author>
+  <link>https://www.opencart.ru/</link>
+
+<!-- Просмотр полного описания товара и добавление в корзину на странице товара -->
+  <file path="catalog/controller/product/product.php">
+    <operation>
+        <search><![CDATA[
+          $this->model_catalog_product->updateViewed($this->request->get['product_id']);
+          ]]>
+        </search>
+        <add position="after">
+          <![CDATA[
+            $data['currency_code'] = $this->session->data['currency'];
+            if (isset($data['product_id']) || isset($product_info['name'])) {
+              $data['metrica_product_id'] = $data['product_id'];
+              $data['metrica_product_name'] = $product_info['name'];
+              if ((float)$product_info['special']) {
+                $data['metrica_product_price'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'], '', false);
+              } else {
+                $data['metrica_product_price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'], '', false);
+              }
+              $data['metrica_product_manufacturer'] = $product_info['manufacturer'];
+              $data['metrica_product_category'] = "";
+
+              $product_categories = $this->model_catalog_product->getCategories($product_info["product_id"]);
+
+              if (count($product_categories) > 0) {
+                $category = array_pop($product_categories);
+                $category_info = $this->model_catalog_category->getCategory($category['category_id']);
+                if ($category_info) {
+                  $data['metrica_product_category'] = $category_info['name'];
+                } else {
+                  $data['metrica_product_category'] = "";
+                }
+              } else {
+                $data['metrica_product_category'] = "";
+              }
+            } else {
+              $this->load->model('setting/setting');
+              $log_status = $this->model_setting_setting->getSettingValue('analytics_yandex_metrica_log');
+              if ($log_status) {
+                $log_ym = new Log('log_yandex_metrica.log');
+                $log_ym->write('Required parameters not found (name and ID)', true);
+              }
+            }
+          ]]>
+        </add>
+    </operation>
+
+    <operation>
+        <search>
+          <![CDATA[
+            public function review() {
+          ]]>
+        </search>
+        <add position="before">
+          <![CDATA[
+            public function getProductDataForYandexMetrica() {
+              $this->load->model('catalog/category');
+              $this->load->model('catalog/product');
+
+              if (isset($this->request->post['event'])) {
+                $event = $this->request->post['event'];
+              } else {
+                $event = 'add';
+              }
+
+              if (isset($this->request->post['id_type']) && $this->request->post['id_type'] == 'key') {
+                $this->load->model('extension/module/yandex_metrica');
+                $product_data_from_cart = $this->model_extension_module_yandex_metrica->getProductFromCart($this->request->post['id']);
+                $product_id = $product_data_from_cart['product_id'];
+              } elseif (isset($this->request->post['id'])) {
+                $product_id = (int)$this->request->post['id'];
+              } else {
+                $product_id = 0;
+              }
+
+              if (isset($this->request->post['quantity']) && $this->request->post['quantity'] === 'null' && $this->request->post['id_type'] === 'key') {
+                $quantity = $product_data_from_cart['quantity'];
+              } elseif (isset($this->request->post['quantity']) && $this->request->post['quantity'] === 'null' && $this->request->post['id_type'] === 'product_id' && $event === 'add') {
+                $quantity = 1;
+              } else {
+                $quantity = (int)$this->request->post['quantity'];
+              }
+
+              if ($product_id === 0) {
+                $this->load->model('setting/setting');
+                $log_status = $this->model_setting_setting->getSettingValue('analytics_yandex_metrica_log');
+                if ($log_status) {
+                  $log_ym = new Log('log_yandex_metrica.log');
+                  $log_ym->write('Required parameters not found (ID)', true);
+                }
+              }
+
+              $product_info = $this->model_catalog_product->getProduct($product_id);
+              $product_categories = $this->model_catalog_product->getCategories($product_id);
+
+              if(count($product_categories) > 0) {
+                $category = array_pop($product_categories);
+                $category_info = $this->model_catalog_category->getCategory($category['category_id']);
+                if ($category_info) {
+                  $product_category = $category_info['name'];
+                } else {
+                  $product_category = "";
+                }
+              } else {
+                $product_category = "";
+              }
+
+              $json = [];
+
+              if ($event == 'add') {
+                $json = [
+                  'currency_code' => $this->session->data['currency'],
+                  'product' => [
+                    'id' => $product_info['product_id'],
+                    'name' => $product_info['name'],
+                    'price' => $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'], '', false),
+                    'brand' => $product_info['manufacturer'],
+                    'category' => $product_category,
+                    'quantity' => $quantity,
+                  ],
+                ];
+              } elseif ($event == 'remove') {
+                $json = [
+                  'currency_code' => $this->session->data['currency'],
+                  'product' => [
+                    'id' => $product_info['product_id'],
+                    'name' => $product_info['name'],
+                    'category' => $product_category,
+                    'quantity' => $quantity,
+                  ],
+                ];
+              }
+
+              $this->response->addHeader('Content-Type: application/json');
+              $this->response->setOutput(json_encode($json));
+            }
+          ]]>
+        </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/product/product.twig">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          $('#cart > ul').load('index.php?route=common/cart/info ul li');
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          product_id = +$("input[name*='product_id']").val();
+          product_quantity = +$("input[name*='quantity']").val();
+          sendDataForEcommerceYandexMetrica({
+            id: product_id,
+            event: 'add',
+            id_type: 'product_id',
+            quantity: product_quantity
+          });
+        ]]>
+      </add>
+    </operation>
+
+    <operation error="skip">
+      <search><![CDATA[{{ footer }}]]></search>
+      <add position="before">
+        <![CDATA[
+          <script type="text/javascript"><!--
+            dataLayer.push({
+              "ecommerce": {
+                "currencyCode": "{{ currency_code }}",
+                "detail": {
+                  "products": [
+                    {
+                      "id": "{{ metrica_product_id }}",
+                      "name" : "{{ metrica_product_name }}",
+                      "price": {{ metrica_product_price }},
+                      "brand": "{{ metrica_product_manufacturer }}",
+                      "category": "{{ metrica_product_category }}"
+                    }
+                  ]
+                }
+              }
+            });
+          //--></script>
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/product/product.tpl">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          $('#cart > ul').load('index.php?route=common/cart/info ul li');
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          product_id = +$("input[name*='product_id']").val();
+          product_quantity = +$("input[name*='quantity']").val();
+          sendDataForEcommerceYandexMetrica({
+            id: product_id,
+            event: 'add',
+            id_type: 'product_id',
+            quantity: product_quantity
+          });
+        ]]>
+      </add>
+    </operation>
+
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          <?php echo $footer; ?>
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          <script type="text/javascript"><!--
+            dataLayer.push({
+              "ecommerce": {
+                "currencyCode": "<?php echo $currency_code; ?>",
+                "detail": {
+                  "products": [
+                    {
+                      "id": "<?php echo $metrica_product_id; ?>",
+                      "name" : "<?php echo $metrica_product_name; ?>",
+                      "price": <?php echo $metrica_product_price; ?>,
+                      "brand": "<?php echo $metrica_product_manufacturer; ?>",
+                      "category": "<?php echo $metrica_product_category; ?>"
+                    }
+                  ]
+                }
+              }
+            });
+          //--></script>
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <file path="catalog/controller/common/header.php">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          return $this->load->view('common/header', $data);
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          $data['cms_version'] = mb_substr(VERSION, 0, 3);
+          $opencart_major_version = mb_substr(VERSION, 0, 1);
+          if ($opencart_major_version == 2) {
+            $data['yandex_metrics'] = $this->config->get('yandex_metrica_codes');
+            $data['yandex_metrica_status'] = $this->config->get('yandex_metrica_status');
+          } elseif ($opencart_major_version == 3) {
+            $data['yandex_metrics'] = $this->config->get('analytics_yandex_metrica_codes');
+            $data['yandex_metrica_status'] = $this->config->get('analytics_yandex_metrica_status');
+          }
+          if (!empty($data['yandex_metrica_status']) && $data['yandex_metrica_status'] === '1') {
+            if (!empty($data['yandex_metrics'])) {
+              foreach ($data['yandex_metrics'] as $key => $value) {
+                if (!empty($value['ya_metrica_webvizor']) && $value['ya_metrica_webvizor'] == true) {
+                  $data['yandex_metrics'][$key]['ya_metrica_webvizor'] = 'true';
+                } else {
+                  $data['yandex_metrics'][$key]['ya_metrica_webvizor'] = 'false';
+                }
+              }
+            }
+          }
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/common/{header,header1,header2,header3}.twig">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          </head>
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          {% if (yandex_metrica_status is not empty) and (yandex_metrica_status == 1) %} 
+          <!-- Yandex.Metrica counters -->
+          {% if yandex_metrics is not empty %}
+          <script type="text/javascript">
+            window.dataLayer = window.dataLayer || [];
+          </script>
+          <script type="text/javascript">
+            (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+            {% for metrica in yandex_metrics %}
+            ym({{ metrica.code }}, "init", {
+              clickmap:true,
+              trackLinks:true,
+              accurateTrackBounce:true,
+              webvisor:{{ metrica.ya_metrica_webvizor }},
+              ecommerce:"dataLayer",
+              params: { __ym: {"ymCmsPlugin": { "cms": "opencart", "cmsVersion":"{{ cms_version }}", "pluginVersion":"1.1.9"}}}
+            });
+            {% endfor %}
+          </script>
+          <noscript>
+            <div>
+              {% for metrica in yandex_metrics %}
+              <img src="https://mc.yandex.ru/watch/{{ metrica.code }}" style="position:absolute; left:-9999px;" alt="" />
+              {% endfor %}
+            </div>
+          </noscript>
+          {% endif %}
+          <!-- /Yandex.Metrica counters -->
+          {% endif %}
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/common/{header,header1,header2,header3}.tpl">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          </head>
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          <?php if (!empty($yandex_metrica_status) && $yandex_metrica_status == '1') { ?>
+            <!-- Yandex.Metrica counters -->
+            <?php if (!empty($yandex_metrics)) { ?>
+            <script type="text/javascript">
+              window.dataLayer = window.dataLayer || [];
+            </script>
+            <script type="text/javascript">
+              (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+              <?php foreach ($yandex_metrics as $metrica) { ?>
+              ym(<?php echo $metrica['code']; ?> , "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:<?php echo $metrica['ya_metrica_webvizor']; ?>,
+                ecommerce:"dataLayer",
+                params: { __ym: {"ymCmsPlugin": { "cms": "opencart", "cmsVersion":"<?php echo $cms_version; ?>", "pluginVersion":"1.1.9"}}}
+              });
+              <?php } ?>
+            </script>
+            <noscript>
+              <div>
+                <?php foreach ($yandex_metrics as $metrica) { ?>
+                <img src="https://mc.yandex.ru/watch/<?php echo $metrica['code']; ?>" style="position:absolute; left:-9999px;" alt="" />
+                <?php } ?>
+              </div>
+            </noscript>
+            <?php } ?>
+            <!-- /Yandex.Metrica counters -->
+          <?php } ?>
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/checkout/cart.twig">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          {{ footer }}
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          <script type="text/javascript">
+            let form = document.querySelector('#content > form');
+            form.onsubmit = function(evt) {
+              evt.preventDefault();
+              let quantity_old;
+              let quantity_new;
+              let key;
+
+              $('#content > form').find('input').each(function() {
+                quantity_new = $(this).val();
+                quantity_old = $(this).attr('value');
+                key = $(this).attr('name').match(/\d+/g)[0];
+
+                var difference_in_quantity = quantity_old - quantity_new;
+
+                if (difference_in_quantity < 0) {
+                  sendDataForEcommerceYandexMetrica({
+                    id: key,
+                    event: 'add',
+                    id_type: 'key',
+                    quantity: Math.abs(difference_in_quantity),
+                    async: false
+                  });
+                  setTimeout(function() {
+                    form.submit();
+                  }, 1000);
+                } else if (difference_in_quantity > 0) {
+                  sendDataForEcommerceYandexMetrica({
+                    id: key,
+                    event: 'remove',
+                    id_type: 'key',
+                    quantity: Math.abs(difference_in_quantity),
+                    async: false
+                  });
+                  setTimeout(function() {
+                    form.submit();
+                  }, 1000);
+                }
+              });
+            };
+          </script>
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/checkout/cart.tpl">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          <?php echo $footer; ?>
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          <script type="text/javascript">
+            let form = document.querySelector('#content > form');
+            form.onsubmit = function(evt) {
+              evt.preventDefault();
+              let quantity_old;
+              let quantity_new;
+              let key;
+
+              $('#content > form').find('input').each(function() {
+                quantity_new = $(this).val();
+                quantity_old = $(this).attr('value');
+                key = $(this).attr('name').match(/\d+/g)[0];
+
+                var difference_in_quantity = quantity_old - quantity_new;
+
+                if (difference_in_quantity < 0) {
+                  sendDataForEcommerceYandexMetrica({
+                    id: key,
+                    event: 'add',
+                    id_type: 'key',
+                    quantity: Math.abs(difference_in_quantity),
+                    async: false
+                  });
+                  setTimeout(function() {
+                    form.submit();
+                  }, 1000);
+                } else if (difference_in_quantity > 0) {
+                  sendDataForEcommerceYandexMetrica({
+                    id: key,
+                    event: 'remove',
+                    id_type: 'key',
+                    quantity: Math.abs(difference_in_quantity),
+                    async: false
+                  });
+                  setTimeout(function() {
+                    form.submit();
+                  }, 1000);
+                }
+              });
+            };
+          </script>
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!--Добавление функции для отправки данных по событиям-->
+  <file path="catalog/view/theme/*/template/common/footer.{twig,tpl}">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          </body></html>
+        ]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          <script type="text/javascript">
+            function sendDataForEcommerceYandexMetrica(options) {
+              let id = options.id; // required
+              let event = options.event; // required
+              let id_type = (typeof(options.id_type) != 'undefined' ? options.id_type : 'product_id');
+              let quantity = (typeof(options.quantity) != 'undefined' ? options.quantity : 'null');
+              let async = (typeof(options.async) != 'undefined' ? options.async : true);
+
+              $.ajax({
+                url: 'index.php?route=product/product/getProductDataForYandexMetrica',
+                async: (typeof(async) != 'undefined' ? async : true),
+                type: 'post',
+                data: 'id=' + id + '&event=' + event + '&id_type=' + id_type + '&quantity=' + quantity,
+                dataType: 'json',
+                success: function(json) {
+                  if (event == 'add') {
+                    dataLayer.push({"ecommerce": {"currencyCode": json['currency_code'], "add": {"products": [json['product']]}}});
+                  } else if (event == 'remove') {
+                    dataLayer.push({"ecommerce": {"currencyCode": json['currency_code'], "remove": {"products": [json['product']]}}});
+                  }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                  alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+              });
+            }
+
+            cart['add_original'] = cart['add'];
+            cart['add'] = function(product_id, quantity) {
+              sendDataForEcommerceYandexMetrica({
+                id: product_id,
+                event: 'add',
+                id_type: 'product_id',
+                quantity: quantity
+              });
+              cart.add_original(product_id, quantity);
+            };
+
+            cart['remove_original'] = cart['remove'];
+            cart['remove'] = function(key) {
+              sendDataForEcommerceYandexMetrica({
+                id: key,
+                event: 'remove',
+                id_type: 'key',
+                async: false
+              });
+              setTimeout(function() {
+                cart.remove_original(key);
+              }, 500);
+            };
+          </script>
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!-- Покупка -->
+  <file path="catalog/controller/checkout/success.php">
+    <operation>
+        <search>
+          <![CDATA[
+            if (isset($this->session->data['order_id'])) {
+          ]]>
+        </search>
+        <add position="after">
+          <![CDATA[
+            $data['metrica_order_id'] = $this->session->data['order_id'];
+            $data['currency_code'] = $this->session->data['currency'];
+            $this->load->model('account/order');
+            $this->load->model('catalog/category');
+            $this->load->model('catalog/product');
+            $this->load->model('setting/setting');
+            $this->load->model('extension/module/yandex_metrica');
+
+            $order_info = $this->model_extension_module_yandex_metrica->getOrder($data['metrica_order_id']);
+            $order_products = $this->model_account_order->getOrderProducts($data['metrica_order_id']);
+
+            if (isset($order_info['total'])) {
+              $data['metrica_total'] = $this->currency->format($order_info['total'], $this->session->data['currency'], '', false);
+            } else {
+              $data['metrica_total'] = 0;
+            }
+            # $data['metrica_total'] = $this->currency->format($order_info['total'], $this->session->data['currency'], '', false);
+            if (isset($order_info['currency_code'])) {
+              $data['currency_code'] = $order_info['currency_code'];
+            } else {
+              $data['currency_code'] = $this->session->data['currency'];
+            }
+            # $data['currency_code'] =  $order_info['currency_code'];
+
+            if (isset($this->session->data['coupon'])) {
+              $data['metrica_coupon'] = $this->session->data['coupon'];
+            }
+
+            if (empty($this->session->data['order_id']) && $order_products) {
+              $log_status = $this->model_setting_setting->getSettingValue('analytics_yandex_metrica_log');
+              $log_ym = new Log('log_yandex_metrica.log');
+              if ($log_status) {
+                $log_ym->write('Required parameters not found (Purchase)', true);
+              }
+            }
+
+            foreach($order_products as $order_product) {
+              $product_info = $this->model_catalog_product->getProduct($order_product["product_id"]);
+              $categories_product = $this->model_catalog_product->getCategories($order_product["product_id"]);
+              if($product_info) {
+                $metrica_product_category = "";
+                if(count($categories_product) > 0) {
+                  $category = array_pop($categories_product);
+                  $category_info = $this->model_catalog_category->getCategory($category['category_id']);
+                  if ($category_info)
+                    $metrica_product_category = $category_info['name'];
+                }
+
+                $price = $this->currency->format($this->tax->calculate($order_product["price"], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'], '', false);
+
+                $data['metrica_order_products'][] = array(
+                  "metrica_product_id" => $order_product["product_id"],
+                  "metrica_product_name" => $order_product["name"],
+                  "metrica_product_price" => $price,
+                  "metrica_product_quantity" => $order_product["quantity"],
+                  "metrica_product_manufacturer" => $product_info['manufacturer'],
+                  "metrica_product_category" => $metrica_product_category,
+                );
+              }
+            }
+          ]]>
+        </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/common/success.twig">
+    <operation error="skip">
+        <search>
+        <![CDATA[
+          {{ footer }}
+        ]]>
+        </search>
+        <add position="before">
+        <![CDATA[
+          {% if (metrica_order_id is defined and metrica_order_id) %} 
+            <script type="text/javascript">
+                dataLayer.push({
+                  "ecommerce": {
+                    "currencyCode": "{{ currency_code }}",
+                    "purchase": {
+                      "actionField": {
+                        "id" : "{{ metrica_order_id }}",
+                        {% if metrica_coupon is defined and metrica_coupon %}
+                        "coupon": "{{ metrica_coupon }}",
+                        {% endif %}
+                        "revenue": "{{ metrica_total }}"
+                      },
+                      "products": [
+                        {% for product in metrica_order_products %} 
+                        {
+                          "id": "{{ product["metrica_product_id"] }}",
+                          "name": "{{ product["metrica_product_name"] }}",
+                          "price": {{ product["metrica_product_price"] }},
+                          "brand": "{{ product["metrica_product_manufacturer"] }}",
+                          "category": "{{ product["metrica_product_category"] }}",
+                          "quantity": {{ product["metrica_product_quantity"] }}
+                        },
+                        {% endfor %} 
+                      ]
+                    }
+                  }
+                });
+            </script>
+          {% endif %}
+        ]]>
+        </add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/common/success.tpl">
+    <operation error="skip">
+        <search>
+        <![CDATA[
+          <?php echo $footer; ?>
+        ]]>
+        </search>
+        <add position="before">
+        <![CDATA[
+          <?php if (isset($metrica_order_id)) { ?>
+            <script type="text/javascript">
+              dataLayer.push({
+                "ecommerce": {
+                  "currencyCode": "<?php echo $currency_code; ?>",
+                  "purchase": {
+                    "actionField": {
+                      "id" : "<?php echo $metrica_order_id; ?>",
+                      <?php if (isset($metrica_coupon)) { ?>
+                      "coupon": "<?php echo $metrica_coupon; ?>",
+                      <?php } ?> 
+                      "revenue": "<?php echo $metrica_total; ?>"
+                    },
+                    "products": [
+                      <?php foreach ($metrica_order_products as $product) { ?>
+                      {
+                        "id": "<?php echo $product["metrica_product_id"]; ?>",
+                        "name": "<?php echo $product["metrica_product_name"]; ?>",
+                        "price": <?php echo $product["metrica_product_price"]; ?>,
+                        "brand": "<?php echo $product["metrica_product_manufacturer"]; ?>",
+                        "category": "<?php echo $product["metrica_product_category"]; ?>",
+                        "quantity": <?php echo $product["metrica_product_quantity"]; ?>
+                      },
+                      <?php } ?> 
+                    ]
+                  }
+                }
+              });
+            </script>
+          <?php } ?>
+        ]]>
+        </add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/default/template/checkout/simplecheckout_cart.twig">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          {% if not display_model %}
+        ]]>
+        </search>
+        <add position="after" offset="999">
+        <![CDATA[
+          <script>
+          function getProductQuantities() {
+              const productQuantities = {};
+              const rows = document.querySelectorAll('tbody tr');
+
+              rows.forEach(row => {
+                  const productLink = row.querySelector('td.name a[href*="product_id="]');
+
+                  if (productLink) {
+                      const href = productLink.getAttribute('href');
+                      const productIdMatch = href.match(/product_id=(\d+)/);
+
+                      if (productIdMatch) {
+                          const productId = productIdMatch[1];
+                          const quantityInput = row.querySelector('input[name^="quantity"]');
+                          const quantity = quantityInput ? parseInt(quantityInput.value) : 0;
+
+                          if (productQuantities[productId]) {
+                              productQuantities[productId] += quantity;
+                          } else {
+                              productQuantities[productId] = quantity;
+                          }
+                      }
+                  }
+              });
+
+              return Object.keys(productQuantities).map(productId => ({
+                  product_id: productId,
+                  value: productQuantities[productId].toString()
+              }));
+          }
+
+          function compareProductQuantities(previousData, newData) {
+              const previousMap = new Map();
+              const newMap = new Map();
+
+              previousData.forEach(item => {
+                  previousMap.set(item.product_id, parseInt(item.value));
+              });
+
+              newData.forEach(item => {
+                  newMap.set(item.product_id, parseInt(item.value));
+              });
+
+              previousData.forEach(item => {
+                  const productId = item.product_id;
+                  const previousQuantity = parseInt(item.value);
+
+                  if (!newMap.has(productId)) {
+                      sendDataForEcommerceYandexMetrica({
+                          id: productId,
+                          event: 'remove',
+                          id_type: 'product_id',
+                          quantity: previousQuantity
+                      });
+                  }
+              });
+
+              newData.forEach(item => {
+                  const productId = item.product_id;
+                  const newQuantity = parseInt(item.value);
+
+                  if (previousMap.has(productId)) {
+                      const previousQuantity = previousMap.get(productId);
+
+                      if (newQuantity > previousQuantity) {
+                          const difference = newQuantity - previousQuantity;
+                          sendDataForEcommerceYandexMetrica({
+                              id: productId,
+                              event: 'add',
+                              id_type: 'product_id',
+                              quantity: difference
+                          });
+                      } else if (newQuantity < previousQuantity) {
+                          const difference = previousQuantity - newQuantity;
+                          sendDataForEcommerceYandexMetrica({
+                              id: productId,
+                              event: 'remove',
+                              id_type: 'product_id',
+                              quantity: difference
+                          });
+                      }
+                  } else {
+                      sendDataForEcommerceYandexMetrica({
+                          id: productId,
+                          event: 'add',
+                          id_type: 'product_id',
+                          quantity: newQuantity
+                      });
+                  }
+              });
+          }
+
+          if ($('.simplecheckout-cart tbody tr').length === 1) {
+              $(document).on('click', '[data-onclick="removeProduct"]', function() {
+                  const row = $('.simplecheckout-cart tbody tr');
+                  const productId = row.find('a[href*="product_id="]').attr('href')?.match(/product_id=(\d+)/)?.[1];
+                  const quantity = row.find('input[name^="quantity"]').val();
+                  
+                  if (productId && quantity) {
+                      sendDataForEcommerceYandexMetrica({
+                          id: productId,
+                          event: 'remove',
+                          id_type: 'product_id',
+                          quantity: quantity
+                      });
+                  }
+              });
+          }
+
+          if (typeof productQuantities !== 'undefined' && Array.isArray(productQuantities) && productQuantities.length > 0) {
+              previousProductQuantities = JSON.parse(JSON.stringify(productQuantities));
+          }
+          productQuantities = getProductQuantities();
+          if (typeof previousProductQuantities !== 'undefined' && typeof productQuantities !== 'undefined') {
+              compareProductQuantities(previousProductQuantities, productQuantities);
+          }
+          </script>
+        ]]>
+        </add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/default/template/checkout/simplecheckout_cart.tpl">
+    <operation error="skip">
+      <search>
+        <![CDATA[
+          <?php if (!$display_model) { ?>
+        ]]>
+        </search>
+        <add position="after" offset="999">
+        <![CDATA[
+          <script>
+          function getProductQuantities() {
+              const productQuantities = {};
+              const rows = document.querySelectorAll('tbody tr');
+
+              rows.forEach(row => {
+                  const productLink = row.querySelector('td.name a[href*="product_id="]');
+
+                  if (productLink) {
+                      const href = productLink.getAttribute('href');
+                      const productIdMatch = href.match(/product_id=(\d+)/);
+
+                      if (productIdMatch) {
+                          const productId = productIdMatch[1];
+                          const quantityInput = row.querySelector('input[name^="quantity"]');
+                          const quantity = quantityInput ? parseInt(quantityInput.value) : 0;
+
+                          if (productQuantities[productId]) {
+                              productQuantities[productId] += quantity;
+                          } else {
+                              productQuantities[productId] = quantity;
+                          }
+                      }
+                  }
+              });
+
+              return Object.keys(productQuantities).map(productId => ({
+                  product_id: productId,
+                  value: productQuantities[productId].toString()
+              }));
+          }
+
+          function compareProductQuantities(previousData, newData) {
+              const previousMap = new Map();
+              const newMap = new Map();
+
+              previousData.forEach(item => {
+                  previousMap.set(item.product_id, parseInt(item.value));
+              });
+
+              newData.forEach(item => {
+                  newMap.set(item.product_id, parseInt(item.value));
+              });
+
+              previousData.forEach(item => {
+                  const productId = item.product_id;
+                  const previousQuantity = parseInt(item.value);
+
+                  if (!newMap.has(productId)) {
+                      sendDataForEcommerceYandexMetrica({
+                          id: productId,
+                          event: 'remove',
+                          id_type: 'product_id',
+                          quantity: previousQuantity
+                      });
+                  }
+              });
+
+              newData.forEach(item => {
+                  const productId = item.product_id;
+                  const newQuantity = parseInt(item.value);
+
+                  if (previousMap.has(productId)) {
+                      const previousQuantity = previousMap.get(productId);
+
+                      if (newQuantity > previousQuantity) {
+                          const difference = newQuantity - previousQuantity;
+                          sendDataForEcommerceYandexMetrica({
+                              id: productId,
+                              event: 'add',
+                              id_type: 'product_id',
+                              quantity: difference
+                          });
+                      } else if (newQuantity < previousQuantity) {
+                          const difference = previousQuantity - newQuantity;
+                          sendDataForEcommerceYandexMetrica({
+                              id: productId,
+                              event: 'remove',
+                              id_type: 'product_id',
+                              quantity: difference
+                          });
+                      }
+                  } else {
+                      sendDataForEcommerceYandexMetrica({
+                          id: productId,
+                          event: 'add',
+                          id_type: 'product_id',
+                          quantity: newQuantity
+                      });
+                  }
+              });
+          }
+
+          if ($('.simplecheckout-cart tbody tr').length === 1) {
+              $(document).on('click', '[data-onclick="removeProduct"]', function() {
+                  const row = $('.simplecheckout-cart tbody tr');
+                  const productId = row.find('a[href*="product_id="]').attr('href')?.match(/product_id=(\d+)/)?.[1];
+                  const quantity = row.find('input[name^="quantity"]').val();
+                  
+                  if (productId && quantity) {
+                      sendDataForEcommerceYandexMetrica({
+                          id: productId,
+                          event: 'remove',
+                          id_type: 'product_id',
+                          quantity: quantity
+                      });
+                  }
+              });
+          }
+
+          if (typeof productQuantities !== 'undefined' && Array.isArray(productQuantities) && productQuantities.length > 0) {
+              previousProductQuantities = JSON.parse(JSON.stringify(productQuantities));
+          }
+
+          productQuantities = getProductQuantities();
+
+          if (typeof previousProductQuantities !== 'undefined' && typeof productQuantities !== 'undefined') {
+              compareProductQuantities(previousProductQuantities, productQuantities);
+          }
+          </script>
+        ]]>
+        </add>
+    </operation>
+  </file>
+</modification>
