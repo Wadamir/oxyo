@@ -263,6 +263,10 @@
 !/catalog/controller/extension/oxyo/**
 
 
+!/catalog/controller/mail/
+!/catalog/controller/mail/order.php
+
+
 
 /catalog/language/*
 !/catalog/language/
