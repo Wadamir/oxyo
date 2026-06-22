@@ -354,12 +354,72 @@ class ControllerMailOrder extends Controller {
 			$notify = $args[3];
 		} else {
 			$notify = '';
-		}
+		}     
 
-		$order_info = $this->model_checkout_order->getOrder($order_id);
+		$order_info = $this->model_checkout_order->getOrder($order_id);        
 		
 		if ($order_info && !$order_info['order_status_id'] && $order_status_id && in_array('order', (array)$this->config->get('config_mail_alert'))) {	
 			$this->load->language('mail/order_alert');
+
+            $language = new Language($order_info['language_code']);
+            $language->load($order_info['language_code']);
+            $language->load('mail/order_add');        
+
+            $data['text_greeting'] = sprintf($language->get('text_greeting'), $order_info['store_name']);
+            $data['text_link'] = $language->get('text_link');
+            $data['text_download'] = $language->get('text_download');
+            $data['text_order_detail'] = $language->get('text_order_detail');
+            $data['text_instruction'] = $language->get('text_instruction');
+            $data['text_order_id'] = $language->get('text_order_id');
+            $data['text_date_added'] = $language->get('text_date_added');
+            $data['text_payment_method'] = $language->get('text_payment_method');
+            $data['text_shipping_method'] = $language->get('text_shipping_method');
+            $data['text_email'] = $language->get('text_email');
+            $data['text_telephone'] = $language->get('text_telephone');
+            $data['text_ip'] = $language->get('text_ip');
+            $data['text_order_status'] = $language->get('text_order_status');
+            $data['text_payment_address'] = $language->get('text_payment_address');
+            $data['text_shipping_address'] = $language->get('text_shipping_address');
+            $data['text_product'] = $language->get('text_product');
+            $data['text_model'] = $language->get('text_model');
+            $data['text_quantity'] = $language->get('text_quantity');
+            $data['text_price'] = $language->get('text_price');
+            $data['text_total'] = $language->get('text_total');
+            $data['text_footer'] = $language->get('text_footer');
+
+            $data['logo'] = $order_info['store_url'] . 'image/' . $this->config->get('config_logo');
+            $data['store_name'] = $order_info['store_name'];
+            $data['store_url'] = $order_info['store_url'];
+            $data['customer_id'] = $order_info['customer_id'];
+            $data['link'] = $order_info['store_url'] . 'index.php?route=account/order/info&order_id=' . $order_info['order_id'];
+
+            // Check for any downloadable products
+            $download_status = false;
+
+            $order_products = $this->model_checkout_order->getOrderProducts($order_info['order_id']);
+            
+            foreach ($order_products as $order_product) {
+                // Check if there are any linked downloads
+                $product_download_query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "product_to_download` WHERE product_id = '" . (int)$order_product['product_id'] . "'");
+
+                if ($product_download_query->row['total']) {
+                    $download_status = true;
+                }
+            }            
+
+            if ($download_status) {
+                $data['download'] = $order_info['store_url'] . 'index.php?route=account/download';
+            } else {
+                $data['download'] = '';
+            }
+
+            $data['order_id'] = $order_info['order_id'];
+            $data['date_added'] = date($language->get('date_format_short'), strtotime($order_info['date_added']));
+            $data['payment_method'] = $order_info['payment_method'];
+            $data['shipping_method'] = $order_info['shipping_method'];
+            $data['email'] = $order_info['email'];
+            $data['telephone'] = $order_info['telephone'];
+            $data['ip'] = $order_info['ip'];               
 			
 			// HTML Mail
 			$data['text_received'] = $this->language->get('text_received');
