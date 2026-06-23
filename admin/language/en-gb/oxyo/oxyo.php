@@ -488,6 +488,13 @@ $_['entry_footer_copyright']              = 'Footer Copyright Text';
 $_['help_footer_copyright']               = 'Use {year} to insert the current year.';
 
 
+/*** Tab Notifications ***/
+$_['text_notifications']                   = 'Notifications';
+$_['text_mail_logo']                       = 'Mail Logo';
+$_['text_mail_logo_tooltip']               = 'This logo will be used in all emails sent from the store. If left empty, the store logo will be used instead.';
+$_['text_top_line_promo']                  = 'Top Line Promotion Message';
+
+
 
 /*** Tab Styles & Colors ***/
 // Main
