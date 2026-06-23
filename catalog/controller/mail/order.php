@@ -558,6 +558,7 @@ class ControllerMailOrder extends Controller {
 					'model'    => $order_product['model'],
 					'quantity' => $order_product['quantity'],
 					'option'   => $option_data,
+                    'price'    => html_entity_decode($this->currency->format($order_product['price'] + ($this->config->get('config_tax') ? $order_product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']), ENT_NOQUOTES, 'UTF-8'),
 					'total'    => html_entity_decode($this->currency->format($order_product['total'] + ($this->config->get('config_tax') ? ($order_product['tax'] * $order_product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value']), ENT_NOQUOTES, 'UTF-8')
 				);
 			}
