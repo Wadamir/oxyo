@@ -7,6 +7,31 @@
 class ModelToolSimpleApiMain extends Model {
     static $data = [];
 
+    private $enableSimpleApiDebugLog = true; // Set to true to enable detailed SimpleApi debug logging
+
+    private function logSimpleApiDebug($stage, $value, $context = array())
+    {
+        if (!$this->enableSimpleApiDebugLog) {
+            return;
+        }
+
+        $string_value = (string)$value;
+        $hex_preview = bin2hex(substr($string_value, 0, 64));
+        $message = '[' . date('Y-m-d H:i:s') . '] [simpleapimain][simpleapi][' . $stage . '] value="' . $string_value . '" len=' . strlen($string_value) . ' hex64=' . $hex_preview;
+
+        if (!empty($context)) {
+            $message .= ' context=' . json_encode($context, JSON_UNESCAPED_UNICODE);
+        }
+
+        $log_file = defined('DIR_LOGS') ? DIR_LOGS . 'error.log' : '';
+
+        if ($log_file) {
+            @file_put_contents($log_file, $message . PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else {
+            error_log($message);
+        }
+    }    
+
     public function getCustomerGroups($filter = '') {
         $values = [];
 
@@ -456,5 +481,108 @@ class ModelToolSimpleApiMain extends Model {
 
     public function getCityByZone($zone_id) {
         return $this->getZoneCapital($zone_id);
+    }
+
+    public function searchDadataAddresses($query, $accountIndex = 0) {
+        $query = trim($query);
+
+        $this->logSimpleApiDebug('searchDadataAddresses', 'Received query', ['query' => $query, 'accountIndex' => $accountIndex]);
+        
+        if (strlen($query) < 3) {
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Query too short', ['query' => $query, 'accountIndex' => $accountIndex]);
+            return [];
+        }
+
+        // Get Dadata credentials from config
+        $dadata_accounts = $this->config->get('oxyo_dadata_accounts') ?: [];
+        
+        if (!isset($dadata_accounts[$accountIndex])) {
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Invalid account index, defaulting to 0', ['accountIndex' => $accountIndex]);
+            $accountIndex = 0;
+        }
+        
+        if (!isset($dadata_accounts[$accountIndex]) || empty($dadata_accounts[$accountIndex]['api_key'])) {
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Missing Dadata API credentials for account index', ['accountIndex' => $accountIndex]);
+            return [];
+        }
+
+        $token = $dadata_accounts[$accountIndex]['api_key'];
+        $secret = $dadata_accounts[$accountIndex]['secret_key'];
+
+        if (!$token || !$secret) {
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Missing Dadata API credentials', ['accountIndex' => $accountIndex]);
+            return [];
+        }
+
+        try {
+            // Call Dadata API
+            $response = $this->callDadataApi('suggest/address', [
+                'query' => $query,
+                'count' => 5,
+                // 'language' => 'en'
+            ], $token, $secret);
+
+            if ($response && isset($response['suggestions'])) {
+                $results = [];
+                
+                foreach ($response['suggestions'] as $suggestion) {
+                    $data = $suggestion['data'];
+                    $results[] = [
+                        'value' => $suggestion['value'],
+                        'unrestricted_value' => $suggestion['unrestricted_value'],
+                        'postal_code' => isset($data['postal_code']) ? $data['postal_code'] : '',
+                        'country' => isset($data['country']) ? $data['country'] : '',
+                        'region' => isset($data['region']) ? $data['region'] : '',
+                        'city' => isset($data['city']) ? $data['city'] : '',
+                        'street' => isset($data['street']) ? $data['street'] : '',
+                        'house' => isset($data['house']) ? $data['house'] : '',
+                        'flat' => isset($data['flat']) ? $data['flat'] : '',
+                        'geo_lat' => isset($data['geo_lat']) ? $data['geo_lat'] : '',
+                        'geo_lon' => isset($data['geo_lon']) ? $data['geo_lon'] : '',
+                    ];
+                }
+                
+                return $results;
+            }
+        } catch (Exception $e) {
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Error calling Dadata API: ' . $e->getMessage(), ['accountIndex' => $accountIndex]);
+        }
+
+        return [];
+    }
+
+    private function callDadataApi($method, $params, $token, $secret) {
+        // POST https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address
+
+        $url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/' . $method;
+        
+        $options = [
+            'http' => [
+                'header' => [
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                    'Authorization: Token ' . $token,
+                    'X-Secret: ' . $secret
+                ],
+                'method' => 'POST',
+                'content' => json_encode($params),
+                'timeout' => 5
+            ]
+        ];
+
+        $context = stream_context_create($options);
+        
+        try {
+            $response = @file_get_contents($url, false, $context);
+            $this->logSimpleApiDebug('callDadataApi', 'API call made', ['method' => $method, 'params' => $params, 'response' => $response]);
+            if ($response === false) {
+                return null;
+            }
+            
+            return json_decode($response, true);
+        } catch (Exception $e) {
+            $this->logSimpleApiDebug('callDadataApi', 'Exception: ' . $e->getMessage(), ['method' => $method, 'params' => $params]);
+            return null;
+        }
     }
 }

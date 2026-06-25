@@ -625,3 +625,12 @@ $_['entry_oxyo_footer_heading_color']           = 'Цвет разделител
 $_['text_typography']                   = 'Шрифты';
 $_['text_override_default_font']        = 'Переопределить стандартные шрифты';
 $_['text_google_font_list']             = 'Список шрифтов Google';
+
+
+/*** Dadata Integration ***/
+$_['text_dadata']                       = 'Интеграция Dadata';
+$_['text_dadata_account']               = 'Аккаунт';
+$_['text_dadata_email']                 = 'Email';
+$_['text_dadata_api_key']               = 'API ключ';
+$_['text_dadata_secret_key']            = 'Секретный ключ';
+$_['text_callback_popup']               = 'Всплывающее окно обратного звонка';

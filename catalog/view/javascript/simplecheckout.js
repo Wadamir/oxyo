@@ -134,6 +134,8 @@
         };
 
         this.init = function (disableScroll, changeStep) {
+            console.log('[simplecheckout] init');
+
             var self = this;
 
             self.ensureCityDebugHooks();
@@ -151,7 +153,7 @@
                 if (func && typeof self[func] === 'function') {
                     self[func]($target);
                 } else if (func) {
-                    //console.log(func + " is not registered");
+                    console.log(func + " is not registered");
                 }
                 self.setDirty();
             };
@@ -194,6 +196,8 @@
 
             self.initAbandonedCart();
 
+            self.initDadataAutocomplete();
+
             if (!disableScroll) {
                 self.scroll();
             }
@@ -225,24 +229,25 @@
             });
         };
 
-        ((this.useReloadingOfPaymentForm = function () {
-            if (
-                typeof this.params.enableAutoReloaingOfPaymentFrom !==
-                    'undefined' &&
-                this.params.enableAutoReloaingOfPaymentFrom
-            ) {
+        (
+            (this.useReloadingOfPaymentForm = function () {
                 if (
-                    typeof window.simpleTypingSpeed !== 'undefined' &&
-                    window.simpleTypingSpeed > 1000
+                    typeof this.params.enableAutoReloaingOfPaymentFrom !==
+                        'undefined' &&
+                    this.params.enableAutoReloaingOfPaymentFrom
                 ) {
-                    return false;
+                    if (
+                        typeof window.simpleTypingSpeed !== 'undefined' &&
+                        window.simpleTypingSpeed > 1000
+                    ) {
+                        return false;
+                    }
+
+                    return true;
                 }
 
-                return true;
-            }
-
-            return false;
-        }),
+                return false;
+            }),
             (this.initHandlers = function () {
                 var self = this;
                 $(self.params.mainContainer)
@@ -349,7 +354,8 @@
                             }
                         }
                     });
-            }));
+            })
+        );
 
         this.initZoneCityAutofill = function () {
             var self = this;
@@ -2097,6 +2103,246 @@
 
             return fields.join('&');
         };
+
+        this.initDadataAutocomplete = function () {
+            console.log('[city-debug][initDadataAutocomplete] init');
+            var self = this;
+            var $mainContainer = $(self.params.mainContainer);
+
+            // Find country fields in shipping and payment forms
+            var $countryFields = $mainContainer.find(
+                "#simplecheckout_shipping_address select[name='country_id'], " +
+                "#simplecheckout_shipping_address select[name$='[country_id]'], " +
+                "#simplecheckout_payment_address select[name='country_id'], " +
+                "#simplecheckout_payment_address select[name$='[country_id]']"
+            );
+
+            // Find all zone fields in shipping and payment forms
+            var $zoneFields = $mainContainer.find(
+                "#simplecheckout_shipping_address select[name='zone_id'], " +
+                "#simplecheckout_shipping_address select[name$='[zone_id]'], " +
+                "#simplecheckout_payment_address select[name='zone_id'], " +
+                "#simplecheckout_payment_address select[name$='[zone_id]']"
+            );
+
+            // Find all city fields in shipping and payment forms
+            var $cityFields = $mainContainer.find(
+                "#simplecheckout_shipping_address input[name='city'], " +
+                "#simplecheckout_shipping_address input[name$='[city]'], " +
+                "#simplecheckout_payment_address input[name='city'], " +
+                "#simplecheckout_payment_address input[name$='[city]']"
+            );
+            
+            // Find all address_1 fields in shipping and payment forms
+            var $address1Fields = $mainContainer.find(
+                "#simplecheckout_shipping_address input[name='address_1'], " +
+                "#simplecheckout_shipping_address input[name$='[address_1]'], " +
+                "#simplecheckout_shipping_address textarea[name='address_1'], " +
+                "#simplecheckout_shipping_address textarea[name$='[address_1]'], " +
+                "#simplecheckout_payment_address input[name='address_1'], " +
+                "#simplecheckout_payment_address input[name$='[address_1]'], " +
+                "#simplecheckout_payment_address textarea[name='address_1'], " +
+                "#simplecheckout_payment_address textarea[name$='[address_1]']"
+            );
+
+            // Find all dadata_address fields in shipping and payment forms
+            var $dadataAddressFields = $mainContainer.find(
+                "#simplecheckout_shipping_address input[name='dadata_address'], " +
+                "#simplecheckout_shipping_address input[name$='[dadata_address]'], " +
+                "#simplecheckout_payment_address input[name='dadata_address'], " +
+                "#simplecheckout_payment_address input[name$='[dadata_address]']"
+            );
+
+            if (!$address1Fields.length) {
+                console.warn('[city-debug][initDadataAutocomplete] no address_1 fields found');
+                return;
+            }
+
+            $address1Fields.each(function () {
+                var $countryField = $countryFields.filter(function () {
+                    return (
+                        $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
+                    );
+                });
+
+                let countryName = $countryField.find('option:selected').text().toLowerCase();
+
+                var $zoneField = $zoneFields.filter(function () {
+                    return (
+                        $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
+                    );
+                });
+
+                let zoneName = $zoneField.find('option:selected').text().toLowerCase();
+
+                var $cityField = $cityFields.filter(function () {
+                    return (
+                        $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
+                    );
+                });
+
+                let cityName = $cityField.val().toLowerCase();
+
+                var $dadataAddressField = $dadataAddressFields.filter(function () {
+                    return (
+                        $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
+                    );
+                });
+
+
+                var $address1 = $(this);
+                var dadataWrapper = $('<div class="dadata-autocomplete-wrapper" style="position: relative;"></div>');
+                var $suggestionsList = $('<ul class="dadata-suggestions" style="display:none; position: absolute; border: 1px solid #ccc; background: white; list-style: none; margin: 0; padding: 0; width: 100%; z-index: 1000;"></ul>');
+                
+                $address1.wrap(dadataWrapper);
+                $address1.after($suggestionsList);
+                
+                var suggestionsRequest = null;
+                var currentSuggestionIndex = -1;
+                var suggestions = [];
+                
+                $address1.on('input keydown', function (e) {
+                    var $field = $(this);
+                    var query = countryName + ' ' + zoneName + ' ' + $field.val().trim();
+                    
+                    // Handle arrow keys and enter
+                    if (e.type === 'keydown') {
+                        var keyCode = e.keyCode || e.which;
+                        
+                        if (keyCode === 38) { // Arrow up
+                            e.preventDefault();
+                            if (currentSuggestionIndex > 0) {
+                                currentSuggestionIndex--;
+                                self.highlightDadataSuggestion(currentSuggestionIndex, $suggestionsList);
+                            }
+                            return;
+                        }
+                        
+                        if (keyCode === 40) { // Arrow down
+                            e.preventDefault();
+                            if (currentSuggestionIndex < suggestions.length - 1) {
+                                currentSuggestionIndex++;
+                                self.highlightDadataSuggestion(currentSuggestionIndex, $suggestionsList);
+                            }
+                            return;
+                        }
+                        
+                        if (keyCode === 13) { // Enter
+                            e.preventDefault();
+                            if (currentSuggestionIndex >= 0 && suggestions[currentSuggestionIndex]) {
+                                self.selectDadataSuggestion($cityField, $dadataAddressField, suggestions[currentSuggestionIndex], $suggestionsList);
+                            }
+                            return;
+                        }
+                        
+                        if (keyCode === 27) { // Escape
+                            $suggestionsList.hide();
+                            return;
+                        }
+                    }
+                    
+                    // Only fetch on input event
+                    if (e.type !== 'input') {
+                        return;
+                    }
+                    
+                    if (query.length < 3) {
+                        $suggestionsList.hide();
+                        suggestions = [];
+                        currentSuggestionIndex = -1;
+                        return;
+                    }
+                    
+                    if (suggestionsRequest && suggestionsRequest.readyState !== 4) {
+                        suggestionsRequest.abort();
+                    }
+                    
+                    suggestionsRequest = $.ajax({
+                        url: 'index.php?' + self.params.additionalParams + 'route=common/simple_connector&method=searchDadataAddresses&query=' + encodeURIComponent(query),
+                        type: 'GET',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            console.log('[city-debug][initDadataAutocomplete] sending request to Dadata API for query:', query);
+                        },
+                        success: function (data) {
+                            console.log('[city-debug][initDadataAutocomplete] received suggestions:', data);
+                            suggestions = data && data.length ? data : [];
+                            currentSuggestionIndex = -1;
+                            
+                            if (suggestions.length > 0) {
+                                $suggestionsList.empty();
+                                
+                                suggestions.forEach(function (suggestion, index) {
+                                    var $item = $('<li class="dadata-suggestion" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;" data-index="' + index + '"></li>');
+                                    $item.text(suggestion.value || suggestion.unrestricted_value);
+                                    
+                                    $item.on('mouseenter', function () {
+                                        currentSuggestionIndex = index;
+                                        self.highlightDadataSuggestion(index, $suggestionsList);
+                                    });
+                                    
+                                    $item.on('click', function () {
+                                        self.selectDadataSuggestion($cityField, $dadataAddressField, $address1, suggestion, $suggestionsList);
+                                    });
+                                    
+                                    $suggestionsList.append($item);
+                                });
+                                
+                                $suggestionsList.show();
+                            } else {
+                                $suggestionsList.hide();
+                            }
+                        },
+                        error: function () {
+                            console.error('[city-debug][initDadataAutocomplete] error fetching suggestions from Dadata API');
+                            $suggestionsList.hide();
+                        }
+                    });
+                });
+                
+                // Hide suggestions when field loses focus
+                $address1.on('blur', function () {
+                    setTimeout(function () {
+                        $suggestionsList.hide();
+                    }, 200);
+                });
+            });
+        };
+
+        this.highlightDadataSuggestion = function (index, $suggestionsList) {
+            $suggestionsList.find('.dadata-suggestion').removeClass('active').css('background', 'white');
+            $suggestionsList.find('.dadata-suggestion[data-index="' + index + '"]').addClass('active').css('background', '#f0f0f0');
+        };
+
+        this.selectDadataSuggestion = function ($cityField, $dadataAddressField, $addressField, suggestion, $suggestionsList) {
+            console.log('[city-debug][selectDadataSuggestion][values]: ' + $cityField.val() + ', ' + $dadataAddressField.val() + ', ' + $addressField.val());
+            console.log('[city-debug][selectedPostalCode]: ' + (suggestion.postal_code || 'N/A'));
+            let postalCode = suggestion.postal_code || '';
+            console.log('[city-debug][selectedRegion]: ' + (suggestion.region || 'N/A'));
+            let region = suggestion.region || '';
+            console.log('[city-debug][selectedCity]: ' + (suggestion.city || 'N/A'));
+            let city = suggestion.city || '';
+            console.log('[city-debug][selectedStreet]: ' + (suggestion.street || 'N/A'));
+            let street = suggestion.street || '';
+            console.log('[city-debug][selectedHouse]: ' + (suggestion.house || 'N/A'));
+            let house = suggestion.house || '';
+            console.log('[city-debug][selectedFlat]: ' + (suggestion.flat || 'N/A'));
+            let flat = suggestion.flat || '';
+            console.log('[city-debug][selectedUnrestrictedValue]: ' + (suggestion.unrestricted_value || 'N/A'));
+            let unrestrictedValue = suggestion.unrestricted_value || '';
+            console.log('[city-debug][selectedValue]: ' + (suggestion.value || 'N/A'));
+            let value = suggestion.value || '';
+
+            if ($dadataAddressField.length) {
+                $dadataAddressField.val(unrestrictedValue);
+            }
+            $addressField.val(suggestion.value || suggestion.unrestricted_value);
+            if (city !== '' && $cityField.length) {
+                $cityField.val(city).trigger('change');
+                self.reloadAll();
+            }
+            $suggestionsList.hide();
+        };        
 
         /**
          * Reload all blocks via main controller which includes all registered blocks as childs

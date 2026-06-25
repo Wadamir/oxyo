@@ -69,3 +69,33 @@
         {% endif %}
     </div>
 {% endfor %}
+
+<legend class="sub">{{ text_dadata }}</legend>
+
+{# Dadata Integration Settings #}
+{% for account_index in range(0, 1) %}
+    <fieldset style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 4px;">
+        <legend class="sub" style="padding: 12px;">{{ text_dadata_account }} {{ account_index + 1 }}</legend>
+        
+        <div class="form-group new-form-group">
+            <label class="new-title">
+                <span class="title">{{ text_dadata_email }}</span>
+            </label>
+            <input class="form-control" type="email" name="settings[oxyo][oxyo_dadata_accounts][{{ account_index }}][email]" value="{{ (oxyo_dadata_accounts[account_index].email|default(''))|e }}"/>
+        </div>
+        
+        <div class="form-group new-form-group">
+            <label class="new-title">
+                <span class="title">{{ text_dadata_api_key }}</span>
+            </label>
+            <input class="form-control" type="text" name="settings[oxyo][oxyo_dadata_accounts][{{ account_index }}][api_key]" value="{{ (oxyo_dadata_accounts[account_index].api_key|default(''))|e }}" placeholder="Replace with Dadata API key"/>
+        </div>
+        
+        <div class="form-group new-form-group">
+            <label class="new-title">
+                <span class="title">{{ text_dadata_secret_key }}</span>
+            </label>
+            <input class="form-control" type="text" name="settings[oxyo][oxyo_dadata_accounts][{{ account_index }}][secret_key]" value="{{ (oxyo_dadata_accounts[account_index].secret_key|default(''))|e }}" placeholder="Replace with Dadata secret key"/>
+        </div>
+    </fieldset>
+{% endfor %}

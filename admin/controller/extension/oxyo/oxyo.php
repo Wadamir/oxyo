@@ -129,6 +129,10 @@ class ControllerExtensionOxyoOxyo extends Controller
             if (empty($this->request->post['settings']['oxyo']['oxyo_links'])) {
                 $this->request->post['settings']['oxyo']['oxyo_links'] = array();
             }
+            // Dadata accounts - ensure it's initialized
+            if (!isset($this->request->post['settings']['oxyo']['oxyo_dadata_accounts'])) {
+                $this->request->post['settings']['oxyo']['oxyo_dadata_accounts'] = array();
+            }
 
             if (isset($this->request->post['settings']['oxyo']['main_phone']) && !empty($this->request->post['settings']['oxyo']['main_phone']) && $this->request->post['settings']['oxyo']['main_phone'] != '') {
                 $this->model_setting_setting->editSettingValue('config', 'config_telephone', $this->request->post['settings']['oxyo']['main_phone'], $data['store_id']);
@@ -146,8 +150,28 @@ class ControllerExtensionOxyoOxyo extends Controller
                 $this->model_setting_setting->editSettingValue('config', 'config_open', $this->request->post['settings']['oxyo']['working_hours'], $data['store_id']);
             }
 
+            // Special handling for Dadata accounts - ensure proper JSON serialization
+            if (isset($this->request->post['settings']['oxyo']['oxyo_dadata_accounts'])) {
+                $dadata_accounts = $this->request->post['settings']['oxyo']['oxyo_dadata_accounts'];
+                $this->db->query("DELETE FROM " . DB_PREFIX . "setting "
+                    . "WHERE store_id = '" . (int) $data['store_id'] . "' "
+                    . "AND `key` = 'oxyo_dadata_accounts' "
+                    . "AND `code` = 'oxyo'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "setting SET "
+                    . "store_id = '" . (int) $data['store_id'] . "', "
+                    . "`code` = 'oxyo', "
+                    . "`key` = 'oxyo_dadata_accounts', "
+                    . "`value` = '" . $this->db->escape(json_encode($dadata_accounts, true)) . "', "
+                    . "serialized = '1'");
+            }
+
             foreach ($this->request->post['settings'] as $code => $setting_data) {
                 foreach ($setting_data as $key => $value) {
+                    // Skip oxyo_dadata_accounts as it's handled separately above
+                    if ($key === 'oxyo_dadata_accounts') {
+                        continue;
+                    }
+
                     $setting_value = $this->model_extension_oxyo_oxyo->getSettingValue($key, $data['store_id']);
 
                     if (!empty($setting_value)) {
@@ -510,6 +534,8 @@ class ControllerExtensionOxyoOxyo extends Controller
             'sticker_new',
             // Attribute groups
             'oxyo_product_attribute_groups',
+            // Dadata Integration
+            'oxyo_dadata_accounts',
         );
 
 
@@ -566,6 +592,14 @@ class ControllerExtensionOxyoOxyo extends Controller
                     $data[$variable] = $this->getConfig($variable);
                 }
             }
+        }
+
+        // Initialize Dadata accounts with default empty array
+        if (empty($data['oxyo_dadata_accounts']) || !is_array($data['oxyo_dadata_accounts'])) {
+            $data['oxyo_dadata_accounts'] = array(
+                array('email' => '', 'api_key' => '', 'secret_key' => ''),
+                array('email' => '', 'api_key' => '', 'secret_key' => '')
+            );
         }
 
         // var_dump($data['sticker_sale']);

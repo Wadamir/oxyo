@@ -630,3 +630,12 @@ $_['entry_oxyo_footer_heading_color']               = 'Heading / Links separator
 $_['text_typography']                   = 'Typography';
 $_['text_override_default_font']        = 'Override Default Font Styles';
 $_['text_google_font_list']             = 'Google Font List';
+
+
+/*** Dadata Integration ***/
+$_['text_dadata']                       = 'Dadata Integration';
+$_['text_dadata_account']               = 'Account';
+$_['text_dadata_email']                 = 'Email';
+$_['text_dadata_api_key']               = 'API Key';
+$_['text_dadata_secret_key']            = 'Secret Key';
+$_['text_callback_popup']               = 'Callback Popup';

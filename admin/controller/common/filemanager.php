@@ -1,7 +1,7 @@
 <?php
 class ControllerCommonFileManager extends Controller
 {
-    private $enableFilenameDebugLog = true;
+    private $enableFilenameDebugLog = false; // Set to true to enable detailed filename debug logging
 
     private function logFilenameDebug($stage, $value, $context = array())
     {
