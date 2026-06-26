@@ -483,13 +483,14 @@ class ModelToolSimpleApiMain extends Model {
         return $this->getZoneCapital($zone_id);
     }
 
-    public function searchDadataAddresses($query, $accountIndex = 0) {
+    public function searchDadataAddresses($zone, $query, $accountIndex = 0) {
+        $zone = $this->normalizeZoneName($zone);
         $query = trim($query);
 
-        $this->logSimpleApiDebug('searchDadataAddresses', 'Received query', ['query' => $query, 'accountIndex' => $accountIndex]);
+        $this->logSimpleApiDebug('searchDadataAddresses', 'Received query', ['query' => $query, 'zone' => $zone, 'accountIndex' => $accountIndex]);
         
         if (strlen($query) < 3) {
-            $this->logSimpleApiDebug('searchDadataAddresses', 'Query too short', ['query' => $query, 'accountIndex' => $accountIndex]);
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Query too short', ['query' => $query, 'zone' => $zone, 'accountIndex' => $accountIndex]);
             return [];
         }
 
@@ -497,12 +498,12 @@ class ModelToolSimpleApiMain extends Model {
         $dadata_accounts = $this->config->get('oxyo_dadata_accounts') ?: [];
         
         if (!isset($dadata_accounts[$accountIndex])) {
-            $this->logSimpleApiDebug('searchDadataAddresses', 'Invalid account index, defaulting to 0', ['accountIndex' => $accountIndex]);
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Invalid account index, defaulting to 0', ['zone' => $zone, 'accountIndex' => $accountIndex]);
             $accountIndex = 0;
         }
         
         if (!isset($dadata_accounts[$accountIndex]) || empty($dadata_accounts[$accountIndex]['api_key'])) {
-            $this->logSimpleApiDebug('searchDadataAddresses', 'Missing Dadata API credentials for account index', ['accountIndex' => $accountIndex]);
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Missing Dadata API credentials for account index', ['zone' => $zone, 'accountIndex' => $accountIndex]);
             return [];
         }
 
@@ -510,7 +511,7 @@ class ModelToolSimpleApiMain extends Model {
         $secret = $dadata_accounts[$accountIndex]['secret_key'];
 
         if (!$token || !$secret) {
-            $this->logSimpleApiDebug('searchDadataAddresses', 'Missing Dadata API credentials', ['accountIndex' => $accountIndex]);
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Missing Dadata API credentials', ['zone' => $zone, 'accountIndex' => $accountIndex]);
             return [];
         }
 
@@ -520,6 +521,11 @@ class ModelToolSimpleApiMain extends Model {
                 'query' => $query,
                 'count' => 5,
                 // 'language' => 'en'
+                'locations' => [
+                    [
+                        'region' => $zone, // Assuming $zone is the FIAS ID of the region
+                    ],
+                ],
             ], $token, $secret);
 
             if ($response && isset($response['suggestions'])) {
@@ -532,9 +538,16 @@ class ModelToolSimpleApiMain extends Model {
                         'unrestricted_value' => $suggestion['unrestricted_value'],
                         'postal_code' => isset($data['postal_code']) ? $data['postal_code'] : '',
                         'country' => isset($data['country']) ? $data['country'] : '',
-                        'region' => isset($data['region']) ? $data['region'] : '',
-                        'city' => isset($data['city']) ? $data['city'] : '',
-                        'street' => isset($data['street']) ? $data['street'] : '',
+                        'region' => isset($data['region_with_type']) ? $data['region_with_type'] : '',
+                        'region_type_full' => isset($data['region_type_full']) ? $data['region_type_full'] : '',
+                        'area' => isset($data['area_with_type']) ? $data['area_with_type'] : '',
+                        'area_type_full' => isset($data['area_type_full']) ? $data['area_type_full'] : '',
+                        'city' => isset($data['city_with_type']) ? $data['city_with_type'] : '',
+                        'city_type_full' => isset($data['city_type_full']) ? $data['city_type_full'] : '',
+                        'settlement' => isset($data['settlement_with_type']) ? $data['settlement_with_type'] : '',
+                        'settlement_type_full' => isset($data['settlement_type_full']) ? $data['settlement_type_full'] : '',
+                        'street' => isset($data['street_with_type']) ? $data['street_with_type'] : '',
+                        'street_type_full' => isset($data['street_type_full']) ? $data['street_type_full'] : '',
                         'house' => isset($data['house']) ? $data['house'] : '',
                         'flat' => isset($data['flat']) ? $data['flat'] : '',
                         'geo_lat' => isset($data['geo_lat']) ? $data['geo_lat'] : '',
@@ -545,10 +558,31 @@ class ModelToolSimpleApiMain extends Model {
                 return $results;
             }
         } catch (Exception $e) {
-            $this->logSimpleApiDebug('searchDadataAddresses', 'Error calling Dadata API: ' . $e->getMessage(), ['accountIndex' => $accountIndex]);
+            $this->logSimpleApiDebug('searchDadataAddresses', 'Error calling Dadata API: ' . $e->getMessage(), ['zone' => $zone, 'accountIndex' => $accountIndex]);
         }
 
         return [];
+    }
+
+    private function normalizeZoneName(string $zone) {
+        // Normalize the zone name to match Dadata's expected format
+        // This may involve mapping local names to Dadata's region names or FIAS IDs
+        // For now, we will just return the zone as is, but this can be extended as needed
+        $zone = trim($zone);
+        $zone = mb_strtolower($zone, 'UTF-8');
+        if (empty($zone)) {
+            return 'Санкт-Петербург'; // Default to a known region if zone is empty
+        }
+        // Remove область, край, республика, etc. from the zone name for better matching
+        if (preg_match('/югра/i', $zone)) {
+            $zone = 'Ханты-Мансийский Автономный округ - Югра';
+        }
+        if (preg_match('/байконур/i', $zone)) {
+            $zone = 'байконур';
+        }
+        $zone = preg_replace('/народная республика/iu', '', $zone);
+        $zone = preg_replace('/(область|край|республика| ао|г\.|город)/iu', '', $zone);
+        return trim($zone);
     }
 
     private function callDadataApi($method, $params, $token, $secret) {

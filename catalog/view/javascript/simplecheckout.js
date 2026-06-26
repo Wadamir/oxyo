@@ -494,6 +494,30 @@
                         }
 
                         $city.val('').trigger('change');
+                        
+                        // Clear address field when zone is cleared
+                        if ($address1.length) {
+                            var previousAddressValue = $address1.val();
+                            if (previousAddressValue !== '') {
+                                $address1.val('');
+                                
+                                if (
+                                    !$(self.params.mainContainer).attr('data-logged') &&
+                                    $address1.attr('id')
+                                ) {
+                                    localStorage.setItem($address1.attr('id'), '');
+                                }
+                                
+                                console.log(
+                                    '[zone-city-autofill] address cleared when zone is cleared',
+                                    {
+                                        zoneId: zoneId,
+                                        previousAddress: previousAddressValue,
+                                    },
+                                );
+                            }
+                        }
+                        
                         console.log('[zone-city-autofill] city cleared');
                         finishAutofill();
                         return;
@@ -561,6 +585,44 @@
                                         city: cityValue,
                                     },
                                 );
+                            }
+
+                            // Autofill address field with "Region Name, City" format
+                            if ($address1.length && cityValue) {
+                                var zoneText = $zone.find('option:selected').text();
+                                if (zoneText) {
+                                    var addressValue = zoneText + ', ' + cityValue;
+                                    $address1.val(addressValue).trigger('change');
+
+                                    if (
+                                        !$(self.params.mainContainer).attr(
+                                            'data-logged',
+                                        ) &&
+                                        $address1.attr('id')
+                                    ) {
+                                        localStorage.setItem(
+                                            $address1.attr('id'),
+                                            addressValue,
+                                        );
+                                        console.log(
+                                            '[zone-city-autofill] sync address to localStorage',
+                                            {
+                                                addressId: $address1.attr('id'),
+                                                address: addressValue,
+                                            },
+                                        );
+                                    }
+
+                                    console.log(
+                                        '[zone-city-autofill] apply address from zone/city',
+                                        {
+                                            zoneId: zoneId,
+                                            zoneText: zoneText,
+                                            city: cityValue,
+                                            address: addressValue,
+                                        },
+                                    );
+                                }
                             }
                         },
                         complete: function () {
@@ -2104,8 +2166,11 @@
             return fields.join('&');
         };
 
+        /*
+         * Dadata Autocomplete
+        */
         this.initDadataAutocomplete = function () {
-            console.log('[city-debug][initDadataAutocomplete] init');
+            console.log('[dadata-debug][initDadataAutocomplete] init');
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
 
@@ -2154,7 +2219,7 @@
             );
 
             if (!$address1Fields.length) {
-                console.warn('[city-debug][initDadataAutocomplete] no address_1 fields found');
+                console.warn('[dadata-debug][initDadataAutocomplete] no address_1 fields found');
                 return;
             }
 
@@ -2200,10 +2265,14 @@
                 var suggestionsRequest = null;
                 var currentSuggestionIndex = -1;
                 var suggestions = [];
+                var lastValidAddress = $address1.val(); // Store initial value as valid
                 
                 $address1.on('input keydown', function (e) {
                     var $field = $(this);
-                    var query = countryName + ' ' + zoneName + ' ' + $field.val().trim();
+                    var query = $field.val().trim();
+                    var fullQuery = countryName + ' ' + zoneName + ' ' + query;
+
+                    $address1.data('dadata-selected', false).attr('data-valid', 'false').attr('data-error', 'true');                    
                     
                     // Handle arrow keys and enter
                     if (e.type === 'keydown') {
@@ -2230,7 +2299,9 @@
                         if (keyCode === 13) { // Enter
                             e.preventDefault();
                             if (currentSuggestionIndex >= 0 && suggestions[currentSuggestionIndex]) {
-                                self.selectDadataSuggestion($cityField, $dadataAddressField, suggestions[currentSuggestionIndex], $suggestionsList);
+                                self.selectDadataSuggestion($cityField, $dadataAddressField, $address1, suggestions[currentSuggestionIndex], $suggestionsList);
+                                // Update lastValidAddress after selection
+                                lastValidAddress = suggestions[currentSuggestionIndex].value || suggestions[currentSuggestionIndex].unrestricted_value;
                             }
                             return;
                         }
@@ -2258,14 +2329,14 @@
                     }
                     
                     suggestionsRequest = $.ajax({
-                        url: 'index.php?' + self.params.additionalParams + 'route=common/simple_connector&method=searchDadataAddresses&query=' + encodeURIComponent(query),
+                        url: 'index.php?' + self.params.additionalParams + 'route=common/simple_connector&method=searchDadataAddresses&zone=' + zoneName + '&query=' + encodeURIComponent(fullQuery),
                         type: 'GET',
                         dataType: 'json',
                         beforeSend: function () {
-                            console.log('[city-debug][initDadataAutocomplete] sending request to Dadata API for query:', query);
+                            console.log('[dadata-debug][initDadataAutocomplete] sending request to Dadata API for query:', fullQuery);
                         },
                         success: function (data) {
-                            console.log('[city-debug][initDadataAutocomplete] received suggestions:', data);
+                            console.log('[dadata-debug][initDadataAutocomplete] received suggestions:', data);
                             suggestions = data && data.length ? data : [];
                             currentSuggestionIndex = -1;
                             
@@ -2283,6 +2354,8 @@
                                     
                                     $item.on('click', function () {
                                         self.selectDadataSuggestion($cityField, $dadataAddressField, $address1, suggestion, $suggestionsList);
+                                        // Update lastValidAddress after selection
+                                        lastValidAddress = suggestion.value || suggestion.unrestricted_value;
                                     });
                                     
                                     $suggestionsList.append($item);
@@ -2294,17 +2367,36 @@
                             }
                         },
                         error: function () {
-                            console.error('[city-debug][initDadataAutocomplete] error fetching suggestions from Dadata API');
+                            console.error('[dadata-debug][initDadataAutocomplete] error fetching suggestions from Dadata API');
                             $suggestionsList.hide();
                         }
                     });
                 });
                 
-                // Hide suggestions when field loses focus
+                // Hide suggestions when field loses focus and validate address
                 $address1.on('blur', function () {
                     setTimeout(function () {
                         $suggestionsList.hide();
                     }, 200);
+                    
+                    // Validate on blur: if address was not selected from suggestions, restore last valid value
+                    var currentValue = $address1.val().trim();
+                    var wasSelected = $address1.data('dadata-selected') === true;
+                    var lastValid = $address1.data('lastValidAddress') || lastValidAddress;
+                    
+                    if (currentValue !== lastValid.trim() && !wasSelected) {
+                        // User entered custom text without selecting from suggestions - restore last valid value
+                        console.log('[dadata-validation] address not selected from suggestions, restoring last valid value', {
+                            current: currentValue,
+                            lastValid: lastValid,
+                        });
+                        
+                        $address1.val(lastValid).trigger('change');
+                        $address1.data('dadata-selected', false).attr('data-valid', 'true').removeAttr('data-error');
+                    } else if (wasSelected) {
+                        // Keep the selected address as valid
+                        $address1.attr('data-valid', 'true').removeAttr('data-error');
+                    }
                 });
             });
         };
@@ -2315,32 +2407,49 @@
         };
 
         this.selectDadataSuggestion = function ($cityField, $dadataAddressField, $addressField, suggestion, $suggestionsList) {
-            console.log('[city-debug][selectDadataSuggestion][values]: ' + $cityField.val() + ', ' + $dadataAddressField.val() + ', ' + $addressField.val());
-            console.log('[city-debug][selectedPostalCode]: ' + (suggestion.postal_code || 'N/A'));
+            console.log('[dadata-debug][selectDadataSuggestion][values]: ' + $cityField.val() + ', ' + $dadataAddressField.val() + ', ' + $addressField.val());
+            console.log('[dadata-debug][selectedPostalCode]: ' + (suggestion.postal_code || 'N/A'));
             let postalCode = suggestion.postal_code || '';
-            console.log('[city-debug][selectedRegion]: ' + (suggestion.region || 'N/A'));
+            console.log('[dadata-debug][selectedRegion]: ' + (suggestion.region || 'N/A'));
             let region = suggestion.region || '';
-            console.log('[city-debug][selectedCity]: ' + (suggestion.city || 'N/A'));
+            console.log('[dadata-debug][selectedArea]: ' + (suggestion.area || 'N/A'));
+            let area = suggestion.area || '';            
+            console.log('[dadata-debug][selectedCity]: ' + (suggestion.city || 'N/A'));
             let city = suggestion.city || '';
-            console.log('[city-debug][selectedStreet]: ' + (suggestion.street || 'N/A'));
+            console.log('[dadata-debug][selectedSettlement]: ' + (suggestion.settlement || 'N/A'));
+            let settlement = suggestion.settlement || '';
+            console.log('[dadata-debug][selectedStreet]: ' + (suggestion.street || 'N/A'));
             let street = suggestion.street || '';
-            console.log('[city-debug][selectedHouse]: ' + (suggestion.house || 'N/A'));
+            console.log('[dadata-debug][selectedHouse]: ' + (suggestion.house || 'N/A'));
             let house = suggestion.house || '';
-            console.log('[city-debug][selectedFlat]: ' + (suggestion.flat || 'N/A'));
+            console.log('[dadata-debug][selectedFlat]: ' + (suggestion.flat || 'N/A'));
             let flat = suggestion.flat || '';
-            console.log('[city-debug][selectedUnrestrictedValue]: ' + (suggestion.unrestricted_value || 'N/A'));
+            console.log('[dadata-debug][selectedUnrestrictedValue]: ' + (suggestion.unrestricted_value || 'N/A'));
             let unrestrictedValue = suggestion.unrestricted_value || '';
-            console.log('[city-debug][selectedValue]: ' + (suggestion.value || 'N/A'));
+            console.log('[dadata-debug][selectedValue]: ' + (suggestion.value || 'N/A'));
             let value = suggestion.value || '';
 
             if ($dadataAddressField.length) {
                 $dadataAddressField.val(unrestrictedValue);
             }
-            $addressField.val(suggestion.value || suggestion.unrestricted_value);
+            
+            var selectedAddress = suggestion.value || suggestion.unrestricted_value;
+            $addressField.val(selectedAddress);
+            
+            // Update lastValidAddress to the newly selected value
+            $addressField.data('lastValidAddress', selectedAddress);
+            
             if (city !== '' && $cityField.length) {
                 $cityField.val(city).trigger('change');
-                self.reloadAll();
+            } else if (area !== '' && settlement !== '' && $cityField.length) {
+                $cityField.val(area + ', ' + settlement).trigger('change');
+            } else {
+                $cityField.val('').trigger('change');
             }
+            $addressField.data('dadata-selected', true).removeAttr('data-error').attr('data-valid', 'true');            
+            var self = this;
+            self.reloadAll();            
+
             $suggestionsList.hide();
         };        
 
