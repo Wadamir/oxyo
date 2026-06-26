@@ -591,7 +591,12 @@
                             if ($address1.length && cityValue) {
                                 var zoneText = $zone.find('option:selected').text();
                                 if (zoneText) {
-                                    var addressValue = zoneText + ', ' + cityValue;
+                                    if (zoneText.toLowerCase() === cityValue.toLowerCase()) {
+                                        // If the city is already part of the zone text, just use the zone text
+                                        var addressValue = zoneText;
+                                    } else {
+                                        var addressValue = zoneText + ', ' + cityValue;
+                                    }
                                     $address1.val(addressValue).trigger('change');
 
                                     if (
