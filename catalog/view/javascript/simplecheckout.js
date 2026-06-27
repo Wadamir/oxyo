@@ -2179,6 +2179,14 @@
             var self = this;
             var $mainContainer = $(self.params.mainContainer);
 
+            // Find all postal code fields in shipping and payment forms
+            var $postalCodeFields = $mainContainer.find(
+                "#simplecheckout_shipping_address input[name='postcode'], " +
+                "#simplecheckout_shipping_address input[name$='[postcode]'], " +
+                "#simplecheckout_payment_address input[name='postcode'], " +
+                "#simplecheckout_payment_address input[name$='[postcode]']"
+            );
+
             // Find country fields in shipping and payment forms
             var $countryFields = $mainContainer.find(
                 "#simplecheckout_shipping_address select[name='country_id'], " +
@@ -2229,6 +2237,12 @@
             }
 
             $address1Fields.each(function () {
+                var $postalCodeField = $postalCodeFields.filter(function () {
+                    return (
+                        $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
+                    ); 
+                });
+
                 var $countryField = $countryFields.filter(function () {
                     return (
                         $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
@@ -2358,7 +2372,7 @@
                                     });
                                     
                                     $item.on('click', function () {
-                                        self.selectDadataSuggestion($cityField, $dadataAddressField, $address1, suggestion, $suggestionsList);
+                                        self.selectDadataSuggestion($postalCodeField, $cityField, $dadataAddressField, $address1, suggestion, $suggestionsList);
                                         // Update lastValidAddress after selection
                                         lastValidAddress = suggestion.value || suggestion.unrestricted_value;
                                     });
@@ -2411,8 +2425,8 @@
             $suggestionsList.find('.dadata-suggestion[data-index="' + index + '"]').addClass('active').css('background', '#f0f0f0');
         };
 
-        this.selectDadataSuggestion = function ($cityField, $dadataAddressField, $addressField, suggestion, $suggestionsList) {
-            console.log('[dadata-debug][selectDadataSuggestion][values]: ' + $cityField.val() + ', ' + $dadataAddressField.val() + ', ' + $addressField.val());
+        this.selectDadataSuggestion = function ($postalCodeField, $cityField, $dadataAddressField, $addressField, suggestion, $suggestionsList) {
+            console.log('[dadata-debug][selectedDadataSuggestion][values]: ' + $postalCodeField.val() + ', ' + $cityField.val() + ', ' + $dadataAddressField.val() + ', ' + $addressField.val());
             console.log('[dadata-debug][selectedPostalCode]: ' + (suggestion.postal_code || 'N/A'));
             let postalCode = suggestion.postal_code || '';
             console.log('[dadata-debug][selectedRegion]: ' + (suggestion.region || 'N/A'));
@@ -2443,6 +2457,12 @@
             
             // Update lastValidAddress to the newly selected value
             $addressField.data('lastValidAddress', selectedAddress);
+
+            if (postalCode !== '' && $postalCodeField.length) {
+                $postalCodeField.val(postalCode);
+            } else if (postalCode === '' && $postalCodeField.length) {
+                $postalCodeField.val('');
+            }
             
             if (city !== '' && $cityField.length) {
                 $cityField.val(city).trigger('change');
@@ -2451,6 +2471,7 @@
             } else {
                 $cityField.val('').trigger('change');
             }
+
             $addressField.data('dadata-selected', true).removeAttr('data-error').attr('data-valid', 'true');            
             var self = this;
             self.reloadAll();            
