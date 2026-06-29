@@ -214,6 +214,7 @@ $_['column_name']            				= 'Product Name';
 $_['column_category']        				= 'Categories';
 $_['column_manufacturer']    				= 'Manufacturer';
 $_['column_model']           				= 'Model';
+$_['column_id']           					= 'ID (SKU)';
 $_['column_sku']           					= 'SKU';
 $_['column_upc']           					= 'UPC';
 $_['column_ean']           					= 'EAN';

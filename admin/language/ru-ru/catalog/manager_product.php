@@ -214,6 +214,7 @@ $_['column_name']            				= 'Название товара';
 $_['column_category']        				= 'Категории';
 $_['column_manufacturer']    				= 'Производитель';
 $_['column_model']           				= 'Модель';
+$_['column_id']           					= 'ID (артикул)';
 $_['column_sku']           					= 'Артикул';
 $_['column_upc']           					= 'UPC';
 $_['column_ean']           					= 'EAN';

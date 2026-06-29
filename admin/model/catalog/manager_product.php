@@ -615,6 +615,37 @@ class ModelCatalogManagerProduct extends Model {
 	
 	public function getTotalModelProducts($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "product WHERE model != ''";
+
+		$sort_data = array(
+			'pd.name',
+			'p2c.category_id',
+			'm.name',
+			'p.model',
+			'p.sku',
+			'p.upc',
+			'p.ean',
+			'p.jan',
+			'p.isbn',
+			'p.mpn',
+			'p.location',
+			'p.price',
+			'p.tax_class_id',
+			'tc.tax_title',
+			'p.quantity',
+			'p.minimum',
+			'p.subtract',
+			'p.stock_status_id',
+			'ss.stock_name',
+			'p.shipping',
+			'p.date_available',
+			'p.length_class_id',
+			'lcd.length_title',
+			'p.weight',
+			'p.weight_class_id',
+			'wcd.weight_title',
+			'p.status',
+			'p.sort_order'
+		);        
 		
 		if (!empty($data['filter_model'])) {
 			$sql .= " AND model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";
@@ -651,6 +682,37 @@ class ModelCatalogManagerProduct extends Model {
 	
 	public function getTotalSkuProducts($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "product WHERE sku != ''";
+
+		$sort_data = array(
+			'pd.name',
+			'p2c.category_id',
+			'm.name',
+			'p.model',
+			'p.sku',
+			'p.upc',
+			'p.ean',
+			'p.jan',
+			'p.isbn',
+			'p.mpn',
+			'p.location',
+			'p.price',
+			'p.tax_class_id',
+			'tc.tax_title',
+			'p.quantity',
+			'p.minimum',
+			'p.subtract',
+			'p.stock_status_id',
+			'ss.stock_name',
+			'p.shipping',
+			'p.date_available',
+			'p.length_class_id',
+			'lcd.length_title',
+			'p.weight',
+			'p.weight_class_id',
+			'wcd.weight_title',
+			'p.status',
+			'p.sort_order'
+		);        
 		
 		if (!empty($data['filter_sku'])) {
 			$sql .= " AND sku LIKE '%" . $this->db->escape($data['filter_sku']) . "%'";
@@ -687,6 +749,37 @@ class ModelCatalogManagerProduct extends Model {
 	
 	public function getTotalLocationProducts($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "product WHERE location != ''";
+
+		$sort_data = array(
+			'pd.name',
+			'p2c.category_id',
+			'm.name',
+			'p.model',
+			'p.sku',
+			'p.upc',
+			'p.ean',
+			'p.jan',
+			'p.isbn',
+			'p.mpn',
+			'p.location',
+			'p.price',
+			'p.tax_class_id',
+			'tc.tax_title',
+			'p.quantity',
+			'p.minimum',
+			'p.subtract',
+			'p.stock_status_id',
+			'ss.stock_name',
+			'p.shipping',
+			'p.date_available',
+			'p.length_class_id',
+			'lcd.length_title',
+			'p.weight',
+			'p.weight_class_id',
+			'wcd.weight_title',
+			'p.status',
+			'p.sort_order'
+		);        
 		
 		if (!empty($data['filter_location'])) {
 			$sql .= " AND location LIKE '%" . $this->db->escape($data['filter_location']) . "%'";
@@ -737,6 +830,37 @@ class ModelCatalogManagerProduct extends Model {
 		}
 		
 		$sql .= " GROUP BY text";
+
+		$sort_data = array(
+			'pd.name',
+			'p2c.category_id',
+			'm.name',
+			'p.model',
+			'p.sku',
+			'p.upc',
+			'p.ean',
+			'p.jan',
+			'p.isbn',
+			'p.mpn',
+			'p.location',
+			'p.price',
+			'p.tax_class_id',
+			'tc.tax_title',
+			'p.quantity',
+			'p.minimum',
+			'p.subtract',
+			'p.stock_status_id',
+			'ss.stock_name',
+			'p.shipping',
+			'p.date_available',
+			'p.length_class_id',
+			'lcd.length_title',
+			'p.weight',
+			'p.weight_class_id',
+			'wcd.weight_title',
+			'p.status',
+			'p.sort_order'
+		);        
 		
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];

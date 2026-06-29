@@ -52,6 +52,9 @@
 						{% endif %}
 					</td>
 				{% endif %}
+				{# {% if id_view %} #}
+					<td class="text-left sort-id">{{ column_id }}</td>
+				{# {% endif %} #}
 				{% if sku_view %}
 					<td class="text-left sort-sku">
 						{% if sort == 'p.sku' %}
@@ -402,6 +405,44 @@
 								{% endif %}
 							</td>
 						{% endif %}
+						{# {% if id_view %} #}
+							<td class="text-left">
+								{% if manager_product_id %}
+									<a data-toggle="popover-maxy" data-target="#product-id-{{ product.product_id }}" data-placement="left" id="product-id{{ product.product_id }}" class="btn-hover-list">
+										{% if product.product_id %}
+											{{ product.product_id }}
+										{% else %}
+											{{ text_without }}
+										{% endif %}
+									</a>
+									<div id="product-id-{{ product.product_id }}" class="popover popover-primary popover-data">
+										<div class="arrow"></div>
+										<h3 class="popover-title">{{ column_id }}
+											<a id="close-id-{{ product.product_id }}" data-dismiss="popover-maxy" class="btn btn-default btn-xs">
+												<i class="fa fa-close"></i>
+											</a>
+										</h3>
+										<div class="popover-content">
+											<input type="text" name="product_id" value="{{ product.product_id }}" placeholder="{{ column_id }}" id="input-id-{{ product.product_id }}" class="form-control"/>
+										</div>
+										<div class="popover-footer">
+											<a onclick="editData('{{ product.product_id }}', 'product_id');" class="btn btn-primary btn-sm">
+												<i class="fa fa-save fa-fw"></i>
+											</a>
+											<a onclick="clearData('{{ product.product_id }}', 'product_id');" class="btn btn-danger btn-sm">
+												<i class="fa fa-eraser fa-fw"></i>
+											</a>
+										</div>
+									</div>
+								{% else %}
+									{% if product.product_id %}
+										{{ product.product_id }}
+									{% else %}
+										{{ text_without }}
+									{% endif %}
+								{% endif %}
+							</td>
+						{# {% endif %} #}                        
 						{% if sku_view %}
 							<td class="text-left">
 								{% if manager_product_sku %}
