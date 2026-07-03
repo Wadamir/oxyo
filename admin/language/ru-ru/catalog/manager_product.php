@@ -249,6 +249,7 @@ $_['entry_auto_keyword']     				= 'Авто ЧПУ';
 $_['entry_keyword']          				= 'SEO URL (ЧПУ)';
 $_['entry_model']            				= 'Модель';
 $_['entry_sku']              				= 'Артикул';
+$_['entry_product_id']       				= 'ID (артикул)';
 $_['entry_upc']              				= 'UPC';
 $_['entry_ean']              				= 'EAN';
 $_['entry_jan']              				= 'JAN';

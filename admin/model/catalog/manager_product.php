@@ -426,6 +426,10 @@ class ModelCatalogManagerProduct extends Model {
 		if (!empty($data['filter_sku'])) {
 			$sql .= " AND p.sku LIKE '%" . $this->db->escape($data['filter_sku']) . "%'";
 		}
+
+        if (!empty($data['filter_product_id'])) {
+            $sql .= " AND p.product_id LIKE '%" . $this->db->escape($data['filter_product_id']) . "%'";
+        }
 		
 		if (!empty($data['filter_attribute_value'])) {
 			$sql .= " AND pa.text LIKE '%" . $this->db->escape($data['filter_attribute_value']) . "%'";
@@ -741,6 +745,73 @@ class ModelCatalogManagerProduct extends Model {
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
+		
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+	}
+
+    public function getTotalProductIdProducts($data = array()) {
+        $sql = "SELECT * FROM " . DB_PREFIX . "product WHERE product_id != ''";
+
+        $sort_data = array(
+            'pd.name',
+            'p2c.category_id',
+            'm.name',
+            'p.model',
+            'p.sku',
+            'p.upc',
+            'p.ean',
+            'p.jan',
+            'p.isbn',
+            'p.mpn',
+            'p.location',
+            'p.price',
+            'p.tax_class_id',
+            'tc.tax_title',
+            'p.quantity',
+            'p.minimum',
+            'p.subtract',
+            'p.stock_status_id',
+            'ss.stock_name',
+            'p.shipping',
+            'p.date_available',
+            'p.length_class_id',
+            'lcd.length_title',
+            'p.weight',
+            'p.weight_class_id',
+            'wcd.weight_title',
+            'p.status',
+            'p.sort_order'
+        );
+
+        if (!empty($data['filter_product_id'])) {
+            $sql .= " AND product_id LIKE '%" . $this->db->escape($data['filter_product_id']) . "%'";
+        }
+
+        if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+            $sql .= " ORDER BY " . $data['sort'];
+        } else {
+            $sql .= " ORDER BY product_id";
+        }
+
+        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+            $sql .= " DESC";
+        } else {
+            $sql .= " ASC";
+        }
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+        }
 		
 		$query = $this->db->query($sql);
 		

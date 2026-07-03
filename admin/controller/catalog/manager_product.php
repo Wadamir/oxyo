@@ -40,6 +40,12 @@ class ControllerCatalogManagerProduct extends Controller {
 		} else {
 			$filter_sku = null;
 		}
+
+        if (isset($this->request->get['filter_product_id'])) {
+			$filter_product_id = $this->request->get['filter_product_id'];
+		} else {
+			$filter_product_id = null;
+		}
 		
 		if (isset($this->request->get['filter_attribute_value'])) {
 			$filter_attribute_value = $this->request->get['filter_attribute_value'];
@@ -178,6 +184,7 @@ class ControllerCatalogManagerProduct extends Controller {
 		$data['filter_manufacturer_id']   = $filter_manufacturer_id;
 		$data['filter_model'] 			  = $filter_model;
 		$data['filter_sku'] 			  = $filter_sku;
+		$data['filter_product_id']        = $filter_product_id;
 		$data['filter_attribute_value']   = $filter_attribute_value;
 		$data['filter_attribute_id'] 	  = $filter_attribute_id;
 		$data['filter_filter_id'] 		  = $filter_filter_id;
@@ -408,6 +415,12 @@ class ControllerCatalogManagerProduct extends Controller {
 		} else {
 			$filter_sku = null;
 		}
+
+        if (isset($this->request->get['filter_product_id'])) {
+            $filter_product_id = $this->request->get['filter_product_id'];
+        } else {
+            $filter_product_id = null;
+        }
 		
 		if (isset($this->request->get['filter_attribute_value'])) {
 			$filter_attribute_value = $this->request->get['filter_attribute_value'];
@@ -575,6 +588,10 @@ class ControllerCatalogManagerProduct extends Controller {
 			$url .= '&filter_sku=' . urlencode(html_entity_decode($this->request->get['filter_sku'], ENT_QUOTES, 'UTF-8'));
 		}
 		
+        if (isset($this->request->get['filter_product_id'])) {
+            $url .= '&filter_product_id=' . urlencode(html_entity_decode($this->request->get['filter_product_id'], ENT_QUOTES, 'UTF-8'));
+        }
+
 		if (isset($this->request->get['filter_attribute_value'])) {
 			$url .= '&filter_attribute_value=' . urlencode(html_entity_decode($this->request->get['filter_attribute_value'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -663,6 +680,7 @@ class ControllerCatalogManagerProduct extends Controller {
 			'filter_manufacturer_id'   => $filter_manufacturer_id,
 			'filter_model'	  		   => $filter_model,
 			'filter_sku'	  		   => $filter_sku,
+            'filter_product_id'	  	   => $filter_product_id,
 			'filter_attribute_value'   => $filter_attribute_value,
 			'filter_location'	  	   => $filter_location,
 			'filter_attribute_id'	   => $filter_attribute_id,
@@ -1937,6 +1955,37 @@ class ControllerCatalogManagerProduct extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+    public function autocomplete_product_id() {
+        $json = array();
+        
+        if (isset($this->request->get['filter_product_id'])) {
+            $this->load->model('catalog/manager_product');
+
+            if (isset($this->request->get['filter_product_id'])) {
+                $filter_product_id = $this->request->get['filter_product_id'];
+            } else {
+                $filter_product_id = '';
+            }
+
+            $filter_data = array(
+                'filter_product_id' => $filter_product_id,
+                'start'             => 0,
+                'limit'             => 15
+            );
+
+            $results = $this->model_catalog_manager_product->getTotalProductIdProducts($filter_data);
+
+            foreach ($results as $result) {
+                $json[] = array(
+                    'product_id' => $result['product_id']
+                );
+            }
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 	
 	public function autocomplete_attribute() {
 		$json = array();

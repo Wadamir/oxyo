@@ -249,6 +249,7 @@ $_['entry_auto_keyword']     				= 'Auto SEO Keyword';
 $_['entry_keyword']          				= 'SEO URL';
 $_['entry_model']            				= 'Model';
 $_['entry_sku']              				= 'SKU';
+$_['entry_product_id']       				= 'Product ID';
 $_['entry_upc']              				= 'UPC';
 $_['entry_ean']             				= 'EAN';
 $_['entry_jan']              				= 'JAN';
