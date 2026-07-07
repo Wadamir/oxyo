@@ -1567,13 +1567,13 @@
 				$('#option-mass-delete .collapse').removeClass('in');
 				$('#modal-product-content').empty();
 			});
-            if (type_data == 'meta_title') {
-                console.log('meta_title');
-                $('#modal-product-content').load('index.php?route=extension/module/manager_product_bulk/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
-            } else {
+            // if (type_data == 'meta_title') {
+            //     console.log('meta_title');
+            //     $('#modal-product-content').load('index.php?route=extension/module/manager_product_bulk/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
+            // } else {
                 console.log('type_data' + type_data);
                 $('#modal-product-content').load('index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
-            }
+            // }
 		} else {;
 			$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-exclamation-circle"></i> ' + error_select_product + '</div>');
 			$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
