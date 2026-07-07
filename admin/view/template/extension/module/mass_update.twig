@@ -1,0 +1,107 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-mass-update" class="btn btn-primary"><i class="fa fa-save"></i> {{ button_save }}</button>
+				<a href="{{ cancel }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ button_cancel }}</a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					{% if not loop.last %}
+						<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+						<li class="active">/</li>
+					{% else %}
+						<li class="active">{{ breadcrumb.text }}</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+			<div class="alert alert-danger alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			</div>
+		{% endif %}
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ heading_title }}</h3>
+			</div>
+			<div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                        <div class="col-sm-10">
+                            <select name="module_mass_update_status" id="input-status" class="form-control">
+                                {% if module_mass_update_status %}
+                                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                                    <option value="0">{{ text_disabled }}</option>
+                                {% else %}
+                                    <option value="1">{{ text_enabled }}</option>
+                                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.toggle-group {
+		display: inline-block;
+		position: relative;
+	}
+
+	.toggle-radio {
+		display: none;
+	}
+
+	.toggle-label {
+		display: inline-block;
+		padding: 10px 20px;
+		font-weight: bold;
+		cursor: pointer;
+		background-color: #f5f5f5;
+		border: 1px solid #ddd;
+	}
+
+	.toggle-label-on {
+		border-radius: 4px 0 0 4px;
+		border-right: none;
+		color: #333;
+	}
+
+	.toggle-label-off {
+		border-radius: 0 4px 4px 0;
+		border-left: none;
+		color: #333;
+	}
+
+	.toggle-radio:checked + .toggle-label-on,
+	.toggle-radio:checked + .toggle-label-off {
+		background-color: #5cb85c;
+		color: #fff;
+		border-color: #4cae4c;
+	}
+
+	#status-on:checked ~ .toggle-label-off {
+		background-color: #f5f5f5;
+		color: #333;
+		border-color: #ddd;
+	}
+
+	#status-off:checked ~ .toggle-label-on {
+		background-color: #f5f5f5;
+		color: #333;
+		border-color: #ddd;
+	}
+</style>
+
+{{ footer }}

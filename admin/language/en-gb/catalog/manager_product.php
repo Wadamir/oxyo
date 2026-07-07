@@ -51,6 +51,7 @@ $_['text_setting_mass_edit']      	 		= 'Settings Mass Edit';
 $_['text_mass_edit']      	 				= 'Mass Edit';
 $_['text_setting_mass_delete']      	 	= 'Settings Mass Delete';
 $_['text_mass_delete']       				= 'Mass Delete';
+$_['text_mass_sku_update']       			= 'Mass SKU Update';
 $_['text_product_general']   				= 'General Product Data';
 $_['text_product_data']      				= 'Product Data';
 $_['text_product_links']     				= 'Links';

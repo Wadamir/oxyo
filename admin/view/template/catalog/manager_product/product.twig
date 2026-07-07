@@ -3,6 +3,9 @@
 	<div class="page-header">
 		<div class="container-fluid">
 			<div class="pull-right">
+                <button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ text_mass_sku_update }}" id="button-mass-sku-update" class="btn btn-info">
+                    <i class="fa fa-barcode"></i>
+                </button>
 				<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{ text_filter }}" id="button-act-filter" class="btn btn-info">
 					<i class="fa fa-filter"></i>
 				</button>
@@ -1564,7 +1567,13 @@
 				$('#option-mass-delete .collapse').removeClass('in');
 				$('#modal-product-content').empty();
 			});
-			$('#modal-product-content').load('index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
+            if (type_data == 'meta_title') {
+                console.log('meta_title');
+                $('#modal-product-content').load('index.php?route=extension/module/manager_product_bulk/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
+            } else {
+                console.log('type_data' + type_data);
+                $('#modal-product-content').load('index.php?route=extension/module/manager_product/edit&user_token={{ user_token }}&type=product_mass_edit&type_data=' + type_data);
+            }
 		} else {;
 			$('.messages-body').html('<div class="alert alert-danger alert-messages"><i class="fa fa-exclamation-circle"></i> ' + error_select_product + '</div>');
 			$('.maxy-backdrop, .messages-body').show().delay(1500).fadeOut(500);
@@ -1668,6 +1677,44 @@
 		$('.btn-expand').removeClass('hidden');;
 	}
 	//-->
+</script>
+<script type="text/javascript">
+    <!--
+    $('#button-mass-sku-update').on('click', function() {
+        massSkuUpdate();
+    });
+    //-->
+</script>
+<script type="text/javascript">
+    <!--
+    function massSkuUpdate() {
+        $('#option-mass-update').find('ul').removeClass('noclose');
+        $('#option-mass-delete').find('ul').removeClass('noclose');
+        $('#modal-edit-product').modal('show');
+        $('#modal-edit-product').on('hide.bs.modal', function() {
+            $('#modal-edit-product').removeClass('modal-fullscreen');
+            $('#product-list-title input[type=\'checkbox\']').prop('checked', false);
+            $('#product-list input[type=\'checkbox\']').prop('checked', false);
+            $('#option-mass-update').find('a').addClass('disabled');
+            $('#option-mass-update').find('ul').addClass('noclose');
+            $('#option-mass-update .collapse').removeClass('in');
+            $('#option-mass-delete').find('a').addClass('disabled');
+            $('#option-mass-delete').find('ul').addClass('noclose');
+            $('#option-mass-delete .collapse').removeClass('in');
+            $('#modal-product-content').empty();
+        });
+        var url = 'index.php?route=extension/module/mass_update/edit&user_token={{ user_token }}&type=product_mass_sku_update';
+        console.log('Loading URL:', url);
+        $('#modal-product-content').load(url, function(response, status, xhr) {
+            if (status == "error") {
+                console.log("Error loading content:", xhr.status, xhr.statusText);
+                $('#modal-product-content').html('<div class="alert alert-danger">Error loading form: ' + xhr.status + ' ' + xhr.statusText + '</div>');
+            } else {
+                console.log("Content loaded successfully! Status:", status);
+            }
+        });
+    }
+    //-->
 </script>
 </div>
 {{ footer }}

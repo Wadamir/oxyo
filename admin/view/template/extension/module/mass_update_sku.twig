@@ -1,0 +1,126 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">{{ heading_mass_sku_update }}</h4>
+</div>
+
+<form id="form-mass-sku-update" method="post" enctype="multipart/form-data">
+	<div class="modal-body">
+		<!-- Product categories -->
+		<div class="form-group">
+			<label>{{ entry_selected_products }}</label>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="radio">
+						<label>
+							<input type="radio" name="update_type" value="all" checked="checked" />
+							{{ text_update_all_products }} (<strong>{{ total_products|length }}</strong>)
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="update_type" value="without_sku" />
+							{{ text_products_without_sku }} (<strong>{{ products_without_sku|length }}</strong>)
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="update_type" value="with_sku" />
+							{{ text_products_with_sku }} (<strong>{{ products_with_sku|length }}</strong>)
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- Store product data in JavaScript data attributes -->
+		<script type="text/javascript">
+			window.productsWithoutSku = {{ products_without_sku|json_encode|raw }};
+			window.productsWithSku = {{ products_with_sku|json_encode|raw }};
+			window.totalProducts = {{ total_products|json_encode|raw }};
+		</script>
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">{{ button_cancel }}</button>
+		<button type="button" class="btn btn-primary" id="button-update-all" onclick="updateSkuForAll();">{{ button_update_all }}</button>
+	</div>
+</form>
+
+<script type="text/javascript">
+	function getProductIdsByType() {
+		var updateType = $('input[name="update_type"]:checked').val();
+		var productIds = [];
+		
+		if (updateType === 'all') {
+			if (window.totalProducts && Array.isArray(window.totalProducts)) {
+				productIds = window.totalProducts.slice();
+			}
+		} else if (updateType === 'without_sku') {
+			if (window.productsWithoutSku && Array.isArray(window.productsWithoutSku)) {
+				productIds = window.productsWithoutSku.slice();
+			}
+		} else if (updateType === 'with_sku') {
+			if (window.productsWithSku && Array.isArray(window.productsWithSku)) {
+				productIds = window.productsWithSku.slice();
+			}
+		}
+		
+		console.log('Selected product IDs (' + updateType + '):', productIds.length, productIds);
+		return productIds;
+	}
+
+	function updateSkuForAll() {
+		var productIds = getProductIdsByType();
+		
+		if (productIds.length === 0) {
+			alert('{{ error_no_products }}');
+			return;
+		}
+		
+		if (!confirm('{{ confirm_update_sku }}')) {
+			return;
+		}
+		
+		// Show loading indicator
+		$('#button-update-all').prop('disabled', true);
+		
+		$.ajax({
+			url: 'index.php?route=extension/module/mass_update/updateSkuForAll&user_token={{ user_token }}',
+			type: 'POST',
+			data: {
+				selected_product_ids: productIds
+			},
+			dataType: 'json',
+			success: function(json) {
+				if (json.error) {
+					alert(json.error);
+				} else if (json.success) {
+					alert(json.success);
+					// Close modal window
+					$('#modal-edit-product').modal('hide');
+					// Reload product list
+					location.reload();
+				}
+			},
+			error: function() {
+				alert('{{ error_update_failed }}');
+			},
+			complete: function() {
+				$('#button-update-all').prop('disabled', false);
+			}
+		});
+	}
+
+	// Focus on SKU input when modal opens
+	$(document).ready(function() {
+		console.log('Form loaded. Products without SKU:', window.productsWithoutSku ? window.productsWithoutSku.length : 0);
+		console.log('Form loaded. Products with SKU:', window.productsWithSku ? window.productsWithSku.length : 0);
+		console.log('Total products:', window.totalProducts ? window.totalProducts.length : 0);
+		
+		$('input[name="update_type"]').on('change', function() {
+            console.log('Update type changed to:', $(this).val());
+        });
+	});
+</script>
