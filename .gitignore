@@ -453,6 +453,7 @@
 !/system/tweak.ocmod.xml
 !/system/hyper_multi_product_models.ocmod.xml
 !/system/yandex_metrika.ocmod.xml
+!/system/schema_merchant_pro.ocmod.xml
 
 /system/library/*
 !/system/library/
@@ -467,6 +468,9 @@
 
 !/system/library/yamarket_fusion/
 !/system/library/yamarket_fusion/**
+
+!/system/library/schema_merchant_pro/
+!/system/library/schema_merchant_pro/**
 
 /storage/*
 

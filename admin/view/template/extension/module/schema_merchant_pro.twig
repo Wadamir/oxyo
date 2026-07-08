@@ -1,0 +1,531 @@
+{% macro select_field(field, current_value, error_fields, text_enabled, text_disabled) %}
+<div class="form-group{% if error_fields[field.name] is defined %} has-error{% endif %}">
+  <label class="col-sm-2 control-label" for="input-{{ field.name|replace({'_': '-'}) }}">{% if field.help %}<span data-toggle="tooltip" title="{{ field.help }}">{{ field.label }}</span>{% else %}{{ field.label }}{% endif %}</label>
+  <div class="col-sm-10">
+    {% if field.type is defined and field.type == 'switch' %}
+    <input type="hidden" name="{{ field.name }}" value="0" />
+    <label class="smp-switch" for="input-{{ field.name|replace({'_': '-'}) }}">
+      <input type="checkbox" role="switch" name="{{ field.name }}" value="1" id="input-{{ field.name|replace({'_': '-'}) }}"{% if current_value == '1' or current_value == 1 %} checked="checked"{% endif %} />
+      <span class="smp-switch-slider">
+        <span class="smp-switch-state smp-switch-state-on">{{ text_enabled }}</span>
+        <span class="smp-switch-state smp-switch-state-off">{{ text_disabled }}</span>
+      </span>
+    </label>
+    {% else %}
+    <select name="{{ field.name }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control">
+      {% for option in field.options %}
+      <option value="{{ option.value }}"{% if current_value == option.value %} selected="selected"{% endif %}>{{ option.text }}</option>
+      {% endfor %}
+    </select>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro text_field(field, current_value, error_fields) %}
+<div class="form-group{% if error_fields[field.name] is defined %} has-error{% endif %}">
+  <label class="col-sm-2 control-label" for="input-{{ field.name|replace({'_': '-'}) }}">{% if field.help %}<span data-toggle="tooltip" title="{{ field.help }}">{{ field.label }}</span>{% else %}{{ field.label }}{% endif %}</label>
+  <div class="col-sm-10">
+    <input type="text" name="{{ field.name }}" value="{{ current_value }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control"{% if field.placeholder is defined and field.placeholder %} placeholder="{{ field.placeholder }}"{% endif %} />
+  </div>
+</div>
+{% endmacro %}
+
+{% import _self as smp %}
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-schema-merchant-pro" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-cog"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <style>
+          .smp-switch {
+            display: inline-block;
+            position: relative;
+            min-width: 118px;
+            height: 32px;
+            margin: 0;
+            cursor: pointer;
+            vertical-align: middle;
+          }
+          .smp-switch input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+          .smp-switch-slider {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: #d9534f;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 32px;
+            overflow: hidden;
+            transition: background .18s ease;
+          }
+          .smp-switch-slider:before {
+            content: "";
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            left: 3px;
+            top: 3px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,.28);
+            transition: transform .18s ease;
+            z-index: 2;
+          }
+          .smp-switch input:checked + .smp-switch-slider {
+            background: #5cb85c;
+          }
+          .smp-switch input:checked + .smp-switch-slider:before {
+            transform: translateX(86px);
+          }
+          .smp-switch-state {
+            position: absolute;
+            top: 0;
+            width: 78px;
+            text-align: center;
+            transition: opacity .18s ease;
+          }
+          .smp-switch-state-on {
+            left: 10px;
+            opacity: 0;
+          }
+          .smp-switch-state-off {
+            right: 8px;
+            opacity: 1;
+          }
+          .smp-switch input:checked + .smp-switch-slider .smp-switch-state-on {
+            opacity: 1;
+          }
+          .smp-switch input:checked + .smp-switch-slider .smp-switch-state-off {
+            opacity: 0;
+          }
+          .has-error .smp-switch-slider,
+          .has-error .form-control {
+            border-color: #a94442;
+          }
+          .smp-weekday-list {
+            padding-top: 7px;
+          }
+          .smp-weekday-list .checkbox-inline {
+            margin: 0 14px 8px 0;
+          }
+          .smp-weekday-list .checkbox-inline + .checkbox-inline {
+            margin-left: 0;
+          }
+          .smp-paired-inputs .input-group {
+            margin-bottom: 8px;
+          }
+          .smp-paired-inputs .input-group-addon {
+            min-width: 95px;
+            text-align: left;
+          }
+          .smp-grid-inputs .input-group,
+          .smp-grid-inputs .form-control {
+            margin-bottom: 8px;
+          }
+          .smp-grid-inputs .input-group .form-control {
+            margin-bottom: 0;
+          }
+          .smp-grid-inputs .input-group-addon {
+            min-width: 130px;
+            text-align: left;
+          }
+          @media (min-width: 768px) {
+            .smp-paired-inputs .input-group {
+              margin-bottom: 0;
+            }
+            .smp-grid-inputs .input-group,
+            .smp-grid-inputs .form-control {
+              margin-bottom: 0;
+            }
+          }
+          .nav-tabs > li.smp-tab-error > a,
+          .nav-tabs > li.smp-tab-error > a:hover,
+          .nav-tabs > li.smp-tab-error > a:focus {
+            color: #a94442;
+            font-weight: 600;
+          }
+          .nav-tabs > li.smp-tab-error > a:before {
+            content: "\f06a";
+            font-family: FontAwesome;
+            margin-right: 5px;
+          }
+        </style>
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-schema-merchant-pro" class="form-horizontal">
+          <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_safe_mode_note }} {{ help_safe_settings_only }}</div>
+          <div class="well well-sm">
+            <strong>{{ text_validation_links }}</strong>
+            {% for link in validation_links %}
+            <a href="{{ link.href }}" target="_blank" rel="noopener" class="btn btn-default btn-xs" data-toggle="tooltip" title="{{ link.help }}"><i class="fa fa-external-link"></i> {{ link.text }}</a>
+            {% endfor %}
+          </div>
+          <ul class="nav nav-tabs">
+            <li class="active{% if error_tabs.general is defined %} smp-tab-error{% endif %}"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+            <li{% if error_tabs.organization is defined %} class="smp-tab-error"{% endif %}><a href="#tab-organization" data-toggle="tab">{{ tab_organization }}</a></li>
+            <li{% if error_tabs.website is defined %} class="smp-tab-error"{% endif %}><a href="#tab-website" data-toggle="tab">{{ tab_website }}</a></li>
+            <li{% if error_tabs.product is defined %} class="smp-tab-error"{% endif %}><a href="#tab-product" data-toggle="tab">{{ tab_product }}</a></li>
+            <li{% if error_tabs.merchant is defined %} class="smp-tab-error"{% endif %}><a href="#tab-merchant" data-toggle="tab">{{ tab_merchant }}</a></li>
+            <li{% if error_tabs.preview is defined %} class="smp-tab-error"{% endif %}><a href="#tab-preview" data-toggle="tab">{{ tab_preview }}</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+              <fieldset>
+                <legend>{{ tab_general }}</legend>
+                {% for field in general_select_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                {% if license_valid %}
+                <div class="alert alert-success"><i class="fa fa-check-circle"></i> <strong>{{ text_license_status }}</strong> {{ text_license_valid }}</div>
+                {% else %}
+                <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> <strong>{{ text_license_status }}</strong> {{ text_license_invalid }}</div>
+                {% endif %}
+                {% for field in license_text_fields %}
+                {{ smp.text_field(field, attribute(_context, field.name), error_fields)|raw }}
+                {% endfor %}
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-organization">
+              <fieldset>
+                <legend>{{ text_organization_data }}</legend>
+                {% for field in organization_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                {% for field in organization_identity_fields %}
+                {{ smp.text_field(field, attribute(_context, field.name), error_fields)|raw }}
+                {% endfor %}
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_address }}</legend>
+                {% for field in organization_address_fields %}
+                {{ smp.text_field(field, attribute(_context, field.name), error_fields)|raw }}
+                {% endfor %}
+                {% for field in organization_country_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+              </fieldset>
+              <fieldset>
+                <legend>{{ entry_organization_opening_hours_enabled }}</legend>
+                {% for field in organization_opening_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                <div class="smp-dependent-group" data-switch="input-module-schema-merchant-pro-organization-opening-hours-enabled">
+                <div class="form-group{% if error_fields.module_schema_merchant_pro_organization_opening_days is defined %} has-error{% endif %}">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_organization_opening_days }}">{{ entry_organization_opening_days }}</span></label>
+                  <div class="col-sm-10">
+                    <div class="smp-weekday-list">
+                      {% for option in opening_day_options %}
+                      <label class="checkbox-inline">
+                        <input type="checkbox" name="module_schema_merchant_pro_organization_opening_days[]" value="{{ option.value }}"{% if option.value in module_schema_merchant_pro_organization_opening_days_selected %} checked="checked"{% endif %} /> {{ option.text }}
+                      </label>
+                      {% endfor %}
+                    </div>
+                    <p class="help-block">{{ help_field_organization_opening_days }}</p>
+                  </div>
+                </div>
+                <div class="form-group{% if error_fields.module_schema_merchant_pro_organization_opening_opens is defined or error_fields.module_schema_merchant_pro_organization_opening_closes is defined %} has-error{% endif %}">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_organization_opening_opens }} {{ help_field_organization_opening_closes }}">{{ entry_organization_opening_hours_enabled }}</span></label>
+                  <div class="col-sm-10">
+                    <div class="row smp-paired-inputs">
+                      {% for field in organization_time_fields %}
+                      <div class="col-sm-6">
+                        <div class="input-group">
+                          <span class="input-group-addon">{{ field.label }}</span>
+                          <input type="text" name="{{ field.name }}" value="{{ attribute(_context, field.name) }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control" placeholder="{{ field.placeholder }}" />
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ entry_organization_geo_enabled }}</legend>
+                {% for field in organization_geo_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                <div class="smp-dependent-group" data-switch="input-module-schema-merchant-pro-organization-geo-enabled">
+                <div class="form-group{% if error_fields.module_schema_merchant_pro_organization_geo_latitude is defined or error_fields.module_schema_merchant_pro_organization_geo_longitude is defined %} has-error{% endif %}">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_organization_geo_latitude }} {{ help_field_organization_geo_longitude }}">{{ entry_organization_geo_enabled }}</span></label>
+                  <div class="col-sm-10">
+                    <div class="row smp-paired-inputs">
+                      {% for field in organization_geo_fields %}
+                      <div class="col-sm-6">
+                        <div class="input-group">
+                          <span class="input-group-addon">{{ field.label }}</span>
+                          <input type="text" name="{{ field.name }}" value="{{ attribute(_context, field.name) }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control" placeholder="{{ field.placeholder }}" />
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_social_profiles }}</legend>
+                {% for field in organization_social_text_fields %}
+                {{ smp.text_field(field, attribute(_context, field.name), error_fields)|raw }}
+                {% endfor %}
+                <div class="form-group{% if error_fields.module_schema_merchant_pro_organization_same_as is defined %} has-error{% endif %}">
+                  <label class="col-sm-2 control-label" for="input-organization-same-as"><span data-toggle="tooltip" title="{{ help_organization_same_as }}">{{ entry_organization_same_as }}</span></label>
+                  <div class="col-sm-10">
+                    <textarea name="module_schema_merchant_pro_organization_same_as" rows="5" id="input-organization-same-as" class="form-control">{{ module_schema_merchant_pro_organization_same_as }}</textarea>
+                    <p class="help-block">{{ help_same_as }}</p>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-website">
+              <fieldset>
+                <legend>{{ text_website_data }}</legend>
+                {% for field in website_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                <div class="smp-dependent-group" data-switch="input-module-schema-merchant-pro-website-enabled">
+                  {% for field in website_text_fields %}
+                  {{ smp.text_field(field, attribute(_context, field.name), error_fields)|raw }}
+                  {% endfor %}
+                  {% for field in website_language_fields %}
+                  {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                  {% endfor %}
+                  {% for field in website_feature_fields %}
+                  {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                  {% endfor %}
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-product">
+              <fieldset>
+                <legend>{{ text_product_blocks }}</legend>
+                {% for field in product_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                <div class="smp-dependent-group" data-switch="input-module-schema-merchant-pro-product-enabled">
+                  {% for field in product_commercial_fields %}
+                  {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                  {% endfor %}
+                  {% if product_availability_fields %}
+                  <fieldset>
+                    <legend>{{ entry_offer_enabled }}</legend>
+                    {% for field in product_availability_fields %}
+                    {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                    {% endfor %}
+                  </fieldset>
+                  {% endif %}
+                  {% for field in product_review_fields %}
+                  {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                  {% endfor %}
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-merchant">
+              <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> {{ help_shipping_returns }}</div>
+              <fieldset>
+                <legend>{{ text_shipping_data }}</legend>
+                {% for field in shipping_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                <div class="smp-dependent-group" data-switch="input-module-schema-merchant-pro-shipping-enabled">
+                  <div class="form-group{% if error_fields.module_schema_merchant_pro_shipping_country is defined or error_fields.module_schema_merchant_pro_shipping_price is defined or error_fields.module_schema_merchant_pro_shipping_currency is defined %} has-error{% endif %}">
+                    <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_shipping_country }} {{ help_field_shipping_price }} {{ help_field_shipping_currency }}">{{ text_shipping_data }}</span></label>
+                    <div class="col-sm-10">
+                      <div class="row smp-grid-inputs">
+                        {% for field in shipping_commercial_fields %}
+                        <div class="col-sm-4">
+                          <div class="input-group">
+                            <span class="input-group-addon">{{ field.label }}</span>
+                            {% if field.kind == 'select' %}
+                            <select name="{{ field.name }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control">
+                              {% for option in field.options %}
+                              <option value="{{ option.value }}"{% if attribute(_context, field.name) == option.value %} selected="selected"{% endif %}>{{ option.text }}</option>
+                              {% endfor %}
+                            </select>
+                            {% else %}
+                            <input type="text" name="{{ field.name }}" value="{{ attribute(_context, field.name) }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control" placeholder="{{ field.placeholder }}" />
+                            {% endif %}
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group{% if error_fields.module_schema_merchant_pro_shipping_handling_min_days is defined or error_fields.module_schema_merchant_pro_shipping_handling_max_days is defined %} has-error{% endif %}">
+                    <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_shipping_handling_min_days }} {{ help_field_shipping_handling_max_days }}">{{ entry_shipping_handling_min_days }}</span></label>
+                    <div class="col-sm-10">
+                      <div class="row smp-paired-inputs">
+                        {% for field in shipping_handling_fields %}
+                        <div class="col-sm-6">
+                          <div class="input-group">
+                            <span class="input-group-addon">{{ field.label }}</span>
+                            <input type="text" name="{{ field.name }}" value="{{ attribute(_context, field.name) }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control" placeholder="{{ field.placeholder }}" />
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group{% if error_fields.module_schema_merchant_pro_shipping_transit_min_days is defined or error_fields.module_schema_merchant_pro_shipping_transit_max_days is defined %} has-error{% endif %}">
+                    <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_shipping_transit_min_days }} {{ help_field_shipping_transit_max_days }}">{{ entry_shipping_transit_min_days }}</span></label>
+                    <div class="col-sm-10">
+                      <div class="row smp-paired-inputs">
+                        {% for field in shipping_transit_fields %}
+                        <div class="col-sm-6">
+                          <div class="input-group">
+                            <span class="input-group-addon">{{ field.label }}</span>
+                            <input type="text" name="{{ field.name }}" value="{{ attribute(_context, field.name) }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control" placeholder="{{ field.placeholder }}" />
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_returns_data }}</legend>
+                {% for field in returns_status_fields %}
+                {{ smp.select_field(field, attribute(_context, field.name), error_fields, text_enabled, text_disabled)|raw }}
+                {% endfor %}
+                <div class="smp-dependent-group" data-switch="input-module-schema-merchant-pro-returns-enabled">
+                  <div class="form-group{% if error_fields.module_schema_merchant_pro_returns_country is defined or error_fields.module_schema_merchant_pro_returns_category is defined or error_fields.module_schema_merchant_pro_returns_days is defined %} has-error{% endif %}">
+                    <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_returns_country }} {{ help_field_returns_category }} {{ help_field_returns_days }}">{{ text_returns_data }}</span></label>
+                    <div class="col-sm-10">
+                      <div class="row smp-grid-inputs">
+                        {% for field in returns_policy_fields %}
+                        <div class="col-sm-4">
+                          <div class="input-group">
+                            <span class="input-group-addon">{{ field.label }}</span>
+                            {% if field.kind == 'select' %}
+                            <select name="{{ field.name }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control">
+                              {% for option in field.options %}
+                              <option value="{{ option.value }}"{% if attribute(_context, field.name) == option.value %} selected="selected"{% endif %}>{{ option.text }}</option>
+                              {% endfor %}
+                            </select>
+                            {% else %}
+                            <input type="text" name="{{ field.name }}" value="{{ attribute(_context, field.name) }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control" placeholder="{{ field.placeholder }}" />
+                            {% endif %}
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group{% if error_fields.module_schema_merchant_pro_returns_fees is defined or error_fields.module_schema_merchant_pro_returns_method is defined %} has-error{% endif %}">
+                    <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_field_returns_fees }} {{ help_field_returns_method }}">{{ entry_returns_fees }}</span></label>
+                    <div class="col-sm-10">
+                      <div class="row smp-grid-inputs">
+                        {% for field in returns_method_fields %}
+                        <div class="col-sm-6">
+                          <div class="input-group">
+                            <span class="input-group-addon">{{ field.label }}</span>
+                            <select name="{{ field.name }}" id="input-{{ field.name|replace({'_': '-'}) }}" class="form-control">
+                              {% for option in field.options %}
+                              <option value="{{ option.value }}"{% if attribute(_context, field.name) == option.value %} selected="selected"{% endif %}>{{ option.text }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-preview">
+              <fieldset>
+                <legend>{{ text_preview_data }}</legend>
+                <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_preview_sample_note }}</div>
+                <div class="form-group{% if error_fields.module_schema_merchant_pro_preview_product_id is defined %} has-error{% endif %}">
+                  <label class="col-sm-2 control-label" for="input-module-schema-merchant-pro-preview-product-id"><span data-toggle="tooltip" title="{{ help_preview_product_id }}">{{ entry_preview_product_id }}</span></label>
+                  <div class="col-sm-10">
+                    <input type="number" min="1" step="1" name="module_schema_merchant_pro_preview_product_id" value="{{ module_schema_merchant_pro_preview_product_id }}" id="input-module-schema-merchant-pro-preview-product-id" class="form-control" />
+                    <p class="help-block">{{ help_preview_product_id }}</p>
+                  </div>
+                </div>
+                {% if schema_merchant_pro_preview_product_name %}
+                <p class="help-block">{{ schema_merchant_pro_preview_product_name }}</p>
+                {% endif %}
+                <textarea rows="18" readonly="readonly" class="form-control" style="font-family: Consolas, Monaco, monospace;">{{ schema_merchant_pro_preview_json }}</textarea>
+              </fieldset>
+              <fieldset>
+                <legend>{{ text_diagnostics }}</legend>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <tbody>
+                      {% for item in diagnostics %}
+                      <tr>
+                        <td style="width: 160px;">
+                          {% if item.status == 'ok' %}
+                          <span class="label label-success">{{ item.label }}</span>
+                          {% elseif item.status == 'error' %}
+                          <span class="label label-danger">{{ item.label }}</span>
+                          {% else %}
+                          <span class="label label-warning">{{ item.label }}</span>
+                          {% endif %}
+                        </td>
+                        <td>{{ item.message }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+$(function() {
+  $('.smp-dependent-group').each(function() {
+    var $group = $(this);
+    var $switch = $('#' + $group.data('switch'));
+
+    var toggleGroup = function() {
+      $group.toggle($switch.is(':checked'));
+    };
+
+    $switch.on('change', toggleGroup);
+    toggleGroup();
+  });
+});
+//--></script>
+{{ footer }}

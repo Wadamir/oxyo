@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Schema Merchant Pro</name>
+  <code>schema_merchant_pro</code>
+  <version>1.0.0-dev</version>
+  <author>Schema Merchant Pro</author>
+  <link>https://schema.org/</link>
+  <file path="catalog/controller/common/header.php">
+    <operation error="skip">
+      <search><![CDATA[
+		return $this->load->view('common/header', $data);
+      ]]></search>
+      <add position="before"><![CDATA[
+		$this->registry->set('schema_merchant_pro_native_open_graph', array(
+			'og:title' => !empty($data['title']),
+			'og:type' => true,
+			'og:url' => !empty($data['og_url']),
+			'og:image' => !empty($data['og_image']) || !empty($data['logo']),
+			'og:site_name' => !empty($data['name'])
+		));
+		$data['schema_merchant_pro_markup'] = $this->load->controller('extension/module/schema_merchant_pro');
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/controller/product/product.php">
+    <operation error="skip">
+      <search><![CDATA[
+			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
+      ]]></search>
+      <add position="after"><![CDATA[
+			$this->load->controller('extension/module/schema_merchant_pro/product', array(
+				'product_info' => $product_info,
+				'data' => $data
+			));
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/*/template/common/header.twig">
+    <operation error="skip">
+      <search><![CDATA[
+<head>
+      ]]></search>
+      <add position="replace"><![CDATA[
+<head prefix="og: http://ogp.me/ns# product: http://ogp.me/ns/product#">
+      ]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[
+</head>
+      ]]></search>
+      <add position="before"><![CDATA[
+{{ schema_merchant_pro_markup }}
+      ]]></add>
+    </operation>
+  </file>
+</modification>
