@@ -301,6 +301,10 @@
 !/catalog/language/en-gb/oxyo/
 !/catalog/language/en-gb/oxyo/**
 
+!/catalog/language/en-gb/mail/
+!/catalog/language/en-gb/mail/order_add.php
+!/catalog/language/en-gb/mail/order_alert.php
+
 /catalog/language/en-gb/tool/*
 !/catalog/language/en-gb/tool/
 !/catalog/language/en-gb/tool/simple*
@@ -335,6 +339,10 @@
 
 !/catalog/language/ru-ru/oxyo/
 !/catalog/language/ru-ru/oxyo/**
+
+!/catalog/language/ru-ru/mail/
+!/catalog/language/ru-ru/mail/order_add.php
+!/catalog/language/ru-ru/mail/order_alert.php
 
 /catalog/language/ru-ru/tool/*
 !/catalog/language/ru-ru/tool/
