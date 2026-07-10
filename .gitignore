@@ -357,6 +357,10 @@
 !/catalog/model/catalog/
 !/catalog/model/catalog/product.php
 
+/catalog/model/checkout/*
+!/catalog/model/checkout/
+!/catalog/model/checkout/order.php
+
 /catalog/model/extension/*
 !/catalog/model/extension/
 
