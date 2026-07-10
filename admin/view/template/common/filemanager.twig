@@ -52,7 +52,7 @@
                             {# Video support #}
                             {% if image.type == 'video' %}
                                 <a href="{{ image.href }}" class="thumbnail">
-                                    <video width="100%" height="auto" controls autoplay muted loop name="{{ image.name }}">
+                                    <video width="100%" height="auto" autoplay muted loop name="{{ image.name }}">
                                         <source src="{{ image.thumb }}" type="video/{{ image.extension }}">
                                         Your browser does not support the video tag.
                                     </video>
@@ -121,7 +121,7 @@
                 if (src) {
                     // $('#{{ thumb|escape('js') }}').find('img').attr('src', src);
                     if (type === 'video') {
-                        $('#{{ thumb|escape('js') }}').html('<video width="100%" height="auto" controls autoplay muted loop><source src="' + src + '" type="video/' + src.split('.').pop() + '">Your browser does not support the video tag.</video>');
+                        $('#{{ thumb|escape('js') }}').html('<video width="100%" height="auto" autoplay muted loop style="max-width: 100%; max-height: calc(70vh - 30px); object-fit: cover;"><source src="' + src + '" type="video/' + src.split('.').pop() + '">Your browser does not support the video tag.</video>');
                     } else {
                         $('#{{ thumb|escape('js') }}').find('img').attr('src', $(this).find('img').attr('src'));
                     }

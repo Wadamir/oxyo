@@ -1319,15 +1319,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                    
                         <h5 class="modal-title" id="videoModalLabel">{{ product.name }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
-                    <div class="modal-body text-center">
-                        <a onclick="linkImage('{{ product.product_id }}', 'video');" class="btn btn-link popover-media-link" id="product-video-preview-{{ product.product_id }}" data-video-placeholder="{{ no_video_placeholder }}">
+                    <div class="modal-body text-center" style="max-height: 70vh;">
+                        <a onclick="linkImage('{{ product.product_id }}', 'video');" class="btn btn-link popover-media-link p-0" id="product-video-preview-{{ product.product_id }}" data-video-placeholder="{{ no_video_placeholder }}">
                             {% if product.video_thumb %}
-                                <video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" style="max-width: 100%; object-fit: cover;">
+                                <video width="100%" height="auto" muted preload="metadata" autoplay="autoplay" controls="false" style="max-width: 100%; max-height: calc(70vh - 30px); object-fit: cover;">
                                     <source src="{{ product.video_thumb }}" type="video/mp4"/>
                                 </video>
                             {% else %}
