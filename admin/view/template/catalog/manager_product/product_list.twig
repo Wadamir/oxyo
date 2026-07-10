@@ -1293,7 +1293,7 @@
 {% if products %}
     {% for product in products %}
         {% if image_view %}
-            <div class="modal fade" id="product-image-{{ product.product_id }}" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+            <div class="modal fade" id="product-image-{{ product.product_id }}" tabindex="-1" aria-labelledby="imgModalLabel">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -1315,7 +1315,7 @@
                 </div>
             </div>                                    
         {% endif %}
-        <div class="modal fade" id="product-video-{{ product.product_id }}" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal fade" id="product-video-{{ product.product_id }}" tabindex="-1" aria-labelledby="videoModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
