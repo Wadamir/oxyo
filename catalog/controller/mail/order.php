@@ -384,6 +384,7 @@ class ControllerMailOrder extends Controller {
             $data['text_shipping_address'] = $language->get('text_shipping_address');
             $data['text_product'] = $language->get('text_product');
             $data['text_model'] = $language->get('text_model');
+            $data['text_sku'] = $language->get('text_sku');
             $data['text_quantity'] = $language->get('text_quantity');
             $data['text_price'] = $language->get('text_price');
             $data['text_total'] = $language->get('text_total');
@@ -558,6 +559,7 @@ class ControllerMailOrder extends Controller {
 				$data['products'][] = array(
 					'name'     => $order_product['name'],
 					'model'    => $order_product['model'],
+                    'sku'      => $order_product['sku'],
 					'quantity' => $order_product['quantity'],
 					'option'   => $option_data,
                     'price'    => html_entity_decode($this->currency->format($order_product['price'] + ($this->config->get('config_tax') ? $order_product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']), ENT_NOQUOTES, 'UTF-8'),
