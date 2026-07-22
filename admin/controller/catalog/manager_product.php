@@ -920,7 +920,8 @@ class ControllerCatalogManagerProduct extends Controller {
 		$data['manufacturer_view'] = $this->config->get('manager_product_manufacturer_view');
 		$data['model_view'] = $this->config->get('manager_product_model_view');
 		$data['sku_view'] = $this->config->get('manager_product_sku_view');
-		$data['upc_view'] = $this->config->get('manager_product_upc_view');
+		// $data['upc_view'] = $this->config->get('manager_product_upc_view');
+        $data['upc_view'] = 1;
 		$data['ean_view'] = $this->config->get('manager_product_ean_view');
 		$data['jan_view'] = $this->config->get('manager_product_jan_view');
 		$data['isbn_view'] = $this->config->get('manager_product_isbn_view');

@@ -37,7 +37,7 @@ $_['entry_store']            = 'Stores';
 $_['entry_keyword']          = 'Keyword';
 $_['entry_model']            = 'Model';
 $_['entry_sku']              = 'SKU';
-$_['entry_upc']              = 'UPC';
+$_['entry_upc']              = 'WB Link';
 $_['entry_ean']              = 'EAN';
 $_['entry_jan']              = 'JAN';
 $_['entry_isbn']             = 'ISBN';
@@ -88,7 +88,7 @@ $_['entry_recurring']        = 'Recurring Profile';
 
 // Help
 $_['help_sku']               = 'Stock Keeping Unit';
-$_['help_upc']               = 'Universal Product Code';
+$_['help_upc']               = 'WildBerries Link';
 $_['help_ean']               = 'European Article Number';
 $_['help_jan']               = 'Japanese Article Number';
 $_['help_isbn']              = 'International Standard Book Number';

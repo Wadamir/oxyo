@@ -37,7 +37,7 @@ $_['entry_store']            = 'Магазины';
 $_['entry_keyword']          = 'SEO URL';
 $_['entry_model']            = 'Модель';
 $_['entry_sku']              = 'Артикул';
-$_['entry_upc']              = 'UPC';
+$_['entry_upc']              = 'WB ссылка';
 $_['entry_ean']              = 'EAN';
 $_['entry_jan']              = 'JAN';
 $_['entry_isbn']             = 'ISBN';
@@ -88,7 +88,7 @@ $_['entry_recurring']        = 'Профиль периодичности';
 
 // Help
 $_['help_sku']               = 'SKU или код производителя';
-$_['help_upc']               = 'Универсальный код товара';
+$_['help_upc']               = 'WildBerries ссылка на товар';
 $_['help_ean']               = 'Европейский код товара';
 $_['help_jan']               = 'Японский код товара';
 $_['help_isbn']              = 'Международный стандарт номера книги';
