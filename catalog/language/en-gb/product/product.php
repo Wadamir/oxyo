@@ -36,6 +36,9 @@ $_['text_weight']               = 'Weight:';
 $_['button_cart']               = 'Add to Cart';
 $_['button_buyoneclick']        = 'Buy Now';
 
+// WB link
+$_['button_wb']                = 'Buy on wildberries';
+
 // Entry
 $_['entry_qty']                = 'Qty';
 $_['entry_name']               = 'Your Name';

@@ -42,6 +42,13 @@ if ($this->config->get('product_layout') == 'full-width') $this->document->addSc
 $data['buyoneclick_status'] = $this->config->get('buyoneclick_status');
 $data['button_buyoneclick'] = $this->language->get('button_buyoneclick');
 
+// Wildberries link
+$data['wb_status'] = $this->config->get('wb_status');
+var_dump($data['wb_status']);
+$data['button_wb'] = $this->language->get('button_wb');
+var_dump($data['button_wb']);
+
+
 
 $current_language_id = $this->config->get('config_language_id');
 $data['sale_badge'] = false;

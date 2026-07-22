@@ -260,6 +260,9 @@ $_['text_cart_redirect_checkout']       = 'Redirect to Checkout page';
 // Buy One Click
 $_['text_buyoneclick_status']           = 'Buy One Click Status';
 
+// Wildberries link
+$_['text_wb_status']                     = 'WB Button Status';
+
 // Wish List
 $_['text_wishlist_status']              = 'Wishlist Status';
 

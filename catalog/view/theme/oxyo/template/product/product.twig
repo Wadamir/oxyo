@@ -20,93 +20,6 @@
 			{{ content_top }}
 
 			<div class="table__ product-info product-page">
-                <!--
-				<div class="table-cell__ left">
-                    {% if thumb or video or images %}
-                        <div id="gallery" class="image-area {% if not hover_zoom %}hover-zoom-disabled{% endif %}">
-                            {% if (sale_badge or new_badge) %}
-                                <div class="badges-wrapper">                                            
-                                    {% if sale_badge %}
-                                        <span class="badge sale_badge"><i>{{ sale_badge }}</i></span>
-                                    {% endif %}
-                                    {% if new_badge %}
-                                        <span class="badge new_badge"><i>{{ new_badge }}</i></span>
-                                    {% endif %}
-                                    {% if ((qty < 1) and (stock_badge_status)) %}
-                                        <span class="badge out_of_stock_badge"><i>{{ oxyo_text_out_of_stock}}</i></span>
-                                    {% endif %}
-                                </div>
-                            {% endif %}                        
-                            {% if video  or thumb %}
-                                <div id="main-image-wrapper">
-                                    {% if video %}
-                                        <a href="{{ video }}" id="main-image-link" class="glightbox">
-                                            <video id="main-image" class="video-js vjs-default-skin vjs-big-play-centered" defaultmuted playsinline webkit-playsinline loop autoplay muted preload="none" width="100%" height="auto" poster="{{ video_placeholder }}">
-                                                <source src="{{ video }}" type="video/mp4">
-                                                <p class="vjs-no-js">{{ text_no_js }}</p>
-                                            </video>
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ popup }}" id="main-image-link" class="glightbox">
-                                            <img id="main-image" src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" />
-                                        </a>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                            <div id="gallery-additional" class="image-additional show-skeleton">
-                                {% if video %}
-                                    <div>
-                                        <a class="link glightbox locked active"
-                                            href="{{ video }}"
-                                            data-type="video"
-                                            data-source="{{ video }}"
-                                            data-poster="{{ video_placeholder }}"
-                                            data-width="100%"
-                                            data-height="100%"
-                                            data-zoomable="true"
-                                            data-draggable="false">
-                                            <video class="video-js vjs-default-skin vjs-big-play-centered" defaultmuted playsinline webkit-playsinline autoplay loop muted preload="none" width="100%" height="auto" poster="{{ video_placeholder }}">
-                                                <source src="{{ video }}" type="video/mp4">
-                                                <p class="vjs-no-js">{{ text_no_js }}</p>
-                                            </video>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                                {% if thumb and (product_layout != "full-width") %}
-                                    <div>
-                                        <a class="link glightbox locked{% if not video %} active{% endif %}" 
-                                            href="{{ popup }}" 
-                                            data-type="image"
-                                            data-source="{{ thumb }}"
-                                            data-width="100%"
-                                            data-height="100%"
-                                            data-zoomable="true"
-                                            data-draggable="false">
-                                            <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                                {% if images %}
-                                    {% for image in images %}
-                                        <div>
-                                            <a class="link glightbox locked" 
-                                                href="{{ image.popup }}" 
-                                                data-source="{{ image.thumb_lg }}"
-                                                data-type="image"
-                                                data-width="100%"
-                                                data-height="100%"
-                                                data-zoomable="true"
-                                                data-draggable="false">
-                                                <img src="{{ image.thumb_lg }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
-                                            </a>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-                -->
                 {% if thumb or video or images %}
                 <div class="table-cell__ product-gallery-wrapper left">
                     <button class="gallery-close" type="button" aria-label="Close gallery">
@@ -552,6 +465,11 @@
                                 {% if (buyoneclick_status and qty > 0) %}
                                     <a href="#" onclick="buyOneClickShow(event);" id="button-buyoneclick" data-loading-text="{{ text_loading }}" class="btn btn-primary">
                                         {{ button_buyoneclick }}
+                                    </a>
+                                {% endif %}
+                                {% if (wb_status and qty > 0 and upc and upc != '') %}
+                                    <a href="{{ upc }}" id="button-wb" target="_blank" class="btn btn-primary btn-wb">
+                                        {{ button_wb }}
                                     </a>
                                 {% endif %}
                             </div>

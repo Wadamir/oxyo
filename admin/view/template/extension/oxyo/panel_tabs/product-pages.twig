@@ -245,6 +245,22 @@
 
 <div class="form-group radio-switcher-group">
 	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ text_wb_status }}</p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="wb_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][wb_status]" value="0" {% if wb_status == '0' %} checked="checked" {% endif %} id="wb_status_0"/>
+				<input type="radio" name="settings[oxyo][wb_status]" value="1" {% if wb_status == '1' %} checked="checked" {% endif %} id="wb_status_1"/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="wb_status_1">{{ text_enabled }}</label>
+		</div>
+	</div>
+</div>
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
 		<p class="radio-switcher-title">{{ text_wishlist_status }}</p>
 	</div>
 	<div class="col-sm-9">

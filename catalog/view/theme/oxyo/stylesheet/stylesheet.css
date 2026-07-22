@@ -6546,6 +6546,12 @@ a.btn-outline-light:hover {
     color: var(--primary-black-100, #070709);
 }
 
+.btn-wb {
+    background-color: transparent;
+    background: linear-gradient(97.26deg,#ed3cca .49%,#df34d2 14.88%,#d02bd9 29.27%,#bf22e1 43.14%,#ae1ae8 57.02%,#9a10f0 70.89%,#8306f7 84.76%,#7c1af8 99.15%),linear-gradient(#0000000d,#0000000d);
+}
+
+
 .btn-tiny,
 .btn.btn-tiny {
     padding: 8px 8px 6px 8px;
@@ -8487,7 +8493,7 @@ select.form-select {
 
         display: flex;
         flex-direction: row;
-        gap: 24px;
+        gap: 4%;
     }
 
     .product-info > .left,
@@ -8495,7 +8501,7 @@ select.form-select {
         margin: 0;
         padding: 0;
 
-        width: 50%;
+        /* width: 50%; */
     }
 }
 

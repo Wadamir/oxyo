@@ -747,8 +747,8 @@ body.no-scroll {
 	}
 
 	.product-info-wrapper {
-		flex: 0 0 50%;
-		max-width: 50%;
+		flex: 0 0 48%;
+		max-width: 48%;
 	}
 
 	.product-title {
@@ -767,8 +767,8 @@ body.no-scroll {
         GALLERY – TABLET
     ========================= */
     .product-gallery-wrapper {
-		flex: 0 0 50%;
-		max-width: 50%;
+		flex: 0 0 48%;
+		max-width: 48%;
 	}
 }
 
