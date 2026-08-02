@@ -34,7 +34,7 @@ $_['text_year'] = 'год';
 $_['text_weight'] = 'Вес:';
 
 $_['button_cart'] = 'Добавить в корзину';
-$_['button_buyoneclick'] = 'Купить в 1 клик';
+$_['button_buyoneclick'] = 'Оставить заявку';
 
 // WB link
 $_['button_wb']                = 'Купить на wildberries';

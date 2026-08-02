@@ -706,8 +706,26 @@ input[type='color'].form-control {
     padding: 0;
 } */
 
+.form-check.form-check-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    gap: 12px;
+}
+
 .form-check:not(.form-radio) {
     font-size:24px;
+}
+
+.form-check.form-check-flex > .form-check-input {
+    margin-right: 0;
+    margin-top: 0;
+
+    line-height: 1;
 }
 
 input[type='checkbox'].form-control {

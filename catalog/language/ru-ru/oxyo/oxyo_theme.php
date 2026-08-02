@@ -114,7 +114,7 @@ $_['oxyo_cookie_btn_more_info']      = 'Подробнее';
 
 
 // Buy One Click
-$_['text_buyoneclick_title']        = 'Купить в один клик';
+$_['text_buyoneclick_title']        = 'Оставить заявку';
 $_['text_buyoneclick_name']         = 'Ваше имя';
 $_['text_buyoneclick_phone']        = 'Телефон';
 $_['text_buyoneclick_agree']        = 'Нажимая на кнопку "Отправить", вы подтверждаете своё согласие на обработку персональных данных';

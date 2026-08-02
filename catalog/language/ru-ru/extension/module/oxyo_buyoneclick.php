@@ -1,9 +1,9 @@
 <?php
 // Heading
-$_['heading_title']                     = 'Купить в один клик';
+$_['heading_title']                     = 'Оставить заявку';
 
 // buyoneclick Form
-$_['text_buyoneclick_title']            = 'Купить в один клик';
+$_['text_buyoneclick_title']            = 'Оставить заявку';
 $_['text_buyoneclick_name']             = 'Ваше имя';
 $_['text_buyoneclick_email']            = 'Ваш email';
 $_['text_buyoneclick_phone']            = 'Ваш телефон';

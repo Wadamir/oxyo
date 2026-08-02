@@ -258,7 +258,7 @@ $_['text_cart_redirect_cart']           = 'Перенаправить в кор�
 $_['text_cart_redirect_checkout']       = 'Перенаправить на страницу оформления заказа';
 
 // Buy One Click
-$_['text_buyoneclick_status']           = 'Купить в 1 клик';
+$_['text_buyoneclick_status']           = 'Оставить заявку';
 
 // Wildberries link
 $_['text_wb_status']                     = 'Кнопка Wildberries';
