@@ -110,6 +110,9 @@
 !/admin/language/ru-ru/extension/feed/
 !/admin/language/ru-ru/extension/feed/yamarket_fusion.php
 
+!/admin/language/ru-ru/extension/payment/
+!/admin/language/ru-ru/extension/payment/bank_transfer.php
+
 !/admin/language/ru-ru/extension/module/
 !/admin/language/ru-ru/extension/module/**
 /admin/language/ru-ru/extension/theme/*
@@ -336,6 +339,9 @@
 
 !/catalog/language/ru-ru/extension/module/
 !/catalog/language/ru-ru/extension/module/**
+
+!/catalog/language/ru-ru/extension/payment/
+!/catalog/language/ru-ru/extension/payment/bank_transfer.php
 
 !/catalog/language/ru-ru/oxyo/
 !/catalog/language/ru-ru/oxyo/**
