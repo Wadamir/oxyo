@@ -9294,9 +9294,15 @@ select.form-select {
     margin-left: 5px;
 }
 */
+.buy-wrapper .btn {
+    font-size: 16px;
+    max-width: 450px;
+}
+
 @media (min-width: 380px) {
     .buy-wrapper .btn {
         font-size: 16px;
+        max-width: 450px;
     }
 }
 
@@ -9322,6 +9328,12 @@ select.form-select {
 
     .buy-wrapper .btn {
         width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .buy-wrapper .btn {
+        max-width: 300px;
     }
 }
 
