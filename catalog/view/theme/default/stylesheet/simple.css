@@ -1502,6 +1502,8 @@
     /* font-weight: 600; */
 }
 
+
+
 /*
 .shipping-info {
     flex: 1;
@@ -1586,8 +1588,11 @@
 }
 
 @media (max-width: 767px) {
+    .method>label {
+        font-size: 0.8em;
+    }    
     .method>label>img {
-        max-width: 60px;
+        max-width: 50px;
     }
 }
 
