@@ -46,6 +46,10 @@ class ControllerMailOrder extends Controller {
 		$download_status = false;
 
 		$order_products = $this->model_checkout_order->getOrderProducts($order_info['order_id']);
+
+        $this->log->write('================ html/public_html/catalog/controller/mail/order.php add ================');
+        $this->log->write('ORDER DATA PRODUCTS:');
+        $this->log->write(print_r($order_products, true));
 		
 		foreach ($order_products as $order_product) {
 			// Check if there are any linked downloads
