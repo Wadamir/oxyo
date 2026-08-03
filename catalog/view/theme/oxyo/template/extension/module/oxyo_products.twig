@@ -67,16 +67,13 @@
                                 </div>
 
                                 <div class="icons-wrapper">
-                                    <a class="icon is-cart catalog_hide" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ button_cart }}"
-                                       onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');">
+                                    <a class="icon is-cart catalog_hide" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');">
                                         <span class="global-cart"></span>
                                     </a>
-                                    <a class="icon is_wishlist" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ button_wishlist }}"
-                                       onclick="wishlist.add('{{ product.product_id }}');">
+                                    <a class="icon is_wishlist" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');">
                                         <span class="icon-heart"></span>
                                     </a>
-                                    <a class="icon is_compare" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ button_compare }}"
-                                       onclick="compare.add('{{ product.product_id }}');">
+                                    <a class="icon is_compare" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');">
                                         <span class="icon-refresh"></span>
                                     </a>
                                     <a class="icon is_quickview d-none d-xl-block" onclick="quickview('{{ product.product_id }}');" data-toggle="tooltip" data-placement="{{ tooltip_align }}" data-title="{{ oxyo_button_quickview }}">
@@ -116,8 +113,7 @@
                                         {% endif %}
                                     </p>
 
-                                    <a class="btn catalog_hide {% if oxyo_list_style == '6' %}btn-contrast{% else %}btn-outline{% endif %}"
-                                       onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');">
+                                    <a class="btn catalog_hide {% if oxyo_list_style == '6' %}btn-contrast{% else %}btn-outline{% endif %}" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');">
                                         <span class="global-cart"></span>
                                         {{ button_cart }}
                                     </a>

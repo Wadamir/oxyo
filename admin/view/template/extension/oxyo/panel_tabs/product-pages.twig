@@ -229,6 +229,22 @@
 
 <div class="form-group radio-switcher-group">
 	<div class="col-sm-3">
+		<p class="radio-switcher-title">{{ entry_oxyo_out_of_stock_label }}</p>
+	</div>
+	<div class="col-sm-9">
+		<div class="form-radio-switcher-wrapper justify-content-start">
+			<label class="label-switcher label-switcher-pre" for="stock_badge_status_0">{{ text_disabled }}</label>
+			<div class="form-radio form-radio-inline form-radio-switcher">
+				<input type="radio" name="settings[oxyo][stock_badge_status]" value="0" {% if stock_badge_status == '0' %} checked="checked" {% endif %} id="stock_badge_status_0"/>
+				<input type="radio" name="settings[oxyo][stock_badge_status]" value="1" {% if stock_badge_status == '1' %} checked="checked" {% endif %} id="stock_badge_status_1"/>
+			</div>
+			<label class="label-switcher label-switcher-post" for="stock_badge_status_1">{{ text_enabled }}</label>
+		</div>
+	</div>
+</div>
+
+<div class="form-group radio-switcher-group">
+	<div class="col-sm-3">
 		<p class="radio-switcher-title">{{ text_buyoneclick_status }}</p>
 	</div>
 	<div class="col-sm-9">

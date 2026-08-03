@@ -290,7 +290,7 @@ $_['text_oxyo_sale_label_percent']           = 'Enabled - Discount Percentage';
 $_['entry_oxyo_new_label_period']            = 'New label period';
 $_['help_oxyo_new_label_period']             = 'Set how many days to show the new-label on new products. Set it as 0 to disable';
 
-$_['entry_oxyo_out_of_stock_label']          = 'Out of stock label';
+$_['entry_oxyo_out_of_stock_label']          = 'Block \'Add to cart\' button on out of stock products';
 
 // Specials countdown (global hidden block)
 $_['entry_oxyo_specials_countdown_status']   = 'Specials countdown status';

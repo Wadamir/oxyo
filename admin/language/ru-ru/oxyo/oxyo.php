@@ -290,7 +290,7 @@ $_['text_oxyo_sale_label_percent']           = 'Включено — скидк�
 $_['entry_oxyo_new_label_period']            = 'Период ярлыка «Новинка»';
 $_['help_oxyo_new_label_period']             = 'Укажите количество дней показа ярлыка «Новинка» для новых товаров. Установите 0, чтобы отключить.';
 
-$_['entry_oxyo_out_of_stock_label']          = 'Ярлык «Нет в наличии»';
+$_['entry_oxyo_out_of_stock_label']          = 'Блокировать кнопку «В корзину» для товаров, которых нет в наличии';
 
 // Specials countdown (global hidden block)
 $_['entry_oxyo_specials_countdown_status']   = 'Статус таймера акций';

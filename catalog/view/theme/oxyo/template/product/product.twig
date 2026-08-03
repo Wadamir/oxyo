@@ -454,20 +454,22 @@
                                         <button type="button" class="btn button-plus"></button>
                                     </div>
                                     <input type="hidden" name="product_id" value="{{ product_id }}"/>
-                                    <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary">
-                                        {% if ((qty < 1) and (stock_badge_status)) %}
+                                    {% if ((qty < 1) and (stock_badge_status)) %}
+                                        <button type="button" id="button-cart-disabled" class="btn btn-primary disabled" disabled>
                                             {{ oxyo_text_out_of_stock }}
-                                        {% else %}
+                                        </button>
+                                    {% else %}
+                                        <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary">
                                             {{ button_cart }}
-                                        {% endif %}
-                                    </button>
+                                        </button>                                        
+                                    {% endif %}                                    
                                 </div>
-                                {% if (buyoneclick_status and qty > 0) %}
+                                {% if (buyoneclick_status) %}
                                     <a href="#" onclick="buyOneClickShow(event);" id="button-buyoneclick" data-loading-text="{{ text_loading }}" class="btn btn-primary">
                                         {{ button_buyoneclick }}
                                     </a>
                                 {% endif %}
-                                {% if (wb_status and qty > 0 and upc and upc != '') %}
+                                {% if (wb_status and upc and upc != '') %}
                                     <a href="{{ upc }}" id="button-wb" target="_blank" class="btn btn-primary btn-wb">
                                         {{ button_wb }}
                                     </a>

@@ -38,6 +38,9 @@ if ((float)$product_info['special']) {
 }
 if ($this->config->get('product_layout') == 'full-width') $this->document->addScript('catalog/view/theme/oxyo/js/theia-sticky-sidebar.min.js');
 
+// Stock badge status
+$data['stock_badge_status'] = $this->config->get('stock_badge_status');
+
 // Buyoneclick
 $data['buyoneclick_status'] = $this->config->get('buyoneclick_status');
 $data['button_buyoneclick'] = $this->language->get('button_buyoneclick');
