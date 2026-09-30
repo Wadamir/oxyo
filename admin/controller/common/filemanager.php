@@ -344,6 +344,9 @@ class ControllerCommonFileManager extends Controller
     {
         if (!file_exists($file) || !$this->isImageOptimizationEnabled()) return;
 
+        // Повышаем лимиты памяти для обработки тяжелых картинок на VPS
+        ini_set('memory_limit', '512M');
+
         list($max_w, $max_h) = $this->getMaxImageSize();
 
         $info = getimagesize($file);
@@ -354,10 +357,11 @@ class ControllerCommonFileManager extends Controller
         $type   = $info[2];
 
         $original_file = $file;
+        $image_modified = false;
 
-        // === RESIZE ===
+        // === 1. УМЕНЬШЕНИЕ РАЗРЕШЕНИЯ (RESIZE) ===
+        // Если картинка гигантская, уменьшаем её стандартным классом OpenCart
         if ($width > $max_w || $height > $max_h) {
-
             $ratio = min($max_w / $width, $max_h / $height);
             $new_w = (int)($width * $ratio);
             $new_h = (int)($height * $ratio);
@@ -365,42 +369,42 @@ class ControllerCommonFileManager extends Controller
             $image = new Image($file);
             $image->resize($new_w, $new_h);
             $image->save($file, 85);
+            $image_modified = true;
         }
 
-        // === PNG → JPG ===
-        if ($type == IMAGETYPE_PNG && !$this->pngHasTransparency($file)) {
+        // === 2. АВТОМАТИЧЕСКАЯ ГЕНЕРАЦИЯ WEBP ===
+        // Вместо утилиты cwebp используем встроенную в PHP библиотеку GD (она быстрее в Docker)
+        if (function_exists('imagewebp')) {
+            $webp_file = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $file);
+            
+            // Создаем webp только если его еще нет
+            if (!file_exists($webp_file)) {
+                $img_resource = null;
+                if ($type == IMAGETYPE_JPEG) {
+                    $img_resource = @imagecreatefromjpeg($file);
+                } elseif ($type == IMAGETYPE_PNG) {
+                    $img_resource = @imagecreatefrompng($file);
+                    if ($img_resource) {
+                        imagealphablending($img_resource, false);
+                        imagesavealpha($img_resource, true);
+                    }
+                }
 
-            $jpg = preg_replace('/\.png$/i', '.jpg', $file);
-            $jpg_directory = dirname($jpg);
-            $jpg_filename = basename($jpg);
-            $jpg = rtrim($jpg_directory, '/') . '/' . $this->buildUniqueFilename($jpg_directory, $jpg_filename);
-
-            $img = imagecreatefrompng($file);
-
-            if ($img) {
-                imagejpeg($img, $jpg, 85);
-                imagedestroy($img);
-
-                $file = $jpg;
-                $type = IMAGETYPE_JPEG;
+                if ($img_resource) {
+                    imagewebp($img_resource, $webp_file, 80); // 80% качества идеальны для WebP
+                    imagedestroy($img_resource);
+                }
             }
         }
 
-        // === JPEG optimize ===
+        // === 3. ОПТИМИЗАЦИЯ ДЕФОЛТНОГО JPEG (Оставляем для совместимости) ===
         if ($type == IMAGETYPE_JPEG && $this->hasBinary('jpegoptim')) {
             exec("jpegoptim --strip-all --max=80 " . escapeshellarg($file));
         }
 
-        // // === WEBP ===
-        // if ($this->hasBinary('cwebp')) {
-        //     $webp = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $file);
-        //     exec("cwebp -q 85 " . escapeshellarg($file) . " -o " . escapeshellarg($webp));
-        // }
-
-        // === DELETE ORIGINAL UPLOADED FILE ===
-        if ($original_file !== $file && file_exists($original_file)) {
-            unlink($original_file);
-        }
+        // ПРИМЕЧАНИЕ: Принудительную конвертацию PNG -> JPG лучше убрать, 
+        // так как она удаляет исходный файл, ломая пути в базе данных OpenCart.
+        // Теперь вместо этого параллельно создается легкий .webp
     }
 
     public function index()
