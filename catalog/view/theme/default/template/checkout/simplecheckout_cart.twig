@@ -68,6 +68,7 @@
 			{% endfor %}
 		{% endif %}
 	</div>
+
 	<!-- Totals -->
 	<div class="total-list margin-b0">
 		{% for total in totals %}
@@ -231,7 +232,8 @@
 	        </span>
 	    </div>
 	{% endfor %} #}
-	
+</div>
+<div class="simplecheckout-block" id="simplecheckout_cart" {{ hide ? 'data-hide="true"' : '' }} {{ has_error ? 'data-error="true"' : '' }}>	
 	{% if modules['coupon'] is defined %}
 	    <div class="simplecheckout-cart-total">
 	        <span class="inputs">{{ entry_coupon }}&nbsp;<input class="form-control" type="text" data-onchange="reloadAll" name="coupon" value="{{ coupon }}" /></span>
