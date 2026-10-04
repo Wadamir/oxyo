@@ -494,6 +494,9 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
         }
 
         // Reward
+        if (!isset($this->request->post['reward'])) {
+            unset($this->session->data['reward']);
+        }
         if (isset($this->request->post['reward']) && $this->validateReward()) {
             $this->session->data['reward'] = $this->request->post['reward'];
         }
