@@ -253,8 +253,10 @@
             <div class="total-list margin-b0">
                 {% if modules['reward'] is defined and points > 0 %}
                     <div class="xd_checkout-row border-0">
-                        <div class="xd_checkout-cell text-left">{{ entry_reward }}</div>
-                        <div class="xd_checkout-cell text-right"><input class="form-control" type="text" name="reward" data-onchange="reloadAll" value="{{ reward }}" /></div>
+                        <div class="xd_checkout-cell text-left" style="flex: 3">
+                            <b>{{ entry_reward }}</b>
+                        </div>
+                        <div class="xd_checkout-cell text-right"><input class="form-control text-right" type="text" name="reward" data-onchange="reloadAll" value="{{ reward }}" /></div>
                     </div>
                 {% endif %}
                 <div class="xd_checkout-row">
