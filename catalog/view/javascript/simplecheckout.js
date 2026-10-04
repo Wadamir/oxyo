@@ -3284,7 +3284,7 @@
             );
 
             $target = $currentContainer.find("input[name='reward']");
-            $target.val(0);
+            $target.val('');
             self.copyCartState($target);
 
             self.reloadAll();
@@ -3681,7 +3681,6 @@
         };
 
         this.reloadAll = function ($element) {
-            console.log('SimplecheckoutForm reloadAll called');
             var self = this;
             window.setTimeout(function () {
                 if (
