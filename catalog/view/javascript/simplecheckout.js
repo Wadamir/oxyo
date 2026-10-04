@@ -3681,6 +3681,7 @@
         };
 
         this.reloadAll = function ($element) {
+            console.log('SimplecheckoutForm reloadAll called');
             var self = this;
             window.setTimeout(function () {
                 if (
