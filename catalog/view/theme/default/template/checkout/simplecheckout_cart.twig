@@ -239,26 +239,26 @@
             {#
                 {% if modules['coupon'] is defined %}
                     <div class="xd_checkout-row">
-                        <div class="xd_checkout-cell text-right">{{ entry_coupon }}</div>
+                        <div class="xd_checkout-cell text-left">{{ entry_coupon }}</div>
                         <div class="xd_checkout-cell text-right"><input class="form-control" type="text" data-onchange="reloadAll" name="coupon" value="{{ coupon }}" /></div>
                     </div>
                 {% endif %}
                 {% if modules['voucher'] is defined %}
                     <div class="xd_checkout-row">
-                        <div class="xd_checkout-cell text-right">{{ entry_voucher }}</div>
+                        <div class="xd_checkout-cell text-left">{{ entry_voucher }}</div>
                         <div class="xd_checkout-cell text-right"><input class="form-control" type="text" name="voucher" data-onchange="reloadAll" value="{{ voucher }}" /></div>
                     </div>
                 {% endif %}
             #}            
             <div class="total-list margin-b0">
                 {% if modules['reward'] is defined and points > 0 %}
-                    <div class="xd_checkout-row">
-                        <div class="xd_checkout-cell text-right">{{ entry_reward }}</div>
+                    <div class="xd_checkout-row border-0">
+                        <div class="xd_checkout-cell text-left">{{ entry_reward }}</div>
                         <div class="xd_checkout-cell text-right"><input class="form-control" type="text" name="reward" data-onchange="reloadAll" value="{{ reward }}" /></div>
                     </div>
                 {% endif %}
                 <div class="xd_checkout-row">
-                    <div class="xd_checkout-cell text-right"></div>
+                    <div class="xd_checkout-cell text-left"></div>
                     <div class="xd_checkout-cell text-right">
                         <a id="simplecheckout_button_cart" data-onclick="reloadAll" class="button btn-primary button_oc btn"><span>{{ button_update }}</span></a>
                     </div>

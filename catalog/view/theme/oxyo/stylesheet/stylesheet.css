@@ -1074,6 +1074,10 @@ html.no-scroll body {
     margin-bottom: 50px !important;
 }
 
+.border-0 {
+    border: none !important;
+}
+
 .vertical-middle {
     vertical-align: middle;
 }
