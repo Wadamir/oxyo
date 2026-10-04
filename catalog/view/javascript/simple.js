@@ -1,5 +1,5 @@
 (function ($) {
-    var Simple = function () {};
+    var Simple = function () { };
 
     Simple.prototype.human = false;
 
@@ -259,7 +259,7 @@
                                     $rule.hide();
                                     return true;
                                 }
-                            } catch (err) {}
+                            } catch (err) { }
                         }
                     }
                 }
@@ -303,8 +303,8 @@
                                 ) {
                                     $filter = $mainContainer.find(
                                         '[id*=' +
-                                            $rule.attr('data-filter') +
-                                            '_]',
+                                        $rule.attr('data-filter') +
+                                        '_]',
                                     );
                                 }
 
@@ -354,14 +354,14 @@
 
                             $.get(
                                 'index.php?' +
-                                    self.params.additionalParams +
-                                    'route=common/simple_connector/validate&method=' +
-                                    method +
-                                    '&filter=' +
-                                    encodeURIComponent(filter) +
-                                    '&value=' +
-                                    encodeURIComponent(value) +
-                                    (custom ? '&custom=1 ' : ''),
+                                self.params.additionalParams +
+                                'route=common/simple_connector/validate&method=' +
+                                method +
+                                '&filter=' +
+                                encodeURIComponent(filter) +
+                                '&value=' +
+                                encodeURIComponent(value) +
+                                (custom ? '&custom=1 ' : ''),
                                 function (data) {
                                     data = data.trim();
 
@@ -477,7 +477,7 @@
                         !self.params.notificationToasts &&
                         $field.attr('data-validate-on') &&
                         typeof $field[$field.attr('data-validate-on')] ===
-                            'function'
+                        'function'
                     ) {
                         $field[$field.attr('data-validate-on')](checker);
 
@@ -655,9 +655,9 @@
                 .find('#' + block + '_zone_id')
                 .load(
                     'index.php?' +
-                        self.params.additionalParams +
-                        'route=common/simple_connector/zone&country_id=' +
-                        countryId,
+                    self.params.additionalParams +
+                    'route=common/simple_connector/zone&country_id=' +
+                    countryId,
                     function () {
                         setFields();
                     },
@@ -754,10 +754,10 @@
                             error: function (xhr, ajaxOptions, thrownError) {
                                 alert(
                                     thrownError +
-                                        '\r\n' +
-                                        xhr.statusText +
-                                        '\r\n' +
-                                        xhr.responseText,
+                                    '\r\n' +
+                                    xhr.statusText +
+                                    '\r\n' +
+                                    xhr.responseText,
                                 );
                             },
                         });
@@ -774,8 +774,8 @@
         );
         console.log(
             'Initializing autocomplete for city fields' +
-                $fields.length +
-                ' fields found.',
+            $fields.length +
+            ' fields found.',
         );
 
         var getCheckoutCityContext = function ($field) {
@@ -1071,7 +1071,7 @@
                             }                      
                         });*/
                 }
-            } catch (err) {}
+            } catch (err) { }
         }
     };
 
@@ -1158,8 +1158,8 @@
             )
             .each(function () {
                 var onlyWeekdays = $(this).attr('data-weekdays-only')
-                        ? true
-                        : false,
+                    ? true
+                    : false,
                     min = new Date(),
                     max = new Date();
 
@@ -1173,10 +1173,10 @@
                 } else if ($(this).attr('data-start-after')) {
                     min.setDate(
                         min.getDate() +
-                            addDays(
-                                $(this).attr('data-start-after'),
-                                onlyWeekdays,
-                            ),
+                        addDays(
+                            $(this).attr('data-start-after'),
+                            onlyWeekdays,
+                        ),
                     );
                 }
 
@@ -1185,10 +1185,10 @@
                 } else if ($(this).attr('data-end-after')) {
                     max.setDate(
                         max.getDate() +
-                            addDays(
-                                $(this).attr('data-end-after'),
-                                onlyWeekdays,
-                            ),
+                        addDays(
+                            $(this).attr('data-end-after'),
+                            onlyWeekdays,
+                        ),
                     );
                 }
 
@@ -1224,8 +1224,8 @@
                         beforeShowDay: onlyWeekdays
                             ? checkWeekendAndHoliday
                             : days
-                              ? checkDays
-                              : null,
+                                ? checkDays
+                                : null,
                         minDate: min ? min : null,
                         maxDate: max ? max : null,
                         useCurrent: false,
@@ -1250,8 +1250,8 @@
                         beforeShowDay: onlyWeekdays
                             ? checkWeekendAndHoliday
                             : days
-                              ? checkDays
-                              : null,
+                                ? checkDays
+                                : null,
                         minDate: min ? min : null,
                         maxDate: max ? max : null,
                         onSelect: function (dateText, inst) {
@@ -1335,8 +1335,8 @@
                     self.human = true;
                     $.get(
                         'index.php?' +
-                            self.params.additionalParams +
-                            'route=common/simple_connector/human',
+                        self.params.additionalParams +
+                        'route=common/simple_connector/human',
                     );
                 }, 300);
             }
@@ -1363,8 +1363,8 @@ function includeScript(url) {
 function includeStyle(url) {
     document.write(
         "<link rel='stylesheet' type='text/css' href='" +
-            url +
-            "' media='screen' />",
+        url +
+        "' media='screen' />",
     );
 }
 
@@ -1375,13 +1375,14 @@ function bind(func, context) {
 }
 
 function inherit(proto) {
-    function F() {}
+    function F() { }
     F.prototype = proto;
     var object = new F();
     return object;
 }
 
 function reloadAll() {
+    console.log('reloadAll called');
     if (typeof Simple.prototype.instances !== 'undefined') {
         for (var i in Simple.prototype.instances) {
             if (!Simple.prototype.instances.hasOwnProperty(i)) continue;
@@ -1420,8 +1421,8 @@ if (!window.localStorage) {
                 document.cookie.replace(
                     new RegExp(
                         '(?:^|.*;\\s*)' +
-                            escape(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
-                            '\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*',
+                        escape(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
+                        '\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*',
                     ),
                     '$1',
                 ),
@@ -1458,8 +1459,8 @@ if (!window.localStorage) {
         hasOwnProperty: function (sKey) {
             return new RegExp(
                 '(?:^|;\\s*)' +
-                    escape(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
-                    '\\s*\\=',
+                escape(sKey).replace(/[\-\.\+\*]/g, '\\$&') +
+                '\\s*\\=',
             ).test(document.cookie);
         },
     };
