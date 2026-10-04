@@ -449,6 +449,8 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
     }
 
     public function update() {
+        $this->log->write('[reward-debug] update() entered');
+
         self::$updated = true;
 
         $this->init();
@@ -493,12 +495,31 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
             unset($this->session->data['reward']);
         }
 
+        $hasReward = array_key_exists('reward', $this->request->post);
+        $postedReward = $hasReward
+            ? var_export($this->request->post['reward'], true)
+            : '<missing>';
+        $sessionBefore = isset($this->session->data['reward'])
+            ? var_export($this->session->data['reward'], true)
+            : '<unset>';
+
+        $this->log->write(
+            '[reward-debug] POST reward=' . $postedReward .
+            '; session before=' . $sessionBefore
+        );        
+
         // Reward
         if (!isset($this->request->post['reward']) || (isset($this->request->post['reward']) && ($this->request->post['reward'] == '' || $this->request->post['reward'] == 0))) {
             unset($this->session->data['reward']);
         } elseif (isset($this->request->post['reward']) && $this->validateReward()) {
             $this->session->data['reward'] = $this->request->post['reward'];
         }
+
+        $sessionAfter = isset($this->session->data['reward'])
+            ? var_export($this->session->data['reward'], true)
+            : '<unset>';
+
+        $this->log->write('[reward-debug] session after=' . $sessionAfter);
     }
 
     public function clear() {
