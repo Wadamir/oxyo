@@ -1383,15 +1383,18 @@ function inherit(proto) {
 
 function reloadAll() {
     console.log('reloadAll called');
-    if (typeof Simple.prototype.instances !== 'undefined') {
-        for (var i in Simple.prototype.instances) {
-            if (!Simple.prototype.instances.hasOwnProperty(i)) continue;
+    // pause for 5 seconds
+    setTimeout(() => {
+        if (typeof Simple.prototype.instances !== 'undefined') {
+            for (var i in Simple.prototype.instances) {
+                if (!Simple.prototype.instances.hasOwnProperty(i)) continue;
 
-            if (typeof Simple.prototype.instances[i].reloadAll === 'function') {
-                Simple.prototype.instances[i].reloadAll();
+                if (typeof Simple.prototype.instances[i].reloadAll === 'function') {
+                    Simple.prototype.instances[i].reloadAll();
+                }
             }
         }
-    }
+    }, 5000);
 }
 
 function reloadBlock() {
