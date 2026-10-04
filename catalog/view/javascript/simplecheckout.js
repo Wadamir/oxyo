@@ -3278,6 +3278,7 @@
         };
 
         this.removeReward = function ($target) {
+            console.log('removeReward called');
             var self = this;
             var $currentContainer = $(self.params.mainContainer).find(
                 self.currentContainer + ':visible',
