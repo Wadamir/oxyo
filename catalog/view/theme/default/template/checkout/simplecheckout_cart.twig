@@ -234,47 +234,50 @@
             </div>
         {% endfor %} #}
     </div>
-    <div class="simplecheckout-block" {{ hide ? 'data-hide="true"' : '' }} {{ has_error ? 'data-error="true"' : '' }}>	
-        {#
-        {% if modules['coupon'] is defined %}
-            <div class="xd_checkout-row">
-                <span class="inputs">{{ entry_coupon }}&nbsp;<input class="form-control" type="text" data-onchange="reloadAll" name="coupon" value="{{ coupon }}" /></span>
-            </div>
-        {% endif %}
-        #}
-        <div class="total-list margin-b0">
-            {% if modules['reward'] is defined and points > 0 %}
+    {% if modules['coupon'] is defined or (modules['reward'] is defined and points > 0) or modules['voucher'] is defined %}
+        <div class="simplecheckout-block" {{ hide ? 'data-hide="true"' : '' }} {{ has_error ? 'data-error="true"' : '' }}>	
+            {#
+                {% if modules['coupon'] is defined %}
+                    <div class="xd_checkout-row">
+                        <div class="xd_checkout-cell text-right">{{ entry_coupon }}</div>
+                        <div class="xd_checkout-cell text-right"><input class="form-control" type="text" data-onchange="reloadAll" name="coupon" value="{{ coupon }}" /></div>
+                    </div>
+                {% endif %}
+                {% if modules['voucher'] is defined %}
+                    <div class="xd_checkout-row">
+                        <div class="xd_checkout-cell text-right">{{ entry_voucher }}</div>
+                        <div class="xd_checkout-cell text-right"><input class="form-control" type="text" name="voucher" data-onchange="reloadAll" value="{{ voucher }}" /></div>
+                    </div>
+                {% endif %}
+            #}            
+            <div class="total-list margin-b0">
+                {% if modules['reward'] is defined and points > 0 %}
+                    <div class="xd_checkout-row">
+                        <div class="xd_checkout-cell text-right">{{ entry_reward }}</div>
+                        <div class="xd_checkout-cell text-right"><input class="form-control" type="text" name="reward" data-onchange="reloadAll" value="{{ reward }}" /></div>
+                    </div>
+                {% endif %}
                 <div class="xd_checkout-row">
-                    <div class="xd_checkout-cell text-right">{{ entry_reward }}</div><div class="xd_checkout-cell text-right"><input class="form-control" type="text" name="reward" data-onchange="reloadAll" value="{{ reward }}" /></div>
+                    <div class="xd_checkout-cell text-right"></div>
+                    <div class="xd_checkout-cell text-right">
+                        <a id="simplecheckout_button_cart" data-onclick="reloadAll" class="button btn-primary button_oc btn"><span>{{ button_update }}</span></a>
+                    </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
-        {#    
-        {% if modules['voucher'] is defined %}
-            <div class="xd_checkout-row">
-                <span class="inputs">{{ entry_voucher }}&nbsp;<input class="form-control" type="text" name="voucher" data-onchange="reloadAll" value="{{ voucher }}" /></span>
-            </div>
-        {% endif %}
-        #}
-        {% if modules['coupon'] is defined or (modules['reward'] is defined and points > 0) or modules['voucher'] is defined %}
-            <div class="simplecheckout-cart-total simplecheckout-cart-buttons">
-                <span class="inputs buttons"><a id="simplecheckout_button_cart" data-onclick="reloadAll" class="button btn-primary button_oc btn"><span>{{ button_update }}</span></a></span>
-            </div>
-        {% endif %}
-        
+    {% endif %}    
 
-        <input type="hidden" name="remove" value="" id="simplecheckout_remove"> <div style="display:none;" id="simplecheckout_cart_total">{{ cart_total }}</div>
-        {% if display_weight %}
-            <div style="display:none;" id="simplecheckout_cart_weight">{{ weight }}</div>
-        {% endif %}
-        {% if not display_model %}
-            <style>
-                .simplecheckout-cart col.model,
-                .simplecheckout-cart th.model,
-                .simplecheckout-cart td.model {
-                    display: none;
-                }
-            </style>
-        {% endif %}
-    </div>
+    <input type="hidden" name="remove" value="" id="simplecheckout_remove"> <div style="display:none;" id="simplecheckout_cart_total">{{ cart_total }}</div>
+    {% if display_weight %}
+        <div style="display:none;" id="simplecheckout_cart_weight">{{ weight }}</div>
+    {% endif %}
+    {% if not display_model %}
+        <style>
+            .simplecheckout-cart col.model,
+            .simplecheckout-cart th.model,
+            .simplecheckout-cart td.model {
+                display: none;
+            }
+        </style>
+    {% endif %}
 </div>
