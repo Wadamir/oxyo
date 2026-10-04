@@ -705,6 +705,7 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
                 $error = true;
             }
         } else {
+            self::$error['warning'] = sprintf($this->language->get('error_reward_points'), 0);
             $error = true;
         }
 

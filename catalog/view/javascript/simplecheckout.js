@@ -2,7 +2,7 @@
     window.Simplecheckout = function (params) {
         this.params = params;
 
-        this.callback = params.javascriptCallback || function () {};
+        this.callback = params.javascriptCallback || function () { };
 
         this.selectors = {
             paymentForm: '#simplecheckout_payment_form',
@@ -233,7 +233,7 @@
             (this.useReloadingOfPaymentForm = function () {
                 if (
                     typeof this.params.enableAutoReloaingOfPaymentFrom !==
-                        'undefined' &&
+                    'undefined' &&
                     this.params.enableAutoReloaingOfPaymentFrom
                 ) {
                     if (
@@ -494,20 +494,20 @@
                         }
 
                         $city.val('').trigger('change');
-                        
+
                         // Clear address field when zone is cleared
                         if ($address1.length) {
                             var previousAddressValue = $address1.val();
                             if (previousAddressValue !== '') {
                                 $address1.val('');
-                                
+
                                 if (
                                     !$(self.params.mainContainer).attr('data-logged') &&
                                     $address1.attr('id')
                                 ) {
                                     localStorage.setItem($address1.attr('id'), '');
                                 }
-                                
+
                                 console.log(
                                     '[zone-city-autofill] address cleared when zone is cleared',
                                     {
@@ -517,7 +517,7 @@
                                 );
                             }
                         }
-                        
+
                         console.log('[zone-city-autofill] city cleared');
                         finishAutofill();
                         return;
@@ -1043,10 +1043,10 @@
             var self = this;
             $.get(
                 'index.php?' +
-                    self.params.additionalParams +
-                    'route=' +
-                    self.params.mainRoute +
-                    '/prevent_delete',
+                self.params.additionalParams +
+                'route=' +
+                self.params.mainRoute +
+                '/prevent_delete',
                 function () {
                     if (typeof callback === 'function') {
                         callback();
@@ -1204,7 +1204,7 @@
                         characterData: true,
                         attributes: false,
                     });
-                } catch (e) {}
+                } catch (e) { }
             }
         };
 
@@ -1459,7 +1459,7 @@
         this.getAgreementCheckboxStep = function () {
             var step =
                 typeof this.params.agreementCheckboxStep !== 'undefined' &&
-                this.params.agreementCheckboxStep !== ''
+                    this.params.agreementCheckboxStep !== ''
                     ? this.params.agreementCheckboxStep + 1
                     : this.stepsCount - 1;
 
@@ -1579,7 +1579,7 @@
                 if (
                     typeof self.params.stepButtons !== 'undefined' &&
                     typeof self.params.stepButtons[self.currentStep] !==
-                        'undefined' &&
+                    'undefined' &&
                     self.params.stepButtons[self.currentStep] != ''
                 ) {
                     var $button = $mainContainer.find(
@@ -1610,19 +1610,19 @@
                     for (var i = 1; i < self.stepsCount + 1; i++) {
                         var $topItem = $mainContainer.find(
                             self.selectors.stepsMenuTop +
-                                ' ' +
-                                self.selectors.stepsMenuVerticalItem +
-                                '[data-step=' +
-                                i +
-                                ']',
+                            ' ' +
+                            self.selectors.stepsMenuVerticalItem +
+                            '[data-step=' +
+                            i +
+                            ']',
                         );
                         var $bottomItem = $mainContainer.find(
                             self.selectors.stepsMenuBottom +
-                                ' ' +
-                                self.selectors.stepsMenuVerticalItem +
-                                '[data-step=' +
-                                i +
-                                ']',
+                            ' ' +
+                            self.selectors.stepsMenuVerticalItem +
+                            '[data-step=' +
+                            i +
+                            ']',
                         );
 
                         if (i <= self.currentStep) {
@@ -1643,17 +1643,17 @@
                     $mainContainer
                         .find(
                             self.selectors.stepsMenu +
-                                ' ' +
-                                self.selectors.stepsMenuItem,
+                            ' ' +
+                            self.selectors.stepsMenuItem,
                         )
                         .removeClass(self.classes.stepsMenuCompleted)
                         .removeClass(self.classes.stepsMenuCurrent);
                     $mainContainer
                         .find(
                             self.selectors.stepsMenu +
-                                ' ' +
-                                self.selectors.stepsMenuDelimiter +
-                                ' img',
+                            ' ' +
+                            self.selectors.stepsMenuDelimiter +
+                            ' img',
                         )
                         .attr(
                             'src',
@@ -1664,37 +1664,37 @@
                         $mainContainer
                             .find(
                                 self.selectors.stepsMenu +
-                                    ' ' +
-                                    self.selectors.stepsMenuItem +
-                                    '[data-step=' +
-                                    i +
-                                    ']',
+                                ' ' +
+                                self.selectors.stepsMenuItem +
+                                '[data-step=' +
+                                i +
+                                ']',
                             )
                             .addClass(self.classes.stepsMenuCompleted);
                         $mainContainer
                             .find(
                                 self.selectors.stepsMenu +
-                                    ' ' +
-                                    self.selectors.stepsMenuDelimiter +
-                                    '[data-step=' +
-                                    (i + 1) +
-                                    '] img',
+                                ' ' +
+                                self.selectors.stepsMenuDelimiter +
+                                '[data-step=' +
+                                (i + 1) +
+                                '] img',
                             )
                             .attr(
                                 'src',
                                 self.params.additionalPath +
-                                    self.resources.nextCompleted,
+                                self.resources.nextCompleted,
                             );
                     }
 
                     $mainContainer
                         .find(
                             self.selectors.stepsMenu +
-                                ' ' +
-                                self.selectors.stepsMenuItem +
-                                '[data-step=' +
-                                self.currentStep +
-                                ']',
+                            ' ' +
+                            self.selectors.stepsMenuItem +
+                            '[data-step=' +
+                            self.currentStep +
+                            ']',
                         )
                         .addClass(self.classes.stepsMenuCurrent);
                 }
@@ -1842,10 +1842,10 @@
             ) {
                 var menu = $mainContainer.find(
                     self.selectors.stepsMenu +
-                        ' ' +
-                        '[data-step=' +
-                        self.currentStep +
-                        ']:visible',
+                    ' ' +
+                    '[data-step=' +
+                    self.currentStep +
+                    ']:visible',
                 );
 
                 if (menu.length) {
@@ -1899,9 +1899,9 @@
                                 formHeight -
                                 $(window).height() +
                                 2 *
-                                    $mainContainer
-                                        .find(self.selectors.buttons)
-                                        .outerHeight();
+                                $mainContainer
+                                    .find(self.selectors.buttons)
+                                    .outerHeight();
                         }
                     } else {
                         if (isOutsideOfViewport(formTop)) {
@@ -2128,7 +2128,7 @@
 
             $(
                 self.params.mainContainer +
-                    ' .simplecheckout-step:visible .simplecheckout-block:not(#simplecheckout_payment_form)',
+                ' .simplecheckout-step:visible .simplecheckout-block:not(#simplecheckout_payment_form)',
             ).each(function () {
                 var $block = $(this);
 
@@ -2141,7 +2141,7 @@
 
             $(
                 self.params.mainContainer +
-                    ' .simplecheckout-step:not(:visible) .simplecheckout-block:not(#simplecheckout_payment_form)',
+                ' .simplecheckout-step:not(:visible) .simplecheckout-block:not(#simplecheckout_payment_form)',
             ).each(function () {
                 var $block = $(this);
 
@@ -2158,7 +2158,7 @@
             var otherFields = self.serializeFields(
                 $(
                     self.params.mainContainer +
-                        ' *:not(#simplecheckout_payment_form)',
+                    ' *:not(#simplecheckout_payment_form)',
                 ),
             );
 
@@ -2210,7 +2210,7 @@
                 "#simplecheckout_payment_address input[name='city'], " +
                 "#simplecheckout_payment_address input[name$='[city]']"
             );
-            
+
             // Find all address_1 fields in shipping and payment forms
             var $address1Fields = $mainContainer.find(
                 "#simplecheckout_shipping_address input[name='address_1'], " +
@@ -2240,7 +2240,7 @@
                 var $postalCodeField = $postalCodeFields.filter(function () {
                     return (
                         $(this).closest('.simplecheckout-block').attr('id') === $(this).closest('.simplecheckout-block').attr('id')
-                    ); 
+                    );
                 });
 
                 var $countryField = $countryFields.filter(function () {
@@ -2277,26 +2277,26 @@
                 var $address1 = $(this);
                 var dadataWrapper = $('<div class="dadata-autocomplete-wrapper" style="position: relative;"></div>');
                 var $suggestionsList = $('<ul class="dadata-suggestions" style="display:none; position: absolute; border: 1px solid #ccc; background: white; list-style: none; margin: 0; padding: 0; width: 100%; z-index: 1000;"></ul>');
-                
+
                 $address1.wrap(dadataWrapper);
                 $address1.after($suggestionsList);
-                
+
                 var suggestionsRequest = null;
                 var currentSuggestionIndex = -1;
                 var suggestions = [];
                 var lastValidAddress = $address1.val(); // Store initial value as valid
-                
+
                 $address1.on('input keydown', function (e) {
                     var $field = $(this);
                     var query = $field.val().trim();
                     var fullQuery = countryName + ' ' + zoneName + ' ' + query;
 
-                    $address1.data('dadata-selected', false).attr('data-valid', 'false').attr('data-error', 'true');                    
-                    
+                    $address1.data('dadata-selected', false).attr('data-valid', 'false').attr('data-error', 'true');
+
                     // Handle arrow keys and enter
                     if (e.type === 'keydown') {
                         var keyCode = e.keyCode || e.which;
-                        
+
                         if (keyCode === 38) { // Arrow up
                             e.preventDefault();
                             if (currentSuggestionIndex > 0) {
@@ -2305,7 +2305,7 @@
                             }
                             return;
                         }
-                        
+
                         if (keyCode === 40) { // Arrow down
                             e.preventDefault();
                             if (currentSuggestionIndex < suggestions.length - 1) {
@@ -2314,7 +2314,7 @@
                             }
                             return;
                         }
-                        
+
                         if (keyCode === 13) { // Enter
                             e.preventDefault();
                             if (currentSuggestionIndex >= 0 && suggestions[currentSuggestionIndex]) {
@@ -2324,29 +2324,29 @@
                             }
                             return;
                         }
-                        
+
                         if (keyCode === 27) { // Escape
                             $suggestionsList.hide();
                             return;
                         }
                     }
-                    
+
                     // Only fetch on input event
                     if (e.type !== 'input') {
                         return;
                     }
-                    
+
                     if (query.length < 3) {
                         $suggestionsList.hide();
                         suggestions = [];
                         currentSuggestionIndex = -1;
                         return;
                     }
-                    
+
                     if (suggestionsRequest && suggestionsRequest.readyState !== 4) {
                         suggestionsRequest.abort();
                     }
-                    
+
                     suggestionsRequest = $.ajax({
                         url: 'index.php?' + self.params.additionalParams + 'route=common/simple_connector&method=searchDadataAddresses&zone=' + zoneName + '&query=' + encodeURIComponent(fullQuery),
                         type: 'GET',
@@ -2358,28 +2358,28 @@
                             console.log('[dadata-debug][initDadataAutocomplete] received suggestions:', data);
                             suggestions = data && data.length ? data : [];
                             currentSuggestionIndex = -1;
-                            
+
                             if (suggestions.length > 0) {
                                 $suggestionsList.empty();
-                                
+
                                 suggestions.forEach(function (suggestion, index) {
                                     var $item = $('<li class="dadata-suggestion" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;" data-index="' + index + '"></li>');
                                     $item.text(suggestion.value || suggestion.unrestricted_value);
-                                    
+
                                     $item.on('mouseenter', function () {
                                         currentSuggestionIndex = index;
                                         self.highlightDadataSuggestion(index, $suggestionsList);
                                     });
-                                    
+
                                     $item.on('click', function () {
                                         self.selectDadataSuggestion($postalCodeField, $cityField, $dadataAddressField, $address1, suggestion, $suggestionsList);
                                         // Update lastValidAddress after selection
                                         lastValidAddress = suggestion.value || suggestion.unrestricted_value;
                                     });
-                                    
+
                                     $suggestionsList.append($item);
                                 });
-                                
+
                                 $suggestionsList.show();
                             } else {
                                 $suggestionsList.hide();
@@ -2391,25 +2391,25 @@
                         }
                     });
                 });
-                
+
                 // Hide suggestions when field loses focus and validate address
                 $address1.on('blur', function () {
                     setTimeout(function () {
                         $suggestionsList.hide();
                     }, 200);
-                    
+
                     // Validate on blur: if address was not selected from suggestions, restore last valid value
                     var currentValue = $address1.val().trim();
                     var wasSelected = $address1.data('dadata-selected') === true;
                     var lastValid = $address1.data('lastValidAddress') || lastValidAddress;
-                    
+
                     if (currentValue !== lastValid.trim() && !wasSelected) {
                         // User entered custom text without selecting from suggestions - restore last valid value
                         console.log('[dadata-validation] address not selected from suggestions, restoring last valid value', {
                             current: currentValue,
                             lastValid: lastValid,
                         });
-                        
+
                         $address1.val(lastValid).trigger('change');
                         $address1.data('dadata-selected', false).attr('data-valid', 'true').removeAttr('data-error');
                     } else if (wasSelected) {
@@ -2432,7 +2432,7 @@
             console.log('[dadata-debug][selectedRegion]: ' + (suggestion.region || 'N/A'));
             let region = suggestion.region || '';
             console.log('[dadata-debug][selectedArea]: ' + (suggestion.area || 'N/A'));
-            let area = suggestion.area || '';            
+            let area = suggestion.area || '';
             console.log('[dadata-debug][selectedCity]: ' + (suggestion.city || 'N/A'));
             let city = suggestion.city || '';
             console.log('[dadata-debug][selectedSettlement]: ' + (suggestion.settlement || 'N/A'));
@@ -2451,10 +2451,10 @@
             if ($dadataAddressField.length) {
                 $dadataAddressField.val(unrestrictedValue);
             }
-            
+
             var selectedAddress = suggestion.value || suggestion.unrestricted_value;
             $addressField.val(selectedAddress);
-            
+
             // Update lastValidAddress to the newly selected value
             $addressField.data('lastValidAddress', selectedAddress);
 
@@ -2463,7 +2463,7 @@
             } else if (postalCode === '' && $postalCodeField.length) {
                 $postalCodeField.val('');
             }
-            
+
             if (city !== '' && $cityField.length) {
                 $cityField.val(city).trigger('change');
             } else if (area !== '' && settlement !== '' && $cityField.length) {
@@ -2472,12 +2472,12 @@
                 $cityField.val('').trigger('change');
             }
 
-            $addressField.data('dadata-selected', true).removeAttr('data-error').attr('data-valid', 'true');            
+            $addressField.data('dadata-selected', true).removeAttr('data-error').attr('data-valid', 'true');
             var self = this;
-            self.reloadAll();            
+            self.reloadAll();
 
             $suggestionsList.hide();
-        };        
+        };
 
         /**
          * Reload all blocks via main controller which includes all registered blocks as childs
@@ -2590,7 +2590,7 @@
                 data: postData + '&simple_ajax=1',
                 type: 'POST',
                 dataType: 'text',
-                beforeSend: function () {},
+                beforeSend: function () { },
                 success: function (data) {
                     var newData = $(container, $(data)).get(0);
 
@@ -2832,8 +2832,8 @@
             $block.find('[data-onclick]').attr('disabled', 'disabled');
             $block.append(
                 "<div class='simplecheckout_overlay' id='" +
-                    $block.attr('id') +
-                    "_overlay'></div>",
+                $block.attr('id') +
+                "_overlay'></div>",
             );
             $block
                 .find('.simplecheckout_overlay')
@@ -3119,10 +3119,10 @@
 
             $.get(
                 'index.php?' +
-                    self.params.additionalParams +
-                    'route=' +
-                    self.currentRoute +
-                    '/clear',
+                self.params.additionalParams +
+                'route=' +
+                self.currentRoute +
+                '/clear',
                 function () {
                     self.reloadAll();
                 },
@@ -3284,7 +3284,7 @@
             );
 
             $target = $currentContainer.find("input[name='reward']");
-            $target.val('');
+            $target.val(0);
             self.copyCartState($target);
 
             self.reloadAll();
@@ -3415,18 +3415,18 @@
             $('#simple_login').css(
                 'top',
                 window.innerHeight / 2 -
-                    ($('#simple_login').outerHeight()
-                        ? $('#simple_login').outerHeight()
-                        : $('#simple_login').height()) /
-                        2,
+                ($('#simple_login').outerHeight()
+                    ? $('#simple_login').outerHeight()
+                    : $('#simple_login').height()) /
+                2,
             );
             $('#simple_login').css(
                 'left',
                 $(window).width() / 2 -
-                    ($('#simple_login').outerWidth()
-                        ? $('#simple_login').outerWidth()
-                        : $('#simple_login').width()) /
-                        2,
+                ($('#simple_login').outerWidth()
+                    ? $('#simple_login').outerWidth()
+                    : $('#simple_login').width()) /
+                2,
             );
         };
 
@@ -3446,9 +3446,9 @@
             if (!$(self.currentContainer).length) {
                 $(
                     "<div id='temp_flat_container'><img src='" +
-                        self.params.additionalPath +
-                        self.resources.loading +
-                        "'></div>",
+                    self.params.additionalPath +
+                    self.resources.loading +
+                    "'></div>",
                 ).insertBefore(self.params.loginBoxBefore);
                 self.load('#temp_flat_container');
             }
