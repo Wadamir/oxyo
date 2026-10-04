@@ -991,7 +991,7 @@
 }
 
 #simplecheckout_cart > .simplecheckout-block {
-    margin: 0;
+    margin: 0 0 20px 0;
     padding: 16px;
 
     background-color: transparent;
