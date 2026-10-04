@@ -976,14 +976,21 @@
 
 
 
-#xd_checkoutconfirm .totals-slip,
-#simplecheckout_cart {
+#xd_checkoutconfirm .totals-slip {
     padding: 35px 15px 15px;
     margin-bottom: 20px;
 }
 
-#totals-slip,
-#simplecheckout_cart {
+#totals-slip {
+    margin: 0;
+    padding: 16px;
+
+    background-color: transparent;
+    border: 1px solid;
+    border-radius: 16px;
+}
+
+#simplecheckout_cart > .simplecheckout-block {
     margin: 0;
     padding: 16px;
 
