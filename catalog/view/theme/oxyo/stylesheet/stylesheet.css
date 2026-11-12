@@ -1,9 +1,5 @@
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
 
-@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 @font-face {
     font-family: 'simple-line-icons';
     src:
@@ -15,186 +11,232 @@
     font-style: normal;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @font-face {
+    font-family: 'Evolventa';
+    src: url('../fonts/Evolventa/Evolventa-Regular.otf') format('opentype'),
+        url('../fonts/Evolventa/Evolventa-Regular.pdf') format('pdf'),
+        url('../fonts/Evolventa/Evolventa-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Evolventa';
+    src: url('../fonts/Evolventa/Evolventa-Bold.otf') format('opentype'),
+        url('../fonts/Evolventa/Evolventa-Bold.pdf') format('pdf'),
+        url('../fonts/Evolventa/Evolventa-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Evolventa';
+    src: url('../fonts/Evolventa/Evolventa-BoldOblique.otf') format('opentype'),
+        url('../fonts/Evolventa/Evolventa-BoldOblique.pdf') format('pdf'),
+        url('../fonts/Evolventa/Evolventa-BoldOblique.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Evolventa';
+    src: url('../fonts/Evolventa/Evolventa-Oblique.otf') format('opentype'),
+        url('../fonts/Evolventa/Evolventa-Oblique.pdf') format('pdf'),
+        url('../fonts/Evolventa/Evolventa-Oblique.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap'); */
+
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-Black.otf')
         format('opentype');
     font-weight: 900;
     font-style: normal;
     font-display: swap;
-}
+} */
 
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-BlackIta.otf')
         format('opentype');
     font-weight: 900;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* ExtraBold */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-ExtraBold.otf')
         format('opentype');
     font-weight: 800;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* ExtBdIta — ExtraBold Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-ExtBdIta.otf')
         format('opentype');
     font-weight: 800;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* Bold */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-Bold.otf')
         format('opentype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* Bold Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-BoldIta.otf')
         format('opentype');
     font-weight: 700;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* SemiBold */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-SemiBold.otf')
         format('opentype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* SemiBold Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-SemBdIta.otf')
         format('opentype');
     font-weight: 600;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* Medium Expanded */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-MedExp.otf')
         format('opentype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* Medium Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-MedIta.otf')
         format('opentype');
     font-weight: 500;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* Regular */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-Regular.otf')
         format('opentype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* Regular Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-Italic.otf')
         format('opentype');
     font-weight: 400;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* Light */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-Light.otf')
         format('opentype');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* Light Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-LightIta.otf')
         format('opentype');
     font-weight: 300;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 /* ExtraLight */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-ExtLt.otf')
         format('opentype');
     font-weight: 200;
     font-style: normal;
     font-display: swap;
-}
+} */
 
-/* ExtraLight (вариант 1) */
-@font-face {
+/* ExtraLight (option 1) */
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-ExtLt1.otf')
         format('opentype');
     font-weight: 200;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* Thin */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-Thin.otf')
         format('opentype');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 /* Thin Italic */
-@font-face {
+/* @font-face {
     font-family: 'ArtegraSansExtended';
     src: url('../fonts/ArtegraSansExtended/ArtegraSansExtended-ThinIta.otf')
         format('opentype');
     font-weight: 100;
     font-style: italic;
     font-display: swap;
-}
+} */
 
 :root {
-    --primary-white-100: #fcfcfc;
+    /* --primary-white-100: #fcfcfc;
     --secondary-white-100: #ffffff;
 
     --primary-grey-100: #cccccc;
@@ -208,17 +250,37 @@
 
     --text-accent-color: #e61f80;
     --text-accent-color-light: #ff0082;
-    --text-accent-color-dark: #b70082;
+    --text-accent-color-dark: #b70082; */
+
+    --text-color-default: #000000;
+
+    --brand-color-pink: #e71e80;
+    --brand-color-pink-muted: #dd3687;
+    --brand-color-pink-light: #fde8f2;
+
+    --neutral-color-gray-700: #444343;
+    --neutral-color-gray-500: #656565;
+    --neutral-color-gray-400: #777777;
+    --neutral-color-gray-300: #b4b4b4;
+    --neutral-color-gray-200: #d9d9d9;
+    --neutral-color-gray-50: #f8f8f8;
+
+    --overlay-color: rgba(255, 255, 255, 0.51);
 
     /* font */
+    --font-family-text: 'Inter', sans-serif;
+    --font-family-sticker: 'Evolventa', sans-serif;
     /* --font-family-text: 'Nunito', sans-serif; */
-    --font-family-text: 'Philosopher', sans-serif;
-    --font-family-header: 'ArtegraSansExtended', sans-serif;
-    --font-family-accent: 'Philosopher', sans-serif;
+    /* --font-family-header: 'ArtegraSansExtended', sans-serif; */
+    /* --font-family-accent: 'Philosopher', sans-serif; */
 
     /* border radius */
-    --border-radius-small: 6px;
-    --border-radius-medium: 12px;
+    --border-radius-small: 5px;
+    --border-radius-medium: 10px;
+    --border-radius-large: 15px;
+    --border-radius-xlarge: 20px;
+    /* --border-radius-small: 6px; */
+    /* --border-radius-medium: 12px; */
 }
 
 body {
@@ -227,7 +289,7 @@ body {
 
     width: 100%;
 
-    font-family: var(--font-family-text, 'Nunito', sans-serif);
+    font-family: var(--font-family-text, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 400;
     line-height: 1.4;
