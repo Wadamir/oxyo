@@ -473,6 +473,9 @@
 !/system/yandex_metrika.ocmod.xml
 !/system/schema_merchant_pro.ocmod.xml
 
+!/system/engine/
+!/system/engine/action.php
+
 /system/library/*
 !/system/library/
 
