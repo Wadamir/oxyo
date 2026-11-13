@@ -1,0 +1,804 @@
+{# 1.4.2 - 2026-09-22 #}
+{{ header }}{{ column_left }}
+{% if setting %}
+  <div id="content">
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="pull-right">
+          <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+          <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+        <h1>{{ heading_title }}</h1>
+        <ul class="breadcrumb" style="margin: -10px 0 10px 0;padding-left: 0;display: block;">
+          {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      {% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      {% endif %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+        </div>
+        <div class="panel-body">
+          <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+            <input type="hidden" name="module_mass_customer_reward_add_version" value="{{ version }}">
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-limit"><span data-toggle="tooltip" title="{{ help_limit }}">{{ entry_limit }}</span></label>
+              <div class="col-sm-10">
+                <input type="tel" name="module_mass_customer_reward_add_limit" value="{{ module_mass_customer_reward_add_limit }}" class="form-control" id="input-limit">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-cron_path">{{ entry_cron_path }}</label>
+              <div class="col-sm-10">
+                <input type="text" value="{{ cron_path }}" class="form-control" id="input-cron_path" readonly>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ footer }}
+{% else %}
+  <div id="content">
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="pull-right">
+          <a href="{{ return }}" data-toggle="tooltip" title="{{ button_return }}" class="btn btn-primary"><i class="fa fa fa-reply"></i></a>
+          <a href="{{ setting_form }}" data-toggle="tooltip" title="{{ button_setting }}" class="btn btn-success"><i class="fa fa-cog"></i></a>
+
+          <button type="button" data-toggle="tooltip" title="{{ button_filter }}" onclick="$('#filter-customer').toggleClass('hidden-sm hidden-xs');" class="btn btn-default hidden-md hidden-lg"><i class="fa fa-filter"></i></button>
+          <!--<button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-customer').submit() : false;"><i class="fa fa-trash-o"></i></button>-->
+        </div>
+        <h1>{{ heading_title }}</h1>
+        <ul class="breadcrumb" style="margin: -10px 0 10px 0;padding-left: 0;display: block;">
+          {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      {% if error_warning %}
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      {% endif %}
+      {% if success %}
+      <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      {% endif %}
+      <div class="row">
+        <div id="filter-customer" class="col-md-3 col-md-push-9 col-sm-12 hidden-sm hidden-xs">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-filter"></i> {{ text_filter }}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="control-label" for="input-name">{{ entry_name }}</label>
+                <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-telephone">{{ entry_telephone }}</label>
+                <input type="text" name="filter_telephone" value="{{ filter_telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-email">{{ entry_email }}</label>
+                <input type="text" name="filter_email" value="{{ filter_email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-customer-group">{{ entry_customer_group }}</label>
+                <select name="filter_customer_group_id" id="input-customer-group" class="form-control">
+                  <option value="">{{ text_all }}</option>
+                  {% for customer_group in customer_groups %}
+                  {% if customer_group.customer_group_id == filter_customer_group_id %}
+                  <option value="{{ customer_group.customer_group_id }}" selected="selected">{{ customer_group.name }}</option>
+                  {% else %}
+                  <option value="{{ customer_group.customer_group_id }}">{{ customer_group.name }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label">{{ entry_date_registered }}</label>
+                <div class="row">
+                  <div class="col-sm-6 group-min">
+                    <div class="input-group date">
+                      <input type="text" name="filter_date_registered_min" value="{{ filter_date_registered_min }}" placeholder="{{ entry_min }}" data-date-format="YYYY-MM-DD" id="input-date_registered_min" class="form-control" />
+                      <span class="input-group-btn">
+                      <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 pull-right group-max">
+                    <div class="input-group date">
+                      <input type="text" name="filter_date_registered_max" value="{{ filter_date_registered_max }}" placeholder="{{ entry_max }}" data-date-format="YYYY-MM-DD" id="input-date_registered_max" class="form-control" />
+                      <span class="input-group-btn">
+                      <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label">{{ entry_point_total }}</label>
+                <div class="row">
+                  <div class="col-sm-6 group-min">
+                    <input type="text" name="filter_point_total_min" value="{{ filter_point_total_min }}" placeholder="{{ entry_min }}" id="input-point-total-min" class="form-control" />
+                  </div>
+                  <div class="col-sm-6 pull-right group-max">
+                    <input type="text" name="filter_point_total_max" value="{{ filter_point_total_max }}" placeholder="{{ entry_max }}"  id="input-point-total-max" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">{{ entry_order_count }}</label>
+                <div class="row">
+                  <div class="col-sm-6 group-min">
+                    <input type="text" name="filter_order_count_min" value="{{ filter_order_count_min }}" placeholder="{{ entry_min }}" id="input-order-count-min" class="form-control" />
+                  </div>
+                  <div class="col-sm-6 pull-right group-max">
+                    <input type="text" name="filter_order_count_max" value="{{ filter_order_count_max }}" placeholder="{{ entry_max }}" id="input-order-count-max" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">{{ entry_order_total }}</label>
+                <div class="row">
+                  <div class="col-sm-6 group-min">
+                    <input type="text" name="filter_orders_total_min" value="{{ filter_orders_total_min }}" placeholder="{{ entry_min }}" id="input-order-total-min" class="form-control" />
+                  </div>
+                  <div class="col-sm-6 pull-right group-max">
+                    <input type="text" name="filter_orders_total_max" value="{{ filter_orders_total_max }}" placeholder="{{ entry_max }}" id="input-order-total-max" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">{{ entry_date_added }}</label>
+                <div class="row">
+                  <div class="col-sm-6 group-min">
+                    <div class="input-group date">
+                      <input type="text" name="filter_order_date_added_min" value="{{ filter_order_date_added_min }}" placeholder="{{ entry_min }}" data-date-format="YYYY-MM-DD" id="input-date-added-min" class="form-control" />
+                      <span class="input-group-btn">
+                      <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 pull-right group-max">
+                    <div class="input-group date">
+                      <input type="text" name="filter_order_date_added_max" value="{{ filter_order_date_added_max }}" placeholder="{{ entry_max }}" data-date-format="YYYY-MM-DD" id="input-date-added-max" class="form-control" />
+                      <span class="input-group-btn">
+                      <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-order-status">{{ entry_order_status }}</label>
+                <select name="filter_order_status_id" id="input-order-status" class="form-control">
+                  <option value="">{{ text_all }}</option>
+                  {% for order_status in order_statuses %}
+                    {% if filter_order_status_id == order_status.order_status_id %}
+                      <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                    {% else %}
+                      <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-country">{{ entry_country }}</label>
+                <select name="filter_country_id" id="input-country" class="form-control">
+                  <option value="">{{ text_all }}</option>
+                  {% for country in countries %}
+                    {% if filter_country_id == country.country_id %}
+                      <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+                    {% else %}
+                      <option value="{{ country.country_id }}">{{ country.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-region">{{ entry_region }}</label>
+                <select name="filter_zone_id" id="input-region" class="form-control">
+                  <option value="">{{ text_all }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-city">{{ entry_city }}</label>
+                <input type="text" name="filter_city" value="{{ filter_city }}" id="input-city" class="form-control" placeholder="{{ entry_city }}">
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" name="filter_inversion" value="1"{{ filter_inversion ? ' checked' }}> {{ entry_filter_inversion }}</label>
+              </div>
+              <div class="form-group text-right filter-buttons">
+                <button type="button" id="button-filter" class="btn btn-info"><i class="fa fa-filter"></i> {{ button_filter }}</button>&nbsp;<button type="button" onclick="clearFilter();" class="btn btn-default"><i class="fa fa-eraser"></i> {{ button_clear }}</button>
+              </div>
+            </div>
+          </div>
+        </div> {# div#filter-customer #}
+
+        <div class="col-md-9 col-md-pull-3 col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="nav nav-tabs" id="main-nav-tab">
+                <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+                <li><a href="#tab-mail" data-toggle="tab">{{ tab_mail }}</a></li>
+              </ul>
+
+              <div class="tab-content">
+                <input type="hidden" id="user-token" value="{{ user_token }}">
+                <div class="tab-pane active" id="tab-general">
+                  <div class="well">
+                    <form id="form-reward">
+                      <div class="row">
+                        {# Панель выбора покупателей #}
+                        <div class="col-sm-6">
+                          <div class="checkbox">
+                            <label style="width: 100%;padding-left: 0;font-weight: 700;">{{ entry_all_customer_filter }}<input type="checkbox" class="pull-right" name="customer_filter" value="1"></label>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label">{{ entry_customer_selected }}</label>
+                            <div class="well well-sm" id="reward-customers" style="height: 278px; margin-bottom: 0; overflow-y: scroll;">
+                              <div>
+                                <i class="fa fa-minus-circle"></i> STest STest
+                                <input type="hidden" name="reward_customers[]" value="0">
+                              </div>
+                            </div>
+                          </div>
+                          <button type="button" class="btn btn-default pull-right" id="button-clear-customers">{{ button_clear }}</button>
+                        </div>
+
+                        {# Панель начисления баллов #}
+                        <div class="col-sm-6">
+                          <div class="form-group" style="padding-top: 10px;">
+                            <label class="control-label" for="input-reward">{{ entry_reward }}</label>
+                            <input type="tel" name="reward" value="" class="form-control" id="input-reward" placeholder="{{ entry_reward }}" />
+                          </div>
+                          <div class="form-group" style="padding-top: 10px;">
+                            <label class="control-label" for="input-reward-days"><span data-toggle="tooltip" title="{{ help_reward_days }}">{{ entry_reward_days }}</span></label>
+                            <input type="tel" name="reward_days" value="0" class="form-control" id="input-reward-days" placeholder="{{ entry_reward_days }}" />
+                            <div class="checkbox" style="margin-bottom: 0"><label><input type="checkbox" name="current_day" value="1" checked> {{ entry_current_day }}</label></div>
+                          </div>
+                          <div class="form-group" style="padding-top: 10px;">
+                            <label class="control-label" for="input-description"><span data-toggle="tooltip" title="{{ help_description }}">{{ entry_description }}</span></label>
+
+                            <ul class="nav nav-tabs" id="description-language">
+                              {% for language in languages %}
+                              <li><a href="#desc-language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"></a></li>
+                              {% endfor %}
+                            </ul>
+                            <div class="tab-content">
+                              {% for language in languages %}
+                              <div class="tab-pane" id="desc-language{{ language.language_id }}">
+                                <input type="text" name="mail_language[{{ language.language_id }}][description]" value="" class="form-control" id="input-description" placeholder="{{ language.name }} - {{ entry_description }}">
+                              </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                          <div class="form-group" style="padding-top: 10px;">
+                            <label class="control-label" for="input-store">{{ entry_store }}</label>
+                            <select name="store_id" class="form-control" id="input-store">
+                              {% for store in stores %}
+                                <option value="{{ store['store_id'] }}">{{ store['name'] }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <div class="checkbox" style="margin-top:0;">
+                            <label style="width: 100%;padding-left: 0;font-weight: 700;">{{ entry_send_mail }}<input type="checkbox" class="pull-right" name="send_mail" value="1"></label>
+                          </div>
+                        </div>
+                      </div>
+
+                      {# Панель ввода Темы письма и описания начисления #}
+                      <div id="mail-settings">
+                        <span class="block-heading">{{ text_mail_msg }}</span>
+                        <ul class="nav nav-tabs" id="mail-msg-language">
+                          {% for language in languages %}
+                          <li><a href="#mail-msg-language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"></a></li>
+                          {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                          {% for language in languages %}
+                          <div class="tab-pane" id="mail-msg-language{{ language.language_id }}">
+                            <div class="form-group">
+                              {% set input_id = 'input-mail-msg-subject-' ~ language.language_id %}
+                              <label class="control-label" for="{{ input_id }}">{{ entry_mail_subject }}</label>
+                              <div class="input-group">
+                                <input type="text" name="mail_language[{{ language.language_id }}][mail_subject]" value="" class="form-control" id="{{ input_id }}">
+                                <div class="input-group-btn">
+                                  <button type="button" class="btn btn-default button-shortcode" data-toggle="tooltip" title="{{ button_add_shortcode }}">{...}</button>
+                                  <ul class="dropdown-menu shortcode-dropdown">
+                                    {% for value, name in short_codes %}
+                                    <li{{ value == '{DESCRIPTION}' ? ' style="display: none;"' }}><a href="#" data-shortcode="{{ value }}">{{ name }}</a></li>
+                                    {% endfor %}
+                                  </ul>
+                                  <button type="button" class="btn btn-default custom-emoji-btn-group" data-toggle="tooltip" title="{{ button_emoji }}">😊</button>
+                                  <div class="dropdown-menu emoji-picker-dropdown"></div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              {% set input_id = 'input-mail-msg-description-' ~ language.language_id %}
+                              <label class="control-label" for="{{ input_id }}">{{ entry_mail_description }}</label>
+                              <textarea name="mail_language[{{ language.language_id }}][mail_description]"  data-toggle="summernote" data-lang="{{ summernote }}" id="{{ input_id }}" class="form-control"></textarea>
+                            </div>
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+
+
+                      <div class="buttons">
+                        <div class="text-right" style="margin-top: 15px;">
+                          <button type="button" class="btn btn-success" id="button-add-reward" data-loading-text="{{ button_reward }} <i class='fa fa-spinner fa-spin fa-fw'></i>">{{ button_reward }}</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <td style="width: 1px;" class="text-center"><input type="checkbox" class="hide" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                          <td class="text-left">{% if sort == 'name' %}<a href="{{ sort_name }}" class="{{ order|lower }}">{{ column_name }}</a>{% else %}<a href="{{ sort_name }}">{{ column_name }}</a>{% endif %}</td>
+                          <td class="text-left">{% if sort == 'c.telephone' %}<a href="{{ sort_telephone }}" class="{{ order|lower }}">{{ column_telephone }}</a>{% else %}<a href="{{ sort_telephone }}">{{ column_telephone }}</a>{% endif %}</td>
+                          <td class="text-left">{% if sort == 'c.email' %}<a href="{{ sort_email }}" class="{{ order|lower }}">{{ column_email }}</a>{% else %}<a href="{{ sort_email }}">{{ column_email }}</a>{% endif %}</td>
+                          <td class="text-left">{% if sort == 'customer_group' %}<a href="{{ sort_customer_group }}" class="{{ order|lower }}">{{ column_customer_group }}</a> {% else %} <a href="{{ sort_customer_group }}">{{ column_customer_group }}</a>{% endif %}</td>
+                          <td class="text-right">{{ column_order_count }}</td>
+                          <td class="text-right">{{ column_orders_total }}</td>
+                          <td class="text-right">
+                            {% if sort == 'customer_reward' %}
+                            <a href="{{ sort_customer_reward }}" class="{{ order|lower }}">{{ column_customer_reward }}</a>
+                            {% else %}
+                            <a href="{{ sort_customer_reward }}">{{ column_customer_reward }}</a>
+                            {% endif %}
+                          </td>
+                          <td class="text-right">{{ column_action }}</td>
+                        </tr>
+                      </thead>
+                      <tbody id="customers">
+                      {% if customers %}
+                      {% for customer in customers %}
+                      <tr>
+                        <td class="text-center">{% if customer.customer_id in selected %}
+                          <input type="checkbox" name="selected[]" value="{{ customer.customer_id }}" checked="checked" />
+                          {% else %}
+                          <input type="checkbox" name="selected[]" value="{{ customer.customer_id }}" />
+                          {% endif %}
+                        </td>
+                        <td class="text-left customer-name-{{ customer.customer_id }}">{{ customer.name }}</td>
+                        <td class="text-left">{{ customer.telephone }}</td>
+                        <td class="text-left">{{ customer.email }}</td>
+                        <td class="text-left">{{ customer.customer_group }}</td>
+                        <td class="text-right">{{customer.order_count }}</td>
+                        <td class="text-right">{{ customer.orders_total }}</td>
+                        <td class="text-right">{{ customer.reward }}</td>
+                        <td class="text-right"><a href="{{ customer.edit }}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="{{ button_edit }}"><i class="fa fa-pencil"></i></a></td>
+                      </tr>
+                      {% endfor %}
+                      {% else %}
+                      <tr>
+                        <td class="text-center" colspan="8">{{ text_no_results }}</td>
+                      </tr>
+                      {% endif %}
+                        </tbody>
+                    </table>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 text-left">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                  </div>
+
+                </div> {# div#tab-general #}
+
+                <div class="tab-pane" id="tab-mail">
+                  <div class="mail-sample">
+                    <form id="form-mail-template">
+                      <div class="row">
+                        <div class="block-button-shortcodes col-sm-4">
+                          <button type="button" class="btn btn-info" id="button-show-shortcodes">{{ button_show_shortcodes }}</button>
+                        </div>
+                        <div class="block-mail-template col-sm-8">
+                          <div class="input-group">
+                            <select class="form-control" name="mail_template_id" id="mail-template-list">
+                              {% if mail_template_id %}
+                              {% for template in templates %}
+                              {% if template.mail_template_id == mail_template_id %}
+                              <option value="{{ template.mail_template_id }}" selected>{{ template.name }}</option>
+                              {% else %}
+                              <option value="{{ template.mail_template_id }}">{{ template.name }}</option>
+                              {% endif %}
+                              {% endfor %}
+                              {% endif %}
+                            </select>
+                            <div class="input-group-btn">
+                              <button type="button" id="button-save-mail-template" class="btn btn-success" data-toggle="tooltip" title="{{ button_save }}"><i class="fa fa-save"></i></button>
+                              <button type="button" id="button-add-mail-template" class="btn btn-primary" data-toggle="tooltip" title="{{ button_add }}"><i class="fa fa-plus"></i></button>
+                              <button type="button" id="button-delete-mail-template" class="btn btn-danger" data-toggle="tooltip" title="{{ button_delete }}"><i class="fa fa-trash"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div id="shortcodes" class="col-sm-4 hide">
+                          {{ text_shortcodes_legend }}
+                        </div>
+                        <div id="mail-sample" class="col-sm-12">
+                          <ul class="nav nav-tabs" id="language-mail">
+                            {% for language in languages %}
+                            <li><a href="#tab-language-mail{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                            {% endfor %}
+                          </ul>
+                          <div class="tab-content">
+                          {% for language in languages %}
+                            <div class="tab-pane" id="tab-language-mail{{ language.language_id }}">
+                              <div class="form-group hide">
+                                <label class="control-label" for="input-mail-subject-{{ language.language_id }}">{{ entry_mail_subject }}</label>
+                                <div class="input-group">
+                                  <input type="text" name="mail_language[{{ language.language_id }}][subject]" value="{{ templates[mail_template_id] ? templates[mail_template_id]['language'][language.language_id]['subject'] }}" class="form-control" id="input-mail-subject-{{ language.language_id }}">
+                                  <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default button-shortcode" data-toggle="tooltip" title="{{ button_add_shortcode }}">{...}</button>
+                                    <ul class="dropdown-menu shortcode-dropdown">
+                                      {% for value, name in short_codes %}
+                                      <li{{ value == '{DESCRIPTION}' ? ' style="display: none;"' }}><a href="#" data-shortcode="{{ value }}">{{ name }}</a></li>
+                                      {% endfor %}
+                                    </ul>
+                                    <button type="button" class="btn btn-default custom-emoji-btn-group" data-toggle="tooltip" title="{{ button_emoji }}">😊</button>
+                                    <div class="dropdown-menu emoji-picker-dropdown"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group summernote-with-emoji summernote-shortcode">
+                                <label class="control-label" for="input-mail-body-{{ language.language_id }}">{{ entry_mail_body }}</label>
+                                <textarea name="mail_language[{{ language.language_id }}][body]"  data-toggle="summernote" class="" data-lang="{{ summernote }}" id="input-mail-body-{{ language.language_id }}" class="form-control">{{ templates[mail_template_id] ? templates[mail_template_id]['language'][language.language_id]['body'] }}</textarea>
+                              </div>
+                            </div>
+                          {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div> {# div.tab-content #}
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# modal info #}
+  <div class="modal fade" id="modal-info" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ text_attention }}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="{{ text_close }}"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {# modal name template #}
+  <div class="modal fade" id="modal-template-name" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">{{ text_name_template }}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="{{ text_close }}"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i>{{ text_unique_name }}</div>
+          <input type="text" value="" class="form-control" placeholder="{{ text_name_template }}">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default cancel">{{ button_cancel }}</button>
+          <button type="button" class="btn btn-primary apply">{{ button_apply }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="view/javascript/mass_customer_reward_add.js?v={{ version }}"></script>
+  <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+
+  {# Подключение веб-компонента emoji-picker-element #}
+  <script type="module">
+    import '/admin/view/javascript/emoji-picker/js/index.js';
+  </script>
+            
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const button_shortcodes = document.getElementById('button-show-shortcodes');
+      const block_shortcodes = document.getElementById('shortcodes');
+      const block_mail_sample = document.getElementById('mail-sample');
+
+      button_shortcodes.addEventListener('click', function() {
+      
+        if (block_shortcodes.classList.contains('hide')) {
+          block_mail_sample.classList.remove('col-sm-12');
+          block_mail_sample.classList.add('col-sm-8');
+          block_shortcodes.classList.remove('hide');
+
+          button_shortcodes.textContent = '{{ button_hide_shortcodes }}';
+        } else {
+          block_shortcodes.classList.add('hide');
+          block_mail_sample.classList.remove('col-sm-8');
+          block_mail_sample.classList.add('col-sm-12');
+
+          button_shortcodes.textContent = '{{ button_show_shortcodes }}';
+        }
+      })
+    })
+  </script>  
+  <script>
+    if (typeof localStorage === 'undefined') {
+      alert("localStorage не работает!");
+    }
+  </script>
+  <script>
+    $('#description-language a:first').tab('show');
+    $('#language-mail a:first').tab('show');
+    $('#mail-msg-language a:first').tab('show');
+  </script>
+  <script>
+    $('.table-responsive').on('shown.bs.dropdown', function (e) {
+      var t = $(this),
+        m = $(e.target).find('.dropdown-menu'),
+        tb = t.offset().top + t.height(),
+        mb = m.offset().top + m.outerHeight(true),
+        d = 20;
+      if (t[0].scrollWidth > t.innerWidth()) {
+        if (mb + d > tb) {
+          t.css('padding-bottom', ((mb + d) - tb));
+        }
+      } else {
+        t.css('overflow', 'visible');
+      }
+    }).on('hidden.bs.dropdown', function () {
+      $(this).css({'padding-bottom': '', 'overflow': ''});
+    });
+  </script>
+  <script>
+    $('input[name=\'filter_name\']').autocomplete({
+      'source': function(request, response) {
+        $.ajax({
+          url: 'index.php?route=customer/customer/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+          dataType: 'json',
+          success: function(json) {
+            response($.map(json, function(item) {
+              return {
+                label: item['name'],
+                value: item['customer_id']
+              }
+            }));
+          }
+        });
+      },
+      'select': function(item) {
+        $('input[name=\'filter_name\']').val(item['label']);
+      }
+    });
+    $('input[name=\'filter_email\']').autocomplete({
+      'source': function(request, response) {
+        $.ajax({
+          url: 'index.php?route=customer/customer/autocomplete&user_token={{ user_token }}&filter_email=' +  encodeURIComponent(request),
+          dataType: 'json',
+          success: function(json) {
+            response($.map(json, function(item) {
+              return {
+                label: item['email'],
+                value: item['customer_id']
+              }
+            }));
+          }
+        });
+      },
+      'select': function(item) {
+        $('input[name=\'filter_email\']').val(item['label']);
+      }
+    });
+    $('input[name=\'filter_telephone\']').autocomplete({
+      'source': function(request, response) {
+        $.ajax({
+          url: 'index.php?route=extension/module/mass_customer_reward_add/autocompleteCustomer&user_token={{ user_token }}&filter_telephone=' +  encodeURIComponent(request),
+          dataType: 'json',
+          success: function(json) {
+            response($.map(json, function(item) {
+              return {
+                label: item['telephone'],
+                value: item['customer_id']
+              }
+            }));
+          }
+        });
+      },
+      'select': function(item) {
+        $('input[name=\'filter_telephone\']').val(item['label']);
+      }
+    });
+  </script>
+  <script>
+    var filter_country_id = '{{ filter_country_id }}';
+    var filter_zone_id = '{{ filter_zone_id }}';
+
+    document.addEventListener('DOMContentLoaded', function() {
+      $("select[name='filter_country_id']").trigger('change');
+    })
+
+    $("select[name='filter_country_id']").on('change', function() {
+
+      filter_country_id = this.value;
+
+      $("select[name='filter_zone_id'] option").remove();
+
+      $.ajax({
+        url: 'index.php?route=localisation/country/country&user_token={{ user_token }}&country_id=' + filter_country_id,
+        dataType: 'json',
+        beforeSend: function() {
+          $("select[name='filter_zone_id']").prop('disabled', true);
+          $(".filter-buttons button").prop('disabled', true);
+        },
+        complete: function() {
+          $("select[name='filter_zone_id']").prop('disabled', false);
+          $(".filter-buttons button").prop('disabled', false);
+        },
+        success: function(json) {
+          if (json['zone']) {
+            var html = '';
+            html += '<option value="">{{ text_all }}</option>';
+
+            for (var i = 0; i < json['zone'].length; i++) {
+              if (json['zone'][i]['zone_id'] == filter_zone_id) {
+                html += '<option value="' + json['zone'][i]['zone_id'] + '" selected>' + json['zone'][i]['name'] + '</option>';
+              } else {
+                html += '<option value="' + json['zone'][i]['zone_id'] + '">' + json['zone'][i]['name'] + '</option>';
+              }
+            }
+
+            $("select[name='filter_zone_id']").html(html);
+          }
+        }
+      });
+    });
+  </script>
+  <script>
+    showRewardCustomers();
+
+    $("input[name^='selected']").on('click', function() {
+
+      if (!$("#form-reward input[name='customer_filter']").is(':checked')) {
+
+        var customer_id = Number(this.value);
+
+        if (customer_id) {
+
+          var reward_customer = {};
+
+          if (localStorage.getItem('reward_customers') !== null) {
+            reward_customer = JSON.parse(localStorage.getItem('reward_customers'));
+          }
+
+          if (this.checked) {
+            reward_customer[customer_id] = $("#customers .customer-name-" + customer_id).text();
+          } else {
+            delete reward_customer[customer_id];
+          }
+
+          localStorage.setItem('reward_customers', JSON.stringify(reward_customer));
+
+          showRewardCustomers();
+        }
+      }
+    });
+
+    $("#form-reward input[name='customer_filter']").on('click', function(){
+
+      if ($(this).is(':checked')) {
+        localStorage.removeItem('reward_customers');
+        showRewardCustomers();
+      }
+    });
+
+    $("#button-clear-customers").on('click', function(){
+
+      localStorage.removeItem('reward_customers');
+      showRewardCustomers();
+    })
+
+    function showRewardCustomers() {
+
+      $("#reward-customers").html('');
+
+      if (localStorage.getItem('reward_customers') !== null) {
+        const reward_customer = JSON.parse(localStorage.getItem('reward_customers'));
+
+        var html = '';
+
+        for (const customer_id in reward_customer) {
+          if (customer_id) {
+            html += ' <div>';
+            html += '   <i class="fa fa-minus-circle"></i> ' + reward_customer[customer_id];
+            html += '   <input type="hidden" name="reward_customers[]" value="' + customer_id + '">';
+            html += ' </div>';
+          }
+        }
+
+        $("#reward-customers").html(html);
+
+        $("#customers input[name^='selected']").each(function() {
+          if (reward_customer[Number(this.value)]) {
+            this.checked = true;
+          } else {
+            this.checked = false;
+          }
+        })
+      } else {
+        $('input[name^=\'selected\']').prop('checked', false);
+      }
+    }
+  </script>
+  <script>
+    $('.date').datetimepicker({
+      language: '{{ datepicker }}',
+      pickTime: false
+    });
+
+    $(document).on('click', '.well .fa-minus-circle', function(){
+
+      const $div = $(this).parent('div');
+      const customer_id = $div.find('input[name="reward_customers[]"]').val();
+
+      $("#customers").find('input[type="checkbox"][value="' + customer_id + '"]').trigger('click');
+    })
+  </script>
+  <script>
+    $('#filter-customer').on('keydown', function(e) {
+
+      if (e.keyCode == 13) {
+        $('#button-filter').trigger('click')
+      }
+
+    });
+  </script>
+  {{ footer }}
+{% endif %}

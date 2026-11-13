@@ -1,0 +1,110 @@
+#account-reward h1 {
+  margin-bottom: 25px;
+}
+
+#account-reward button.nav-link {
+  background: transparent;
+  border: none;
+}
+
+#account-reward .tab-content {
+  background: #FFF;
+  padding: 10px 20px 15px;
+  margin-bottom: 15px;
+  padding-right: 10px;
+}
+
+.coupon-thumb {
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  overflow: auto;
+  background-color: #FEF7EC;
+  padding: 10px 5px;
+}
+
+.coupon-thumb.used {
+  background-color: #ECECEC;
+}
+
+.coupon-thumb .coupon-caption {
+  font-weight: 800;
+}
+
+.coupon-thumb  .coupon-description {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.coupon-thumb .coupon-code {
+  padding-left: 10px;
+  font-weight: 800;
+}
+
+.coupon-thumb .coupon-code i{
+  cursor: pointer;
+}
+
+.coupon-thumb .coupon-price {
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+.coupon-thumb .coupon-used {
+  padding-left: 10px;
+}
+
+.coupon-thumb .cart {
+  margin-bottom: 10px;
+}
+
+#moadalCouponBuy .modal-header{
+  border-bottom-width: 0px !important;
+  padding: 0;
+  height: 25px;
+}
+
+#moadalCouponBuy .modal-content {
+  padding: 10px;
+}
+
+#moadalCouponBuy .modal-header button {
+  border: none;
+  background: transparent;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+#moadalCouponBuy .modal-body {
+  text-align: center;
+  font-size: 16px;  
+}
+
+#moadalCouponBuy .modal-footer{
+  border-top: none !important;
+  gap: 10px;
+}
+
+ul.nav.nav-tabs {
+    margin-top: 15px;
+}
+
+ul.nav.nav-tabs li a {
+  margin-right: -1px;
+  padding: 10px 16px;
+  border-top: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+}
+
+.tab-pane {
+    padding-top: 20px;
+}
+
+#my_coupons {
+  margin-bottom: 25px;
+}
+
+a.active {
+  border-bottom: 3px solid #21b14b;
+}

@@ -394,6 +394,7 @@
 
 !/catalog/view/javascript/
 !/catalog/view/javascript/**
+/catalog/view/javascript/**/*.bak
 
 # !/catalog/view/javascript/bootstrap/
 # !/catalog/view/javascript/bootstrap/**
@@ -454,6 +455,7 @@
 
 !/catalog/view/theme/oxyo/
 !/catalog/view/theme/oxyo/**
+/catalog/view/theme/oxyo/**/*.bak
 
 /image/*
 !/image/
@@ -489,6 +491,7 @@
 
 !/system/library/yamarket_fusion/
 !/system/library/yamarket_fusion/**
+/system/library/yamarket_fusion/**/*.bak
 
 !/system/library/schema_merchant_pro/
 !/system/library/schema_merchant_pro/**
