@@ -1,0 +1,9 @@
+<div style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000;">
+  <div style="width: 680px; text-align: center"><a href="{STORE_URL}" title="{STORE_NAME}"><img src="{STORE_LOGO}" alt="{STORE_NAME}" style="margin-bottom: 20px; border: none;"></a>
+    <p style="margin-top: 0px; margin-bottom: 20px;">Здравствуйте, {FIRSTNAME}!</p>
+    {DESCRIPTION}
+    <p style="margin-top: 0px; margin-bottom: 20px;">Вам начислено {REWARD_RECEIVED}, Потратьте их до {REWARD_DATE_OFF} иначе они сгорят!</p>
+    <p style="margin-top: 0px; margin-bottom: 20px;">Ваш баланс на {CURR_DATE} составляет {REWARD_TOTAL}</p>
+    <p style="margin-top: 0px; margin-bottom: 20px;">Историю начислений можно посмотреть в <a href="{REWARD_PAGE}" target="_blank">Личном кабинете</a></p>
+  </div>
+</div>

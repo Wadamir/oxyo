@@ -1,0 +1,9 @@
+<div style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000;">
+  <div style="width: 680px; text-align: center"><a href="{STORE_URL}" title="{STORE_NAME}"><img src="{STORE_LOGO}" alt="{STORE_NAME}" style="margin-bottom: 20px; border: none;"></a>
+    <p style="margin-top: 0px; margin-bottom: 20px;">Hello, {FIRSTNAME}!</p>
+    {DESCRIPTION}    
+    <p style="margin-top: 0px; margin-bottom: 20px;">You have been awarded {REWARD_RECEIVED}. Spend them by {REWARD_DATE_OFF}, otherwise they will expire!</p>
+    <p style="margin-top: 0px; margin-bottom: 20px;">Your balance as of {CURR_DATE} is {REWARD_TOTAL}</p>
+    <p style="margin-top: 0px; margin-bottom: 20px;">You can view your accrual history in your <a href="{REWARD_PAGE}" target="_blank">Personal Account</a>&gt;</p>
+  </div>
+</div>

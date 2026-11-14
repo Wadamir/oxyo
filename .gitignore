@@ -394,6 +394,7 @@
 
 !/catalog/view/javascript/
 !/catalog/view/javascript/**
+/catalog/view/javascript/**/*.bak
 
 # !/catalog/view/javascript/bootstrap/
 # !/catalog/view/javascript/bootstrap/**
@@ -454,11 +455,15 @@
 
 !/catalog/view/theme/oxyo/
 !/catalog/view/theme/oxyo/**
+/catalog/view/theme/oxyo/**/*.bak
 
 /image/*
 !/image/
+!/image/no_image.png
 !/image/no_video.png
 !/image/no_video2.png
+!/image/placeholder.png
+!/image/temp_no_image.*
 /image/catalog/*
 !/image/catalog/
 !/image/catalog/oxyo-demo/
@@ -489,6 +494,7 @@
 
 !/system/library/yamarket_fusion/
 !/system/library/yamarket_fusion/**
+/system/library/yamarket_fusion/**/*.bak
 
 !/system/library/schema_merchant_pro/
 !/system/library/schema_merchant_pro/**

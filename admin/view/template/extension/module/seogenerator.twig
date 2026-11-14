@@ -1,0 +1,2611 @@
+{{ header }}{{ column_left }} 
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-latest" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>		
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title }}</h1><br />
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %} 
+				<li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+				{% endfor %} 
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+    	{% endif %}
+    	{% if success %}
+		<div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+    	{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+			</div>
+			<div class="panel-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-latest" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-seogenerator_status">{{ entry_module_seogenerator_status }}</label>
+						<div class="col-sm-10">
+							<div class="toggle-group">
+								<input type="checkbox" name="module_seogenerator_status" {% if module_seogenerator_status %}checked="checked"{% endif %} id="input-seogenerator_status" tabindex="1">
+								<label for="input-seogenerator_status"></label>
+								<div class="onoffswitch pull-left" aria-hidden="true">
+									<div class="onoffswitch-label">
+										<div class="onoffswitch-inner"></div>
+										<div class="onoffswitch-switch"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="margin-left:0;margin-right:0;">
+						<ul class="nav nav-tabs" id="seo_title-block">
+							<li class="active"><a href="#tab-products" data-toggle="tab">{{ text_tab_products }}</a></li>
+							<li><a href="#tab-categories" data-toggle="tab">{{ text_tab_categories }}</a></li>
+							<li><a href="#tab-manufacturers" data-toggle="tab">{{ text_tab_manufacturers }}</a></li>
+							<li><a href="#tab-informations" data-toggle="tab">{{ text_tab_informations }}</a></li>
+							<li><a href="#tab-specials" data-toggle="tab">{{ text_tab_specials }}</a></li>
+							<li><a href="#tab-blog-articles" data-toggle="tab">{{ text_tab_blog_articles }}</a></li>
+							<li><a href="#tab-blog-categories" data-toggle="tab">{{ text_tab_blog_categories }}</a></li>
+						</ul>
+					</div>
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab-products">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][h1_status]" {% if module_seogenerator_data.product.h1_status %}checked="checked"{% endif %} id="input-seo_product_h1_status" tabindex="1">
+													<label for="input-seo_product_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_h1_empty"><span data-toggle="tooltip" h1="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][h1_empty]" {% if module_seogenerator_data.product.h1_empty %}checked="checked"{% endif %} id="input-seo_product_h1_empty" tabindex="1">
+													<label for="input-seo_product_h1_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_product_h1">
+											{% for language in languages %}	
+											<li><a href="#language_product_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_product_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[product][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.product.h1[language.language_id] }}" placeholder="Мета-заголовок H1" id="seogenerator_product_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Категория товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[manufacturer]">Производитель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[manufacturer]">[manufacturer] - Производитель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[model]">Модель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[model]">[model] - Модель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[sku]">Поля</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[sku]">[sku] - Артикул товара</a></li>
+															<li><a href="#" class="meta_value" mv="[location]">[location] - Поле "Location" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[upc]">[upc] - Поле "upc" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[ean]">[ean] - Поле "ean" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[jan]">[jan] - Поле "jan" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[isbn]">[isbn] - Поле "isbn" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[mpn]">[mpn] - Поле "mpn" товара</a></li>
+														</ul>
+													</div>&nbsp;	
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>			
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][title_status]" {% if module_seogenerator_data.product.title_status %}checked="checked"{% endif %} id="input-seo_product_title_status" tabindex="1">
+													<label for="input-seo_product_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_title_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][title_empty]" {% if module_seogenerator_data.product.title_empty %}checked="checked"{% endif %} id="input-seo_product_title_empty" tabindex="1">
+													<label for="input-seo_product_title_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_product_title">
+											{% for language in languages %}	
+											<li><a href="#language_product_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_product_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[product][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.product.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_product_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Категория товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[manufacturer]">Производитель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[manufacturer]">[manufacturer] - Производитель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[model]">Модель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[model]">[model] - Модель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[sku]">Поля</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[sku]">[sku] - Артикул товара</a></li>
+															<li><a href="#" class="meta_value" mv="[location]">[location] - Поле "Location" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[upc]">[upc] - Поле "upc" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[ean]">[ean] - Поле "ean" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[jan]">[jan] - Поле "jan" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[isbn]">[isbn] - Поле "isbn" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[mpn]">[mpn] - Поле "mpn" товара</a></li>
+														</ul>
+													</div>&nbsp;	
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][description_status]" {% if module_seogenerator_data.product.description_status %}checked="checked"{% endif %} id="input-seo_product_description_status" tabindex="1">
+													<label for="input-seo_product_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_description_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][description_empty]" {% if module_seogenerator_data.product.description_empty %}checked="checked"{% endif %} id="input-seo_product_description_empty" tabindex="1">
+													<label for="input-seo_product_description_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_product_description">
+											{% for language in languages %}	
+											<li><a href="#language_product_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_product_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[product][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.product.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_product_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Категория товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[manufacturer]">Производитель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[manufacturer]">[manufacturer] - Производитель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[model]">Модель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[model]">[model] - Модель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[sku]">Поля</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[sku]">[sku] - Артикул товара</a></li>
+															<li><a href="#" class="meta_value" mv="[location]">[location] - Поле "Location" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[upc]">[upc] - Поле "upc" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[ean]">[ean] - Поле "ean" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[jan]">[jan] - Поле "jan" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[isbn]">[isbn] - Поле "isbn" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[mpn]">[mpn] - Поле "mpn" товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[description]">Описание</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[description]">[description] - Первые 170 символов из описания</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][keywords_status]" {% if module_seogenerator_data.product.keywords_status %}checked="checked"{% endif %} id="input-seo_product_keywords_status" tabindex="1">
+													<label for="input-seo_product_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_product_keywords_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[product][keywords_empty]" {% if module_seogenerator_data.product.keywords_empty %}checked="checked"{% endif %} id="input-seo_product_keywords_empty" tabindex="1">
+													<label for="input-seo_product_keywords_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_product_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_product_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_product_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[product][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.product.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_product_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Категория товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[manufacturer]">Производитель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[manufacturer]">[manufacturer] - Производитель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[model]">Модель</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[model]">[model] - Модель товара</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_product_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[sku]">Поля</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[sku]">[sku] - Артикул товара</a></li>
+															<li><a href="#" class="meta_value" mv="[location]">[location] - Поле "Location" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[upc]">[upc] - Поле "upc" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[ean]">[ean] - Поле "ean" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[jan]">[jan] - Поле "jan" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[isbn]">[isbn] - Поле "isbn" товара</a></li>
+															<li><a href="#" class="meta_value" mv="[mpn]">[mpn] - Поле "mpn" товара</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>
+						<div class="tab-pane" id="tab-categories">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][h1_status]" {% if module_seogenerator_data.category.h1_status %}checked="checked"{% endif %} id="input-seo_category_h1_status" tabindex="1">
+													<label for="input-seo_category_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_h1_empty"><span data-toggle="tooltip" h1="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][h1_empty]" {% if module_seogenerator_data.category.h1_empty %}checked="checked"{% endif %} id="input-seo_category_h1_empty" tabindex="1">
+													<label for="input-seo_category_h1_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_category_h1">
+											{% for language in languages %}	
+											<li><a href="#language_category_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_category_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[category][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.category.h1[language.language_id] }}" placeholder="Мета-заголовок H1" id="seogenerator_category_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Родительская категория</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена первого товара на странице</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div> 
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][title_status]" {% if module_seogenerator_data.category.title_status %}checked="checked"{% endif %} id="input-seo_category_title_status" tabindex="1">
+													<label for="input-seo_category_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_title_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][title_empty]" {% if module_seogenerator_data.category.title_empty %}checked="checked"{% endif %} id="input-seo_category_title_empty" tabindex="1">
+													<label for="input-seo_category_title_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_category_title">
+											{% for language in languages %}	
+											<li><a href="#language_category_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_category_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[category][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.category.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_category_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Родительская категория</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена первого товара на странице</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][description_status]" {% if module_seogenerator_data.category.description_status %}checked="checked"{% endif %} id="input-seo_category_description_status" tabindex="1">
+													<label for="input-seo_category_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_description_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][description_empty]" {% if module_seogenerator_data.category.description_empty %}checked="checked"{% endif %} id="input-seo_category_description_empty" tabindex="1">
+													<label for="input-seo_category_description_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_category_description">
+											{% for language in languages %}	
+											<li><a href="#language_category_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_category_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[category][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.category.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_category_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Родительская категория</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена первого товара на странице</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[description]">Описание</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[description]">[description] - Первые 170 символов из описания</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][keywords_status]" {% if module_seogenerator_data.category.keywords_status %}checked="checked"{% endif %} id="input-seo_category_keywords_status" tabindex="1">
+													<label for="input-seo_category_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_category_keywords_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[category][keywords_empty]" {% if module_seogenerator_data.category.keywords_empty %}checked="checked"{% endif %} id="input-seo_category_keywords_empty" tabindex="1">
+													<label for="input-seo_category_keywords_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_category_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_category_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_category_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[category][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.category.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_category_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[category]">Категория</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[category]">[category] - Родительская категория</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[price]">Цена</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[price]">[price] - Цена первого товара на странице</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_category_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>
+						<div class="tab-pane" id="tab-manufacturers">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][h1_status]" {% if module_seogenerator_data.manufacturer.h1_status %}checked="checked"{% endif %} id="input-seo_manufacturer_h1_status" tabindex="1">
+													<label for="input-seo_manufacturer_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_h1_empty"><span data-toggle="tooltip" h1="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][h1_empty]" {% if module_seogenerator_data.manufacturer.h1_empty %}checked="checked"{% endif %} id="input-seo_manufacturer_h1_empty" tabindex="1">
+													<label for="input-seo_manufacturer_h1_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_manufacturer_h1">
+											{% for language in languages %}	
+											<li><a href="#language_manufacturer_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_manufacturer_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[manufacturer][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.manufacturer.h1[language.language_id] }}" placeholder="Мета-заголовок H1" id="seogenerator_manufacturer_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][title_status]" {% if module_seogenerator_data.manufacturer.title_status %}checked="checked"{% endif %} id="input-seo_manufacturer_title_status" tabindex="1">
+													<label for="input-seo_manufacturer_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_title_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][title_empty]" {% if module_seogenerator_data.manufacturer.title_empty %}checked="checked"{% endif %} id="input-seo_manufacturer_title_empty" tabindex="1">
+													<label for="input-seo_manufacturer_title_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_manufacturer_title">
+											{% for language in languages %}	
+											<li><a href="#language_manufacturer_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_manufacturer_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[manufacturer][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.manufacturer.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_manufacturer_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][description_status]" {% if module_seogenerator_data.manufacturer.description_status %}checked="checked"{% endif %} id="input-seo_manufacturer_description_status" tabindex="1">
+													<label for="input-seo_manufacturer_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_description_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][description_empty]" {% if module_seogenerator_data.manufacturer.description_empty %}checked="checked"{% endif %} id="input-seo_manufacturer_description_empty" tabindex="1">
+													<label for="input-seo_manufacturer_description_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_manufacturer_description">
+											{% for language in languages %}	
+											<li><a href="#language_manufacturer_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_manufacturer_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[manufacturer][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.manufacturer.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_manufacturer_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[description]">Описание</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[description]">[description] - Первые 170 символов из описания</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][keywords_status]" {% if module_seogenerator_data.manufacturer.keywords_status %}checked="checked"{% endif %} id="input-seo_manufacturer_keywords_status" tabindex="1">
+													<label for="input-seo_manufacturer_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_manufacturer_keywords_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[manufacturer][keywords_empty]" {% if module_seogenerator_data.manufacturer.keywords_empty %}checked="checked"{% endif %} id="input-seo_manufacturer_keywords_empty" tabindex="1">
+													<label for="input-seo_manufacturer_keywords_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_manufacturer_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_manufacturer_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_manufacturer_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[manufacturer][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.manufacturer.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_manufacturer_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_manufacturer_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>
+						<div class="tab-pane" id="tab-informations">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][h1_status]" {% if module_seogenerator_data.information.h1_status %}checked="checked"{% endif %} id="input-seo_information_h1_status" tabindex="1">
+													<label for="input-seo_information_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_h1_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][h1_empty]" {% if module_seogenerator_data.information.h1_empty %}checked="checked"{% endif %} id="input-seo_information_h1_empty" tabindex="1">
+													<label for="input-seo_information_h1_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_information_h1">
+											{% for language in languages %}	
+											<li><a href="#language_information_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_information_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[information][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.information.h1[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_information_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][title_status]" {% if module_seogenerator_data.information.title_status %}checked="checked"{% endif %} id="input-seo_information_title_status" tabindex="1">
+													<label for="input-seo_information_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_title_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][title_empty]" {% if module_seogenerator_data.information.title_empty %}checked="checked"{% endif %} id="input-seo_information_title_empty" tabindex="1">
+													<label for="input-seo_information_title_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_information_title">
+											{% for language in languages %}	
+											<li><a href="#language_information_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_information_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[information][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.information.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_information_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][description_status]" {% if module_seogenerator_data.information.description_status %}checked="checked"{% endif %} id="input-seo_information_description_status" tabindex="1">
+													<label for="input-seo_information_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_description_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][description_empty]" {% if module_seogenerator_data.information.description_empty %}checked="checked"{% endif %} id="input-seo_information_description_empty" tabindex="1">
+													<label for="input-seo_information_description_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_information_description">
+											{% for language in languages %}	
+											<li><a href="#language_information_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_information_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[information][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.information.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_information_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;																										
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[description]">Описание</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[description]">[description] - Первые 170 символов из описания</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][keywords_status]" {% if module_seogenerator_data.information.keywords_status %}checked="checked"{% endif %} id="input-seo_information_keywords_status" tabindex="1">
+													<label for="input-seo_information_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_information_keywords_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[information][keywords_empty]" {% if module_seogenerator_data.information.keywords_empty %}checked="checked"{% endif %} id="input-seo_information_keywords_empty" tabindex="1">
+													<label for="input-seo_information_keywords_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_information_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_information_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_information_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[information][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.information.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_information_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;																									
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_information_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>						
+						<div class="tab-pane" id="tab-blog-articles">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][h1_status]" {% if module_seogenerator_data.blogarticle.h1_status %}checked="checked"{% endif %} id="input-seo_blogarticle_h1_status" tabindex="1">
+													<label for="input-seo_blogarticle_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_h1_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][h1_empty]" {% if module_seogenerator_data.blogarticle.h1_empty %}checked="checked"{% endif %} id="input-seo_blogarticle_h1_empty" tabindex="1">
+													<label for="input-seo_blogarticle_h1_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogarticle_h1">
+											{% for language in languages %}	
+											<li><a href="#language_blogarticle_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogarticle_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogarticle][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogarticle.h1[language.language_id] }}" placeholder="Мета-заголовок H1" id="seogenerator_blogarticle_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;													
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][title_status]" {% if module_seogenerator_data.blogarticle.title_status %}checked="checked"{% endif %} id="input-seo_blogarticle_title_status" tabindex="1">
+													<label for="input-seo_blogarticle_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_title_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][title_empty]" {% if module_seogenerator_data.blogarticle.title_empty %}checked="checked"{% endif %} id="input-seo_blogarticle_title_empty" tabindex="1">
+													<label for="input-seo_blogarticle_title_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogarticle_title">
+											{% for language in languages %}	
+											<li><a href="#language_blogarticle_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>											
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogarticle_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogarticle][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogarticle.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_blogarticle_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;													
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>								
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][description_status]" {% if module_seogenerator_data.blogarticle.description_status %}checked="checked"{% endif %} id="input-seo_blogarticle_description_status" tabindex="1">
+													<label for="input-seo_blogarticle_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_description_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][description_empty]" {% if module_seogenerator_data.blogarticle.description_empty %}checked="checked"{% endif %} id="input-seo_blogarticle_description_empty" tabindex="1">
+													<label for="input-seo_blogarticle_description_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogarticle_description">
+											{% for language in languages %}	
+											<li><a href="#language_blogarticle_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>											
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogarticle_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogarticle][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogarticle.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_blogarticle_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[description]">Описание</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[description]">[description] - Первые 170 символов из описания</a></li>
+														</ul>
+													</div>&nbsp;		
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][keywords_status]" {% if module_seogenerator_data.blogarticle.keywords_status %}checked="checked"{% endif %} id="input-seo_blogarticle_keywords_status" tabindex="1">
+													<label for="input-seo_blogarticle_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogarticle_keywords_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogarticle][keywords_empty]" {% if module_seogenerator_data.blogarticle.keywords_empty %}checked="checked"{% endif %} id="input-seo_blogarticle_keywords_empty" tabindex="1">
+													<label for="input-seo_blogarticle_keywords_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogarticle_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_blogarticle_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogarticle_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogarticle][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogarticle.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_blogarticle_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;																										
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogarticle_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>						
+						<div class="tab-pane" id="tab-blog-categories">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][h1_status]" {% if module_seogenerator_data.blogcategory.h1_status %}checked="checked"{% endif %} id="input-seo_blogcategory_h1_status" tabindex="1">
+													<label for="input-seo_blogcategory_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_h1_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][h1_empty]" {% if module_seogenerator_data.blogcategory.h1_empty %}checked="checked"{% endif %} id="input-seo_blogcategory_h1_empty" tabindex="1">
+													<label for="input-seo_blogcategory_h1_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogcategory_h1">
+											{% for language in languages %}	
+											<li><a href="#language_blogcategory_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>											
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogcategory_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogcategory][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogcategory.h1[language.language_id] }}" placeholder="Мета-заголовок H1" id="seogenerator_blogcategory_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;																										
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][title_status]" {% if module_seogenerator_data.blogcategory.title_status %}checked="checked"{% endif %} id="input-seo_blogcategory_title_status" tabindex="1">
+													<label for="input-seo_blogcategory_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_title_empty"><span data-toggle="tooltip" title="" data-original-title="{{ help_seo_title_empty }}">{{ entry_seo_title_empty }}</span></label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][title_empty]" {% if module_seogenerator_data.blogcategory.title_empty %}checked="checked"{% endif %} id="input-seo_blogcategory_title_empty" tabindex="1">
+													<label for="input-seo_blogcategory_title_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogcategory_title">
+											{% for language in languages %}	
+											<li><a href="#language_blogcategory_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>											
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogcategory_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogcategory][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogcategory.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_blogcategory_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;													
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>								
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][description_status]" {% if module_seogenerator_data.blogcategory.description_status %}checked="checked"{% endif %} id="input-seo_blogcategory_description_status" tabindex="1">
+													<label for="input-seo_blogcategory_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_description_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][description_empty]" {% if module_seogenerator_data.blogcategory.description_empty %}checked="checked"{% endif %} id="input-seo_blogcategory_description_empty" tabindex="1">
+													<label for="input-seo_blogcategory_description_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogcategory_description">
+											{% for language in languages %}	
+											<li><a href="#language_blogcategory_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>											
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogcategory_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogcategory][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogcategory.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_blogcategory_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;													
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[description]">Описание</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[description]">[description] - Первые 170 символов из описания</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][keywords_status]" {% if module_seogenerator_data.blogcategory.keywords_status %}checked="checked"{% endif %} id="input-seo_blogcategory_keywords_status" tabindex="1">
+													<label for="input-seo_blogcategory_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="input-seo_blogcategory_keywords_empty">{{ entry_seo_title_empty }}</label>
+											<div class="col-sm-8">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[blogcategory][keywords_empty]" {% if module_seogenerator_data.blogcategory.keywords_empty %}checked="checked"{% endif %} id="input-seo_blogcategory_keywords_empty" tabindex="1">
+													<label for="input-seo_blogcategory_keywords_empty"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_blogcategory_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_blogcategory_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_blogcategory_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[blogcategory][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.blogcategory.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_blogcategory_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;													
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_blogcategory_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;													
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>					
+						<div class="tab-pane" id="tab-specials">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_h1 }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="input-seo_special_h1_status">{{ entry_seo_h1_status }}</label>
+											<div class="col-sm-9">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[special][h1_status]" {% if module_seogenerator_data.special.h1_status %}checked="checked"{% endif %} id="input-seo_special_h1_status" tabindex="1">
+													<label for="input-seo_special_h1_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>									
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_special_h1">
+											{% for language in languages %}	
+											<li><a href="#language_special_h1{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" h1="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_special_h1{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_h1 }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[special][h1][{{ language.language_id }}]" value="{{ module_seogenerator_data.special.h1[language.language_id] }}" placeholder="Мета-заголовок H1" id="seogenerator_special_h1{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;																										
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_h1{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_title }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="input-seo_special_title_status">{{ entry_seo_title_status }}</label>
+											<div class="col-sm-9">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[special][title_status]" {% if module_seogenerator_data.special.title_status %}checked="checked"{% endif %} id="input-seo_special_title_status" tabindex="1">
+													<label for="input-seo_special_title_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>									
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_special_title">
+											{% for language in languages %}	
+											<li><a href="#language_special_title{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>											
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_special_title{{ language.language_id }}">													
+												<label class="col-sm-2 control-label">{{ entry_seo_title }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[special][title][{{ language.language_id }}]" value="{{ module_seogenerator_data.special.title[language.language_id] }}" placeholder="Мета-тег Title" id="seogenerator_special_title{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_title{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>	
+									</div>								
+								</div>	
+							</div>	
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_description }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="input-seo_special_description_status">{{ entry_seo_description_status }}</label>
+											<div class="col-sm-9">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[special][description_status]" {% if module_seogenerator_data.special.description_status %}checked="checked"{% endif %} id="input-seo_special_description_status" tabindex="1">
+													<label for="input-seo_special_description_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_special_description">
+											{% for language in languages %}	
+											<li><a href="#language_special_description{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_special_description{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_description }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[special][description][{{ language.language_id }}]" value="{{ module_seogenerator_data.special.description[language.language_id] }}" placeholder="Мета-тег Description" id="seogenerator_special_description{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_description{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>	
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ entry_seo_keywords }}</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="input-seo_special_keywords_status">{{ entry_seo_keywords_status }}</label>
+											<div class="col-sm-9">
+												<div class="toggle-group">
+													<input type="checkbox" name="module_seogenerator_data[special][keywords_status]" {% if module_seogenerator_data.special.keywords_status %}checked="checked"{% endif %} id="input-seo_special_keywords_status" tabindex="1">
+													<label for="input-seo_special_keywords_status"></label>
+													<div class="onoffswitch pull-left" aria-hidden="true">
+														<div class="onoffswitch-label">
+															<div class="onoffswitch-inner"></div>
+															<div class="onoffswitch-switch"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>		
+									<div class="tab-pane">		
+										<ul class="nav nav-tabs" id="language_special_keywords">
+											{% for language in languages %}	
+											<li><a href="#language_special_keywords{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+											{% endfor %}
+										</ul>
+										<div class="tab-content">	
+											{% for language in languages %}	
+											<div class="tab-pane" id="language_special_keywords{{ language.language_id }}">														
+												<label class="col-sm-2 control-label">{{ entry_seo_keyword }}</label>
+												<div class="col-sm-10">						
+													<input type="text" name="module_seogenerator_data[special][keywords][{{ language.language_id }}]" value="{{ module_seogenerator_data.special.keywords[language.language_id] }}" placeholder="Мета-тег Keywords" id="seogenerator_special_keywords{{ language.language_id }}" class="form-control">
+													<br />								
+												</div>					
+												<label class="col-sm-2 control-label">{{ entry_seo_variants }}:</label>
+												<div class="col-sm-10">																
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[name]">Название</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[name]">[name] - Оригинальное название</a></li>
+															<li><a href="#" class="meta_value" mv="[n*ame]">[n*ame] - Первый символ названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[na*me]">[na*me] - Первое слово названия в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*ame]">[N*ame] - Первый символ названия в верхний регистр</a></li>				
+															<li><a href="#" class="meta_value" mv="[name*]">[name*] - Все название в нижний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[NAME*]">[NAME*] - Все название в верхний регистр</a></li>
+															<li><a href="#" class="meta_value" mv="[N*aM*e]">[N*aM*e] - В верхний регистр первый символ каждого слова в названии</a></li>	
+														</ul>
+													</div>&nbsp;
+													<div class="btn-group btn-group-sm" role="group" for="seogenerator_special_keywords{{ language.language_id }}">
+														<button type="button" class="btn btn-default meta_value" mv="[store]">Магазин</button>
+														<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></button>
+														<ul class="dropdown-menu">
+															<li><a href="#" class="meta_value" mv="[store]">[store] - Название магазина</a></li>
+														</ul>
+													</div>&nbsp;
+												</div>
+											</div>{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>					
+						</div>						
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(".meta_value").click(function(){
+			var btn_group = $(this).closest(".btn-group");
+			var meta_value = $(this).attr('mv');
+			var meta_field = $("#" + btn_group.attr('for'));
+			meta_field.val(meta_field.val() + meta_value).focus();
+			if($(this).prop("tagName") == 'A') {
+				btn_group.find(".dropdown-toggle").dropdown('toggle');
+			}
+			return false;
+		});
+		$(".page_value").click(function(){
+			var btn_group = $(this).closest(".btn-group");
+			var page_value = $(this).attr('pv');
+			$("." + btn_group.attr('for')).each(function(){
+				$(this).val($(this).val() + page_value).focus();
+			});
+			return false;
+		});
+		$('#language_product_title a:first').tab('show');
+		$('#language_product_h1 a:first').tab('show');
+		$('#language_product_description a:first').tab('show');
+		$('#language_product_keywords a:first').tab('show');
+		$('#language_category_title a:first').tab('show');
+		$('#language_category_h1 a:first').tab('show');
+		$('#language_category_description a:first').tab('show');
+		$('#language_category_keywords a:first').tab('show');
+		$('#language_manufacturer_title a:first').tab('show');
+		$('#language_manufacturer_h1 a:first').tab('show');
+		$('#language_manufacturer_description a:first').tab('show');
+		$('#language_manufacturer_keywords a:first').tab('show');
+		$('#language_special_title a:first').tab('show');
+		$('#language_special_h1 a:first').tab('show');
+		$('#language_special_description a:first').tab('show');
+		$('#language_special_keywords a:first').tab('show');
+		$('#language_information_title a:first').tab('show');
+		$('#language_information_h1 a:first').tab('show');
+		$('#language_information_description a:first').tab('show');
+		$('#language_information_keywords a:first').tab('show');
+		$('#language_blogarticle_title a:first').tab('show');
+		$('#language_blogarticle_h1 a:first').tab('show');
+		$('#language_blogarticle_description a:first').tab('show');
+		$('#language_blogarticle_keywords a:first').tab('show');
+		$('#language_blogcategory_title a:first').tab('show');
+		$('#language_blogcategory_h1 a:first').tab('show');
+		$('#language_blogcategory_description a:first').tab('show');
+		$('#language_blogcategory_keywords a:first').tab('show');
+	});
+</script>
+<style>
+	.tab-pane2222 .form-group:hover { 
+	background: #f5f5f5; 
+	}
+	#tab-help .form-group:hover { 
+	background: none; 
+	}
+	#tab-product-settings .nav-tabs,
+	#tab-category-settings .nav-tabs,
+	#tab-manufacturer-settings .nav-tabs,
+	#tab-specials-settings .nav-tabs,
+	#tab-information-settings .nav-tabs {
+	margin-bottom: 15px;
+	}
+	.modal .btn-group-xs {
+	margin-top: 10px;
+	}
+</style>
+{{ footer }}

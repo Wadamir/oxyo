@@ -177,11 +177,13 @@
         </operation>
         <operation error="log">
             <search><![CDATA[
-                $data['categories'][] = array(
+                $data['products'][] = array(
             ]]></search>
-            <add position="after"><![CDATA[
-                //Oxyo start
-                'thumb' => $image,
+            <add position="before"><![CDATA[
+                // Oxyo start
+                if (!$image) {
+                    $image = $this->model_tool_image->resize('temp_no_image.webp', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
+                }
             ]]></add>
         </operation>
     </file>
