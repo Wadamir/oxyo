@@ -459,8 +459,11 @@
 
 /image/*
 !/image/
+!/image/no_image.png
 !/image/no_video.png
 !/image/no_video2.png
+!/image/placeholder.png
+!/image/temp_no_image.*
 /image/catalog/*
 !/image/catalog/
 !/image/catalog/oxyo-demo/
