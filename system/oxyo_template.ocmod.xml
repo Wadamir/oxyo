@@ -61,7 +61,7 @@
 			</search>
 			<add position="after">
 				<![CDATA[
-                    if('svg' == $extension || 'webp' == $extension) {
+                    if('svg' == $extension) {
                         if ($this->request->server['HTTPS']) {
                             return HTTPS_CATALOG . 'image/' . $filename;
                         } else {
@@ -77,7 +77,7 @@
 			<search><![CDATA[$extension = pathinfo($filename, PATHINFO_EXTENSION);]]></search>
 			<add position="after">
 				<![CDATA[
-                    if('svg' == $extension || 'webp' == $extension) {
+                    if('svg' == $extension) {
                         if ($this->request->server['HTTPS']) {
                             return HTTPS_SERVER . 'image/' . $filename;
                         } else {

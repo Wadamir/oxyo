@@ -464,6 +464,7 @@
 !/image/no_video2.png
 !/image/placeholder.png
 !/image/temp_no_image.*
+!/image/temp_no_photo.*
 /image/catalog/*
 !/image/catalog/
 !/image/catalog/oxyo-demo/
@@ -484,6 +485,7 @@
 /system/library/*
 !/system/library/
 
+!/system/library/image.php
 !/system/library/pagination.php
 
 /system/library/cart/*

@@ -691,6 +691,14 @@ input[type='checkbox']:checked::after,
     padding-top: 10px;
 }
 
+/* Catalog */
+.table tr > td > img.img-thumbnail {
+    padding: 0;
+    line-height: 1;
+    max-width: 90px;
+    border-radius: 6px;
+}
+
 /* Tiles */
 .tile {
     margin-bottom: 15px;
@@ -1152,8 +1160,21 @@ html[dir='rtl'] .text-right {
     }
 }
 
-#tab-image .img-thumbnail {
+#tab-image a.img-thumbnail {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
     max-width: 110px;
+    overflow: hidden;
+}
+
+#tab-image a.img-thumbnail > img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Filemanager video fix */
