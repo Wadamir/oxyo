@@ -35,7 +35,7 @@ class Module extends Model {
 		$this->db->query($sql);
 	}
 	
-	public function getUpdatedOffers($data = array(), $profile_id /*, $grouped = false */) {
+	public function getUpdatedOffers($data, $profile_id /*, $grouped = false */) {
 		$sql = "SELECT DISTINCT u_p.product_id FROM " . DB_PREFIX . Model::module_table_prefix . "updated_products u_p
 		LEFT JOIN " . DB_PREFIX . "product_description p_d ON p_d.product_id = u_p.product_id
 		LEFT JOIN " . DB_PREFIX . "product AS p ON p.product_id = u_p.product_id 
@@ -125,7 +125,7 @@ class Module extends Model {
 		return ArrayHelper::index($query->rows, 'offer_id');
 	}
 
-	public function deleteUpdatedOffers($offers_ids = array(), $profile_id) {
+	public function deleteUpdatedOffers($offers_ids, $profile_id) {
 		$sql = "DELETE FROM " . DB_PREFIX . Model::module_table_prefix . "updated_products WHERE profile_id = " . (int)$profile_id;
 
 		if ($offers_ids) {
@@ -137,7 +137,7 @@ class Module extends Model {
 		$this->db->query($sql);
 	}
 
-	public function getTotalUpdatedOffers($data = array(), $profile_id) {
+	public function getTotalUpdatedOffers($data, $profile_id) {
 		// todo check * coundition to real result
 		
 		$sql = "SELECT COUNT(DISTINCT u_p.`product_id`) AS total FROM " . DB_PREFIX . Model::module_table_prefix . "updated_products u_p
@@ -276,7 +276,7 @@ class Module extends Model {
 		$this->db->query($sql);
 	}
 
-	public function deleteMarketOffers($filter_data = array(), $profile_id) {
+	public function deleteMarketOffers($filter_data, $profile_id) {
 		$sql = "DELETE FROM " . DB_PREFIX . Model::module_table_prefix . "market_products WHERE profile_id = " . (int)$profile_id;
 		$sql_ids = "SELECT offer_id FROM " . DB_PREFIX . Model::module_table_prefix . "market_products WHERE profile_id = " . (int)$profile_id;
 

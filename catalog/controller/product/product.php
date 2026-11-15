@@ -293,6 +293,12 @@ class ControllerProductProduct extends Controller {
             } else {
                 $data['thumb'] = '';
             }
+            if (!$data['thumb_sm']) {
+                $data['thumb_sm'] = $this->model_tool_image->resize('temp_no_photo.webp', $this->config->get('theme_default_image_additional_width'), $this->config->get('theme_default_image_additional_height'));
+            }
+            if (!$data['thumb']) {
+                $data['thumb'] = $this->model_tool_image->resize('temp_no_photo.webp', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
+            }
 
             if ($product_info['video']) {
                 if ($this->request->server['HTTPS']) {
@@ -316,7 +322,6 @@ class ControllerProductProduct extends Controller {
 
             // Additional image height and width
             $additional_image_height = intval($this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height')) / 2 - 5;
-            // var_dump($additional_image_height);
 
             if ($data['video'] != '' && $data['thumb'] != '') {
                 $data['images'][] = [
@@ -332,6 +337,18 @@ class ControllerProductProduct extends Controller {
                     'thumb_lg' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_default_image_thumb_width'), $this->config->get('theme_default_image_thumb_height')),
                     'thumb' => $this->model_tool_image->resize($result['image'], $additional_image_height / 1.33, $additional_image_height),
                 ];
+            }
+            
+            foreach ($data['images'] as $key => $image) {
+                if (!$data['images'][$key]['thumb']) {
+                    $data['images'][$key]['thumb'] = $this->model_tool_image->resize('temp_no_photo.webp', $additional_image_height / 1.33, $additional_image_height);
+                }
+                if (!$data['images'][$key]['thumb_lg']) {
+                    $data['images'][$key]['thumb_lg'] = $this->model_tool_image->resize('temp_no_photo.webp', $this->config->get('theme_default_image_thumb_width'), $this->config->get('theme_default_image_thumb_height'));
+                }
+                if (!$data['images'][$key]['popup']) {
+                    $data['images'][$key]['popup'] = $this->model_tool_image->resize('temp_no_photo.webp', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
+                }
             }
 
             if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {

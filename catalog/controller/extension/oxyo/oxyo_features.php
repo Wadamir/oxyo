@@ -551,7 +551,7 @@ class ControllerExtensionOxyoOxyoFeatures extends Controller
         imagestring($image, 4, 0, 3, "$num1" . " + " . "$num2" . " =", $black);
         header('Content-type: image/png');
         imagepng($image);
-        imagedestroy($image);
+        unset($image);
     }
     // Contact Form	
     public function oxyo_send_message()

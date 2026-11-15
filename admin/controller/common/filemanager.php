@@ -195,7 +195,7 @@ class ControllerCommonFileManager extends Controller
         $name = $this->transliterateToLatin($name);
         $this->logFilenameDebug('normalizeUploadedFilename.after_translit', $name);
 
-        $name = preg_replace('/[^A-Za-z0-9_]+/', '_', $name);
+        $name = preg_replace('/[^A-Za-z0-9_-]+/', '_', $name);
         $name = preg_replace('/_+/', '_', $name);
         $name = trim($name, '_');
         $name = utf8_strtolower($name);
@@ -213,6 +213,18 @@ class ControllerCommonFileManager extends Controller
         $this->logFilenameDebug('normalizeUploadedFilename.unique', $unique);
 
         return $unique;
+    }
+
+    private function normalizeFolderName($folder)
+    {
+        $folder = $this->safeBasename(html_entity_decode((string)$folder, ENT_QUOTES, 'UTF-8'));
+        $folder = $this->transliterateToLatin($folder);
+        $folder = preg_replace('/[^A-Za-z0-9_-]+/', '_', $folder);
+        $folder = preg_replace('/_+/', '_', $folder);
+        $folder = trim($folder, '_');
+        $folder = utf8_strtolower($folder);
+
+        return $folder !== '' ? $folder : 'folder';
     }
 
     private function isImageOptimizationEnabled()
@@ -344,7 +356,7 @@ class ControllerCommonFileManager extends Controller
     {
         if (!file_exists($file) || !$this->isImageOptimizationEnabled()) return;
 
-        // Повышаем лимиты памяти для обработки тяжелых картинок на VPS
+        // Increase the memory limit when processing large images on the VPS.
         ini_set('memory_limit', '512M');
 
         list($max_w, $max_h) = $this->getMaxImageSize();
@@ -359,8 +371,8 @@ class ControllerCommonFileManager extends Controller
         $original_file = $file;
         $image_modified = false;
 
-        // === 1. УМЕНЬШЕНИЕ РАЗРЕШЕНИЯ (RESIZE) ===
-        // Если картинка гигантская, уменьшаем её стандартным классом OpenCart
+        // === 1. RESIZE LARGE IMAGES ===
+        // Resize oversized images with the standard OpenCart image class.
         if ($width > $max_w || $height > $max_h) {
             $ratio = min($max_w / $width, $max_h / $height);
             $new_w = (int)($width * $ratio);
@@ -372,12 +384,12 @@ class ControllerCommonFileManager extends Controller
             $image_modified = true;
         }
 
-        // === 2. АВТОМАТИЧЕСКАЯ ГЕНЕРАЦИЯ WEBP ===
-        // Вместо утилиты cwebp используем встроенную в PHP библиотеку GD (она быстрее в Docker)
+        // === 2. AUTOMATIC WEBP GENERATION ===
+        // Use PHP's built-in GD library instead of cwebp; it is faster in Docker.
         if (function_exists('imagewebp')) {
             $webp_file = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $file);
             
-            // Создаем webp только если его еще нет
+            // Create the WebP file only if it does not already exist.
             if (!file_exists($webp_file)) {
                 $img_resource = null;
                 if ($type == IMAGETYPE_JPEG) {
@@ -391,20 +403,20 @@ class ControllerCommonFileManager extends Controller
                 }
 
                 if ($img_resource) {
-                    imagewebp($img_resource, $webp_file, 80); // 80% качества идеальны для WebP
-                    imagedestroy($img_resource);
+                    imagewebp($img_resource, $webp_file, 80); // 80% quality works well for WebP.
+                    unset($img_resource);
                 }
             }
         }
 
-        // === 3. ОПТИМИЗАЦИЯ ДЕФОЛТНОГО JPEG (Оставляем для совместимости) ===
+        // === 3. OPTIMIZE THE ORIGINAL JPEG (KEEP FOR COMPATIBILITY) ===
         if ($type == IMAGETYPE_JPEG && $this->hasBinary('jpegoptim')) {
             exec("jpegoptim --strip-all --max=80 " . escapeshellarg($file));
         }
 
-        // ПРИМЕЧАНИЕ: Принудительную конвертацию PNG -> JPG лучше убрать, 
-        // так как она удаляет исходный файл, ломая пути в базе данных OpenCart.
-        // Теперь вместо этого параллельно создается легкий .webp
+        // NOTE: Avoid forced PNG-to-JPG conversion because it removes the original
+        // file and breaks paths stored in the OpenCart database. A smaller WebP copy
+        // is generated alongside it instead.
     }
 
     public function index()
@@ -467,8 +479,9 @@ class ControllerCommonFileManager extends Controller
         // Get total number of files and directories
         $image_total = count($images);
 
-        // Split the array based on current page number and max number of items per page of 10
-        $images = array_splice($images, ($page - 1) * 16, 16);
+        // Split the array into pages of 12 items to fill rows of 3 columns.
+        $limit = 12;
+        $images = array_splice($images, ($page - 1) * $limit, $limit);
 
         foreach ($images as $image) {
             $name = basename($image);
@@ -598,7 +611,7 @@ class ControllerCommonFileManager extends Controller
         $pagination = new Pagination();
         $pagination->total = $image_total;
         $pagination->page = $page;
-        $pagination->limit = 16;
+        $pagination->limit = $limit;
         $pagination->url = $this->url->link('common/filemanager', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}', true);
 
         $data['pagination'] = $pagination->render();
@@ -745,9 +758,11 @@ class ControllerCommonFileManager extends Controller
             $json['error'] = $this->language->get('error_directory');
         }
 
+        $folder = '';
+
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
             // Sanitize the folder name
-            $folder = basename(html_entity_decode($this->request->post['folder'], ENT_QUOTES, 'UTF-8'));
+            $folder = $this->normalizeFolderName($this->request->post['folder']);
 
             // Validate the filename length
             if ((utf8_strlen($folder) < 3) || (utf8_strlen($folder) > 128)) {
@@ -760,7 +775,7 @@ class ControllerCommonFileManager extends Controller
             }
         }
 
-        if (!isset($json['error'])) {
+        if ($this->request->server['REQUEST_METHOD'] == 'POST' && !isset($json['error'])) {
             mkdir($directory . '/' . $folder, 0777);
             chmod($directory . '/' . $folder, 0777);
 
