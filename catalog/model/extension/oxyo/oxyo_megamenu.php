@@ -1,7 +1,11 @@
 <?php
 class ModelExtensionOxyoOxyoMegamenu extends Model
 {
-
+    /**
+     * @param int $module_id
+     * @param bool $mobile
+     * @return array
+     */
     public function getMenu($module_id, $mobile)
     {
 
@@ -83,6 +87,11 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
         return $output;
     }
 
+    /**
+     * @param int $id
+     * @param bool $mobile
+     * @return array
+     */
     public function getSubmenu($id, $mobile)
     {
         $registry = $this->registry;
@@ -332,7 +341,16 @@ class ModelExtensionOxyoOxyoMegamenu extends Model
         return $output;
     }
 
-    public function getCategoriesChildren($array = array(), $path, $columns, $type, $submenu = false, $limit = 4)
+    /**
+     * @param array $array
+     * @param string|int $path
+     * @param int $columns
+     * @param int $type
+     * @param int $submenu
+     * @param int $limit
+     * @return string|false
+     */
+    public function getCategoriesChildren($array, $path, $columns, $type, $submenu = false, $limit = 4)
     {
         $output = false;
         $registry = $this->registry;
