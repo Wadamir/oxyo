@@ -484,6 +484,8 @@
 /system/library/*
 !/system/library/
 
+!/system/library/pagination.php
+
 /system/library/cart/*
 !/system/library/cart/
 !/system/library/cart/weight.php

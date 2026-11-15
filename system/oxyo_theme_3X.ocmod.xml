@@ -126,16 +126,6 @@
     <file path="catalog/controller/product/manufacturer.php">
         <operation error="log">
             <search><![CDATA[
-                $data['products'] = array();
-            ]]></search>
-            <add position="before"><![CDATA[
-                if ($this->config->get('theme_default_directory') == 'oxyo') {
-                    include(DIR_APPLICATION . 'controller/extension/oxyo/product_helper.php');
-                }
-            ]]></add>
-        </operation>
-        <operation error="log">
-            <search><![CDATA[
                 $data['thumb'] = $
             ]]></search>
             <add position="before"><![CDATA[
