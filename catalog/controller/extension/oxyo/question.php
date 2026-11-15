@@ -127,6 +127,6 @@ class ControllerExtensionOxyoQuestion extends Controller
         imagestring($image, 4, 0, 3, "$num1" . " + " . "$num2" . " =", $black);
         header('Content-type: image/png');
         imagepng($image);
-        imagedestroy($image);
+        unset($image);
     }
 }

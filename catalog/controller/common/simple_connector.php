@@ -396,7 +396,7 @@ class ControllerCommonSimpleConnector extends Controller {
 
         imagejpeg($image);
 
-        imagedestroy($image);
+        unset($image);
     }
 
     public function human() {
