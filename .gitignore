@@ -459,6 +459,7 @@
 
 /image/*
 !/image/
+!/image/folder.png
 !/image/no_image.png
 !/image/no_video.png
 !/image/no_video2.png
