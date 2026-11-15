@@ -455,9 +455,12 @@ input[type='checkbox'],
 .checkbox-inline input[type='checkbox'] {
     position: relative;
     width: 13px;
-    width: 16px \0;
+    min-width: 13px;
+    /* width: 16px \0; */
     height: 13px;
-    height: 16px \0;
+    min-height: 13px;
+    /* height: 16px \0; */
+    appearance: none;
     -webkit-appearance: none;
     background: white;
     border: 1px solid #dcdcdc;
@@ -1180,12 +1183,38 @@ html[dir='rtl'] .text-right {
 /* Filemanager video fix */
 #filemanager .text-center > .thumbnail {
     min-height: 110px;
+    margin-bottom: 6px;
 }
 
 #filemanager .text-center > .thumbnail > video {
     width: 100%;
     max-height: 197px;
 }
+
+#filemanager .filemanager-name {
+    padding: 0 6px;
+    
+    max-width: 100%;
+    max-height: 2.8em;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    line-height: 1.4em;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 6px;
+
+    text-align: left;
+}
+
+#filemanager .filemanager-name 
 
 input.form-control {
     position: relative;
