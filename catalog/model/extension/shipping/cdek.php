@@ -918,7 +918,7 @@ class ModelExtensionShippingCdek extends Model
         return $result;
     }
 
-    private function getPVZList($city_id, $weight = 0, $type)
+    private function getPVZList($city_id, $weight, $type)
     {
 
         $pvz_list = array();
