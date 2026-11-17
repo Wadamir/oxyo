@@ -339,12 +339,7 @@ class ControllerExtensionOxyoOxyo extends Controller
             'top_line_width',
             'top_line_height',
             'main_header_width',
-            'main_header_height',
-            'main_header_height_mobile',
-            'main_header_height_sticky',
-            'menu_height_normal',
-            'menu_height_sticky',
-            'logo_maxwidth',
+            'logo_max_width',
             'main_menu_align',
             'header_login',
             'header_search',
@@ -539,6 +534,25 @@ class ControllerExtensionOxyoOxyo extends Controller
             'oxyo_dadata_accounts',
         );
 
+        // Header height
+        $header_height = 'header_height';
+        // Header menu height
+        $menu_height = 'menu_height';
+        // Points
+        $header_height_points = array(
+            'xs',
+            'md',
+            'lg',
+            'xl',
+            'sticky'
+        );
+
+        foreach ($header_height_points as $point) {
+            $codes['oxyo'][] = $header_height . '_' . $point;
+            $codes['oxyo'][] = $menu_height . '_' . $point;
+        }
+
+
 
 
         // Contacts
@@ -719,7 +733,7 @@ class ControllerExtensionOxyoOxyo extends Controller
         if (is_null($this->getConfig('main_header_height_sticky'))) $data['main_header_height_sticky'] = '70';
         if (is_null($this->getConfig('menu_height_normal'))) $data['menu_height_normal'] = '50';
         if (is_null($this->getConfig('menu_height_sticky'))) $data['menu_height_sticky'] = '47';
-        if (is_null($this->getConfig('logo_maxwidth'))) $data['logo_maxwidth'] = '250';
+        if (is_null($this->getConfig('logo_max_width'))) $data['logo_max_width'] = '250';
         if (is_null($this->getConfig('oxyo_sticky_header'))) $data['oxyo_sticky_header'] = '1';
         if (is_null($this->getConfig('oxyo_home_overlay_header'))) $data['oxyo_home_overlay_header'] = '0';
         if (is_null($this->getConfig('header_login'))) $data['header_login'] = '1';

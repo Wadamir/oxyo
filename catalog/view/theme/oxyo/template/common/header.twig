@@ -17,16 +17,16 @@
             <meta name="keywords" content="{{ keywords }}"/>
         {% endif %}
 
-        <!-- Шрифты и критические стили загружаем сразу -->
+        <!-- Load fonts and critical styles immediately -->
         <link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-        <link href="catalog/view/theme/oxyo/stylesheet/stylesheet.css?v={{ stylesheet_version }}" rel="stylesheet">
+        <link href="catalog/view/theme/oxyo/stylesheet/new_styles.css?v={{ stylesheet_version }}" rel="stylesheet">
         <style id="oxyo-mandatory-css">{{oxyo_mandatory_css}}</style>
         
-        <!-- Предзагрузка соединений для сторонних CDN -->
+        <!-- Preconnect to third-party CDNs -->
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
         <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
-        <!-- Все скрипты переводим в неблокирующий режим через defer -->
+        <!-- Defer scripts to prevent render blocking -->
         <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
         <script src="https://unpkg.com/@popperjs/core@2" defer></script>
         <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" defer></script>
@@ -37,17 +37,17 @@
             <link href="catalog/view/theme/oxyo/stylesheet/rtl.css" rel="stylesheet">
         {% endif %}
 
-        <!-- Стили плагинов -->
+        <!-- Plugin styles -->
         {% for style in styles %}
             <link href="{{ style.href }}" rel="{{ style.rel }}" media="{{ style.media }}"/>
         {% endfor %}
 
-        <!-- Скрипты динамических модулей OpenCart также оптимизируем с defer -->
+        <!-- Defer OpenCart dynamic module scripts as well -->
         {% for script in scripts %}
             <script src="{{ script }}"></script>
         {% endfor %}
 
-        <!-- Мета-информация страниц -->
+        <!-- Page metadata -->
         {% for link in links %}
             {% if link.rel == 'image' %}
                 <meta property="og:image" content="{{ link.href }}"/>
@@ -56,28 +56,28 @@
             {% endif %}
         {% endfor %}
 
-        <!-- Инструменты аналитики -->
+        <!-- Analytics tools -->
         {% for analytic in analytics %}
             {{ analytic }}
         {% endfor %}
 
         {% if oxyo_styles_status %}
-            <!-- Кастомная цветовая схема -->
+            <!-- Custom color scheme -->
             <style id="oxyo-color-scheme">
                 {{oxyo_styles_cache}};
             </style>
         {% endif %}
         {% if oxyo_typo_status %}
-            <!-- Кастомные шрифты -->
+            <!-- Custom fonts -->
             <style id="oxyo-fonts">{{oxyo_fonts_cache}}</style>
         {% endif %}
         {% if oxyo_custom_css_status %}
-            <!-- Кастомный CSS -->
+            <!-- Custom CSS -->
             <style id="oxyo-custom-css">
                 {{oxyo_custom_css}}</style>
         {% endif %}
         {% if oxyo_custom_js_status %}
-            <!-- Кастомный скрипт темы (выполняем после загрузки DOM) -->
+            <!-- Custom theme script (run after the DOM loads) -->
             <script defer>
                 document.addEventListener('DOMContentLoaded', function() {
                     {{ oxyo_custom_js }}
@@ -88,9 +88,9 @@
 
     <body class="{{ class }}{{ oxyo_body_class }}">
         {% include 'oxyo/template/common/mobile-nav.twig' %}
-        <div class="outer-container main-wrapper">
+        <div class="main-wrapper">
             {% if notification_status %}
-                <div class="top_notificaiton">
+                <div class="top_notification">
                     <div class="container{% if top_promo_close %} has-close{% endif %} {{ top_promo_width }} {{ top_promo_align }}">
                         <div class="table">
                             <div class="table-cell w100">
@@ -98,7 +98,7 @@
                             </div>
                             {% if top_promo_close %}
                                 <div class="table-cell text-end">
-                                    <a onclick="addCookie('oxyo_top_promo', 1, 30);$(this).closest('.top_notificaiton').slideUp();" class="top_promo_close">&times;</a>
+                                    <a onclick="addCookie('oxyo_top_promo', 1, 30);$(this).closest('.top_notification').slideUp();" class="top_promo_close">&times;</a>
                                 </div>
                             {% endif %}
                         </div>

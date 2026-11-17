@@ -422,7 +422,7 @@
 
 
 <?php if ($full_width_tabs) { ?>
-<div class="outer-container product-tabs-wrapper">
+<div class="container-fluid product-tabs-wrapper">
 <div class="container">   
 <?php } else { ?>
 <div class="inline-tabs"> 

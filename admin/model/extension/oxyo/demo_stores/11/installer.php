@@ -370,7 +370,7 @@ margin-bottom:30px;
             array('setting_id' => '18142', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_map_lat', 'value' => '', 'serialized' => '0'),
             array('setting_id' => '18141', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_map_style', 'value' => '0', 'serialized' => '0'),
             array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_prod_grid', 'value' => '3', 'serialized' => '0'),
-            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_maxwidth', 'value' => '195', 'serialized' => '0'),
+            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_max_width', 'value' => '195', 'serialized' => '0'),
             array('setting_id' => '18140', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'category_thumb_status', 'value' => '0', 'serialized' => '0'),
             array('setting_id' => '16882', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'category_subs_status', 'value' => '1', 'serialized' => '0'),
             array('setting_id' => '16883', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_subs_grid', 'value' => '5', 'serialized' => '0'),

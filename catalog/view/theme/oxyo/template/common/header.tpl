@@ -69,15 +69,15 @@
 </head>
 <body class="<?php echo $class; ?><?php echo $oxyo_body_class; ?>">
 <?php require_once('catalog/view/theme/oxyo/template/common/mobile-nav.tpl'); ?>
-<div class="outer-container main-wrapper">
+<div class="container-fluid main-wrapper">
 <?php if ($notification_status) { ?>
-<div class="top_notificaiton">
+<div class="top_notification">
   <div class="container<?php if ($top_promo_close) echo ' has-close'; ?> <?php echo $top_promo_width; ?> <?php echo $top_promo_align; ?>">
     <div class="table">
     <div class="table-cell w100"><div class="ellipsis-wrap"><?php echo $top_promo_text; ?></div></div>
     <?php if ($top_promo_close) { ?>
     <div class="table-cell text-right">
-    <a onClick="addCookie('oxyo_top_promo', 1, 30);$(this).closest('.top_notificaiton').slideUp();" class="top_promo_close">&times;</a>
+    <a onClick="addCookie('oxyo_top_promo', 1, 30);$(this).closest('.top_notification').slideUp();" class="top_promo_close">&times;</a>
     </div>
     <?php } ?>
     </div>

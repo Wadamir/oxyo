@@ -1,7 +1,7 @@
 <div class="header-wrapper header5">
 <span class="table header-main sticky-header-placeholder hidden-md hidden-lg">&nbsp;</span>
 
-<div class="sticky-header slidedown mobile-only outer-container header-style">
+<div class="sticky-header slidedown mobile-only container-fluid header-style">
   <div class="container <?php echo $main_header_width; ?>">
     <div class="table header-main">
     
@@ -88,7 +88,7 @@
 
 
 
-<div class="sticky-header slidedown outer-container menu-style menu-style-contrast hidden-xs hidden-sm">
+<div class="sticky-header slidedown container-fluid menu-style menu-style-contrast hidden-xs hidden-sm">
 
 
 <div class="container <?php echo $main_header_width; ?>">

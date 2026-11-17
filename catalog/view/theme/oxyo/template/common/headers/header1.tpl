@@ -30,7 +30,7 @@
 </div> <!-- .top_line ends -->
 <?php } ?>
 <span class="table header-main sticky-header-placeholder">&nbsp;</span>
-<div class="sticky-header outer-container header-style">
+<div class="sticky-header container-fluid header-style">
 <div class="container <?php echo $main_header_width; ?>">
 <div class="table header-main">
 <div class="table-cell w40 menu-cell hidden-xs hidden-sm">

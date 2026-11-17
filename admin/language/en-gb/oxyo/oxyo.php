@@ -33,6 +33,7 @@ $_['text_show_xs']                          = '<768px';
 $_['text_show_md']                          = '≥768px';
 $_['text_show_lg']                          = '≥992px';
 $_['text_show_xl']                          = '≥1200px';
+$_['text_show_sticky']                      = 'sticky';
 
 
 // New vars - tabs

@@ -31,7 +31,7 @@
 </div> <!-- .top_line ends -->
 <?php } ?>
 <span class="table header-main sticky-header-placeholder">&nbsp;</span>
-<div class="sticky-header outer-container header-style">
+<div class="sticky-header container-fluid header-style">
   <div class="container <?php echo $main_header_width; ?>">
     
     <div class="table table-fixed header-main">
@@ -85,7 +85,7 @@
 
     </div>
     
-    <div class="table-cell logo text-center" style="width:<?php echo $logo_maxwidth + 40; ?>px">
+    <div class="table-cell logo text-center" style="width:<?php echo $logo_max_width + 40; ?>px">
     	<?php if ($logo) { ?>
         <div id="logo">
     	<a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" /></a>

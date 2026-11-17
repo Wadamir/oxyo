@@ -118,7 +118,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="Enter value in pixels, eg. 100">Logo Max Width</span></label>
     <div class="col-sm-10">
-        <input class="form-control" name="settings[oxyo][logo_maxwidth]" value="<?php echo isset($logo_maxwidth) ? $logo_maxwidth : '250'; ?>" />
+        <input class="form-control" name="settings[oxyo][logo_max_width]" value="<?php echo isset($logo_max_width) ? $logo_max_width : '250'; ?>" />
     </div>
 </div>
 

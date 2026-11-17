@@ -248,7 +248,7 @@ class ModelExtensionOxyoDemoStores6Installer extends Model
             array('setting_id' => '9502', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'footer_block_2', 'value' => '{"1":"STORE - worldwide fashion store since 1978. We sell over 1000+ branded products on our web-site.","3":"STORE - worldwide fashion store since 1978. We sell over 1000+ branded products on our web-site.","2":"STORE - worldwide fashion store since 1978. We sell over 1000+ branded products on our web-site."}', 'serialized' => '1'),
             array('setting_id' => '11707', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'top_line_style', 'value' => '0', 'serialized' => '0'),
             array('setting_id' => '11708', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_home_overlay_header', 'value' => '0', 'serialized' => '0'),
-            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_maxwidth', 'value' => '175', 'serialized' => '0'),
+            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_max_width', 'value' => '175', 'serialized' => '0'),
             array('setting_id' => '9504', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_sticky_header', 'value' => '1', 'serialized' => '0'),
             array('setting_id' => '9505', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'main_menu_align', 'value' => 'menu-aligned-left', 'serialized' => '0'),
             array('setting_id' => '21404', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'menu_height_normal', 'value' => '80', 'serialized' => '0'),

@@ -32,7 +32,7 @@
 <?php } ?>
 
 <span class="table header-main sticky-header-placeholder slidedown">&nbsp;</span>
-<div class="sticky-header slidedown outer-container header-style">
+<div class="sticky-header slidedown container-fluid header-style">
   <div class="container <?php echo $main_header_width; ?>">
     <div class="table header-main <?php echo $main_menu_align; ?>">
     
@@ -99,7 +99,7 @@
   </div> <!-- .container ends -->
 </div> <!-- .sticky ends -->
 
-<div class="outer-container header-bottom hidden-xs hidden-sm">
+<div class="container-fluid header-bottom hidden-xs hidden-sm">
 <div class="container <?php echo $main_header_width; ?>">
 	<div class="table">
     	<?php if($secondary_menu) { ?>

@@ -31,8 +31,9 @@ $_['text_default']                          = 'По умолчанию';
 // Resolutions
 $_['text_show_xs']                          = '<768px';
 $_['text_show_md']                          = '≥768px';
-$_['text_show_lg']                          = '≥992px';
-$_['text_show_xl']                          = '≥1200px';
+$_['text_show_lg']                          = '≥1366px';
+$_['text_show_xl']                          = '≥1920px';
+$_['text_show_sticky']                      = 'sticky';
 
 
 // New vars - tabs

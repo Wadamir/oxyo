@@ -243,7 +243,7 @@ class ModelExtensionOxyoDemoStores9Installer extends Model
             array('setting_id' => '13415', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_links', 'value' => '', 'serialized' => '1'),
             array('setting_id' => '13414', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_header', 'value' => 'header1', 'serialized' => '0'),
             array('setting_id' => '13420', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'top_line_style', 'value' => '1', 'serialized' => '0'),
-            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_maxwidth', 'value' => '195', 'serialized' => '0'),
+            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_max_width', 'value' => '195', 'serialized' => '0'),
             array('setting_id' => '13412', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'top_line_width', 'value' => 'full-width', 'serialized' => '0'),
             array('setting_id' => '13411', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'main_header_height', 'value' => '104', 'serialized' => '0'),
             array('setting_id' => '1217', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'main_header_height_sticky', 'value' => '70', 'serialized' => '0'),

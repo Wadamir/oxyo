@@ -146,7 +146,7 @@ OpenCart is open source software and you are free to remove the powered by OpenC
 Please donate via PayPal to donate@opencart.com
 OXYO VERSION <?php echo $oxyo_version; ?> - OPENCART VERSION 2.3 (<?php echo VERSION; ?>)
 //-->
-</div><!-- .outer-container ends -->
+</div><!-- .container-fluid ends -->
 <a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop:0});"><i class="icon-arrow-right"></i></a>
 <div id="featherlight-holder"></div>
 </body>

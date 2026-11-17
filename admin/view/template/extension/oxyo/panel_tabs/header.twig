@@ -54,22 +54,27 @@
 	</div>
 </div>
 
+{# Columns: where to show #}
+{% set matrix_columns = [
+    {'key': 'header_height_xs',     'label': text_show_xs},
+    {'key': 'header_height_md',     'label': text_show_md},
+    {'key': 'header_height_lg',     'label': text_show_lg},
+    {'key': 'header_height_xl',     'label': text_show_xl},
+    {'key': 'header_height_sticky', 'label': text_show_sticky}
+] %}
+
 <div class="form-group">
 	<label class="col-sm-2 control-label"><br/><span data-toggle="tooltip" title="{{ help_main_header_height }}">{{ entry_main_header_height }}</span></label>
 	<div class="col-sm-10">
 		<div class="row">
-			<div class="col-sm-4">
-				<label>{{ text_desktop_view }}</label>
-				<input class="form-control" name="settings[oxyo][main_header_height]" value="{{ main_header_height ? main_header_height : '104' }}" />
-			</div>
-			<div class="col-sm-4">
-				<label>{{ text_mobile_view }}</label>
-				<input class="form-control" name="settings[oxyo][main_header_height_mobile]" value="{{ main_header_height_mobile ? main_header_height_mobile : '70' }}" />
-			</div>
-			<div class="col-sm-4">
-				<label>{{ text_sticky_header }}</label>
-				<input class="form-control" name="settings[oxyo][main_header_height_sticky]" value="{{ main_header_height_sticky ? main_header_height_sticky : '70' }}" />
-			</div>
+            {% for col in matrix_columns %}
+                {% set setting_key = col.key %}
+                {% set setting_value = attribute(_context, setting_key)|default(100) %}            
+                <div class="col-sm-2">
+                    <label>{{ col.label }}</label>
+                    <input class="form-control" name="settings[oxyo][{{ setting_key }}]" value="{{ setting_value }}" />
+                </div>
+            {% endfor %}
 		</div>
 	</div>
 </div>
@@ -150,7 +155,7 @@
 <legend class="sub">{{ text_logo }}</legend>
 <div class="form-group">
 	<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_logo_max_width }}">{{ entry_logo_max_width }}</span></label>
-	<div class="col-sm-10"><input class="form-control" name="settings[oxyo][logo_maxwidth]" value="{{ logo_maxwidth ? logo_maxwidth : '250' }}" /></div>
+	<div class="col-sm-10"><input class="form-control" name="settings[oxyo][logo_max_width]" value="{{ logo_max_width ? logo_max_width : '250' }}" /></div>
 </div>
 
 <legend class="sub">{{ text_menu_area }}</legend>
@@ -165,18 +170,28 @@
 	</div>
 </div>
 
+
+{# Columns: where to show #}
+{% set matrix_columns = [
+    {'key': 'menu_height_xs',     'label': text_show_xs},
+    {'key': 'menu_height_md',     'label': text_show_md},
+    {'key': 'menu_height_lg',     'label': text_show_lg},
+    {'key': 'menu_height_xl',     'label': text_show_xl},
+    {'key': 'menu_height_sticky', 'label': text_show_sticky}
+] %}
+
 <div class="form-group">
 	<label class="col-sm-2 control-label"><br/><span data-toggle="tooltip" title="{{ help_menu_area_height }}">{{ entry_menu_area_height }}</span></label>
 	<div class="col-sm-10">
 		<div class="row">
-			<div class="col-sm-4">
-				<label>{{ text_default }}</label>
-				<input class="form-control" name="settings[oxyo][menu_height_normal]" value="{{ menu_height_normal ? menu_height_normal : '50' }}" />
-			</div>
-			<div class="col-sm-4">
-				<label>{{ text_sticky_header }}</label>
-				<input class="form-control" name="settings[oxyo][menu_height_sticky]" value="{{ menu_height_sticky ? menu_height_sticky : '70' }}" />
-			</div>
+            {% for col in matrix_columns %}
+                {% set setting_key = col.key %}
+                {% set setting_value = attribute(_context, setting_key)|default(100) %}            
+                <div class="col-sm-2">
+                    <label>{{ col.label }}</label>
+                    <input class="form-control" name="settings[oxyo][{{ setting_key }}]" value="{{ setting_value }}" />
+                </div>
+            {% endfor %}
 		</div>
 	</div>
 </div>

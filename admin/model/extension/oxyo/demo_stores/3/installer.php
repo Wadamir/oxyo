@@ -411,7 +411,7 @@ font-weight:700;
             array('setting_id' => '897', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'footer_infoline_3', 'value' => '{"1":"","3":"","2":""}', 'serialized' => '1'),
             array('setting_id' => '1272', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'footer_block_2', 'value' => '{"1":"STORE - worldwide fashion store since 1978. We sell over 1000+ branded products on our web-site.","3":"STORE - worldwide fashion store since 1978. We sell over 1000+ branded products on our web-site.","2":"STORE - worldwide fashion store since 1978. We sell over 1000+ branded products on our web-site."}', 'serialized' => '1'),
             array('setting_id' => '2134', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_home_overlay_header', 'value' => '0', 'serialized' => '0'),
-            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_maxwidth', 'value' => '195', 'serialized' => '0'),
+            array('setting_id' => '16884', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'logo_max_width', 'value' => '195', 'serialized' => '0'),
             array('setting_id' => '1063', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'oxyo_sticky_header', 'value' => '1', 'serialized' => '0'),
             array('setting_id' => '1064', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'main_menu_align', 'value' => 'menu-aligned-left', 'serialized' => '0'),
             array('setting_id' => '21404', 'store_id' => '0', 'code' => 'oxyo', 'key' => 'menu_height_normal', 'value' => '64', 'serialized' => '0'),

@@ -31,7 +31,7 @@
 </div> <!-- .top_line ends -->
 <?php } ?>
 <span class="table header-main sticky-header-placeholder">&nbsp;</span>
-<div class="outer-container sticky-header">
+<div class="container-fluid sticky-header">
 <div class="header-style">
   <div class="container <?php echo $main_header_width; ?>">
     <div class="table header-main">
@@ -113,7 +113,7 @@
 </div>                
                  
 <?php if($primary_menu) { ?>                 
-<div class="outer-container menu-style menu-style-contrast hidden-xs hidden-sm">
+<div class="container-fluid menu-style menu-style-contrast hidden-xs hidden-sm">
 <div class="container">
      <div class="main-menu text-center">
          <ul class="categories">

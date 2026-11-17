@@ -301,7 +301,7 @@ foreach ($contacts_config as $name => $cfg) {
         'link'           => $link,
         'onclick'        => $onclick,
         'header_class'   => $header_display_class,
-        'header_flags'   => $bp_values, // если хочешь использовать в Twig по-отдельности
+        'header_flags'   => $bp_values, // Use this to access the flags individually in Twig.
     );
 }
 
@@ -356,7 +356,7 @@ if (($this->config->get('primary_menu') > 0) || ($this->config->get('secondary_m
     $data['salebadge_status'] = $this->config->get('salebadge_status');
     $this->load->model('extension/oxyo/oxyo_megamenu');
     $data['lang_id'] = $this->config->get('config_language_id');
-    $data['logo_maxwidth'] = $this->config->get('logo_maxwidth');
+    $data['logo_max_width'] = $this->config->get('logo_max_width');
 }
 if ($this->config->get('primary_menu') > 0) {
     $data['primary_menu_desktop'] = $this->model_extension_oxyo_oxyo_megamenu->getMenu($this->config->get('primary_menu'), $mobile = false);
@@ -446,44 +446,125 @@ if (($this->config->get('oxyo_top_promo_status')) && (!isset($_COOKIE['oxyo_top_
 }
 
 // Mandatory CSS
-if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_store_id'))) {
+$mandatory_css = '';
+$mandatory_cache = false;
+if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_store_id')) && $mandatory_cache) {
     $data['oxyo_mandatory_css'] = $this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_store_id'));
 } else {
-    $menu_height_normal = $this->config->get('menu_height_normal');
-    $menu_height_sticky = $this->config->get('menu_height_sticky');
 
-    $madatory_css = '.top_line {line-height:' . $this->config->get('top_line_height') . 'px;}';
-    $madatory_css .= '.header-main, .header-main .sign-in, #logo, .header-main .font-zero {
-        line-height:' . $this->config->get('main_header_height') . 'px; 
-        height:' . $this->config->get('main_header_height') . 'px;
-    }';
-    $madatory_css .= '.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main,.sticky-enabled.offset250 .sticky-header.slidedown .header-main,.sticky-enabled.sticky-active .sticky-header.short .header-main .sign-in,.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main #logo,.sticky-enabled.sticky-active .header6 .sticky-header.short .header-main #logo {line-height:' . $this->config->get('main_header_height_sticky') . 'px;height:' . $this->config->get('main_header_height_sticky') . 'px;}';
-    $madatory_css .= '@media (max-width: 1200px) {
-        .header-main,
-        .sticky-enabled.offset250 .sticky-header.slidedown .header-main,
-        #logo,
-        .sticky-enabled.sticky-active .sticky-header.short .header-main #logo, 
-        .sticky-holder,
-        .header-main .font-zero {
-            line-height:' . $this->config->get('main_header_height_mobile') . 'px; 
-            height:' . $this->config->get('main_header_height_mobile') . 'px;
+    // Header height
+    $header_height = 'header_height';
+    // Header menu height
+    $menu_height = 'menu_height';
+    // Points
+    $header_height_points = array(
+        'xs',
+        'md',
+        'lg',
+        'xl',
+        'sticky'
+    );    
+
+    $codes = array();
+    $values = array();
+    foreach ($header_height_points as $point) {
+        $variable = $header_height . '_' . $point;
+        $codes[] = $variable;
+        $values[$variable] = $this->config->get($variable);
+        $variable = $menu_height . '_' . $point;
+        $codes[] = $variable;
+        $values[$variable] = $this->config->get($variable);
+    }
+    
+    $mandatory_css_xs = '';
+    $mandatory_css_md = '';
+    $mandatory_css_lg = '';
+    $mandatory_css_xl = '';
+    $mandatory_css_sticky = '';
+
+    foreach ($values as $key => $value) {
+        if ($value === '' || $value === null || !preg_match('/^(header|menu)_height_(xs|md|lg|xl|sticky)$/', $key, $matches)) {
+            continue;
         }
-    }';
-    if ($menu_height_normal !== '' && $menu_height_normal !== 'auto') {
-        $madatory_css .= '.table-cell.menu-cell,.main-menu:not(.vertical) > ul,.main-menu:not(.vertical) > ul > li,.main-menu:not(.vertical) > ul > li > a,.main-menu:not(.vertical) > ul > li.dropdown-wrapper > a .fa-angle-down,.main-menu.vertical .menu-heading {line-height:' . $this->config->get('menu_height_normal') . 'px;height:' . $this->config->get('menu_height_normal') . 'px;}';
+
+        // Header/menu heights are pixel values; ignore non-numeric settings.
+        if (!is_numeric($value)) {
+            continue;
+        }
+
+        $type = $matches[1];
+        $point = $matches[2];
+        $height = (float)$value . 'px';
+
+        if ($type === 'header') {
+            if ($point === 'sticky') {
+                $mandatory_css_sticky .= '.sticky-enabled.sticky-active .sticky-header .header-main,.sticky-enabled.sticky-active .sticky-header #logo,.sticky-enabled.sticky-active .sticky-header .sign-in {line-height:' . $height . ';height:' . $height . ";}\n";
+            } else {
+                $mandatory_css_var = 'mandatory_css_' . $point;
+                ${$mandatory_css_var} .= '.header-main,.header-main .sign-in,#logo,.header-main .font-zero {line-height:' . $height . ';height:' . $height . ";}\n";
+            }
+        } elseif ($point === 'sticky') {
+            $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li > a {line-height:' . $height . ';height:' . $height . ";}\n";
+        } else {
+            $mandatory_css_var = 'mandatory_css_' . $point;
+            ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul,.main-menu:not(.vertical) > ul > li,.main-menu:not(.vertical) > ul > li > a,.main-menu.vertical .menu-heading {line-height:' . $height . ';height:' . $height . ";}\n";
+        }
     }
-    if ($menu_height_sticky !== '' && $menu_height_sticky !== 'auto') {
-        $madatory_css .= '.sticky-enabled.sticky-active .table-cell.menu-cell:not(.vertical),.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li > a,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li.dropdown-wrapper > a .fa-angle-down {line-height:' . $this->config->get('menu_height_sticky') . 'px;height:' . $this->config->get('menu_height_sticky') . 'px;}';
+    // var_dump($mandatory_css_xs);
+    // var_dump($mandatory_css_md);
+    // var_dump($mandatory_css_lg);
+    // var_dump($mandatory_css_xl);
+
+    // Header Menu Height
+    // $menu_height_normal = $this->config->get('menu_height_normal');
+    // $menu_height_sticky = $this->config->get('menu_height_sticky');
+
+    // // Header Height
+    // // $mandatory_css = '.top_line {line-height:' . $this->config->get('top_line_height') . 'px;}';
+    // $mandatory_css .= '.header-main, .header-main .sign-in, #logo, .header-main .font-zero {
+    //     line-height:' . $this->config->get('main_header_height') . 'px; 
+    //     height:' . $this->config->get('main_header_height') . 'px;
+    // }';
+    // $mandatory_css .= '.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main,.sticky-enabled.offset250 .sticky-header.slidedown .header-main,.sticky-enabled.sticky-active .sticky-header.short .header-main .sign-in,.sticky-enabled.sticky-active .sticky-header.short:not(.slidedown) .header-main #logo,.sticky-enabled.sticky-active .header6 .sticky-header.short .header-main #logo {line-height:' . $this->config->get('main_header_height_sticky') . 'px;height:' . $this->config->get('main_header_height_sticky') . 'px;}';
+    // $mandatory_css .= '@media (max-width: 1200px) {
+    //     .header-main,
+    //     .sticky-enabled.offset250 .sticky-header.slidedown .header-main,
+    //     #logo,
+    //     .sticky-enabled.sticky-active .sticky-header.short .header-main #logo, 
+    //     .sticky-holder,
+    //     .header-main .font-zero {
+    //         line-height:' . $this->config->get('main_header_height_mobile') . 'px; 
+    //         height:' . $this->config->get('main_header_height_mobile') . 'px;
+    //     }
+    // }';
+    // if ($menu_height_normal !== '' && $menu_height_normal !== 'auto') {
+    //     $mandatory_css .= '.table-cell.menu-cell,.main-menu:not(.vertical) > ul,.main-menu:not(.vertical) > ul > li,.main-menu:not(.vertical) > ul > li > a,.main-menu:not(.vertical) > ul > li.dropdown-wrapper > a .fa-angle-down,.main-menu.vertical .menu-heading {line-height:' . $this->config->get('menu_height_normal') . 'px;height:' . $this->config->get('menu_height_normal') . 'px;}';
+    // }
+    // if ($menu_height_sticky !== '' && $menu_height_sticky !== 'auto') {
+    //     $mandatory_css .= '.sticky-enabled.sticky-active .table-cell.menu-cell:not(.vertical),.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li > a,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li.dropdown-wrapper > a .fa-angle-down {line-height:' . $this->config->get('menu_height_sticky') . 'px;height:' . $this->config->get('menu_height_sticky') . 'px;}';
+    // }
+    // if ($menu_height_normal !== '' && $menu_height_normal !== 'auto') {
+    //     $search_height = round($this->config->get('menu_height_normal') * 0.7);
+    //     $mandatory_css .= '.full-search-wrapper .search-main input,.full-search-wrapper .search-category select {height:' . $search_height . 'px;min-height:' . $search_height . 'px;}';
+    // }
+    // if ($menu_height_sticky !== '' && $menu_height_sticky !== 'auto') {
+    //     $mandatory_css .= '@media (min-width: 768px) {.sticky-enabled.sticky-active .header3 .sticky-header-placeholder,.sticky-enabled.offset250 .header5 .header-main {padding-bottom:' . $this->config->get('menu_height_sticky') . 'px;}}';
+    // }
+    // $mandatory_css .= '#logo img {max-width:' . $this->config->get('logo_max_width') . 'px;}';
+
+    // xs is the base style; larger breakpoints override it as the viewport grows.
+    $mandatory_css .= $mandatory_css_xs;
+    $breakpoint_min_widths = array('md' => 768, 'lg' => 992, 'xl' => 1200);
+    foreach ($breakpoint_min_widths as $point => $min_width) {
+        $mandatory_css_var = 'mandatory_css_' . $point;
+        if (${$mandatory_css_var} !== '') {
+            $mandatory_css .= '@media (min-width: ' . $min_width . 'px){' . ${$mandatory_css_var} . "}\n";
+        }
     }
-    if ($menu_height_normal !== '' && $menu_height_normal !== 'auto') {
-        $search_height = round($this->config->get('menu_height_normal') * 0.7);
-        $madatory_css .= '.full-search-wrapper .search-main input,.full-search-wrapper .search-category select {height:' . $search_height . 'px;min-height:' . $search_height . 'px;}';
-    }
-    if ($menu_height_sticky !== '' && $menu_height_sticky !== 'auto') {
-        $madatory_css .= '@media (min-width: 992px) {.sticky-enabled.sticky-active .header3 .sticky-header-placeholder,.sticky-enabled.offset250 .header5 .header-main {padding-bottom:' . $this->config->get('menu_height_sticky') . 'px;}}';
-    }
-    $madatory_css .= '#logo img {max-width:' . $this->config->get('logo_maxwidth') . 'px;}';
-    $this->cache->set('oxyo_mandatory_css_store_' . $this->config->get('config_store_id'), $madatory_css);
+    $mandatory_css .= $mandatory_css_sticky;
+    // var_dump($mandatory_css);
+
+    $this->cache->set('oxyo_mandatory_css_store_' . $this->config->get('config_store_id'), $mandatory_css);
     $data['oxyo_mandatory_css'] = $this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_store_id'));
 }
 
@@ -492,9 +573,9 @@ $styles = '';
 if ($this->config->get('oxyo_design_status')) {
     $data['oxyo_styles_status'] = $this->config->get('oxyo_design_status');
     $data['oxyo_search_scheme'] = $this->config->get('oxyo_search_scheme');
-    if ($this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'))) {
-        $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
-    } else {
+    // if ($this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'))) {
+        // $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
+    // } else {
         $oxyo_header_bg = $this->config->get('oxyo_header_bg');
         $oxyo_header_bg_rgba = sscanf($oxyo_header_bg, "#%02x%02x%02x");
         $oxyo_header_bg_rgba_main = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 1)';
@@ -504,21 +585,21 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= 'div.ui-slider-range.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default {background:' . $this->config->get('oxyo_primary_accent_color') . ' !important;}';
         // $styles .= '.primary-color-border, .nav-tabs {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
         $styles .= '.primary-color-border {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
-        $styles .= '.top_notificaiton {background-color:' . $this->config->get('oxyo_top_note_bg') . ';}';
-        $styles .= '.top_notificaiton, .top_notificaiton a {color:' . $this->config->get('oxyo_top_note_color') . ';}';
+        $styles .= '.top_notification {background-color:' . $this->config->get('oxyo_top_note_bg') . ';}';
+        $styles .= '.top_notification, .top_notification a {color:' . $this->config->get('oxyo_top_note_color') . ';}';
         $styles .= '.top_line {background-color:' . $this->config->get('oxyo_top_line_bg') . ';}';
         $styles .= '.top_line, .top_line a {color:' . $this->config->get('oxyo_top_line_color') . ';}';
         $styles .= '.top_line .anim-underline:after, .top_line .links ul > li + li:before, .top_line .links .setting-ul > .setting-li:before {background-color:' . $this->config->get('oxyo_top_line_color') . ';}';
 
-        $styles .= '.teswt, .header-style, .sticky-holder, .main-menu > ul > li .full-width-dropdown {background-color:' . $oxyo_header_bg_rgba_main . ';}';
+        $styles .= '.header-style, .sticky-holder, .main-menu > ul > li .full-width-dropdown {background-color:' . $oxyo_header_bg_rgba_main . ';}';
 
         // $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ';}';
-        $styles .= '.header-main, .header-main a:not(.btn) {color:' . $this->config->get('oxyo_header_color') . ';}';
+        $styles .= '.header-main a:not(.btn) {color:' . $this->config->get('oxyo_header_color') . ';}';
         // Added
         $styles .= '.header-main .menu-element:hover > a, .header-main .menu-element:hover > div > a {color:' . $this->config->get('oxyo_header_accent') . ';}';
         $styles .= '.header-main .sign-in:after, .header-main .anim-underline:after, .header-main .sign-in .anim-underline:after {background-color:' . $this->config->get('oxyo_header_color') . ';}';
         $styles .= '.main-menu:not(.vertical) > ul > li:hover > a > .top, .header-main .shortcut-wrapper:hover .icon-magnifier, .header-main #cart:hover .shortcut-wrapper {opacity:0.8;}';
-        $styles .= '.shortcut-wrapper .counter {background-color:' . $this->config->get('oxyo_header_accent') . ';}';
+        $styles .= '.shortcut-wrapper .counter_wrapper {background-color:' . $this->config->get('oxyo_header_accent') . ';}';
         $styles .= '.header-bottom, .menu-style {background-color:' . $this->config->get('oxyo_header_menu_bg') . ';}';
         $styles .= '.menu-style .main-menu a > .top,.menu-style .main-menu a > .fa-angle-down, .menu-style .main-menu .search-trigger, .main-menu .dropdown-inner h2, .main-menu .dropdown-inner h3, .main-menu .dropdown-inner h4, .main-menu .dropdown-inner ul a:not(:hover) {color:' . $this->config->get('oxyo_header_menu_color') . ';}';
         $styles .= '.menu-style .main-menu > ul > li:hover > a > .top, .menu-style .main-menu > ul > li:hover > a > i, .menu-style .main-menu > ul > li:hover > a {color:' . $this->config->get('oxyo_header_menu_accent') . ';}';
@@ -551,7 +632,6 @@ if ($this->config->get('oxyo_design_status')) {
         if ($this->config->get('oxyo_product_tab_bg')) {
             $styles .= '.product-tabs-wrapper, .list-specification.dotted > li > span {background-color:' . $this->config->get('oxyo_product_tab_bg') . ';}';
         }
-        // var_dump($this->config->get('oxyo_product_tab_bg'));
 
         if ($this->config->get('oxyo_body_bg_img')) {
             $styles .= 'body.boxed-layout {background-position:' . $this->config->get('oxyo_body_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_body_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_body_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_body_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_body_bg_img') . ');}';
@@ -573,7 +653,7 @@ if ($this->config->get('oxyo_design_status')) {
         // $styles .= '.sale_badge {background-color:' . $this->config->get('oxyo_salebadge_bg') . ';color:' . $this->config->get('oxyo_salebadge_color') . '}';
         // $styles .= '.new_badge {background-color:' . $this->config->get('oxyo_newbadge_bg') . ';color:' . $this->config->get('oxyo_newbadge_color') . '}';
 
-        $styles .= '@media (min-width: 1201px) {';
+        $styles .= '@media (min-width: 1366px) {';
         $styles .= '.common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .header-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .header-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .menu-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .menu-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .full-width-dropdown {';
         $styles .= 'background-color:' . $oxyo_header_bg_rgba_opacity . ';';
         $styles .= '}';
@@ -597,7 +677,7 @@ if ($this->config->get('oxyo_design_status')) {
 
         $this->cache->set('oxyo_styles_cache_store_' . $this->config->get('config_store_id'), $styles);
         $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
-    }
+    // }
 }
 
 // Custom Fonts
