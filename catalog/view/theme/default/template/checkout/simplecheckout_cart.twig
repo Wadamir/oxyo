@@ -17,7 +17,6 @@
                 <col class="quantity">
                 <col class="price">
                 <col class="total">
-                <col class="remove">
             </colgroup>
             <thead>
                 <tr>
@@ -27,7 +26,6 @@
                     <th class="quantity">{{ column_quantity }}</th>
                     <th class="price">{{ column_price }}</th>
                     <th class="total">{{ column_total }}</th>
-                    <th class="remove"></th>
                 </tr>
             </thead>
             <tbody>
@@ -96,8 +94,6 @@
                             <div>{{ product['price'] }}</div>
                         </td>
                         <td class="total">{{ product['total'] }}</td>
-                        <td class="remove">
-                        </td>
                     </tr>
                 {% endfor %}
                 {% for voucher_info in vouchers %}
@@ -117,8 +113,6 @@
                         </td>
                         <td class="price">{{ voucher_info['amount'] }}</td>
                         <td class="total">{{ voucher_info['amount'] }}</td>
-                        <td class="remove">
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
