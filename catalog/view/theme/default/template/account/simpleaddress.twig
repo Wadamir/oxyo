@@ -1,6 +1,5 @@
 {% if not ajax and not popup and not as_module %}
-{% set simple_page = 'simpleaddress' %}
-{% include simple_header %}
+{{ simple_header }}
 <div class="simple-content">
 {% endif %}
     {% if not ajax or (ajax and popup) %}
@@ -57,5 +56,5 @@
     </form>
 {% if not ajax and not popup and not as_module %}
 </div>
-{% include simple_footer %}
+{{ simple_footer }}
 {% endif %}

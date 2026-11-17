@@ -2,14 +2,11 @@
 /*
 @author Dmitriy Kubarev
 @link http://www.simpleopencart.com
-@link http://www.opencart.com/index.php?route=extension/extension/info&extension_id=4811
 */
 
 include_once(DIR_SYSTEM . 'library/simple/simple_controller.php');
 
 class ControllerAccountSimpleRegister extends SimpleController {
-    private $_templateData = array();
-
     public function index($args = null) {
 
         $this->loadLibrary('simple/simpleregister');
@@ -319,8 +316,15 @@ class ControllerAccountSimpleRegister extends SimpleController {
                 'common/header',
             );
 
-            $this->_templateData['simple_header'] = $this->simpleregister->getLinkToHeaderTpl();
-            $this->_templateData['simple_footer'] = $this->simpleregister->getLinkToFooterTpl();
+            if ($this->simpleregister->getOpencartVersion() < 300) {
+                $this->_templateData['simple_header'] = $this->simpleregister->getLinkToHeaderTpl();
+                $this->_templateData['simple_footer'] = $this->simpleregister->getLinkToFooterTpl();
+            } else {
+                $this->_templateData['simple_page'] = 'simpleregister';
+
+                $this->_templateData['simple_header'] = $this->getSimpleHeader($childrens);
+                $this->_templateData['simple_footer'] = $this->getSimpleFooter($childrens);
+            }
         }
 
         $this->setOutputContent(trim($this->renderPage('account/simpleregister', $this->_templateData, $childrens)));

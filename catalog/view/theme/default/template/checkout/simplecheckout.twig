@@ -1,7 +1,6 @@
 {% if not ajax and not popup and not as_module %}
-{% set simple_page = 'simplecheckout' %}
 {% set heading_title = heading_title  ~ (display_weight ? '&nbsp;(<span id="weight">' ~ weight  ~ '</span>)' : '') %}
-{% include simple_header %}
+{{ simple_header }}
 <style>
     {% if left_column_width %}
         @media only screen and (min-width:1024px) {
@@ -259,5 +258,5 @@
     </div>
 {% if not ajax and not popup and not as_module %}
 </div>
-{% include simple_footer %}
+{{ simple_footer }}
 {% endif %}

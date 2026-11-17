@@ -7,8 +7,7 @@
 include_once(DIR_SYSTEM . 'library/simple/simple_controller.php');
 
 class ControllerAccountSimpleaddress extends SimpleController {
-    private $_templateData = array();
-
+    
     public function insert($args = null) {
 
         $this->loadLibrary('simple/simpleaddress');
@@ -151,8 +150,15 @@ class ControllerAccountSimpleaddress extends SimpleController {
                 'common/header',
             );
 
-            $this->_templateData['simple_header'] = $this->simpleaddress->getLinkToHeaderTpl();
-            $this->_templateData['simple_footer'] = $this->simpleaddress->getLinkToFooterTpl();
+            if ($this->simpleaddress->getOpencartVersion() < 300) {
+                $this->_templateData['simple_header'] = $this->simpleaddress->getLinkToHeaderTpl();
+                $this->_templateData['simple_footer'] = $this->simpleaddress->getLinkToFooterTpl();
+            } else {
+                $this->_templateData['simple_page'] = 'simpleaddress';
+
+                $this->_templateData['simple_header'] = $this->getSimpleHeader($childrens);
+                $this->_templateData['simple_footer'] = $this->getSimpleFooter($childrens);
+            }
         }
 
         $this->setOutputContent(trim($this->renderPage('account/simpleaddress', $this->_templateData, $childrens)));
@@ -314,8 +320,15 @@ class ControllerAccountSimpleaddress extends SimpleController {
                 'common/header',
             );
 
-            $this->_templateData['simple_header'] = $this->simpleaddress->getLinkToHeaderTpl();
-            $this->_templateData['simple_footer'] = $this->simpleaddress->getLinkToFooterTpl();
+            if ($this->simpleaddress->getOpencartVersion() < 300) {
+                $this->_templateData['simple_header'] = $this->simpleaddress->getLinkToHeaderTpl();
+                $this->_templateData['simple_footer'] = $this->simpleaddress->getLinkToFooterTpl();
+            } else {
+                $this->_templateData['simple_page'] = 'simpleaddress';
+
+                $this->_templateData['simple_header'] = $this->getSimpleHeader($childrens);
+                $this->_templateData['simple_footer'] = $this->getSimpleFooter($childrens);
+            }
         }
 
         $this->setOutputContent(trim($this->renderPage('account/simpleaddress', $this->_templateData, $childrens)));

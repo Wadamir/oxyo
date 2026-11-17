@@ -7,8 +7,7 @@
 include_once(DIR_SYSTEM . 'library/simple/simple_controller.php');
 
 class ControllerCheckoutSimpleCheckout extends SimpleController {
-    private $_templateData = array();
-
+    
     public function index($args = null) {
 
         $this->loadLibrary('simple/simplecheckout');
@@ -476,8 +475,15 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
                 'common/header',
             );
 
-            $this->_templateData['simple_header'] = $this->simplecheckout->getLinkToHeaderTpl();
-            $this->_templateData['simple_footer'] = $this->simplecheckout->getLinkToFooterTpl();
+            if ($this->simplecheckout->getOpencartVersion() < 300) {
+                $this->_templateData['simple_header'] = $this->simplecheckout->getLinkToHeaderTpl();
+                $this->_templateData['simple_footer'] = $this->simplecheckout->getLinkToFooterTpl();
+            } else {
+                $this->_templateData['simple_page'] = 'simplecheckout';
+
+                $this->_templateData['simple_header'] = $this->getSimpleHeader($childrens);
+                $this->_templateData['simple_footer'] = $this->getSimpleFooter($childrens);
+            }
         }
 
         $this->setOutputContent(trim($this->renderPage('checkout/simplecheckout', $this->_templateData, $childrens)));
@@ -987,7 +993,7 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
         $data['email']                  = $customer_info['email'];
         $data['telephone']              = $customer_info['telephone'];
         $data['fax']                    = !empty($customer_info['fax']) ? $customer_info['fax'] : '';
-        $data['custom_field']           = isset($customer_info['custom_field']) ? $customer_info['custom_field'] : array();
+        $data['custom_field']           = isset($customer_info['custom_field']) && isset($customer_info['custom_field']['account']) ? $customer_info['custom_field']['account'] : array();
 
         $data['payment_firstname']      = $payment_address['firstname'];
         $data['payment_lastname']       = $payment_address['lastname'];
@@ -1003,7 +1009,7 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
         $data['payment_address_format'] = $payment_address['address_format'];
         $data['payment_company_id']     = isset($payment_address['company_id']) ? $payment_address['company_id'] : '';
         $data['payment_tax_id']         = isset($payment_address['tax_id']) ? $payment_address['tax_id'] : '';
-        $data['payment_custom_field']   = isset($payment_address['custom_field']) ? $payment_address['custom_field'] : array();
+        $data['payment_custom_field']   = isset($payment_address['custom_field']) && isset($payment_address['custom_field']['address']) ? $payment_address['custom_field']['address'] : array();
 
         if (isset($payment_method['title'])) {
             $data['payment_method'] = $payment_method['title'];
@@ -1030,7 +1036,7 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
             $data['shipping_country']        = $shipping_address['country'];
             $data['shipping_country_id']     = $shipping_address['country_id'];
             $data['shipping_address_format'] = $shipping_address['address_format'];
-            $data['shipping_custom_field']   = isset($shipping_address['custom_field']) ? $shipping_address['custom_field'] : array();
+            $data['shipping_custom_field']   = isset($shipping_address['custom_field']) && isset($shipping_address['custom_field']['address']) ? $shipping_address['custom_field']['address'] : array();
 
             if (isset($shipping_method['title'])) {
                 $data['shipping_method'] = $shipping_method['title'];

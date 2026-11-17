@@ -1,15 +1,6 @@
 <?php
 $php_version = PHP_MAJOR_VERSION . PHP_MINOR_VERSION;
-$ioncube_loaders = array(
-    53 => 53,
-    54 => 54,
-    55 => 55,
-    56 => 56,
-    70 => 56,
-    71 => 71,
-    72 => 72,
-    73 => 72,
-    74 => 72,
-);
-$ioncube_loader = !empty($ioncube_loaders[$php_version]) ? $ioncube_loaders[$php_version] : 72;
-require_once(DIR_SYSTEM . '/library/simple/php/simple_system_' . $ioncube_loader . '.php');
+if (!in_array($php_version, array('82', '83', '84'))) {
+    exit('Simple: PHP ' . PHP_VERSION . ' is not supported, PHP 8.2 - 8.4 is required');
+}
+require_once(DIR_SYSTEM . '/library/simple/php/simple_system_' . $php_version . '.php');
