@@ -494,9 +494,7 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
         }
 
         // Reward
-        if (!isset($this->request->post['reward']) || (isset($this->request->post['reward']) && ($this->request->post['reward'] == '' || $this->request->post['reward'] == 0))) {
-            unset($this->session->data['reward']);
-        } elseif (isset($this->request->post['reward']) && $this->validateReward()) {
+        if (isset($this->request->post['reward']) && $this->validateReward()) {
             $this->session->data['reward'] = $this->request->post['reward'];
         }
     }
@@ -707,7 +705,6 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
                 $error = true;
             }
         } else {
-            self::$error['warning'] = sprintf($this->language->get('error_reward_points'), 0);
             $error = true;
         }
 

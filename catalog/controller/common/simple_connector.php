@@ -4,8 +4,6 @@ class ControllerCommonSimpleConnector extends Controller {
         $custom = isset($this->request->get['custom']) ? true : false;
         $method = isset($this->request->get['method']) ? trim($this->request->get['method']) : '';
         $filter = isset($this->request->get['filter']) ? trim($this->request->get['filter']) : '';
-        $query = isset($this->request->get['query']) ? trim($this->request->get['query']) : '';
-        $zone = isset($this->request->get['zone']) ? trim($this->request->get['zone']) : '';
 
         if (!$method) {
             exit;
@@ -15,20 +13,10 @@ class ControllerCommonSimpleConnector extends Controller {
             $this->load->model('tool/simpleapimain');
 
             if ($this->config->get('simple_disable_method_checking')) { 
-                // For searchDadataAddresses, pass query parameter
-                if ($method === 'searchDadataAddresses' && $zone && $query) {
-                    $this->response->setOutput(json_encode($this->model_tool_simpleapimain->{$method}($zone, $query)));
-                } else {
-                    $this->response->setOutput(json_encode($this->model_tool_simpleapimain->{$method}($filter)));
-                }
+                $this->response->setOutput(json_encode($this->model_tool_simpleapimain->{$method}($filter)));
             } else {
                 if (method_exists($this->model_tool_simpleapimain, $method) || property_exists($this->model_tool_simpleapimain, $method) || (method_exists($this->model_tool_simpleapimain, 'isExistForSimple') && $this->model_tool_simpleapimain->isExistForSimple($method))) {
-                    // For searchDadataAddresses, pass query parameter
-                    if ($method === 'searchDadataAddresses' && $zone && $query) {
-                        $this->response->setOutput(json_encode($this->model_tool_simpleapimain->{$method}($zone, $query)));
-                    } else {
-                        $this->response->setOutput(json_encode($this->model_tool_simpleapimain->{$method}($filter)));
-                    }
+                    $this->response->setOutput(json_encode($this->model_tool_simpleapimain->{$method}($filter)));
                 }
             }            
         } else {
@@ -396,7 +384,7 @@ class ControllerCommonSimpleConnector extends Controller {
 
         imagejpeg($image);
 
-        unset($image);
+        imagedestroy($image);
     }
 
     public function human() {

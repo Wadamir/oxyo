@@ -484,8 +484,6 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
     }
 
     public function abandoned() {
-        // $this->log->write('================ html/public_html/catalog/controller/checkout/simplecheckout.php abandoned ================');
-        // $this->log->write('ORDER DATA PRODUCTS:');
         if ($this->request->server['REQUEST_METHOD'] == 'POST' && empty($this->request->post['simple_ajax']) && empty($this->session->data['human'])) {
             return;
         }
@@ -504,9 +502,6 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
         }
 
         foreach ($this->cart->getProducts() as $product) {
-            // $this->log->write('CART PRODUCT');
-            // $this->log->write(print_r($product, true));     
-
             if ($opencart_version < 220) {
                 $price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
                 $total = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']);
@@ -854,8 +849,6 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
     }
 
     private function order() {
-        // $this->log->write('================ html/public_html/catalog/controller/checkout/simplecheckout.php order ================');
-        // $this->log->write('ORDER DATA PRODUCTS:');        
         $this->simplecheckout->clearOrder();
 
         $customer_info    = $this->session->data['simple']['customer'];
@@ -1086,8 +1079,6 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
             $this->loadLibrary('encryption');
 
             foreach ($this->cart->getProducts() as $product) {
-                // $this->log->write('CART PRODUCT');
-                // $this->log->write(print_r($product, true));                     
                 $option_data = array();
 
                 foreach ($product['option'] as $option) {
@@ -1159,8 +1150,6 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
             $data['reward'] = $this->cart->getTotalRewardPoints();
         } elseif ($version >= 152) {
             foreach ($this->cart->getProducts() as $product) {
-                // $this->log->write('CART PRODUCT');
-                // $this->log->write(print_r($product, true));                     
                 $option_data = array();
 
                 foreach ($product['option'] as $option) {
