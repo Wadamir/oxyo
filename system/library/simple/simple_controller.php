@@ -8,6 +8,7 @@ class SimpleController extends Controller {
     static $_childContent = '';
     private $_opencartVersion = 0;
     private $_currentRoute = '';
+    protected $_templateData = array();
 
     public function __construct($registry) {
         $opencartVersion = explode('.', VERSION);
@@ -101,5 +102,25 @@ class SimpleController extends Controller {
         self::$_childContent = '';
 
         return $tmp;
+    }
+
+    protected function getSimpleHeader($childrens) {
+        foreach ($childrens as $child) {
+            $this->_templateData[substr($child, strpos($child, '/') + 1)] = $this->load->controller($child);
+        }
+
+        $this->_templateData['current_page_route'] = $this->_currentRoute;
+
+        return $this->load->view('common/simple_header', $this->_templateData);
+    }
+
+    protected function getSimpleFooter($childrens) {
+        foreach ($childrens as $child) {
+            $this->_templateData[substr($child, strpos($child, '/') + 1)] = $this->load->controller($child);
+        }
+
+        $this->_templateData['current_page_route'] = $this->_currentRoute;
+
+        return $this->load->view('common/simple_footer', $this->_templateData);
     }
 }

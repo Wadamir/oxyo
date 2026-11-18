@@ -10,8 +10,7 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
     static $error = array();
     static $updated = false;
 
-    private $_templateData = array();
-
+    
     private function init() {
         $this->loadLibrary('simple/simplecheckout');
 
@@ -171,12 +170,8 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
 
             $product_info = $this->model_catalog_product->getProduct($product['product_id']);
 
-            if ($product_info['special']) {
+            if ((float)$product_info['special'] && (float)$product_info['special'] < (float)$product_info['price']) {
                 $old_price = $this->simplecheckout->formatCurrency($this->tax->calculate($product_info['price'], $product['tax_class_id'], $this->config->get('config_tax')));
-            
-                if ($old_price < $price) {
-                    $old_price = null;
-                }
             }
 
             if ($version >= 200) {
@@ -494,9 +489,7 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
         }
 
         // Reward
-        if (!isset($this->request->post['reward']) || (isset($this->request->post['reward']) && ($this->request->post['reward'] == '' || $this->request->post['reward'] == 0))) {
-            unset($this->session->data['reward']);
-        } elseif (isset($this->request->post['reward']) && $this->validateReward()) {
+        if (isset($this->request->post['reward']) && $this->validateReward()) {
             $this->session->data['reward'] = $this->request->post['reward'];
         }
     }
@@ -523,6 +516,13 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
                 $this->simplecheckout->blockOrder();
                 self::$error['warning'] = $warning;
             }
+        }
+
+        if ($this->cart->hasDownload() && !$this->customer->isLogged() && empty($this->session->data['simple']['customer']['register'])) {
+            $warning = $this->language->get('error_guest_download');
+            $this->simplecheckout->addError('cart', $warning);
+            $this->simplecheckout->blockOrder();
+            self::$error['warning'] = $warning;
         }
 
         $customerGroupId = isset($this->session->data['simple']) && isset($this->session->data['simple']['customer']) && isset($this->session->data['simple']['customer']['customer_group_id']) ? $this->session->data['simple']['customer']['customer_group_id'] : $this->config->get('config_customer_group_id');
@@ -707,7 +707,6 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
                 $error = true;
             }
         } else {
-            self::$error['warning'] = sprintf($this->language->get('error_reward_points'), 0);
             $error = true;
         }
 

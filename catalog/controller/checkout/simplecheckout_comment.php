@@ -7,8 +7,7 @@
 include_once(DIR_SYSTEM . 'library/simple/simple_controller.php');
 
 class ControllerCheckoutSimpleCheckoutComment extends SimpleController {
-    private $_templateData = array();
-
+    
     public function index() {
         $this->loadLibrary('simple/simplecheckout');
 

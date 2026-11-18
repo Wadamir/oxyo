@@ -7,8 +7,7 @@
 include_once(DIR_SYSTEM . 'library/simple/simple_controller.php');
 
 class ControllerModuleSimple extends SimpleController {
-    private $_templateData = array();
-
+    
     public function index($setting) {
         if (empty($setting)) {
             return;
