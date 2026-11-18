@@ -131,7 +131,12 @@
 
             $('#{{ target|escape('js') }}').val($(this).parent().find('input').val());
 
-            $('#modal-image').modal('hide');
+            let $imageModal = $('#modal-image');
+            console.log('image-modal' + $imageModal);
+            if ($imageModal.length) {
+                $imageModal.modal('hide');
+            }
+            console.log('modal-image - hide');
         });
 	{% endif %}
 

@@ -1422,14 +1422,21 @@
 					if (json['success']) {
 						$('.messages-body').html('<div class="alert alert-success alert-messages"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
 						$('.maxy-backdrop, .messages-body').show().delay(1000).fadeOut(500);
-						$('#button-filter').trigger('click');
-                        $('#product-video-' + product_id).modal('hide');
+						var $productModal = $('#product-video-' + product_id);
+						if ($productModal.length && $productModal.hasClass('in')) {
+							$productModal.one('hidden.bs.modal', function() {
+								$('#button-filter').trigger('click');
+							});
+							$productModal.modal('hide');
+						} else {
+							$('#button-filter').trigger('click');
+						}
 						// $('#close-' + type_data + '-' + product_id).trigger('click');
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
+				}           
 			});
 			return;
 		}        
@@ -1469,9 +1476,17 @@
 				if (json['success']) {
 					$('.messages-body').html('<div class="alert alert-success alert-messages"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
 					$('.maxy-backdrop, .messages-body').show().delay(1000).fadeOut(500);
-					$('#button-filter').trigger('click');
-					$('#close-' + type_data + '-' + product_id).trigger('click');
-				}
+					var $productModal = $('#product-image-' + product_id);
+					if ($productModal.length && $productModal.hasClass('in')) {
+						$productModal.one('hidden.bs.modal', function() {
+							$('#button-filter').trigger('click');
+						});
+						$productModal.modal('hide');
+					} else {
+						$('#button-filter').trigger('click');
+					}
+					// $('#close-' + type_data + '-' + product_id).trigger('click');
+                }
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -1515,6 +1530,13 @@
 </script>
 <script type="text/javascript">
 	<!--
+	$(document).on('hidden.bs.modal', '#modal-image', function() {
+		if (!$('.modal.in').length) {
+			$('.modal-backdrop').remove();
+			$('body').removeClass('modal-open').css('padding-right', '');
+		}
+	});
+
 	function linkImage(product_id, type_data) {
 		type_data = type_data || 'image';
 		var element = $('#product-' + type_data + '-' + product_id);
@@ -1524,13 +1546,24 @@
 			target = $('#input-video-' + product_id).attr('id');
 			thumb = 'product-video-preview-' + product_id;
 		}
-		$('#modal-image').remove();
+		// При повторном открытии удаляем только оставшуюся подложку,
+		// если Bootstrap уже не считает ни одну модалку открытой.
+		var $oldImageModal = $('#modal-image');
+		if ($oldImageModal.length) {
+			$oldImageModal.modal('hide');
+			$oldImageModal.remove();
+		}
+		if (!$('.modal.in').length) {
+			$('.modal-backdrop').remove();
+			$('body').removeClass('modal-open').css('padding-right', '');
+		}
 		$.ajax({
 			url: 'index.php?route=common/filemanager&user_token={{ user_token }}&target=' + target + '&thumb=' + thumb,
 			dataType: 'html',
 			success: function(html) {
 				$('body').append('<div id="modal-image" class="modal">' + html + '</div>');
 				$('#modal-image').modal('show');
+                console.log('modal-image - show');
 			}
 		});
 	}
