@@ -68,8 +68,8 @@ $contact_array = array();
 $contacts_config = array(
     'main_phone' => array(
         'config_key'    => 'main_phone',
-        'icon'          => '<i class="bi bi-telephone"></i>',
-        'icon_svg'      => '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></svg>',
+        'icon'          => '<i class="bi bi-telephone-fill"></i>',
+        'icon_svg'      => '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></svg>',
         'link_type'     => 'tel',
         'onclick'       => '',
     ),
@@ -498,16 +498,20 @@ if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_s
 
         if ($type === 'header') {
             if ($point === 'sticky') {
-                $mandatory_css_sticky .= '.sticky-enabled.sticky-active .sticky-header .header-main,.sticky-enabled.sticky-active .sticky-header #logo,.sticky-enabled.sticky-active .sticky-header .sign-in {line-height:' . $height . ';height:' . $height . ";}\n";
+                $mandatory_css_sticky .= '.sticky-enabled.sticky-active .sticky-header .header-main, .sticky-enabled.sticky-active .sticky-header #logo > a > img,.sticky-enabled.sticky-active .sticky-header .sign-in {line-height:' . $height . ';height:' . $height . ";}\n";
+                $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu-wrapper {top: ' . $height . ";}\n";
             } else {
                 $mandatory_css_var = 'mandatory_css_' . $point;
-                ${$mandatory_css_var} .= '.header-main,.header-main .sign-in,#logo,.header-main .font-zero {line-height:' . $height . ';height:' . $height . ";}\n";
+                ${$mandatory_css_var} .= '.header-main, .header-main .sign-in, #logo > a > img {line-height:' . $height . ';height:' . $height . ";}\n";
+                ${$mandatory_css_var} .= '.main-menu-wrapper {top: ' . $height . ";}\n";
             }
         } elseif ($point === 'sticky') {
-            $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li,.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li > a {line-height:' . $height . ';height:' . $height . ";}\n";
+            $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li {line-height:' . $height . '; height:' . $height . ";}\n";
+            $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li.has-sub > .sub-holder {top:' . $height . ";}\n";
         } else {
             $mandatory_css_var = 'mandatory_css_' . $point;
-            ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul,.main-menu:not(.vertical) > ul > li,.main-menu:not(.vertical) > ul > li > a,.main-menu.vertical .menu-heading {line-height:' . $height . ';height:' . $height . ";}\n";
+            ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul > li {line-height:' . $height . '; height:' . $height . ";}\n";
+            ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul > li.has-sub > .sub-holder {top:' . $height . ";}\n";
         }
     }
     // var_dump($mandatory_css_xs);
@@ -580,84 +584,84 @@ if ($this->config->get('oxyo_design_status')) {
         $oxyo_header_bg_rgba = sscanf($oxyo_header_bg, "#%02x%02x%02x");
         $oxyo_header_bg_rgba_main = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 1)';
         $oxyo_header_bg_rgba_opacity = 'rgba(' . $oxyo_header_bg_rgba[0] . ',' . $oxyo_header_bg_rgba[1] . ',' . $oxyo_header_bg_rgba[2] . ', 0.5)';
-        $styles .= 'a:hover, a:focus, .menu-cell .dropdown-inner a:hover, .link-hover-color:hover, .primary-color, .cm_item .primary-color, .nav-tabs.text-center.nav-tabs-sm > li.active {color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
-        $styles .= '.primary-bg-color, .widget-title-style2 .widget .widget-title-separator:after, .nav-tabs.text-center.nav-tabs-sm > li.active > a:after,.nav-tabs > li > a:hover,.nav-tabs > li > a:focus,.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus {background-color:' . $this->config->get('oxyo_primary_accent_color') . ';}';
-        $styles .= 'div.ui-slider-range.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default {background:' . $this->config->get('oxyo_primary_accent_color') . ' !important;}';
+        $styles .= 'a:hover, a:focus, .menu-cell .dropdown-inner a:hover, .link-hover-color:hover, .primary-color, .cm_item .primary-color, .nav-tabs.text-center.nav-tabs-sm > li.active {color:' . $this->config->get('oxyo_primary_accent_color') . ";}\n";
+        $styles .= '.primary-bg-color, .widget-title-style2 .widget .widget-title-separator:after, .nav-tabs.text-center.nav-tabs-sm > li.active > a:after,.nav-tabs > li > a:hover,.nav-tabs > li > a:focus,.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus {background-color:' . $this->config->get('oxyo_primary_accent_color') . ";}\n";
+        $styles .= "div.ui-slider-range.ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default {background:" . $this->config->get('oxyo_primary_accent_color') . " !important;}\n";
         // $styles .= '.primary-color-border, .nav-tabs {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
-        $styles .= '.primary-color-border {border-color:' . $this->config->get('oxyo_primary_accent_color') . '!important;}';
-        $styles .= '.top_notification {background-color:' . $this->config->get('oxyo_top_note_bg') . ';}';
-        $styles .= '.top_notification, .top_notification a {color:' . $this->config->get('oxyo_top_note_color') . ';}';
-        $styles .= '.top_line {background-color:' . $this->config->get('oxyo_top_line_bg') . ';}';
-        $styles .= '.top_line, .top_line a {color:' . $this->config->get('oxyo_top_line_color') . ';}';
-        $styles .= '.top_line .anim-underline:after, .top_line .links ul > li + li:before, .top_line .links .setting-ul > .setting-li:before {background-color:' . $this->config->get('oxyo_top_line_color') . ';}';
+        $styles .= '.primary-color-border {border-color:' . $this->config->get('oxyo_primary_accent_color') . " !important;}\n";
+        $styles .= '.top_notification {background-color:' . $this->config->get('oxyo_top_note_bg') . ";}\n";
+        $styles .= '.top_notification, .top_notification a {color:' . $this->config->get('oxyo_top_note_color') . ";}\n";
+        $styles .= '.top_line {background-color:' . $this->config->get('oxyo_top_line_bg') . ";}\n";
+        $styles .= '.top_line, .top_line a {color:' . $this->config->get('oxyo_top_line_color') . ";}\n";
+        $styles .= '.top_line .anim-underline:after, .top_line .links ul > li + li:before, .top_line .links .setting-ul > .setting-li:before {background-color:' . $this->config->get('oxyo_top_line_color') . ";}\n";
 
-        $styles .= '.header-style, .sticky-holder, .main-menu > ul > li .full-width-dropdown {background-color:' . $oxyo_header_bg_rgba_main . ';}';
+        $styles .= '.header-wrapper > .sticky-header {background-color:' . $oxyo_header_bg_rgba_main . ";}\n";
 
-        // $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ';}';
-        $styles .= '.header-main a:not(.btn) {color:' . $this->config->get('oxyo_header_color') . ';}';
+        // $styles .= '.header-main, .header-main a:not(.btn), .header-main .main-menu > ul > li > a:hover {color:' . $this->config->get('oxyo_header_color') . ";}\n";
+        $styles .= '.header-main a:not(.btn) {color:' . $this->config->get('oxyo_header_color') . ";}\n";
         // Added
-        $styles .= '.header-main .menu-element:hover > a, .header-main .menu-element:hover > div > a {color:' . $this->config->get('oxyo_header_accent') . ';}';
-        $styles .= '.header-main .sign-in:after, .header-main .anim-underline:after, .header-main .sign-in .anim-underline:after {background-color:' . $this->config->get('oxyo_header_color') . ';}';
-        $styles .= '.main-menu:not(.vertical) > ul > li:hover > a > .top, .header-main .shortcut-wrapper:hover .icon-magnifier, .header-main #cart:hover .shortcut-wrapper {opacity:0.8;}';
-        $styles .= '.shortcut-wrapper .counter_wrapper {background-color:' . $this->config->get('oxyo_header_accent') . ';}';
-        $styles .= '.header-bottom, .menu-style {background-color:' . $this->config->get('oxyo_header_menu_bg') . ';}';
-        $styles .= '.menu-style .main-menu a > .top,.menu-style .main-menu a > .fa-angle-down, .menu-style .main-menu .search-trigger, .main-menu .dropdown-inner h2, .main-menu .dropdown-inner h3, .main-menu .dropdown-inner h4, .main-menu .dropdown-inner ul a:not(:hover) {color:' . $this->config->get('oxyo_header_menu_color') . ';}';
-        $styles .= '.menu-style .main-menu > ul > li:hover > a > .top, .menu-style .main-menu > ul > li:hover > a > i, .menu-style .main-menu > ul > li:hover > a {color:' . $this->config->get('oxyo_header_menu_accent') . ';}';
-        $styles .= '.menu-tag.sale {background-color:' . $this->config->get('oxyo_menutag_sale_bg') . ';}';
-        $styles .= '.menu-tag.sale:before {color:' . $this->config->get('oxyo_menutag_sale_bg') . ';}';
-        $styles .= '.menu-tag.new {background-color:' . $this->config->get('oxyo_menutag_new_bg') . ';}';
-        $styles .= '.menu-tag.new:before {color:' . $this->config->get('oxyo_menutag_new_bg') . ';}';
-        $styles .= '.vertical-menu-bg, .vertical-menu-bg.dropdown-content {background-color:' . $this->config->get('oxyo_vertical_menu_bg') . ';}';
-        $styles .= '.main-menu.vertical > ul > li:hover > a {background-color:' . $this->config->get('oxyo_vertical_menu_bg_hover') . ';}';
-        $styles .= '.title_in_bc .breadcrumb-holder {background-color:' . $this->config->get('oxyo_bc_bg_color') . ';}';
-        $styles .= '.title_in_bc .breadcrumb-holder, .title_in_bc .breadcrumb-holder .oxyo-back-btn {color:' . $this->config->get('oxyo_bc_color') . ';}';
-        $styles .= '.title_in_bc .oxyo-back-btn>i,.title_in_bc .oxyo-back-btn>i:after {background-color:' . $this->config->get('oxyo_bc_color') . ';}';
+        $styles .= '.header-main .menu-element:hover > a, .header-main .menu-element:hover > div > a {color:' . $this->config->get('oxyo_header_accent') . ";}\n";
+        $styles .= '.header-main .sign-in:after, .header-main .anim-underline:after, .header-main .sign-in .anim-underline:after {background-color:' . $this->config->get('oxyo_header_color') . ";}\n";
+        $styles .= ".main-menu:not(.vertical) > ul > li:hover > a > .top, .header-main .shortcut-wrapper:hover .icon-magnifier, .header-main #cart:hover .shortcut-wrapper {opacity:0.8;}\n";
+        $styles .= '.shortcut-wrapper .counter_wrapper {background-color:' . $this->config->get('oxyo_header_accent') . ";}\n";
+        $styles .= '.main-menu-wrapper, .main-menu > ul > li .full-width-dropdown {background-color:' . $this->config->get('oxyo_header_menu_bg') . ";}\n";
+        $styles .= '.main-menu-wrapper .main-menu a > .top,.main-menu-wrapper .main-menu a > .fa-angle-down, .main-menu-wrapper .main-menu .search-trigger, .main-menu .dropdown-inner h2, .main-menu .dropdown-inner h3, .main-menu .dropdown-inner h4, .main-menu .dropdown-inner ul a:not(:hover) {color:' . $this->config->get('oxyo_header_menu_color') . ";}\n";
+        $styles .= '.main-menu-wrapper .main-menu > ul > li:hover > a > .top, .main-menu-wrapper .main-menu > ul > li:hover > a > i, .main-menu-wrapper .main-menu > ul > li:hover > a {color:' . $this->config->get('oxyo_header_menu_accent') . ";}\n";
+        $styles .= '.menu-tag.sale {background-color:' . $this->config->get('oxyo_menutag_sale_bg') . ";}\n";
+        $styles .= '.menu-tag.sale:before {color:' . $this->config->get('oxyo_menutag_sale_bg') . ";}\n";
+        $styles .= '.menu-tag.new {background-color:' . $this->config->get('oxyo_menutag_new_bg') . ";}\n";
+        $styles .= '.menu-tag.new:before {color:' . $this->config->get('oxyo_menutag_new_bg') . ";}\n";
+        $styles .= '.vertical-menu-bg, .vertical-menu-bg.dropdown-content {background-color:' . $this->config->get('oxyo_vertical_menu_bg') . ";}\n";
+        $styles .= '.main-menu.vertical > ul > li:hover > a {background-color:' . $this->config->get('oxyo_vertical_menu_bg_hover') . ";}\n";
+        $styles .= '.title_in_bc .breadcrumb-holder {background-color:' . $this->config->get('oxyo_bc_bg_color') . ";}\n";
+        $styles .= '.title_in_bc .breadcrumb-holder, .title_in_bc .breadcrumb-holder .oxyo-back-btn {color:' . $this->config->get('oxyo_bc_color') . ";}\n";
+        $styles .= '.title_in_bc .oxyo-back-btn>i,.title_in_bc .oxyo-back-btn>i:after {background-color:' . $this->config->get('oxyo_bc_color') . ";}\n";
 
         if ($this->config->get('oxyo_bc_bg_img')) {
-            $styles .= '.title_in_bc .breadcrumb-holder {background-position:' . $this->config->get('oxyo_bc_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_bc_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_bc_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_bc_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_bc_bg_img') . ');}';
+            $styles .= '.title_in_bc .breadcrumb-holder {background-position:' . $this->config->get('oxyo_bc_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_bc_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_bc_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_bc_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_bc_bg_img') . ");}\n";
         }
 
-        $styles .= '.btn-primary, a.btn-primary,.btn-neutral {background-color:' . $this->config->get('oxyo_default_btn_bg') . ';color:' . $this->config->get('oxyo_default_btn_color') . ';}';
-        $styles .= '.btn-primary:hover,.btn-primary.active,.btn-primary:focus,.btn-default:hover,.btn-default.active,.btn-default:focus {background-color:' . $this->config->get('oxyo_default_btn_bg_hover') . '!important;color:' . $this->config->get('oxyo_default_btn_color_hover') . ' !important;}';
-        $styles .= '.btn-contrast-outline {border-color:' . $this->config->get('oxyo_contrast_btn_bg') . ';color:' . $this->config->get('oxyo_contrast_btn_bg') . ';}';
-        $styles .= '.btn-contrast, a.btn-contrast, .btn-contrast-outline:hover {background-color:' . $this->config->get('oxyo_contrast_btn_bg') . ';}';
+        $styles .= '.btn-primary, a.btn-primary,.btn-neutral {background-color:' . $this->config->get('oxyo_default_btn_bg') . ';color:' . $this->config->get('oxyo_default_btn_color') . ";}\n";
+        $styles .= '.btn-primary:hover,.btn-primary.active,.btn-primary:focus,.btn-default:hover,.btn-default.active,.btn-default:focus {background-color:' . $this->config->get('oxyo_default_btn_bg_hover') . '!important;color:' . $this->config->get('oxyo_default_btn_color_hover') . " !important;}\n";
+        $styles .= '.btn-contrast-outline {border-color:' . $this->config->get('oxyo_contrast_btn_bg') . ';color:' . $this->config->get('oxyo_contrast_btn_bg') . ";}\n";
+        $styles .= '.btn-contrast, a.btn-contrast, .btn-contrast-outline:hover {background-color:' . $this->config->get('oxyo_contrast_btn_bg') . ";}\n";
         $styles .= '.price, #cart-content .totals tbody > tr:last-child > td:last-child {color:' . $this->config->get('oxyo_price_color') . '}';
-        $styles .= '#footer {background-color:' . $this->config->get('oxyo_footer_bg') . ';}';
-        $styles .= '#footer, #footer a, #footer a:hover, #footer h5 {color:' . $this->config->get('oxyo_footer_color') . ';}';
+        $styles .= '#footer {background-color:' . $this->config->get('oxyo_footer_bg') . ";}\n";
+        $styles .= '#footer, #footer a, #footer a:hover, #footer h5 {color:' . $this->config->get('oxyo_footer_color') . ";}\n";
         $styles .= '#footer .footer-copyright:before {background-color:' . $this->config->get('oxyo_footer_color') . ';opacity:0.05;}';
-        $styles .= '#footer h5:after {background-color:' . $this->config->get('oxyo_footer_h5_sep') . ';}';
-        $styles .= 'body.boxed-layout {background-color:' . $this->config->get('oxyo_body_bg_color') . ';}';
+        $styles .= '#footer h5:after {background-color:' . $this->config->get('oxyo_footer_h5_sep') . ";}\n";
+        $styles .= 'body.boxed-layout {background-color:' . $this->config->get('oxyo_body_bg_color') . ";}\n";
 
         // Product tabs color
         if ($this->config->get('oxyo_product_tab_bg')) {
-            $styles .= '.product-tabs-wrapper, .list-specification.dotted > li > span {background-color:' . $this->config->get('oxyo_product_tab_bg') . ';}';
+            $styles .= '.product-tabs-wrapper, .list-specification.dotted > li > span {background-color:' . $this->config->get('oxyo_product_tab_bg') . ";}\n";
         }
 
         if ($this->config->get('oxyo_body_bg_img')) {
-            $styles .= 'body.boxed-layout {background-position:' . $this->config->get('oxyo_body_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_body_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_body_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_body_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_body_bg_img') . ');}';
+            $styles .= 'body.boxed-layout {background-position:' . $this->config->get('oxyo_body_bg_img_pos') . ';background-repeat:' . $this->config->get('oxyo_body_bg_img_repeat') . ';background-size:' . $this->config->get('oxyo_body_bg_img_size') . ';background-attachment:' . $this->config->get('oxyo_body_bg_img_att') . ';background-image:url(' . $server . 'image/' . $this->config->get('oxyo_body_bg_img') . ");}\n";
         }
 
         // Stickers
         if ($this->config->get('sticker_sale')) {
             $sticker_sale = $this->config->get('sticker_sale');
             if (isset($sticker_sale['status']) && $sticker_sale['status'] == 1) {
-                $styles .= '.sale_badge {background-color:' . $sticker_sale['bg'] . ';color:' . $sticker_sale['color'] . ';}';
+                $styles .= '.sale_badge {background-color:' . $sticker_sale['bg'] . ';color:' . $sticker_sale['color'] . ";}\n";
             }
         }
         if ($this->config->get('sticker_new')) {
             $sticker_new = $this->config->get('sticker_new');
             if (isset($sticker_new['status']) && $sticker_new['status'] == 1) {
-                $styles .= '.new_badge {background-color:' . $sticker_new['bg'] . ';color:' . $sticker_new['color'] . ';}';
+                $styles .= '.new_badge {background-color:' . $sticker_new['bg'] . ';color:' . $sticker_new['color'] . ";}\n";
             }
         }
         // $styles .= '.sale_badge {background-color:' . $this->config->get('oxyo_salebadge_bg') . ';color:' . $this->config->get('oxyo_salebadge_color') . '}';
         // $styles .= '.new_badge {background-color:' . $this->config->get('oxyo_newbadge_bg') . ';color:' . $this->config->get('oxyo_newbadge_color') . '}';
 
-        $styles .= '@media (min-width: 1366px) {';
-        $styles .= '.common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .header-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .header-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .menu-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .menu-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .full-width-dropdown {';
-        $styles .= 'background-color:' . $oxyo_header_bg_rgba_opacity . ';';
-        $styles .= '}';
-        $styles .= '}';
+        // $styles .= '@media (min-width: 1366px) {';
+        // $styles .= '.common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .header-style, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .header-style, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .fixed-header-possible .main-menu-wrapper, .common-home.home-fixed-header:not(.sticky-enabled) .fixed-header-possible .main-menu-wrapper, .common-home.home-fixed-header.sticky-enabled:not(.sticky-active) .full-width-dropdown {';
+        // $styles .= 'background-color:' . $oxyo_header_bg_rgba_opacity . ';';
+        // $styles .= "}\n";
+        // $styles .= "}\n";
 
         // Image width and height for img in product page
         $data['theme_default_image_thumb_width'] = $this->config->get('theme_default_image_thumb_width');
@@ -670,10 +674,10 @@ if ($this->config->get('oxyo_design_status')) {
         $styles .= '--thumb-width: ' . round($this->config->get('theme_default_image_thumb_width') / 10) . 'px;';
         $styles .= '--thumb-height: ' . round($this->config->get('theme_default_image_thumb_height') / 10) . 'px;';
         $styles .= '--gallery-ratio: ' . round($this->config->get('theme_default_image_thumb_width') / $this->config->get('theme_default_image_thumb_height'), 2) . ';';
-        $styles .= '}';
-        $styles .= '.img-aspect-ratio .image-wrapper, .img-aspect-ratio .video-wrapper {aspect-ratio: var(--gallery-ratio);';
-        $styles .= '.product-thumbnails .thumb {width: var(--thumb-width); height: var(--thumb-height); aspect-ratio: calc(var(--thumb-width) / var(--thumb-height));';
-        $styles .= '.product-thumbnails .thumb > .thumb-wrapper {color: #fff000; }';
+        $styles .= "}\n";
+        $styles .= ".img-aspect-ratio .image-wrapper, .img-aspect-ratio .video-wrapper {aspect-ratio: var(--gallery-ratio);}\n";
+        $styles .= ".product-thumbnails .thumb {width: var(--thumb-width); height: var(--thumb-height); aspect-ratio: calc(var(--thumb-width) / var(--thumb-height));}\n";
+        $styles .= ".product-thumbnails .thumb > .thumb-wrapper {color: #fff000;}\n";
 
         $this->cache->set('oxyo_styles_cache_store_' . $this->config->get('config_store_id'), $styles);
         $data['oxyo_styles_cache'] = $this->cache->get('oxyo_styles_cache_store_' . $this->config->get('config_store_id'));
@@ -696,27 +700,27 @@ if ($this->config->get('oxyo_typo_status')) {
     if ($this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'))) {
         $data['oxyo_fonts_cache'] = $this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'));
     } else {
-        $font_styles = 'body,.product-name.main-font,.gridlist .single-product .product-name,.gridlist .single-blog .blog-title,#bc-h1-holder #page-title {font-family:' . $this->config->get('body_font_fam') . ';}';
+        $font_styles = 'body,.product-name.main-font,.gridlist .single-product .product-name,.gridlist .single-blog .blog-title,#bc-h1-holder #page-title {font-family:' . $this->config->get('body_font_fam') . ";}\n";
         if (!$this->config->get('body_font_italic_status')) {
-            $font_styles .= '.header-main .sign-in .anim-underline,.special_countdown p,.blog .blog_stats i,label i,.cm_item i {font-style:normal;}';
+            $font_styles .= ".header-main .sign-in .anim-underline,.special_countdown p,.blog .blog_stats i,label i,.cm_item i {font-style:normal;}\n";
         }
-        $font_styles .= 'b, strong, .nav-tabs > li > a, #cart-content .totals tbody > tr:last-child > td, .main-menu .dropdown-inner .static-menu > ul > li.has-sub > a, .main-menu.vertical > ul > li > a, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td.total-cell, .table-bordered.totals tbody > tr:last-child > td:last-child, .compare-table table tbody tr td:first-child, .totals-slip .table-holder table tr:last-child td, .panel-group .panel-heading .panel-title, .badge i, .product-style1 .grid .single-product .price-wrapper .btn-outline, .options .name label, .dropdown-inner h4.column-title, .product-style6 .grid .single-product .price, .product-style6 .single-product .btn-contrast {font-weight:' . $this->config->get('body_font_bold_weight') . ';}';
-        $font_styles .= '.product-name, .blog-title, .product-h1 h1, .contrast-heading, .contrast-font {font-family:' . $this->config->get('contrast_font_fam') . ';}';
-        $font_styles .= '.promo-style-2 h3, .promo-style-4 h3,.table-bordered > tbody > tr > td.price-cell,.grid .single-product .price,.menu-product .sale-counter div,.table.specification > tbody > tr > td b, .bordered-list-title {font-size:' . $this->config->get('body_font_size_16') . ';}';
-        $font_styles .= '.table.products .remove,.full-search-wrapper .search-category select,.blog_post .blog_comment,.video-jumbotron p,.compare-table table tbody tr td:first-child,.grid .single-product .product-name,.grid .single-product .product-name:hover,.list .single-product .product-name {font-size:' . $this->config->get('body_font_size_15') . ';}';
-        $font_styles .= 'body,input,textarea,select,.form-control,.icon-element,.main-menu > ul > li,.grid-holder .item,.cm_content .cm_item,.instruction-box .caption a,.btn,a.button,input.button,button.button,a.button-circle,.single-product .price .price-old,.special_countdown p,.list .item.single-product .price-tax, .form-control,label,.icon-element {font-size:' . $this->config->get('body_font_size_14') . ';}';
-        $font_styles .= 'small,.form-control.input-sm,.shortcut-wrapper,.header5 .links > ul > li > a,.header5 .setting-ul > .setting-li > a,.breadcrumb,.sign-up-field .sign-up-respond span,.badge i,.special_countdown div i,.top_line {font-size:' . $this->config->get('body_font_size_13') . ';}';
-        $font_styles .= '.tooltip,.links ul > li > a,.setting-ul > .setting-li > a,.table.products .product-name,#cart-content .totals, .main-menu.vertical > ul > li > a,.single-blog .banner_wrap .tags a,.bordered-list a {font-size:' . $this->config->get('body_font_size_12') . ';}';
-        $font_styles .= 'h1, h2, h3, h4, h5, h6 {font-family:' . $this->config->get('headings_fam') . ';font-weight:' . $this->config->get('headings_weight') . ';}';
-        $font_styles .= '.panel-group .panel-heading .panel-title, legend {font-size:' . $this->config->get('headings_size_sm') . ';}';
-        $font_styles .= '.title_in_bc .login-area h2, .panel-body h2, h3.lined-title.lg, .grid1 .single-blog .blog-title, .grid2 .single-blog .blog-title {font-size:' . $this->config->get('headings_size_lg') . ';}';
-        $font_styles .= 'h1, .product-info .table-cell.right h1#page-title {font-family:' . $this->config->get('h1_inline_fam') . ';font-size:' . $this->config->get('h1_inline_size') . ';font-weight:' . $this->config->get('h1_inline_weight') . ';text-transform:' . $this->config->get('h1_inline_trans') . ';letter-spacing:' . $this->config->get('h1_inline_ls') . ';}';
-        $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder {font-family:' . $this->config->get('h1_breadcrumb_fam') . ';}';
+        $font_styles .= 'b, strong, .nav-tabs > li > a, #cart-content .totals tbody > tr:last-child > td, .main-menu .dropdown-inner .static-menu > ul > li.has-sub > a, .main-menu.vertical > ul > li > a, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td.total-cell, .table-bordered.totals tbody > tr:last-child > td:last-child, .compare-table table tbody tr td:first-child, .totals-slip .table-holder table tr:last-child td, .panel-group .panel-heading .panel-title, .badge i, .product-style1 .grid .single-product .price-wrapper .btn-outline, .options .name label, .dropdown-inner h4.column-title, .product-style6 .grid .single-product .price, .product-style6 .single-product .btn-contrast {font-weight:' . $this->config->get('body_font_bold_weight') . ";}\n";
+        $font_styles .= '.product-name, .blog-title, .product-h1 h1, .contrast-heading, .contrast-font {font-family:' . $this->config->get('contrast_font_fam') . ";}\n";
+        $font_styles .= '.promo-style-2 h3, .promo-style-4 h3,.table-bordered > tbody > tr > td.price-cell,.grid .single-product .price,.menu-product .sale-counter div,.table.specification > tbody > tr > td b, .bordered-list-title {font-size:' . $this->config->get('body_font_size_16') . ";}\n";
+        $font_styles .= '.table.products .remove,.full-search-wrapper .search-category select,.blog_post .blog_comment,.video-jumbotron p,.compare-table table tbody tr td:first-child,.grid .single-product .product-name,.grid .single-product .product-name:hover,.list .single-product .product-name {font-size:' . $this->config->get('body_font_size_15') . ";}\n";
+        $font_styles .= 'body,input,textarea,select,.form-control,.icon-element,.main-menu > ul > li,.grid-holder .item,.cm_content .cm_item,.instruction-box .caption a,.btn,a.button,input.button,button.button,a.button-circle,.single-product .price .price-old,.special_countdown p,.list .item.single-product .price-tax, .form-control,label,.icon-element {font-size:' . $this->config->get('body_font_size_14') . ";}\n";
+        $font_styles .= 'small,.form-control.input-sm,.shortcut-wrapper,.header5 .links > ul > li > a,.header5 .setting-ul > .setting-li > a,.breadcrumb,.sign-up-field .sign-up-respond span,.badge i,.special_countdown div i,.top_line {font-size:' . $this->config->get('body_font_size_13') . ";}\n";
+        $font_styles .= '.tooltip,.links ul > li > a,.setting-ul > .setting-li > a,.table.products .product-name,#cart-content .totals, .main-menu.vertical > ul > li > a,.single-blog .banner_wrap .tags a,.bordered-list a {font-size:' . $this->config->get('body_font_size_12') . ";}\n";
+        $font_styles .= 'h1, h2, h3, h4, h5, h6 {font-family:' . $this->config->get('headings_fam') . ';font-weight:' . $this->config->get('headings_weight') . ";}\n";
+        $font_styles .= '.panel-group .panel-heading .panel-title, legend {font-size:' . $this->config->get('headings_size_sm') . ";}\n";
+        $font_styles .= '.title_in_bc .login-area h2, .panel-body h2, h3.lined-title.lg, .grid1 .single-blog .blog-title, .grid2 .single-blog .blog-title {font-size:' . $this->config->get('headings_size_lg') . ";}\n";
+        $font_styles .= 'h1, .product-info .table-cell.right h1#page-title {font-family:' . $this->config->get('h1_inline_fam') . ';font-size:' . $this->config->get('h1_inline_size') . ';font-weight:' . $this->config->get('h1_inline_weight') . ';text-transform:' . $this->config->get('h1_inline_trans') . ';letter-spacing:' . $this->config->get('h1_inline_ls') . ";}\n";
+        $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder {font-family:' . $this->config->get('h1_breadcrumb_fam') . ";}\n";
 
-        $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.tall_height_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.extra_tall_height_bc .breadcrumb-holder #title-holder #page-title {font-size:' . $this->config->get('h1_breadcrumb_size') . ';font-weight:' . $this->config->get('h1_breadcrumb_weight') . ';text-transform:' . $this->config->get('h1_breadcrumb_trans') . ';letter-spacing:' . $this->config->get('h1_breadcrumb_ls') . ';}';
-        $font_styles .= '.widget .widget-title .main-title {font-family:' . $this->config->get('widget_lg_fam') . ';font-size:' . $this->config->get('widget_lg_size') . ';font-weight:' . $this->config->get('widget_lg_weight') . ';text-transform:' . $this->config->get('widget_lg_trans') . ';letter-spacing:' . $this->config->get('widget_lg_ls') . ';}';
-        $font_styles .= '.lang-curr-wrapper h4, .column .widget .widget-title .main-title, #footer h5, .dropdown-inner h4.column-title b, .blog_post .section-title {font-family:' . $this->config->get('widget_sm_fam') . ';font-size:' . $this->config->get('widget_sm_size') . ';font-weight:' . $this->config->get('widget_sm_weight') . ';text-transform:' . $this->config->get('widget_sm_trans') . ';letter-spacing:' . $this->config->get('widget_sm_ls') . ';}';
-        $font_styles .= '.main-menu:not(.vertical) > ul > li > a > .top {font-family:' . $this->config->get('menu_font_fam') . ';font-size:' . $this->config->get('menu_font_size') . ';font-weight:' . $this->config->get('menu_font_weight') . ';text-transform:' . $this->config->get('menu_font_trans') . ';letter-spacing:' . $this->config->get('menu_font_ls') . ';}';
+        $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.tall_height_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.extra_tall_height_bc .breadcrumb-holder #title-holder #page-title {font-size:' . $this->config->get('h1_breadcrumb_size') . ';font-weight:' . $this->config->get('h1_breadcrumb_weight') . ';text-transform:' . $this->config->get('h1_breadcrumb_trans') . ';letter-spacing:' . $this->config->get('h1_breadcrumb_ls') . ";}\n";
+        $font_styles .= '.widget .widget-title .main-title {font-family:' . $this->config->get('widget_lg_fam') . ';font-size:' . $this->config->get('widget_lg_size') . ';font-weight:' . $this->config->get('widget_lg_weight') . ';text-transform:' . $this->config->get('widget_lg_trans') . ';letter-spacing:' . $this->config->get('widget_lg_ls') . ";}\n";
+        $font_styles .= '.lang-curr-wrapper h4, .column .widget .widget-title .main-title, #footer h5, .dropdown-inner h4.column-title b, .blog_post .section-title {font-family:' . $this->config->get('widget_sm_fam') . ';font-size:' . $this->config->get('widget_sm_size') . ';font-weight:' . $this->config->get('widget_sm_weight') . ';text-transform:' . $this->config->get('widget_sm_trans') . ';letter-spacing:' . $this->config->get('widget_sm_ls') . ";}\n";
+        $font_styles .= '.main-menu:not(.vertical) > ul > li > a > .top {font-family:' . $this->config->get('menu_font_fam') . ';font-size:' . $this->config->get('menu_font_size') . ';font-weight:' . $this->config->get('menu_font_weight') . ';text-transform:' . $this->config->get('menu_font_trans') . ';letter-spacing:' . $this->config->get('menu_font_ls') . ";}\n";
         $this->cache->set('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'), $font_styles);
         $data['oxyo_fonts_cache'] = $this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'));
     }

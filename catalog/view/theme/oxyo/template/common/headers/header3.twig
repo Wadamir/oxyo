@@ -34,10 +34,10 @@
         <!-- .top_line ends -->
     {% endif %}
     <div class="container-fluid sticky-header">
-        <div class="{{ main_header_width }}">
+        <div class="container">
             <div class="row header-main">
                 <div class="col-4 d-flex justify-content-start">
-                    <div class="icon-element menu-element d-xxl-none d-xl-none p-0">
+                    <div class="icon-element menu-element d-md-none d-xl-none d-xxl-none p-0">
                         <a class="shortcut-wrapper menu-trigger">
                             <svg class="ham hamRotate ham1" viewbox="0 0 100 100" width="40px" height="40px">
                                 <path class="line top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40"/>
@@ -79,7 +79,7 @@
 
                     {% endfor %}
                 </div>
-                <div class="col-4 logo d-flex justify-content-center">
+                <div class="col-4 d-flex justify-content-center">
                     {% if logo %}
                         <div id="logo">
                             <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}"/></a>
@@ -137,30 +137,30 @@
                     </div>
                 </div>
             </div>
-            <!-- .table.header_main ends -->
+            <!-- .row.header_main ends -->
         </div>
-        <!-- .container ends -->
-        {% if primary_menu %}
-            <div class="container-fluid menu-style menu-style-contrast d-none d-xl-block">
-                <div class="container">
-                    <div class="main-menu text-center">
-                        <ul class="categories">
-                            {% if primary_menu == 'oc' %}
-                                <!-- Default menu -->
-                                {{ default_menu }}
-                            {% elseif primary_menu is defined %}
-                                <!-- Mega menu -->
-                                {% for key, row in primary_menu_desktop %}
-                                    {% include 'oxyo/template/common/menus/mega_menu.twig' %}
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    </div>
+    </div>
+    <!-- .container-fluid.sticky-header ends -->
+    {% if primary_menu %}
+        <div class="container-fluid main-menu-wrapper d-none d-md-block d-xl-block">
+            <div class="container">
+                <div class="main-menu text-center">
+                    <ul class="categories">
+                        {% if primary_menu == 'oc' %}
+                            <!-- Default menu -->
+                            {{ default_menu }}
+                        {% elseif primary_menu is defined %}
+                            <!-- Mega menu -->
+                            {% for key, row in primary_menu_desktop %}
+                                {% include 'oxyo/template/common/menus/mega_menu.twig' %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
-        {% endif %}
-    </div>
-    <!-- .container-fluid ends -->
+        </div>
+        <!-- .container-fluid.menu ends -->
+    {% endif %}    
     <div class="container-fluid sticky-holder"></div>
 </div>
 <!-- .header_wrapper ends -->

@@ -88,7 +88,7 @@
 
 
 
-<div class="sticky-header slidedown container-fluid menu-style menu-style-contrast hidden-xs hidden-sm">
+<div class="sticky-header slidedown container-fluid hidden-xs hidden-sm">
 
 
 <div class="container <?php echo $main_header_width; ?>">

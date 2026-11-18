@@ -382,12 +382,12 @@ a.scroll-to-top {
     margin: 0 -4px 0 22px;
 }
 /* MOBILE MENU */
-.main-menu-wrapper {
+.main-menu-mobile-wrapper {
 	transition:right 500ms;
 	left:auto;
 	right:-270px;
 } 
-.mobile-menu-open .main-menu-wrapper {
+.mobile-menu-open .main-menu-mobile-wrapper {
 	left:auto;
 	right:0;
 	transition:right 500ms;
@@ -426,30 +426,30 @@ a.scroll-to-top {
 }
 }
 
-.main-menu-wrapper .menu-tag {
+.main-menu-mobile-wrapper .menu-tag {
     margin: 0 4px 0 0;
 	right:auto;
 }
-.main-menu-wrapper > ul > li.dropdown-wrapper > a > .fa-angle-down {
+.main-menu-mobile-wrapper > ul > li.dropdown-wrapper > a > .fa-angle-down {
 	right:auto;
 	left:0;
 	border-left:none;
 	border-right:1px solid #e9e9e9;
 }
-.main-menu-wrapper .dropdown-inner .menu-item {
+.main-menu-mobile-wrapper .dropdown-inner .menu-item {
 	padding:20px 15px 20px 10px;
 }
-.main-menu-wrapper ul li.has-sub .fa-angle-right {
+.main-menu-mobile-wrapper ul li.has-sub .fa-angle-right {
 	right:auto;
 	margin-right:auto;
     left:0;
 	margin-left:0;
 }
-.main-menu-wrapper ul li ul li.has-sub ul li {
+.main-menu-mobile-wrapper ul li ul li.has-sub ul li {
 	padding-left:0;
 	padding-right:12px;
 }
-.main-menu-wrapper > ul > li.search .search-holder-mobile a {
+.main-menu-mobile-wrapper > ul > li.search .search-holder-mobile a {
 	right:auto;
 	left:12px;
 }
