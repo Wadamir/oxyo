@@ -1,151 +1,145 @@
-            <div class="container">
-                {{ position_bottom_half }}
+<div class="container">
+    {{ position_bottom_half }}
+</div>
+
+<div class="container">
+    {{ position_bottom }}
+</div>
+
+<div id="footer">
+    <div class="container">
+        {% if footer_block_1 and footer_block_1 != '<p><br></p>' %}
+            <div class="footer-top-block">
+                {{ footer_block_1 }}
             </div>
+        {% endif %}
 
-            <div class="container">
-                {{ position_bottom }}
-            </div>
+        <div class="row footer-links-holder">
+            <div class="col-12 col-md-6 col-lg-5 order-md-last">
+                <div class="footer-column">
+                    <h3>{{ text_contact }}</h3>
+                    {% if contact_array is defined %}
 
-            <div id="footer">
-                <div class="container">
-                    {% if footer_block_1 and footer_block_1 != '<p><br></p>' %}
-                        <div class="footer-top-block">
-                            {{ footer_block_1 }}
-                        </div>
-                    {% endif %}
+                        {% set footer_lines = ['main_address', 'directions', 'working_hours', 'main_phone', 'main_email', 'callback'] %}
+                        {% set footer_icons = ['max', 'whatsapp', 'telegram', 'vkontakte', 'avito', 'instagram', 'tiktok'] %}
 
-                    <div class="row footer-links-holder test">
-                        <div class="col-12 col-md-6 col-lg-5 order-md-last">
-                            <div class="footer-column">
-                                <h5>{{ text_contact }}</h5>
-
-
-
-{% if contact_array is defined %}
-
-    {% set footer_lines = ['main_address','directions','working_hours','main_phone','main_email','callback'] %}
-    {% set footer_icons = ['max','whatsapp','telegram','vkontakte','avito','instagram','tiktok'] %}
-
-    <ul class="info-lines">
-        {% for contact in contact_array %}
-            {% set flags = contact.footer_flags|default({}) %}
-            {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
-            {% if show_contact and contact.name in footer_lines %}
-                <li class="{{ contact.footer_class|default('') }}">
-                    {% if contact.link %}
-                        <a href="{{ contact.link }}" class="contact-item info-line" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</a>
-                    {% else %}
-                        <span class="contact-item info-line" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</span>
-                    {% endif %}
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-
-    <ul class="info-icons">
-        {% for contact in contact_array %}
-            {% set flags = contact.footer_flags|default({}) %}
-            {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
-            {% if show_contact and contact.name in footer_icons %}
-                <li class="{{ contact.footer_class|default('') }}">
-                    {% if contact.link %}
-                        <a href="{{ contact.link }}" class="contact-item info-icon" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</a>
-                    {% else %}
-                        <span class="contact-item info-icon" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</span>
-                    {% endif %}
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-
-{% endif %}
-
-
-
-                                {% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '<p><br></p>' %}
-                                    <h5>{{ footer_block_title }}</h5>
-                                    <div class="custom_block">{{ footer_block_2 }}</div>
+                        <ul class="info-lines">
+                            {% for contact in contact_array %}
+                                {% set flags = contact.footer_flags|default({}) %}
+                                {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
+                                {% if show_contact and contact.name in footer_lines %}
+                                    <li class="{{ contact.footer_class|default('') }}">
+                                        {% if contact.link %}
+                                            <a href="{{ contact.link }}" class="contact-item info-line" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</a>
+                                        {% else %}
+                                            <span class="contact-item info-line" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</span>
+                                        {% endif %}
+                                    </li>
                                 {% endif %}
-                            </div>
-                        </div>
+                            {% endfor %}
+                        </ul>
 
-                        <div class="col-12 col-md-6 col-lg-7 order-md-first">
-                            <div class="row">
-                                {% if custom_links %}
-                                    {% for column in oxyo_footer_columns %}
-                                        <div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
-                                            <div class="dropdown_mobile">
-                                                {% if column.title %}
-                                                    <h5>{{ column.title }}</h5>
-                                                {% endif %}
-                                                {% if column.links is defined %}
-                                                    <ul class="list-unstyled">
-                                                        {% for link in column.links %}
-                                                            <li><a href="{{ link.target }}">{{ link.title }}</a></li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    {% if informations %}
-                                        <div class="footer-column col-12 col-xl-6 eq_height">
-                                            <div class="dropdown_mobile">
-                                                <h5>{{ text_information }}</h5>
-                                                <ul class="list-unstyled">
-                                                    {% for information in informations %}
-                                                        <li><a href="{{ information.href }}">{{ information.title }}</a></li>
-                                                    {% endfor %}
-                                                    <li><a href="{{ contact }}">{{ text_contact }}</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-
-                                    <div class="footer-column col-12 col-xl-6 eq_height">
-                                        <div class="dropdown_mobile">
-                                            <h5>{{ text_extra }}</h5>
-                                            <ul class="list-unstyled">
-                                                <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-                                                <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-                                                <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
-                                                <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
-                                                <li><a href="{{ special }}">{{ text_special }}</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="dropdown_mobile">
-                                            <h5>{{ text_account }}</h5>
-                                            <ul class="list-unstyled">
-                                                <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
-                                                <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
-                                                <li><a href="{{ account }}">{{ text_account }}</a></li>
-                                                <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
-                                                <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                        <ul class="info-icons">
+                            {% for contact in contact_array %}
+                                {% set flags = contact.footer_flags|default({}) %}
+                                {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
+                                {% if show_contact and contact.name in footer_icons %}
+                                    <li class="{{ contact.footer_class|default('') }}">
+                                        {% if contact.link %}
+                                            <a href="{{ contact.link }}" class="contact-item info-icon" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</a>
+                                        {% else %}
+                                            <span class="contact-item info-icon" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</span>
+                                        {% endif %}
+                                    </li>
                                 {% endif %}
-                            </div>
-                        </div>
-                    </div>
+                            {% endfor %}
+                        </ul>
 
-                    {% if oxyo_copyright %}
-                        <div class="footer-copyright">{{ oxyo_copyright }}</div>
+                    {% endif %}
+                    {% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '<p><br></p>' %}
+                        <h3>{{ footer_block_title }}</h3>
+                        <div class="custom_block">{{ footer_block_2 }}</div>
                     {% endif %}
                 </div>
             </div>
 
-            <link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-            <link href="catalog/view/theme/oxyo/js/lightgallery/css/lightgallery.css" rel="stylesheet"/>
-            <script src="catalog/view/theme/oxyo/js/jquery.matchHeight.min.js"></script>
-            <script src="catalog/view/theme/oxyo/js/countdown.js"></script>
-            <script src="catalog/view/theme/oxyo/js/live_search.js"></script>
-            <script src="catalog/view/theme/oxyo/js/featherlight.js"></script>
+            <div class="col-12 col-md-6 col-lg-7 order-md-first">
+                <div class="row">
+                    {% if custom_links %}
+                        {% for column in oxyo_footer_columns %}
+                            <div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
+                                <div class="dropdown_mobile">
+                                    {% if column.title %}
+                                        <h3>{{ column.title }}</h3>
+                                    {% endif %}
+                                    {% if column.links is defined %}
+                                        <ul class="list-unstyled">
+                                            {% for link in column.links %}
+                                                <li><a href="{{ link.target }}">{{ link.title }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% if informations %}
+                            <div class="footer-column col-12 col-xl-6 eq_height">
+                                <div class="dropdown_mobile">
+                                    <h3>{{ text_information }}</h3>
+                                    <ul class="list-unstyled">
+                                        {% for information in informations %}
+                                            <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+                                        {% endfor %}
+                                        <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
 
-            {% if view_popup %}
-                <!-- Popup -->
-                <script>
+                        <div class="footer-column col-12 col-xl-6 eq_height">
+                            <div class="dropdown_mobile">
+                                <h3>{{ text_extra }}</h3>
+                                <ul class="list-unstyled">
+                                    <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+                                    <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+                                    <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
+                                    <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
+                                    <li><a href="{{ special }}">{{ text_special }}</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown_mobile">
+                                <h3>{{ text_account }}</h3>
+                                <ul class="list-unstyled">
+                                    <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
+                                    <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
+                                    <li><a href="{{ account }}">{{ text_account }}</a></li>
+                                    <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
+                                    <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if oxyo_copyright %}
+            <div class="footer-copyright">{{ oxyo_copyright }}</div>
+        {% endif %}
+    </div>
+</div>
+
+<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="catalog/view/theme/oxyo/js/lightgallery/css/lightgallery.css" rel="stylesheet"/>
+<script src="catalog/view/theme/oxyo/js/jquery.matchHeight.min.js"></script>
+<script src="catalog/view/theme/oxyo/js/countdown.js"></script>
+<script src="catalog/view/theme/oxyo/js/live_search.js"></script>
+<script src="catalog/view/theme/oxyo/js/featherlight.js"></script>
+
+{% if view_popup %}
+    <!-- Popup -->
+    <script>
                     $(document).ready(function () {
                         if ($(window).width() > {{ popup_width_limit }}) {
                             setTimeout(function () {
@@ -157,11 +151,11 @@
                         }
                     });
                 </script>
-            {% endif %}
+{% endif %}
 
-            {% if sticky_columns %}
-                <!-- Sticky columns -->
-                <script>
+{% if sticky_columns %}
+    <!-- Sticky columns -->
+    <script>
                     if ($(window).width() > 767) {
                         $('#column-left, #column-right').theiaStickySidebar({
                             containerSelector: $(this).closest('.row'),
@@ -169,344 +163,372 @@
                         });
                     }
                 </script>
-            {% endif %}
+{% endif %}
 
-            {% if view_cookie_bar %}
-                <!-- Cookie bar -->
-                <div class="oxyo_cookie_bar">
-                    <div class="table">
-                        <div class="table-cell w100">{{ oxyo_cookie_info }}</div>
-                        <div class="table-cell button-cell">
-                            <a class="btn btn-tiny btn-light-outline" onclick="$(this).closest('.oxyo_cookie_bar').fadeOut(400);">
-                                {{ oxyo_cookie_btn_close }}
-                            </a>
-                            {% if href_more_info is defined %}
-                                <a class="more-info anim-underline light" href="{{ href_more_info }}">{{ oxyo_cookie_btn_more_info }}</a>
-                            {% endif %}
-                        </div>
+{% if view_cookie_bar %}
+    <!-- Cookie bar -->
+    <div class="oxyo_cookie_bar">
+        <div class="table">
+            <div class="table-cell w100">{{ oxyo_cookie_info }}</div>
+            <div class="table-cell button-cell">
+                <a class="btn btn-tiny btn-light-outline" onclick="$(this).closest('.oxyo_cookie_bar').fadeOut(400);">
+                    {{ oxyo_cookie_btn_close }}
+                </a>
+                {% if href_more_info is defined %}
+                    <a class="more-info anim-underline light" href="{{ href_more_info }}">{{ oxyo_cookie_btn_more_info }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if callback is defined and callback %}
+    <!-- Callback Fullscreen Modal -->
+    <div class="modal fade" id="callbackModal" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header pt-0 pb-2 border-0">
+                    <h3>{{ text_callback_title }}</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="container">
+                        <form id="callbackForm" class="form mw-600">
+                            <div class="mb-3">
+                                <label for="callbackName" class="form-label">{{ text_callback_name }}</label>
+                                <input type="text" class="form-control" id="callbackName" name="callback_name" required>
+                            </div>
+
+                            <div class="mb-3 d-none">
+                                <label for="callbackSurname" class="form-label">{{ text_callback_surname }}</label>
+                                <input type="text" class="form-control" id="callbackSurname" name="callback_surname">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="callbackPhone" class="form-label">{{ text_callback_phone }}</label>
+                                <input type="tel" class="form-control" id="callbackPhone" name="callback_phone" required>
+                            </div>
+
+                            <div class="form-check mb-0">
+                                <input class="form-check-input form-control" type="checkbox" id="callbackAgreement" name="callback_agreement" required>
+                                <label class="form-check-label" for="callbackAgreement">{{ text_callback_agree }}</label>
+                            </div>
+
+                            <div class="text-end mt-3">
+                                <button type="submit" class="btn btn-sm btn-contrast">{{ text_callback_submit }}</button>
+                            </div>
+                            <div id="callbackError" class="mt-2 d-none text-danger">{{ text_callback_error }}</div>
+                        </form>
                     </div>
                 </div>
-            {% endif %}
-
-            {% if callback is defined and callback %}
-                <!-- Callback Fullscreen Modal -->
-                <div class="modal fade" id="callbackModal" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header pt-0 pb-2 border-0">
-                                <h3>{{ text_callback_title }}</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body p-0">
-                                <div class="container">
-                                    <form id="callbackForm" class="form mw-600">
-                                        <div class="mb-3">
-                                            <label for="callbackName" class="form-label">{{ text_callback_name }}</label>
-                                            <input type="text" class="form-control" id="callbackName" name="callback_name" required>
-                                        </div>
-
-                                        <div class="mb-3 d-none">
-                                            <label for="callbackSurname" class="form-label">{{ text_callback_surname }}</label>
-                                            <input type="text" class="form-control" id="callbackSurname" name="callback_surname">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="callbackPhone" class="form-label">{{ text_callback_phone }}</label>
-                                            <input type="tel" class="form-control" id="callbackPhone" name="callback_phone" required>
-                                        </div>
-
-                                        <div class="form-check mb-0">
-                                            <input class="form-check-input form-control" type="checkbox" id="callbackAgreement" name="callback_agreement" required>
-                                            <label class="form-check-label" for="callbackAgreement">{{ text_callback_agree }}</label>
-                                        </div>
-
-                                        <div class="text-end mt-3">
-                                            <button type="submit" class="btn btn-sm btn-contrast">{{ text_callback_submit }}</button>
-                                        </div>
-                                        <div id="callbackError" class="mt-2 d-none text-danger">{{ text_callback_error }}</div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="callbackSuccess" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackSuccessLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body p-0">
-                                <div class="container">
-                                    <div class="text-center p-1">
-                                        <h5 id="callbackSuccessText" class="modal-title mb-4">{{ text_callback_success }}</h5>
-                                        <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- JS function to trigger modal -->
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        console.log('Callback form script loaded');
-                        const formEl = document.getElementById('callbackForm');
-                        const callbackModalEl = document.getElementById('callbackModal');
-                        const callbackSuccessEl = document.getElementById('callbackSuccess');
-                        const callbackSuccessTextEl = document.getElementById('callbackSuccessText');
-                        const callbackErrorEl = document.getElementById('callbackError');
-
-                        if (!formEl || !callbackModalEl || !callbackSuccessEl) return;
-
-                        // console.log(formEl, callbackModalEl, callbackSuccessEl);
-
-                        formEl.addEventListener('submit', function (e) {
-                            console.log('Callback form submitted');
-                            e.preventDefault();
-
-                            const formData = new FormData(formEl);
-                            const submitButton = formEl.querySelector('button[type="submit"]');
-                            submitButton.disabled = true;
-
-                            fetch('index.php?route=extension/module/oxyo_callback/send', {
-                                method: 'POST',
-                                body: formData,
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                const callbackModal = bootstrap.Modal.getInstance(callbackModalEl);
-                                const callbackSuccess = new bootstrap.Modal(callbackSuccessEl);
-
-                                console.log('Response:', data);
-                                submitButton.disabled = false;
-
-                                if (data.success || (data.error && data.error.surname && data.error.surname.length > 0)) {
-                                    formEl.reset();
-
-                                    let callbackSuccessTextOld = callbackSuccessTextEl.innerHTML;
-
-                                    if (data.error && data.error.surname && data.error.surname.length > 0) {
-                                        let spamSuccess = data.error.surname;
-                                        callbackSuccessTextEl.innerHTML = spamSuccess;
-                                    }
-
-                                    // Wait for the modal to be hidden before showing the success modal
-                                    callbackModalEl.addEventListener('hidden.bs.modal', function () {
-                                        callbackSuccess.show();
-
-                                        // Hide the success modal after 3 seconds
-                                        setTimeout(() => {    
-                                            callbackSuccess.hide();
-                                            callbackSuccessTextEl.innerHTML = callbackSuccessTextOld;
-                                        }, 3000);
-                                    }, { once: true });
-
-                                    // Hide the callback modal
-                                    callbackModal.hide();
-                                } else {
-                                    let message = '';
-                                    for (const key in data.error) {
-                                        if (data.error.hasOwnProperty(key)) {
-                                            message += data.error[key] + '\n';
-                                        }
-                                    }
-                                    callbackErrorEl.innerHTML = message;
-                                    callbackErrorEl.classList.remove('d-none');
-                                    setTimeout(() => {
-                                        callbackErrorEl.classList.add('d-none');
-                                    }, 5000);
-                                }
-                            })
-                            .catch(error => {
-                                submitButton.disabled = false;
-                                console.error('Error:', error);
-                                callbackErrorEl.innerHTML = '{{ text_callback_error }}';
-                                callbackErrorEl.classList.remove('d-none');
-                                setTimeout(() => {
-                                    callbackErrorEl.classList.add('d-none');
-                                }, 5000);
-                            });
-                        });
-                    });                
-                    function callBackShow(e) {
-                        e.preventDefault();
-                        const modal = new bootstrap.Modal(document.getElementById('callbackModal'));
-                        modal.show();
-                    }
-                </script>
-            {% endif %}
-
-            {% if buyoneclick is defined and buyoneclick %}
-                <!-- Buy One Click Fullscreen Modal -->
-                <div class="modal fade" id="buyOneClickModal" tabindex="-1" data-easein="expandIn" aria-labelledby="buyOneClickModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header pt-0 pb-2 border-0">
-                                <h3>{{ text_buyoneclick_title }}</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body p-0">
-                                <div class="container">
-                                    <form id="buyOneClickForm" class="form mw-600">
-                                        <input type="hidden" name="buyoneclick_product_id" value=""/>
-                                        <input type="hidden" name="buyoneclick_quantity" value="1"/>
-                                        <div class="mb-3">
-                                            <label for="buyOneClickName" class="form-label">{{ text_buyoneclick_name }}</label>
-                                            <input type="text" class="form-control" id="buyOneClickName" name="buyoneclick_name" required>
-                                        </div>
-
-                                        <div class="mb-3 d-none">
-                                            <label for="buyOneClickSurname" class="form-label">{{ text_buyoneclick_surname }}</label>
-                                            <input type="text" class="form-control" id="buyOneClickSurname" name="buyoneclick_surname">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="buyOneClickPhone" class="form-label">{{ text_buyoneclick_phone }}</label>
-                                            <input type="tel" class="form-control" id="buyOneClickPhone" name="buyoneclick_phone" required>
-                                        </div>
-
-                                        <div class="form-check form-check-flex mb-0">
-                                            <input class="form-check-input form-control" type="checkbox" id="buyOneClickAgreement" name="buyoneclick_agreement" required>
-                                            <label class="form-check-label" for="buyOneClickAgreement">{{ text_buyoneclick_agree }}</label>
-                                        </div>
-
-                                        <div class="text-end mt-3">
-                                            <button type="submit" class="btn btn-sm btn-contrast">{{ text_buyoneclick_submit }}</button>
-                                        </div>
-
-                                        <div id="buyOneClickError" class="mt-2 d-none text-danger">{{ text_buyoneclick_error }}</div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Success Modal -->
-                <div class="modal fade" id="buyOneClickSuccess" tabindex="-1" data-easein="expandIn" aria-labelledby="buyOneClickSuccessLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body p-0">
-                                <div class="container">
-                                    <div class="text-center p-1">
-                                        <h5 id="buyOneClickSuccessText" class="modal-title mb-4">{{ text_buyoneclick_success }}</h5>
-                                        <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const formEl = document.getElementById('buyOneClickForm');
-                        const modalEl = document.getElementById('buyOneClickModal');
-                        const successEl = document.getElementById('buyOneClickSuccess');
-                        const successTextEl = document.getElementById('buyOneClickSuccessText');
-                        const errorEl = document.getElementById('buyOneClickError');
-
-                        if (!formEl || !modalEl || !successEl) return;
-
-                        formEl.addEventListener('submit', function (e) {
-                            e.preventDefault();
-
-                            const formData = new FormData(formEl);
-                            const submitButton = formEl.querySelector('button[type="submit"]');
-                            submitButton.disabled = true;
-
-                            fetch('index.php?route=extension/module/oxyo_buyoneclick/send', {
-                                method: 'POST',
-                                body: formData,
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                const modal = bootstrap.Modal.getInstance(modalEl);
-                                const success = new bootstrap.Modal(successEl);
-
-                                submitButton.disabled = false;
-
-                                if (data.success) {
-                                    formEl.reset();
-
-                                    // Show success
-                                    modalEl.addEventListener('hidden.bs.modal', function () {
-                                        success.show();
-                                        setTimeout(() => {
-                                            success.hide();
-                                        }, 3000);
-                                    }, { once: true });
-
-                                    modal.hide();
-                                } else {
-                                    let message = '';
-                                    for (const key in data.error) {
-                                        message += data.error[key] + '\n';
-                                    }
-                                    errorEl.innerHTML = message;
-                                    errorEl.classList.remove('d-none');
-                                    setTimeout(() => errorEl.classList.add('d-none'), 5000);
-                                }
-                            })
-                            .catch(err => {
-                                submitButton.disabled = false;
-                                console.error(err);
-                                errorEl.innerHTML = '{{ text_buyoneclick_error }}';
-                                errorEl.classList.remove('d-none');
-                                setTimeout(() => errorEl.classList.add('d-none'), 5000);
-                            });
-                        });
-                    });
-
-                    function buyOneClickShow(e) {
-                        e.preventDefault();
-                        const productId = document.querySelector('input[name="product_id"]').value;
-                        if (!productId) {
-                            console.error('Product ID not found');
-                            return;
-                        }
-                        const buyoneclickProductId = document.querySelector('input[name="buyoneclick_product_id"]');
-                        if (!buyoneclickProductId) {
-                            console.error('Buy One Click product ID input not found');
-                            return;
-                        }
-                        buyoneclickProductId.value = productId;
-                        const productQuantity = document.querySelector('input[name="quantity"]');
-                        const buyoneclickQuantity = document.querySelector('input[name="buyoneclick_quantity"]');
-                        if (productQuantity && buyoneclickQuantity) {
-                            buyoneclickQuantity.value = productQuantity.value || 1;
-                        } else {
-                            console.warn('Product quantity input not found, defaulting to 1');
-                            buyoneclickQuantity.value = 1;
-                        }
-                        const modal = new bootstrap.Modal(document.getElementById('buyOneClickModal'));
-                        modal.show();
-                    }
-                </script>
-            {% endif %}
-
-        </div><!-- .container-fluid ends -->
-
-        <a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop: 0});">
-            <i class="icon-arrow-right"></i>
-        </a>
-
-        {% if quickview is defined  and quickview %}
-            <div id="featherlight-holder"></div>
-            <div class="modal fade" id="quickviewModal" tabindex="-1" data-easein="expandIn" aria-labelledby="quickviewModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header p-0 border-0">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body p-0">
-                            <div class="container-fluid quickview-content p-0">
-                                <div class="quickview-loader">
-                                    <i class="fa fa-spinner fa-spin"></i>
-                                </div>
-                            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="callbackSuccess" tabindex="-1" data-easein="expandIn" aria-labelledby="callbackSuccessLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="container">
+                        <div class="text-center p-1">
+                            <h5 id="callbackSuccessText" class="modal-title mb-4">{{ text_callback_success }}</h5>
+                            <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endif %}
-    </body>
+        </div>
+    </div>
+    <!-- JS function to trigger modal -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Callback form script loaded");
+            const formEl = document.getElementById("callbackForm");
+            const callbackModalEl = document.getElementById("callbackModal");
+            const callbackSuccessEl = document.getElementById("callbackSuccess");
+            const callbackSuccessTextEl = document.getElementById(
+                "callbackSuccessText",
+            );
+            const callbackErrorEl = document.getElementById("callbackError");
+
+            if (!formEl || !callbackModalEl || !callbackSuccessEl) return;
+
+            // console.log(formEl, callbackModalEl, callbackSuccessEl);
+
+            formEl.addEventListener("submit", function (e) {
+                console.log("Callback form submitted");
+                e.preventDefault();
+
+                const formData = new FormData(formEl);
+                const submitButton = formEl.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+
+                fetch("index.php?route=extension/module/oxyo_callback/send", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const callbackModal =
+                            bootstrap.Modal.getInstance(callbackModalEl);
+                        const callbackSuccess = new bootstrap.Modal(callbackSuccessEl);
+
+                        console.log("Response:", data);
+                        submitButton.disabled = false;
+
+                        if (
+                            data.success ||
+                            (data.error &&
+                                data.error.surname &&
+                                data.error.surname.length > 0)
+                        ) {
+                            formEl.reset();
+
+                            let callbackSuccessTextOld =
+                                callbackSuccessTextEl.innerHTML;
+
+                            if (
+                                data.error &&
+                                data.error.surname &&
+                                data.error.surname.length > 0
+                            ) {
+                                let spamSuccess = data.error.surname;
+                                callbackSuccessTextEl.innerHTML = spamSuccess;
+                            }
+
+                            // Wait for the modal to be hidden before showing the success modal
+                            callbackModalEl.addEventListener(
+                                "hidden.bs.modal",
+                                function () {
+                                    callbackSuccess.show();
+
+                                    // Hide the success modal after 3 seconds
+                                    setTimeout(() => {
+                                        callbackSuccess.hide();
+                                        callbackSuccessTextEl.innerHTML =
+                                            callbackSuccessTextOld;
+                                    }, 3000);
+                                },
+                                { once: true },
+                            );
+
+                            // Hide the callback modal
+                            callbackModal.hide();
+                        } else {
+                            let message = "";
+                            for (const key in data.error) {
+                                if (data.error.hasOwnProperty(key)) {
+                                    message += data.error[key] + "\n";
+                                }
+                            }
+                            callbackErrorEl.innerHTML = message;
+                            callbackErrorEl.classList.remove("d-none");
+                            setTimeout(() => {
+                                callbackErrorEl.classList.add("d-none");
+                            }, 5000);
+                        }
+                    })
+                    .catch((error) => {
+                        submitButton.disabled = false;
+                        console.error("Error:", error);
+                        callbackErrorEl.innerHTML = "{{ text_callback_error }}";
+                        callbackErrorEl.classList.remove("d-none");
+                        setTimeout(() => {
+                            callbackErrorEl.classList.add("d-none");
+                        }, 5000);
+                    });
+            });
+        });
+        function callBackShow(e) {
+            e.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById("callbackModal"));
+            modal.show();
+        }
+    </script>
+{% endif %}
+
+{% if buyoneclick is defined and buyoneclick %}
+    <!-- Buy One Click Fullscreen Modal -->
+    <div class="modal fade" id="buyOneClickModal" tabindex="-1" data-easein="expandIn" aria-labelledby="buyOneClickModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header pt-0 pb-2 border-0">
+                    <h3>{{ text_buyoneclick_title }}</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="container">
+                        <form id="buyOneClickForm" class="form mw-600">
+                            <input type="hidden" name="buyoneclick_product_id" value=""/>
+                            <input type="hidden" name="buyoneclick_quantity" value="1"/>
+                            <div class="mb-3">
+                                <label for="buyOneClickName" class="form-label">{{ text_buyoneclick_name }}</label>
+                                <input type="text" class="form-control" id="buyOneClickName" name="buyoneclick_name" required>
+                            </div>
+
+                            <div class="mb-3 d-none">
+                                <label for="buyOneClickSurname" class="form-label">{{ text_buyoneclick_surname }}</label>
+                                <input type="text" class="form-control" id="buyOneClickSurname" name="buyoneclick_surname">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="buyOneClickPhone" class="form-label">{{ text_buyoneclick_phone }}</label>
+                                <input type="tel" class="form-control" id="buyOneClickPhone" name="buyoneclick_phone" required>
+                            </div>
+
+                            <div class="form-check form-check-flex mb-0">
+                                <input class="form-check-input form-control" type="checkbox" id="buyOneClickAgreement" name="buyoneclick_agreement" required>
+                                <label class="form-check-label" for="buyOneClickAgreement">{{ text_buyoneclick_agree }}</label>
+                            </div>
+
+                            <div class="text-end mt-3">
+                                <button type="submit" class="btn btn-sm btn-contrast">{{ text_buyoneclick_submit }}</button>
+                            </div>
+
+                            <div id="buyOneClickError" class="mt-2 d-none text-danger">{{ text_buyoneclick_error }}</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="buyOneClickSuccess" tabindex="-1" data-easein="expandIn" aria-labelledby="buyOneClickSuccessLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="container">
+                        <div class="text-center p-1">
+                            <h5 id="buyOneClickSuccessText" class="modal-title mb-4">{{ text_buyoneclick_success }}</h5>
+                            <button type="button" class="btn btn-sm btn-contrast" data-bs-dismiss="modal">{{ text_close }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const formEl = document.getElementById("buyOneClickForm");
+            const modalEl = document.getElementById("buyOneClickModal");
+            const successEl = document.getElementById("buyOneClickSuccess");
+            const successTextEl = document.getElementById("buyOneClickSuccessText");
+            const errorEl = document.getElementById("buyOneClickError");
+
+            if (!formEl || !modalEl || !successEl) return;
+
+            formEl.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(formEl);
+                const submitButton = formEl.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+
+                fetch("index.php?route=extension/module/oxyo_buyoneclick/send", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        const success = new bootstrap.Modal(successEl);
+
+                        submitButton.disabled = false;
+
+                        if (data.success) {
+                            formEl.reset();
+
+                            // Show success
+                            modalEl.addEventListener(
+                                "hidden.bs.modal",
+                                function () {
+                                    success.show();
+                                    setTimeout(() => {
+                                        success.hide();
+                                    }, 3000);
+                                },
+                                { once: true },
+                            );
+
+                            modal.hide();
+                        } else {
+                            let message = "";
+                            for (const key in data.error) {
+                                message += data.error[key] + "\n";
+                            }
+                            errorEl.innerHTML = message;
+                            errorEl.classList.remove("d-none");
+                            setTimeout(() => errorEl.classList.add("d-none"), 5000);
+                        }
+                    })
+                    .catch((err) => {
+                        submitButton.disabled = false;
+                        console.error(err);
+                        errorEl.innerHTML = "{{ text_buyoneclick_error }}";
+                        errorEl.classList.remove("d-none");
+                        setTimeout(() => errorEl.classList.add("d-none"), 5000);
+                    });
+            });
+        });
+
+        function buyOneClickShow(e) {
+            e.preventDefault();
+            const productId = document.querySelector('input[name="product_id"]').value;
+            if (!productId) {
+                console.error("Product ID not found");
+                return;
+            }
+            const buyoneclickProductId = document.querySelector(
+                'input[name="buyoneclick_product_id"]',
+            );
+            if (!buyoneclickProductId) {
+                console.error("Buy One Click product ID input not found");
+                return;
+            }
+            buyoneclickProductId.value = productId;
+            const productQuantity = document.querySelector('input[name="quantity"]');
+            const buyoneclickQuantity = document.querySelector(
+                'input[name="buyoneclick_quantity"]',
+            );
+            if (productQuantity && buyoneclickQuantity) {
+                buyoneclickQuantity.value = productQuantity.value || 1;
+            } else {
+                console.warn("Product quantity input not found, defaulting to 1");
+                buyoneclickQuantity.value = 1;
+            }
+            const modal = new bootstrap.Modal(
+                document.getElementById("buyOneClickModal"),
+            );
+            modal.show();
+        }
+    </script>
+{% endif %}
+
+</div><!-- .container-fluid ends -->
+
+<a class="scroll-to-top primary-bg-color hidden-sm hidden-xs" onclick="$('html, body').animate({scrollTop: 0});">
+    <i class="icon-arrow-right"></i>
+</a>
+
+{% if quickview is defined and quickview %}
+    <div id="featherlight-holder"></div>
+    <div class="modal fade" id="quickviewModal" tabindex="-1" data-easein="expandIn" aria-labelledby="quickviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header p-0 border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="container-fluid quickview-content p-0">
+                        <div class="quickview-loader">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+</body>
 </html>

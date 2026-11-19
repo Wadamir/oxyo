@@ -5489,23 +5489,23 @@ h4.follow-title,
     margin-top: 0;
 }
 
-#footer .footer-column h5 {
+#footer .footer-column h3 {
     margin: 24px 0 6px 0;
     color: var(--ui-color-white);
-    font-size: 16px;
-    text-transform: uppercase;
+    font-size: var(--ui-font-body);
     font-weight: var(--ui-font-weight-semibold);
-    letter-spacing: 1px;
+    text-transform: uppercase;
+    /* letter-spacing: 1px; */
 }
 
-#footer .footer-column h5:after {
+/* #footer .footer-column h5:after {
     display: block;
     width: 30px;
     height: 2px;
     margin-top: 2px;
     content: '';
     background-color: rgba(255, 255, 255, 0.8);
-}
+} */
 
 #footer .footer-column>.dropdown_mobile {
     margin-bottom: 0;
