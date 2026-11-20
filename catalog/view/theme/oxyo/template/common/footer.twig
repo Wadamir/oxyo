@@ -14,12 +14,57 @@
             </div>
         {% endif %}
 
-        <div class="row footer-links-holder">
-            <div class="col-12 col-md-6 col-lg-5 order-md-last">
-                <div class="footer-column">
-                    <h3>{{ text_contact }}</h3>
-                    {% if contact_array is defined %}
+        <div class="row">
 
+            <div id="footer_informations" class="col-12 col-md-3 col-lg-3 col-xl-3">
+                {% if informations %}
+                    <div class="footer-column eq_height">
+                        <div class="dropdown_mobile">
+                            <h3>{{ text_information }}</h3>
+                            <ul class="list-unstyled">
+                                {% for information in informations %}
+                                    <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+                                {% endfor %}
+                                <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div id="footer_account" class="col-12 col-md-3 col-lg-3 col-xl-3">
+                <div class="footer-column eq_height">                
+                    <div class="dropdown_mobile">
+                        <h3>{{ text_account }}</h3>
+                        <ul class="list-unstyled">
+                            <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
+                            <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
+                            <li><a href="{{ account }}">{{ text_account }}</a></li>
+                            <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
+                            <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+                        </ul>
+                </div>
+            </div>            
+
+            <div id="footer_extra" class="col-12 col-md-3 col-lg-3 col-xl-3">
+                <div class="footer-column eq_height">                
+                    <div class="dropdown_mobile">
+                        <h3>{{ text_extra }}</h3>
+                        <ul class="list-unstyled">
+                            <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+                            <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+                            <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
+                            <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
+                            <li><a href="{{ special }}">{{ text_special }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer_contacts" class="col-12 col-md-3 col-lg-3 col-xl-3">
+                {% if contact_array is defined %}                
+                    <div class="footer-column eq_height">
+                        <h3>{{ text_contact }}</h3>
                         {% set footer_lines = ['main_address', 'directions', 'working_hours', 'main_phone', 'main_email', 'callback'] %}
                         {% set footer_icons = ['max', 'whatsapp', 'telegram', 'vkontakte', 'avito', 'instagram', 'tiktok'] %}
 
@@ -54,74 +99,10 @@
                                 {% endif %}
                             {% endfor %}
                         </ul>
+                    </div>
+                {% endif %}                
+            </div>            
 
-                    {% endif %}
-                    {% if footer_block_title is defined and footer_block_title != '' and footer_block_2 and footer_block_2 != '<p><br></p>' %}
-                        <h3>{{ footer_block_title }}</h3>
-                        <div class="custom_block">{{ footer_block_2 }}</div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-lg-7 order-md-first">
-                <div class="row">
-                    {% if custom_links %}
-                        {% for column in oxyo_footer_columns %}
-                            <div class="footer-column col-12 col-sm-6 {{ oxyo_columns_count }} eq_height">
-                                <div class="dropdown_mobile">
-                                    {% if column.title %}
-                                        <h3>{{ column.title }}</h3>
-                                    {% endif %}
-                                    {% if column.links is defined %}
-                                        <ul class="list-unstyled">
-                                            {% for link in column.links %}
-                                                <li><a href="{{ link.target }}">{{ link.title }}</a></li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% if informations %}
-                            <div class="footer-column col-12 col-xl-6 eq_height">
-                                <div class="dropdown_mobile">
-                                    <h3>{{ text_information }}</h3>
-                                    <ul class="list-unstyled">
-                                        {% for information in informations %}
-                                            <li><a href="{{ information.href }}">{{ information.title }}</a></li>
-                                        {% endfor %}
-                                        <li><a href="{{ contact }}">{{ text_contact }}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        <div class="footer-column col-12 col-xl-6 eq_height">
-                            <div class="dropdown_mobile">
-                                <h3>{{ text_extra }}</h3>
-                                <ul class="list-unstyled">
-                                    <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-                                    <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-                                    <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
-                                    <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
-                                    <li><a href="{{ special }}">{{ text_special }}</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown_mobile">
-                                <h3>{{ text_account }}</h3>
-                                <ul class="list-unstyled">
-                                    <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
-                                    <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
-                                    <li><a href="{{ account }}">{{ text_account }}</a></li>
-                                    <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
-                                    <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
         </div>
 
         {% if oxyo_copyright %}

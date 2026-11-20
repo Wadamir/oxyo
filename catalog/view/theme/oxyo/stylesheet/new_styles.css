@@ -1994,7 +1994,7 @@ div.required .control-label:after {
 }
 
 .nav-tabs.text-center>li>a {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 2px 0;
     font-size: 1.15em;
 }
@@ -2052,7 +2052,7 @@ div.required .control-label:after {
 .plain-menu>li {
     position: relative;
     display: block;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
 }
 
 .plain-menu>li>ul {
@@ -2092,7 +2092,7 @@ div.required .control-label:after {
 
 .plain-menu>li>ul>li {
     position: relative;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
 }
 
 .plain-menu>li>ul>li:before {
@@ -2117,7 +2117,7 @@ div.required .control-label:after {
 }
 
 .plain-menu>li>ul>li>ul>li {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
 }
 
 .plain-menu>li>ul>li>ul>li:before {
@@ -3680,7 +3680,7 @@ div.required .control-label:after {
     align-items: center;
     gap: 12px;
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 0;
 }
 
@@ -4142,7 +4142,7 @@ div.required .control-label:after {
 
 .single-blog .banner_wrap {
     width: 100%;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
 }
 
 .single-blog .banner_wrap .video-holder,
@@ -4152,13 +4152,13 @@ div.required .control-label:after {
 }
 
 .single-blog .blog-title {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     line-height: 1.1;
 }
 
 .blog .blog_stats {
     display: block;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     color: #777777;
 }
 
@@ -4225,7 +4225,7 @@ div.required .control-label:after {
 
 .blog_post .main_thumb {
     position: relative;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
 }
 
 .blog_post .main_thumb img {
@@ -4313,7 +4313,7 @@ div.required .control-label:after {
 }
 
 .blog_post .single-blog .blog_stats {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
 }
 
 .blog_post .single-blog .tags-wrapper,
@@ -4984,7 +4984,7 @@ span.unsubscribe a:hover {
 }
 
 .wide-signup.large h3 {
-    margin-top: 12px;
+    margin-top: var(--ui-space-3, 12px);
     margin-bottom: 15px;
     font-size: 46px;
     letter-spacing: 3px;
@@ -5465,9 +5465,15 @@ h4.follow-title,
     color: var(--ui-color-white);
 }
 
+
+
+
+/**************************/
+/********* Footer *********/
+/**************************/
 #footer {
     margin-top: 0;
-    padding-top: 50px;
+    padding-top: var(--ui-gap-page-header, 30px);
     background-color: var(--ui-color-ink);
     color: var(--ui-color-white);
 }
@@ -5476,7 +5482,7 @@ h4.follow-title,
 #footer .custom_block {
     color: var(--ui-color-white);
     font-family: var(--ui-font-body);
-    font-size: 16px;
+    font-size: var(--ui-type-main-size, 14px);
 }
 
 #footer a:hover {
@@ -5492,8 +5498,8 @@ h4.follow-title,
 #footer .footer-column h3 {
     margin: 24px 0 6px 0;
     color: var(--ui-color-white);
-    font-size: var(--ui-font-body);
-    font-weight: var(--ui-font-weight-semibold);
+    font-size: var(--ui-type-h3-size, 13px);
+    font-weight: var(--ui-type-h3-weight, 600);
     text-transform: uppercase;
     /* letter-spacing: 1px; */
 }
@@ -5519,12 +5525,9 @@ h4.follow-title,
     margin-bottom: 0;
 }
 
-#footer .footer-top-block {
-    margin-bottom: 0;
-}
-
+#footer .footer-top-block,
 #footer .footer-top-block p:last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #footer .links-holder {
@@ -5550,16 +5553,17 @@ h4.follow-title,
     align-items: center;
     gap: 0.5em;
     margin: 0;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     padding: 0;
     font-family: var(--ui-font-display), sans-serif;
-    font-size: 16px;
+    font-size: var(--ui-font-body);
+    font-weight: var(--ui-font-weight-regular);
 }
 
-#footer .info-line i {
+/* #footer .info-line i {
     width: 27px;
     text-align: center;
-}
+} */
 
 #footer ul.info-icons {
     display: flex;
@@ -5568,9 +5572,10 @@ h4.follow-title,
     align-content: center;
     justify-content: flex-start;
     align-items: center;
-    gap: 12px;
+    gap: var(--ui-space-3, 12px);
+
     margin: 0;
-    margin-bottom: 12px;
+    margin-bottom: var(--ui-space-3, 12px);
     padding: 0;
 }
 
@@ -5583,9 +5588,10 @@ h4.follow-title,
     fill: var(--ui-color-white);
 }
 
+/* 
 #footer .payment_img {
     padding-top: 15px;
-}
+} */
 
 #footer .footer-copyright {
     position: relative;
@@ -6078,7 +6084,7 @@ a.scroll-to-top:not(:hover) {
 .cart-cell-inner a.product-name {
     display: block;
     max-width: 100%;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     font-size: 1.15em;
     font-weight: var(--ui-font-weight-medium);
     line-height: 1;
@@ -6360,7 +6366,7 @@ select.form-select {
 .single-product .image {
     position: relative;
     overflow: hidden;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     border-radius: 12px;
 }
 
@@ -6752,7 +6758,7 @@ select.form-select {
     justify-content: flex-start;
     gap: 6px;
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 0;
     color: #777777;
     font-style: italic;
@@ -7104,7 +7110,7 @@ select.form-select {
 /* Product Details and Options */
 .product-info .right p.meta_description {
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 0;
     line-height: 1.15;
 }
@@ -7136,7 +7142,7 @@ select.form-select {
 
 #product {
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     border-bottom: 1px solid #eaeaea;
 }
 
@@ -7216,7 +7222,7 @@ select.form-select {
     align-items: center;
     gap: 6px;
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 0;
     padding-top: 12px;
 }
@@ -7328,7 +7334,7 @@ select.form-select {
 }
 
 .product-info .table-cell.right p.info {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     line-height: 22px;
     vertical-align: middle;
 }
@@ -7472,7 +7478,7 @@ select.form-select {
 
 .tab-pane>.tab-title {
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 0;
 }
 
@@ -7684,7 +7690,7 @@ select.form-select {
 }
 
 .dotted li {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     border-bottom: 2px #404b51 dotted;
     line-height: 1;
 }
@@ -7791,7 +7797,7 @@ a.label-link:not(:hover) {
     align-items: center;
     gap: 12px;
     margin: 0;
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding: 0;
 }
 
@@ -8001,7 +8007,7 @@ a.label-link:not(:hover) {
 }
 
 .widget .widget-title .sub-line {
-    margin-bottom: 12px;
+    margin-top: var(--ui-space-3, 12px);
     padding-top: 4px;
 }
 
