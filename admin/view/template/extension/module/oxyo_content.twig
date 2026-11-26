@@ -769,7 +769,7 @@
 																			</a>
 																		</label>
 																		<div class="col-sm-9">
-																			<textarea name="columns[{{ column_row }}][data1][{{ language.language_id }}]" class="form-control content-block template-reciever-{{ column_row }}-1" id="textarea-{{ column_row }}-{{ language.language_id }}-1">{{ column.data1[language.language_id] ?column.data1[language.language_id] }}</textarea>
+																			<textarea name="columns[{{ column_row }}][data1][{{ language.language_id }}]" class="form-control content-block template-receiver-{{ column_row }}-1" id="textarea-{{ column_row }}-{{ language.language_id }}-1">{{ column.data1[language.language_id] ?column.data1[language.language_id] }}</textarea>
 																		</div>
 																	</div>
 																</div>
@@ -895,7 +895,7 @@
 																			</a>
 																		</label>
 																		<div class="col-sm-9">
-																			<textarea name="columns[{{ column_row }}][data1][{{ language.language_id }}]" class="form-control content-block template-reciever-{{ column_row }}-1">{{ column.data1[language.language_id] ?column.data1[language.language_id] }}</textarea>
+																			<textarea name="columns[{{ column_row }}][data1][{{ language.language_id }}]" class="form-control content-block template-receiver-{{ column_row }}-1">{{ column.data1[language.language_id] ?column.data1[language.language_id] }}</textarea>
 																		</div>
 																	</div>
 																</div>
@@ -905,7 +905,6 @@
 													</div>
 
 													<a class="btn btn-primary btn-block banner-btn-{{ column_row }}" style="margin:20px 20px 10px 20px;display:{% if column.data4 %}none{% else %}block{% endif %}" onclick="add_second_banner('{{ column_row }}');">{{ text_btn_add_banner }}</a>
-
 
 													<div class="banner2-holder-{{ column_row }}">
 														{% if column.data4 %}
@@ -964,7 +963,7 @@
 																					</a>
 																				</label>
 																				<div class="col-sm-9">
-																					<textarea name="columns[{{ column_row }}][data3][{{ language.language_id }}]" class="form-control content-block template-reciever-{{ column_row }}-2">{{ column.data3[language.language_id] ? column.data3[language.language_id] }}</textarea>
+																					<textarea name="columns[{{ column_row }}][data3][{{ language.language_id }}]" class="form-control content-block template-receiver-{{ column_row }}-2">{{ column.data3[language.language_id] ? column.data3[language.language_id] }}</textarea>
 																				</div>
 																			</div>
 																		</div>
@@ -974,7 +973,6 @@
 														{% endif %}
 													</div>
 												{% endif %}
-
 
 											</div>
 										</div>
@@ -1004,7 +1002,7 @@
 								{% for template in templates %}
 									<tr>
 										<td class="name" style="width:100%">{{ template.name }}</td>
-										<td style="white-space:nowrap;">
+										<td style="white-space: nowrap;">
 											<a class="btn btn-primary" data-toggle="tooltip" title="{{ text_preview }}" onclick="template_preview({{ template.template_id }}, '{{ template.name }}');">
 												<i class="fa fa-eye"></i>
 											</a>
@@ -1209,7 +1207,7 @@
                                             <a class="shortcode_list"><small>{{ text_view_shortcodes }}</small></a>
                                         </label>
                                         <div class="col-sm-9">
-                                            <textarea name="columns[${column_row}][data1][{{ language.language_id }}]" id="textarea-${column_row}-{{ language.language_id }}-1" class="form-control content-block template-reciever-${column_row}-1"></textarea>
+                                            <textarea name="columns[${column_row}][data1][{{ language.language_id }}]" id="textarea-${column_row}-{{ language.language_id }}-1" class="form-control content-block template-receiver-${column_row}-1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1275,7 +1273,7 @@
                                             <a class="overlay_list"><small>{{ text_view_overlays }}</small></a>
                                         </label>
                                         <div class="col-sm-9">
-                                            <textarea name="columns[${column_row}][data1][{{ language.language_id }}]" id="textarea-${column_row}-{{ language.language_id }}-1" class="form-control content-block template-reciever-${column_row}-1"></textarea>
+                                            <textarea name="columns[${column_row}][data1][{{ language.language_id }}]" id="textarea-${column_row}-{{ language.language_id }}-1" class="form-control content-block template-receiver-${column_row}-1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1333,8 +1331,6 @@
         }
     </script>
 
-
-
     <script>
         // Set content type
         var set_template = function(template, column_row, number) {
@@ -1342,7 +1338,7 @@
                 $('#textarea-' + column_row + '-{{ language.language_id }}-' + number).summernote('destroy');
             {% endfor %}
             $('.editor-link-' + column_row + '-' + number).text('{{ text_enable_editor }}').removeClass('show');
-            $('.template-reciever-' + column_row + '-' + number).val(template);
+            $('.template-receiver-' + column_row + '-' + number).val(template);
         };
 
         // Set column width
@@ -1495,7 +1491,7 @@
                                             <a class="overlay_list"><small>{{ text_view_overlays }}</small></a>
                                         </label>
                                         <div class="col-sm-9">
-                                            <textarea name="columns[${column_row}][data3][{{ language.language_id }}]" id="textarea-${column_row}-{{ language.language_id }}-2" class="form-control content-block template-reciever-${column_row}-2"></textarea>
+                                            <textarea name="columns[${column_row}][data3][{{ language.language_id }}]" id="textarea-${column_row}-{{ language.language_id }}-2" class="form-control content-block template-receiver-${column_row}-2"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1515,8 +1511,6 @@
             $('.banner-btn-' + column_row).show();
         };
     </script>
-
-
 
     <script>
         /* HTML templates popup */
@@ -1624,8 +1618,6 @@
         });
     </script>
 
-
-
     <script type="text/javascript">
         // <!--
         // Import ready made templates
@@ -1704,8 +1696,6 @@
         // -->
     </script>
 
-
-
     <script type="text/javascript">
         <!--
         $('#column_tabs li:first-child a').tab('show');
@@ -1720,8 +1710,6 @@
         //
         -->
     </script>
-
-
 
 </div>
 <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet"/>

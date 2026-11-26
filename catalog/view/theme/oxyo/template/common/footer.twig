@@ -16,7 +16,7 @@
 
         <div class="row">
 
-            <div id="footer_informations" class="col-12 col-md-3 col-lg-3 col-xl-3">
+            <div id="footer_informations" class="col-12 col-md-12 col-lg-3 col-xl-3">
                 {% if informations %}
                     <div class="footer-column eq_height">
                         <div class="dropdown_mobile">
@@ -32,76 +32,94 @@
                 {% endif %}
             </div>
 
-            <div id="footer_account" class="col-12 col-md-3 col-lg-3 col-xl-3">
-                <div class="footer-column eq_height">                
-                    <div class="dropdown_mobile">
-                        <h3>{{ text_account }}</h3>
-                        <ul class="list-unstyled">
-                            <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
-                            <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
-                            <li><a href="{{ account }}">{{ text_account }}</a></li>
-                            <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
-                            <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-                        </ul>
-                </div>
-            </div>            
+            <div class="col-12 col-md-12 col-lg-9 col-xl-9">
 
-            <div id="footer_extra" class="col-12 col-md-3 col-lg-3 col-xl-3">
-                <div class="footer-column eq_height">                
-                    <div class="dropdown_mobile">
-                        <h3>{{ text_extra }}</h3>
-                        <ul class="list-unstyled">
-                            <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-                            <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-                            <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
-                            <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
-                            <li><a href="{{ special }}">{{ text_special }}</a></li>
-                        </ul>
+                <div class="row">
+
+                    <div id="footer_account" class="col-12 col-md-4 col-lg-4 col-xl-4 order-md-2 order-xl-3">
+                        <div class="footer-column eq_height">                
+                            <div class="dropdown_mobile">
+                                <h3>{{ text_account }}</h3>
+                                <ul class="list-unstyled">
+                                    <li class="d-none"><a href="{{ return }}">{{ text_return }}</a></li>
+                                    <li class="d-none"><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>                                        
+                                    <li><a href="{{ account }}">{{ text_account }}</a></li>
+                                    <li><a href="{{ order }}">{{ text_order }}</a></li>                                            
+                                    <li class="is_wishlist"><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>            
+
+                    <div id="footer_extra" class="col-12 col-md-4 col-lg-4 col-xl-4 d-none hidden">
+                        <div class="footer-column eq_height">                
+                            <div class="dropdown_mobile">
+                                <h3>{{ text_extra }}</h3>
+                                <ul class="list-unstyled">
+                                    <li class="d-none"><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+                                    <li class="d-none"><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+                                    <li class="d-none"><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>                                            
+                                    <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>                                            
+                                    <li><a href="{{ special }}">{{ text_special }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+
+                    <div id="footer_menu" class="col-12 col-md-4 col-lg-4 col-xl-4 order-md-3 order-xl-1">
+                        <div class="footer-column eq_height">                
+                            <div class="dropdown_mobile opened">
+                                <h3>{{ text_menu }}</h3>
+                                {% include 'oxyo/template/common/footer-nav.twig' %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="footer_contacts" class="col-12 col-md-4 col-lg-4 col-xl-4 order-md-1 order-xl-1">
+                        {% if contact_array is defined %}                
+                            <div class="footer-column eq_height">
+                                <h3>{{ text_contact }}</h3>
+                                {% set footer_lines = ['main_address', 'directions', 'working_hours', 'main_phone', 'main_email', 'callback'] %}
+                                {% set footer_icons = ['max', 'whatsapp', 'telegram', 'vkontakte', 'avito', 'instagram', 'tiktok'] %}
+
+                                <ul class="info-lines">
+                                    {% for contact in contact_array %}
+                                        {% set flags = contact.footer_flags|default({}) %}
+                                        {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
+                                        {% if show_contact and contact.name in footer_lines %}
+                                            <li class="{{ contact.footer_class|default('') }}">
+                                                {% if contact.link %}
+                                                    <a href="{{ contact.link }}" class="contact-item info-line" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</a>
+                                                {% else %}
+                                                    <span class="contact-item info-line" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</span>
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+
+                                <ul class="info-icons">
+                                    {% for contact in contact_array %}
+                                        {% set flags = contact.footer_flags|default({}) %}
+                                        {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
+                                        {% if show_contact and contact.name in footer_icons %}
+                                            <li class="{{ contact.footer_class|default('') }}">
+                                                {% if contact.link %}
+                                                    <a href="{{ contact.link }}" class="contact-item info-icon" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</a>
+                                                {% else %}
+                                                    <span class="contact-item info-icon" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</span>
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}                
+                    </div>           
+
                 </div>
+
             </div>
-
-            <div id="footer_contacts" class="col-12 col-md-3 col-lg-3 col-xl-3">
-                {% if contact_array is defined %}                
-                    <div class="footer-column eq_height">
-                        <h3>{{ text_contact }}</h3>
-                        {% set footer_lines = ['main_address', 'directions', 'working_hours', 'main_phone', 'main_email', 'callback'] %}
-                        {% set footer_icons = ['max', 'whatsapp', 'telegram', 'vkontakte', 'avito', 'instagram', 'tiktok'] %}
-
-                        <ul class="info-lines">
-                            {% for contact in contact_array %}
-                                {% set flags = contact.footer_flags|default({}) %}
-                                {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
-                                {% if show_contact and contact.name in footer_lines %}
-                                    <li class="{{ contact.footer_class|default('') }}">
-                                        {% if contact.link %}
-                                            <a href="{{ contact.link }}" class="contact-item info-line" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</a>
-                                        {% else %}
-                                            <span class="contact-item info-line" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon_svg %}{{ contact.icon_svg|raw }}{% elseif contact.icon %}{{ contact.icon|raw }}{% endif %}{{ contact.value }}</span>
-                                        {% endif %}
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-
-                        <ul class="info-icons">
-                            {% for contact in contact_array %}
-                                {% set flags = contact.footer_flags|default({}) %}
-                                {% set show_contact = contact.value and (flags.xs or flags.md or flags.lg or flags.xl) %}
-                                {% if show_contact and contact.name in footer_icons %}
-                                    <li class="{{ contact.footer_class|default('') }}">
-                                        {% if contact.link %}
-                                            <a href="{{ contact.link }}" class="contact-item info-icon" target="_blank" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</a>
-                                        {% else %}
-                                            <span class="contact-item info-icon" {% if contact.onclick %}onclick="{{ contact.onclick }}"{% endif %}>{% if contact.icon %}{{ contact.icon|raw }}{% elseif contact.icon_svg %}{{ contact.icon_svg|raw }}{% endif %}</span>
-                                        {% endif %}
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}                
-            </div>            
 
         </div>
 

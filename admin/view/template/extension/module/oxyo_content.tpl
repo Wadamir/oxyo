@@ -634,7 +634,7 @@
                                                                             <a class="icon_list"><small><?php echo $text_view_icons; ?></small></a><br />
                                                                             <a class="shortcode_list"><small><?php echo $text_view_shortcodes; ?></small></a></label>
                                                                         <div class="col-sm-9">
-                                                                            <textarea name="columns[<?php echo $column_row; ?>][data1][<?php echo $language['language_id']; ?>]" class="form-control content-block template-reciever-<?php echo $column_row; ?>-1" id="textarea-<?php echo $column_row; ?>-<?php echo $language['language_id']; ?>-1"><?php echo isset($column['data1'][$language['language_id']]) ? $column['data1'][$language['language_id']] : ''; ?></textarea>
+                                                                            <textarea name="columns[<?php echo $column_row; ?>][data1][<?php echo $language['language_id']; ?>]" class="form-control content-block template-receiver-<?php echo $column_row; ?>-1" id="textarea-<?php echo $column_row; ?>-<?php echo $language['language_id']; ?>-1"><?php echo isset($column['data1'][$language['language_id']]) ? $column['data1'][$language['language_id']] : ''; ?></textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -749,7 +749,7 @@
                                                                     <div class="form-group">
                                                                         <label class="col-sm-3 control-label"><?php echo $text_banner_overlay; ?><br /><a class="overlay_list"><small><?php echo $text_view_overlays; ?></small></a></label>
                                                                         <div class="col-sm-9">
-                                                                            <textarea name="columns[<?php echo $column_row; ?>][data1][<?php echo $language['language_id']; ?>]" class="form-control content-block template-reciever-<?php echo $column_row; ?>-1"><?php echo isset($column['data1'][$language['language_id']]) ? $column['data1'][$language['language_id']] : ''; ?></textarea>
+                                                                            <textarea name="columns[<?php echo $column_row; ?>][data1][<?php echo $language['language_id']; ?>]" class="form-control content-block template-receiver-<?php echo $column_row; ?>-1"><?php echo isset($column['data1'][$language['language_id']]) ? $column['data1'][$language['language_id']] : ''; ?></textarea>
 
                                                                         </div>
                                                                     </div>
@@ -812,7 +812,7 @@
                                                                             <div class="form-group">
                                                                                 <label class="col-sm-3 control-label"><?php echo $text_banner_overlay; ?><br /><a class="overlay_list"><small><?php echo $text_view_overlays; ?></small></a></label>
                                                                                 <div class="col-sm-9">
-                                                                                    <textarea name="columns[<?php echo $column_row; ?>][data3][<?php echo $language['language_id']; ?>]" class="form-control content-block template-reciever-<?php echo $column_row; ?>-2"><?php echo isset($column['data3'][$language['language_id']]) ? $column['data3'][$language['language_id']] : ''; ?></textarea>
+                                                                                    <textarea name="columns[<?php echo $column_row; ?>][data3][<?php echo $language['language_id']; ?>]" class="form-control content-block template-receiver-<?php echo $column_row; ?>-2"><?php echo isset($column['data3'][$language['language_id']]) ? $column['data3'][$language['language_id']] : ''; ?></textarea>
 
                                                                                 </div>
                                                                             </div>
@@ -974,7 +974,7 @@
                     html += '<div class="form-group">';
                     html += '<label class="col-sm-3 control-label"><?php echo $text_html_content; ?><br /><a id="enable_editor-' + column_row + '-<?php echo $language['language_id']; ?>-1"  class="editor-link-' + column_row + '-1" onclick="enable_editor(' + column_row + ', <?php echo $language['language_id']; ?>,1);"><small><?php echo $text_enable_editor; ?></small></a><br /><a class="icon_list"><small><?php echo $text_view_icons; ?></small></a><br><a class="shortcode_list"><small><?php echo $text_view_shortcodes; ?></small></a></label>';
                     html += '<div class="col-sm-9">';
-                    html += '<textarea name="columns[' + column_row + '][data1][<?php echo $language['language_id']; ?>]" id="textarea-' + column_row + '-<?php echo $language['language_id']; ?>-1" class="form-control content-block template-reciever-' + column_row + '-1"></textarea>';
+                    html += '<textarea name="columns[' + column_row + '][data1][<?php echo $language['language_id']; ?>]" id="textarea-' + column_row + '-<?php echo $language['language_id']; ?>-1" class="form-control content-block template-receiver-' + column_row + '-1"></textarea>';
                     html += '</div>';
                     html += '</div>';
                     html += '</div>';
@@ -1027,7 +1027,7 @@
                     html += '<div class="form-group">';
                     html += '<label class="col-sm-3 control-label"><?php echo $text_banner_overlay; ?><br /><a class="overlay_list"><small><?php echo $text_view_overlays; ?></small></a></label>';
                     html += '<div class="col-sm-9">';
-                    html += '<textarea name="columns[' + column_row + '][data1][<?php echo $language['language_id']; ?>]" id="textarea-' + column_row + '-<?php echo $language['language_id']; ?>-1" class="form-control content-block template-reciever-' + column_row + '-1"></textarea>';
+                    html += '<textarea name="columns[' + column_row + '][data1][<?php echo $language['language_id']; ?>]" id="textarea-' + column_row + '-<?php echo $language['language_id']; ?>-1" class="form-control content-block template-receiver-' + column_row + '-1"></textarea>';
                     html += '</div>';
                     html += '</div>';
                     html += '</div>';
@@ -1091,7 +1091,7 @@
                 $('#textarea-' + column_row + '-<?php echo $language['language_id']; ?>-' + number + '').summernote('destroy');
             <?php } ?>
             $('.editor-link-' + column_row + '-' + number + '').text('<?php echo $text_enable_editor; ?>').removeClass('show');
-            $('.template-reciever-' + column_row + '-' + number + '').val(template);
+            $('.template-receiver-' + column_row + '-' + number + '').val(template);
 
         }
         // Set column width
@@ -1213,7 +1213,7 @@
                 html += '<div class="form-group">';
                 html += '<label class="col-sm-3 control-label"><?php echo $text_banner_overlay; ?><br /><a class="overlay_list"><small><?php echo $text_view_overlays; ?></small></a></label>';
                 html += '<div class="col-sm-9">';
-                html += '<textarea name="columns[' + column_row + '][data3][<?php echo $language['language_id']; ?>]" id="textarea-' + column_row + '-<?php echo $language['language_id']; ?>-2" class="form-control content-block template-reciever-' + column_row + '-2"></textarea>';
+                html += '<textarea name="columns[' + column_row + '][data3][<?php echo $language['language_id']; ?>]" id="textarea-' + column_row + '-<?php echo $language['language_id']; ?>-2" class="form-control content-block template-receiver-' + column_row + '-2"></textarea>';
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';

@@ -118,6 +118,36 @@ if ($this->config->get('oxyo_footer_columns')) {
     }
 }
 
+// Menu Management
+$data['primary_menu'] = $this->config->get('primary_menu');
+$data['secondary_menu'] = $this->config->get('secondary_menu');
+if (($this->config->get('primary_menu') > 0) || ($this->config->get('secondary_menu') > 0)) {
+    $data['button_cart'] = $this->language->get('button_cart');
+    $data['button_wishlist'] = $this->language->get('button_wishlist');
+    $data['button_compare'] = $this->language->get('button_compare');
+    $data['oxyo_button_quickview'] = $this->language->get('oxyo_button_quickview');
+    $data['oxyo_text_sale'] = $this->language->get('oxyo_text_sale');
+    $data['oxyo_text_new'] = $this->language->get('oxyo_text_new');
+    $data['oxyo_text_days'] = $this->language->get('oxyo_text_days');
+    $data['oxyo_text_hours'] = $this->language->get('oxyo_text_hours');
+    $data['oxyo_text_mins'] = $this->language->get('oxyo_text_mins');
+    $data['oxyo_text_secs'] = $this->language->get('oxyo_text_secs');
+    $data['text_back'] = $this->language->get('text_back');
+    $data['countdown_status'] = $this->config->get('countdown_status');
+    $data['salebadge_status'] = $this->config->get('salebadge_status');
+    $this->load->model('extension/oxyo/oxyo_megamenu');
+    $data['lang_id'] = $this->config->get('config_language_id');
+    $data['logo_max_width'] = $this->config->get('logo_max_width');
+}
+if ($this->config->get('primary_menu') > 0) {
+    $data['primary_menu_desktop'] = $this->model_extension_oxyo_oxyo_megamenu->getMenu($this->config->get('primary_menu'), $mobile = false);
+    $data['primary_menu_mobile'] = $this->model_extension_oxyo_oxyo_megamenu->getMenu($this->config->get('primary_menu'), $mobile = true);
+}
+if ($this->config->get('secondary_menu') > 0) {
+    $data['secondary_menu_desktop'] = $this->model_extension_oxyo_oxyo_megamenu->getMenu($this->config->get('secondary_menu'), $mobile = false);
+    $data['secondary_menu_mobile'] = $this->model_extension_oxyo_oxyo_megamenu->getMenu($this->config->get('secondary_menu'), $mobile = true);
+}
+
 // Payment icon
 if ($this->request->server['HTTPS']) {
     $server = $this->config->get('config_ssl');

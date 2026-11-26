@@ -297,6 +297,19 @@
         {% endif %}        
         {% if contact_array is defined %}
             <ul class="categories">
+                {% for contact in contact_array %}        
+                    {% if (contact['name'] == 'main_phone') %}
+                        <li>
+                            <a href="{{contact.link}}" class="contact-item" target="_blank">
+                                {{ contact.value }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}      
+        {% if contact_array is defined %}
+            <ul class="categories">
                 {% for contact in contact_array %}
                     {% if (contact['name'] == 'callback' and contact['value'] != '') %}
                         <li>
@@ -311,18 +324,6 @@
         {% if contact_array is defined %}
             <ul class="categories">
                 {% for contact in contact_array %}
-                    {% if (contact['name'] == 'main_phone') %}
-                        <li>
-                            <a href="{{contact.link}}" class="contact-item" target="_blank">
-                                {% if contact.icon != '' %}
-                                    {{ contact.icon }}
-                                {% elseif contact.icon_svg != '' %}
-                                    {{ contact.icon_svg }}
-                                {% endif %}
-                                <span class="d-none d-sm-block">{{ contact.value }}</span>
-                            </a>
-                        </li>
-                    {% endif %}
                     {% if (contact['name'] == 'whatsapp' or contact['name'] == 'telegram' or contact['name'] == 'vkontakte' or contact['name'] == 'avito' or contact['name'] == 'instagram' or contact['name'] == 'tiktok' or contact['name'] == 'max' ) %}
                         <li>
                             <a href="{{contact.link}}" class="contact-item" target="_blank">
@@ -339,20 +340,3 @@
         {% endif %}
     </div>
 </div>
-<span class="body-cover menu-closer"></span>
-<script>
-    function openChild(e) {
-        // console.log(e.target);
-        e.preventDefault();
-        let parent = e.target.parentElement;
-        while (!parent.classList.contains('has-sub')) {
-            parent = parent.parentElement;
-            if (parent.classList.contains('categories')) {
-                console.log('no parent');
-                return;
-            }
-        }
-        console.log(parent);
-        parent.classList.toggle('open-child');
-    }
-</script>

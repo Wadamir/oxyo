@@ -72,13 +72,30 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.dropdown_mobile h5').forEach(function (title) {
+    document.querySelectorAll('.dropdown_mobile h3').forEach(function (title) {
         title.addEventListener('click', function () {
             let dropdownMobile = this.parentElement;
             dropdownMobile.classList.toggle('opened');
         });
     });
 });
+
+
+function openChild(e) {
+    console.log(e.target);
+    e.preventDefault();
+    let parent = e.target.parentElement;
+    while (!parent.classList.contains('has-sub')) {
+        parent = parent.parentElement;
+        if (parent.classList.contains('categories')) {
+            console.log('no parent');
+            return;
+        }
+    }
+    console.log(parent);
+    parent.classList.toggle('open-child');
+}
+
 
 function getURLVar(key) {
     var value = [];
@@ -718,7 +735,7 @@ var cart = {
                     html += '<div class="table-cell v-top">' + json['success'] + '</div>';
                     html += '</div>';
                     html += '</div>';
-                    html += '<div class="p-2 pt-0 text-center"><a href="index.php?route=checkout/cart" class="btn btn-sm btn-contrast">' + json['text_cart'] + '</a></div>';                    
+                    html += '<div class="p-2 pt-0 text-center"><a href="index.php?route=checkout/cart" class="btn btn-sm btn-contrast">' + json['text_cart'] + '</a></div>';
                     html += '</div>';
                     $('body').append(html);
                     setTimeout(function () {
@@ -738,10 +755,10 @@ var cart = {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(
                     thrownError +
-                        '\r\n' +
-                        xhr.statusText +
-                        '\r\n' +
-                        xhr.responseText,
+                    '\r\n' +
+                    xhr.statusText +
+                    '\r\n' +
+                    xhr.responseText,
                 );
             },
         });
@@ -763,10 +780,10 @@ var cart = {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(
                     thrownError +
-                        '\r\n' +
-                        xhr.statusText +
-                        '\r\n' +
-                        xhr.responseText,
+                    '\r\n' +
+                    xhr.statusText +
+                    '\r\n' +
+                    xhr.responseText,
                 );
             },
         });
@@ -806,10 +823,10 @@ var cart = {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(
                     thrownError +
-                        '\r\n' +
-                        xhr.statusText +
-                        '\r\n' +
-                        xhr.responseText,
+                    '\r\n' +
+                    xhr.statusText +
+                    '\r\n' +
+                    xhr.responseText,
                 );
             },
         });
@@ -817,7 +834,7 @@ var cart = {
 };
 
 var voucher = {
-    add: function () {},
+    add: function () { },
     remove: function (key) {
         $.ajax({
             url: 'index.php?route=checkout/cart/remove',
@@ -831,10 +848,10 @@ var voucher = {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(
                     thrownError +
-                        '\r\n' +
-                        xhr.statusText +
-                        '\r\n' +
-                        xhr.responseText,
+                    '\r\n' +
+                    xhr.statusText +
+                    '\r\n' +
+                    xhr.responseText,
                 );
             },
         });
@@ -883,15 +900,15 @@ var wishlist = {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(
                     thrownError +
-                        '\r\n' +
-                        xhr.statusText +
-                        '\r\n' +
-                        xhr.responseText,
+                    '\r\n' +
+                    xhr.statusText +
+                    '\r\n' +
+                    xhr.responseText,
                 );
             },
         });
     },
-    remove: function () {},
+    remove: function () { },
 };
 
 var compare = {
@@ -935,15 +952,15 @@ var compare = {
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(
                     thrownError +
-                        '\r\n' +
-                        xhr.statusText +
-                        '\r\n' +
-                        xhr.responseText,
+                    '\r\n' +
+                    xhr.statusText +
+                    '\r\n' +
+                    xhr.responseText,
                 );
             },
         });
     },
-    remove: function () {},
+    remove: function () { },
 };
 
 /* Agree to Terms */
@@ -987,7 +1004,7 @@ var contact_form_send = function (form_id) {
             $('#mail_form' + form_id + ' .captchaimg').attr(
                 'src',
                 'index.php?route=extension/oxyo/oxyo_features/oxyo_captcha#' +
-                    new Date().getTime(),
+                new Date().getTime(),
             );
             $('#mail_form' + form_id + " input[name='captcha']").val('');
         },
@@ -1001,8 +1018,8 @@ var contact_form_send = function (form_id) {
             if (json['success']) {
                 $('#mail_form' + form_id + ' .respond').html(
                     '<p class="alert alert-success">' +
-                        json['success'] +
-                        '</p>',
+                    json['success'] +
+                    '</p>',
                 );
                 $('#mail_form' + form_id + ' input').val('');
                 $('#mail_form' + form_id + ' textarea').val('');

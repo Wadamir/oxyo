@@ -482,6 +482,12 @@ if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_s
     $mandatory_css_xl = '';
     $mandatory_css_sticky = '';
 
+    $height_full_xs = 0;
+    $height_full_md = 0;
+    $height_full_lg = 0;
+    $height_full_xl = 0;
+    $height_full_sticky = 0;
+
     foreach ($values as $key => $value) {
         if ($value === '' || $value === null || !preg_match('/^(header|menu)_height_(xs|md|lg|xl|sticky)$/', $key, $matches)) {
             continue;
@@ -495,25 +501,41 @@ if ($this->cache->get('oxyo_mandatory_css_store_' . $this->config->get('config_s
         $type = $matches[1];
         $point = $matches[2];
         $height = (float)$value . 'px';
-
         if ($type === 'header') {
             if ($point === 'sticky') {
                 $mandatory_css_sticky .= '.sticky-enabled.sticky-active .sticky-header .header-main, .sticky-enabled.sticky-active .sticky-header #logo > a > img,.sticky-enabled.sticky-active .sticky-header .sign-in {line-height:' . $height . ';height:' . $height . ";}\n";
-                $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu-wrapper {top: ' . $height . ";}\n";
+                // $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu-wrapper {top: ' . $height . ";}\n";
+                $height_full_sticky = $value;
             } else {
                 $mandatory_css_var = 'mandatory_css_' . $point;
+                $height_full_var = 'height_full_' . $point;
                 ${$mandatory_css_var} .= '.header-main, .header-main .sign-in, #logo > a > img {line-height:' . $height . ';height:' . $height . ";}\n";
-                ${$mandatory_css_var} .= '.main-menu-wrapper {top: ' . $height . ";}\n";
+                // ${$mandatory_css_var} .= '.main-menu-wrapper {top: ' . $height . ";}\n";
+                ${$height_full_var} = $value;
             }
         } elseif ($point === 'sticky') {
             $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li {line-height:' . $height . '; height:' . $height . ";}\n";
-            $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li.has-sub > .sub-holder {top:' . $height . ";}\n";
+            // $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-menu:not(.vertical) > ul > li.has-sub > .sub-holder {top:' . $height . ";}\n";
+            $height_full_sticky += $value;
         } else {
             $mandatory_css_var = 'mandatory_css_' . $point;
+            $height_full_var = 'height_full_' . $point;
             ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul > li {line-height:' . $height . '; height:' . $height . ";}\n";
-            ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul > li.has-sub > .sub-holder {top:' . $height . ";}\n";
+            // ${$mandatory_css_var} .= '.main-menu:not(.vertical) > ul > li.has-sub > .sub-holder {top:' . $height . ";}\n";
+            ${$mandatory_css_var} .= '.main-menu>ul>li.has-full-width .full-width-dropdown {top:' . $height . ";}\n";
+            if ($point != 'xs') {
+                ${$height_full_var} += $value;
+            }
         }
     }
+
+    // Set the main wrapper height to the combined header and menu height.
+    $mandatory_css_xs .= '.main-wrapper{padding-top:' . $height_full_xs . "px;}\n";
+    $mandatory_css_md .= '.main-wrapper{padding-top:' . $height_full_md . "px;}\n";
+    $mandatory_css_lg .= '.main-wrapper{padding-top:' . $height_full_lg . "px;}\n";
+    $mandatory_css_xl .= '.main-wrapper{padding-top:' . $height_full_xl . "px;}\n";
+    $mandatory_css_sticky .= '.sticky-enabled.sticky-active .main-wrapper{padding-top:' . $height_full_sticky . "px;}\n";
+
     // var_dump($mandatory_css_xs);
     // var_dump($mandatory_css_md);
     // var_dump($mandatory_css_lg);
@@ -698,31 +720,31 @@ if ($this->config->get('oxyo_typo_status')) {
     }
     $this->document->addStyle('//fonts.googleapis.com/css?family=' . $font_list);
     if ($this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'))) {
-        $data['oxyo_fonts_cache'] = $this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'));
+        // $data['oxyo_fonts_cache'] = $this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'));
     } else {
-        $font_styles = 'body,.product-name.main-font,.gridlist .single-product .product-name,.gridlist .single-blog .blog-title,#bc-h1-holder #page-title {font-family:' . $this->config->get('body_font_fam') . ";}\n";
-        if (!$this->config->get('body_font_italic_status')) {
-            $font_styles .= ".header-main .sign-in .anim-underline,.special_countdown p,.blog .blog_stats i,label i,.cm_item i {font-style:normal;}\n";
-        }
-        $font_styles .= 'b, strong, .nav-tabs > li > a, #cart-content .totals tbody > tr:last-child > td, .main-menu .dropdown-inner .static-menu > ul > li.has-sub > a, .main-menu.vertical > ul > li > a, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td.total-cell, .table-bordered.totals tbody > tr:last-child > td:last-child, .compare-table table tbody tr td:first-child, .totals-slip .table-holder table tr:last-child td, .panel-group .panel-heading .panel-title, .badge i, .product-style1 .grid .single-product .price-wrapper .btn-outline, .options .name label, .dropdown-inner h4.column-title, .product-style6 .grid .single-product .price, .product-style6 .single-product .btn-contrast {font-weight:' . $this->config->get('body_font_bold_weight') . ";}\n";
-        $font_styles .= '.product-name, .blog-title, .product-h1 h1, .contrast-heading, .contrast-font {font-family:' . $this->config->get('contrast_font_fam') . ";}\n";
-        $font_styles .= '.promo-style-2 h3, .promo-style-4 h3,.table-bordered > tbody > tr > td.price-cell,.grid .single-product .price,.menu-product .sale-counter div,.table.specification > tbody > tr > td b, .bordered-list-title {font-size:' . $this->config->get('body_font_size_16') . ";}\n";
-        $font_styles .= '.table.products .remove,.full-search-wrapper .search-category select,.blog_post .blog_comment,.video-jumbotron p,.compare-table table tbody tr td:first-child,.grid .single-product .product-name,.grid .single-product .product-name:hover,.list .single-product .product-name {font-size:' . $this->config->get('body_font_size_15') . ";}\n";
-        $font_styles .= 'body,input,textarea,select,.form-control,.icon-element,.main-menu > ul > li,.grid-holder .item,.cm_content .cm_item,.instruction-box .caption a,.btn,a.button,input.button,button.button,a.button-circle,.single-product .price .price-old,.special_countdown p,.list .item.single-product .price-tax, .form-control,label,.icon-element {font-size:' . $this->config->get('body_font_size_14') . ";}\n";
-        $font_styles .= 'small,.form-control.input-sm,.shortcut-wrapper,.header5 .links > ul > li > a,.header5 .setting-ul > .setting-li > a,.breadcrumb,.sign-up-field .sign-up-respond span,.badge i,.special_countdown div i,.top_line {font-size:' . $this->config->get('body_font_size_13') . ";}\n";
-        $font_styles .= '.tooltip,.links ul > li > a,.setting-ul > .setting-li > a,.table.products .product-name,#cart-content .totals, .main-menu.vertical > ul > li > a,.single-blog .banner_wrap .tags a,.bordered-list a {font-size:' . $this->config->get('body_font_size_12') . ";}\n";
-        $font_styles .= 'h1, h2, h3, h4, h5, h6 {font-family:' . $this->config->get('headings_fam') . ';font-weight:' . $this->config->get('headings_weight') . ";}\n";
-        $font_styles .= '.panel-group .panel-heading .panel-title, legend {font-size:' . $this->config->get('headings_size_sm') . ";}\n";
-        $font_styles .= '.title_in_bc .login-area h2, .panel-body h2, h3.lined-title.lg, .grid1 .single-blog .blog-title, .grid2 .single-blog .blog-title {font-size:' . $this->config->get('headings_size_lg') . ";}\n";
-        $font_styles .= 'h1, .product-info .table-cell.right h1#page-title {font-family:' . $this->config->get('h1_inline_fam') . ';font-size:' . $this->config->get('h1_inline_size') . ';font-weight:' . $this->config->get('h1_inline_weight') . ';text-transform:' . $this->config->get('h1_inline_trans') . ';letter-spacing:' . $this->config->get('h1_inline_ls') . ";}\n";
-        $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder {font-family:' . $this->config->get('h1_breadcrumb_fam') . ";}\n";
+        // $font_styles = 'body,.product-name.main-font,.gridlist .single-product .product-name,.gridlist .single-blog .blog-title,#bc-h1-holder #page-title {font-family:' . $this->config->get('body_font_fam') . ";}\n";
+        // if (!$this->config->get('body_font_italic_status')) {
+        //     $font_styles .= ".header-main .sign-in .anim-underline,.special_countdown p,.blog .blog_stats i,label i,.cm_item i {font-style:normal;}\n";
+        // }
+        // $font_styles .= 'b, strong, .nav-tabs > li > a, #cart-content .totals tbody > tr:last-child > td, .main-menu .dropdown-inner .static-menu > ul > li.has-sub > a, .main-menu.vertical > ul > li > a, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td.total-cell, .table-bordered.totals tbody > tr:last-child > td:last-child, .compare-table table tbody tr td:first-child, .totals-slip .table-holder table tr:last-child td, .panel-group .panel-heading .panel-title, .badge i, .product-style1 .grid .single-product .price-wrapper .btn-outline, .options .name label, .dropdown-inner h4.column-title, .product-style6 .grid .single-product .price, .product-style6 .single-product .btn-contrast {font-weight:' . $this->config->get('body_font_bold_weight') . ";}\n";
+        // $font_styles .= '.product-name, .blog-title, .product-h1 h1, .contrast-heading, .contrast-font {font-family:' . $this->config->get('contrast_font_fam') . ";}\n";
+        // $font_styles .= '.promo-style-2 h3, .promo-style-4 h3,.table-bordered > tbody > tr > td.price-cell,.grid .single-product .price,.menu-product .sale-counter div,.table.specification > tbody > tr > td b, .bordered-list-title {font-size:' . $this->config->get('body_font_size_16') . ";}\n";
+        // $font_styles .= '.table.products .remove,.full-search-wrapper .search-category select,.blog_post .blog_comment,.video-jumbotron p,.compare-table table tbody tr td:first-child,.grid .single-product .product-name,.grid .single-product .product-name:hover,.list .single-product .product-name {font-size:' . $this->config->get('body_font_size_15') . ";}\n";
+        // $font_styles .= 'body,input,textarea,select,.form-control,.icon-element,.main-menu > ul > li,.grid-holder .item,.cm_content .cm_item,.instruction-box .caption a,.btn,a.button,input.button,button.button,a.button-circle,.single-product .price .price-old,.special_countdown p,.list .item.single-product .price-tax, .form-control,label,.icon-element {font-size:' . $this->config->get('body_font_size_14') . ";}\n";
+        // $font_styles .= 'small,.form-control.input-sm,.shortcut-wrapper,.header5 .links > ul > li > a,.header5 .setting-ul > .setting-li > a,.breadcrumb,.sign-up-field .sign-up-respond span,.badge i,.special_countdown div i,.top_line {font-size:' . $this->config->get('body_font_size_13') . ";}\n";
+        // $font_styles .= '.tooltip,.links ul > li > a,.setting-ul > .setting-li > a,.table.products .product-name,#cart-content .totals, .main-menu.vertical > ul > li > a,.single-blog .banner_wrap .tags a,.bordered-list a {font-size:' . $this->config->get('body_font_size_12') . ";}\n";
+        // $font_styles .= 'h1, h2, h3, h4, h5, h6 {font-family:' . $this->config->get('headings_fam') . ';font-weight:' . $this->config->get('headings_weight') . ";}\n";
+        // $font_styles .= '.panel-group .panel-heading .panel-title, legend {font-size:' . $this->config->get('headings_size_sm') . ";}\n";
+        // $font_styles .= '.title_in_bc .login-area h2, .panel-body h2, h3.lined-title.lg, .grid1 .single-blog .blog-title, .grid2 .single-blog .blog-title {font-size:' . $this->config->get('headings_size_lg') . ";}\n";
+        // $font_styles .= 'h1, .product-info .table-cell.right h1#page-title {font-family:' . $this->config->get('h1_inline_fam') . ';font-size:' . $this->config->get('h1_inline_size') . ';font-weight:' . $this->config->get('h1_inline_weight') . ';text-transform:' . $this->config->get('h1_inline_trans') . ';letter-spacing:' . $this->config->get('h1_inline_ls') . ";}\n";
+        // $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder {font-family:' . $this->config->get('h1_breadcrumb_fam') . ";}\n";
 
-        $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.tall_height_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.extra_tall_height_bc .breadcrumb-holder #title-holder #page-title {font-size:' . $this->config->get('h1_breadcrumb_size') . ';font-weight:' . $this->config->get('h1_breadcrumb_weight') . ';text-transform:' . $this->config->get('h1_breadcrumb_trans') . ';letter-spacing:' . $this->config->get('h1_breadcrumb_ls') . ";}\n";
-        $font_styles .= '.widget .widget-title .main-title {font-family:' . $this->config->get('widget_lg_fam') . ';font-size:' . $this->config->get('widget_lg_size') . ';font-weight:' . $this->config->get('widget_lg_weight') . ';text-transform:' . $this->config->get('widget_lg_trans') . ';letter-spacing:' . $this->config->get('widget_lg_ls') . ";}\n";
-        $font_styles .= '.lang-curr-wrapper h4, .column .widget .widget-title .main-title, #footer h5, .dropdown-inner h4.column-title b, .blog_post .section-title {font-family:' . $this->config->get('widget_sm_fam') . ';font-size:' . $this->config->get('widget_sm_size') . ';font-weight:' . $this->config->get('widget_sm_weight') . ';text-transform:' . $this->config->get('widget_sm_trans') . ';letter-spacing:' . $this->config->get('widget_sm_ls') . ";}\n";
-        $font_styles .= '.main-menu:not(.vertical) > ul > li > a > .top {font-family:' . $this->config->get('menu_font_fam') . ';font-size:' . $this->config->get('menu_font_size') . ';font-weight:' . $this->config->get('menu_font_weight') . ';text-transform:' . $this->config->get('menu_font_trans') . ';letter-spacing:' . $this->config->get('menu_font_ls') . ";}\n";
-        $this->cache->set('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'), $font_styles);
-        $data['oxyo_fonts_cache'] = $this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'));
+        // $font_styles .= '.title_in_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.tall_height_bc .breadcrumb-holder #title-holder #page-title, .title_in_bc.extra_tall_height_bc .breadcrumb-holder #title-holder #page-title {font-size:' . $this->config->get('h1_breadcrumb_size') . ';font-weight:' . $this->config->get('h1_breadcrumb_weight') . ';text-transform:' . $this->config->get('h1_breadcrumb_trans') . ';letter-spacing:' . $this->config->get('h1_breadcrumb_ls') . ";}\n";
+        // $font_styles .= '.widget .widget-title .main-title {font-family:' . $this->config->get('widget_lg_fam') . ';font-size:' . $this->config->get('widget_lg_size') . ';font-weight:' . $this->config->get('widget_lg_weight') . ';text-transform:' . $this->config->get('widget_lg_trans') . ';letter-spacing:' . $this->config->get('widget_lg_ls') . ";}\n";
+        // $font_styles .= '.lang-curr-wrapper h4, .column .widget .widget-title .main-title, #footer h5, .dropdown-inner h4.column-title b, .blog_post .section-title {font-family:' . $this->config->get('widget_sm_fam') . ';font-size:' . $this->config->get('widget_sm_size') . ';font-weight:' . $this->config->get('widget_sm_weight') . ';text-transform:' . $this->config->get('widget_sm_trans') . ';letter-spacing:' . $this->config->get('widget_sm_ls') . ";}\n";
+        // $font_styles .= '.main-menu:not(.vertical) > ul > li > a > .top {font-family:' . $this->config->get('menu_font_fam') . ';font-size:' . $this->config->get('menu_font_size') . ';font-weight:' . $this->config->get('menu_font_weight') . ';text-transform:' . $this->config->get('menu_font_trans') . ';letter-spacing:' . $this->config->get('menu_font_ls') . ";}\n";
+        // $this->cache->set('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'), $font_styles);
+        // $data['oxyo_fonts_cache'] = $this->cache->get('oxyo_fonts_cache_store_' . $this->config->get('config_store_id'));
     }
 } else {
     $this->document->addStyle('//fonts.googleapis.com/css?family=Karla:400,400i,700,700i%7CLora:400,400i');
