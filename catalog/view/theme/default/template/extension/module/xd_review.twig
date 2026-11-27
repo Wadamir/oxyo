@@ -1,0 +1,68 @@
+<link href="catalog/view/theme/default/stylesheet/xd_review.css" rel="stylesheet">
+<div class="panel panel-default xd-review-widget" data-error-request="{{ error_request }}">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ heading_title }}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="xd-review-list">{{ review_list }}</div>
+        <div class="alert alert-dismissible xd-review-message" style="display: none;"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".xd-review-swiper").each(function () {
+            var $swiper = $(this);
+            $swiper.swiper({
+                mode: "horizontal",
+                slidesPerView: 3,
+                spaceBetween: 20,
+                autoplay: 5000,
+                autoplayDisableOnInteraction: false,
+                loop: true,
+                nextButton: $swiper.parent().find(".xd-review-swiper-button-next"),
+                prevButton: $swiper.parent().find(".xd-review-swiper-button-prev"),
+                breakpoints: {
+                    767: {
+                        slidesPerView: 1
+                    },
+                    991: {
+                        slidesPerView: 2
+                    },
+                    1199: {
+                        slidesPerView: 3
+                    }
+                }
+            });
+        });
+    });
+    (function ($) {
+        $(".xd-review-widget").each(function () {
+            var $widget = $(this);
+
+            $widget.on("click", ".xd-review-list .pagination a", function (event) {
+                event.preventDefault();
+                var $list = $widget.find(".xd-review-list");
+                var url = this.href;
+
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    dataType: "html",
+                    cache: false,
+                    success: function (html) {
+                        $list.html(html);
+                    },
+                    error: function () {
+                        $widget
+                            .find(".xd-review-message")
+                            .removeClass("alert-success")
+                            .addClass("alert-danger")
+                            .text($widget.data("error-request"))
+                            .show();
+                    },
+                });
+            });
+
+        });
+    })(jQuery);
+</script>

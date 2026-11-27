@@ -1,0 +1,25 @@
+<?php
+$_['heading_title'] = 'Reviews for %s';
+$_['text_all_reviews'] = 'Product reviews';
+$_['text_write'] = 'Write a review';
+$_['text_note'] = 'Minimum %s characters, maximum 1000. HTML is not supported.';
+$_['text_login'] = 'Please <a href="%s">log in</a> or <a href="%s">register</a> to write a review.';
+$_['text_no_reviews'] = 'There are no reviews for this product yet.';
+$_['text_success_pending'] = 'Thank you! Your review will appear after it is approved.';
+$_['text_success_published'] = 'Thank you! Your review has been published.';
+$_['text_email_published'] = 'A new product review was published automatically.';
+$_['entry_name'] = 'Your name';
+$_['entry_review'] = 'Your review';
+$_['entry_rating'] = 'Rating';
+$_['entry_bad'] = 'Bad';
+$_['entry_good'] = 'Good';
+$_['button_submit'] = 'Submit review';
+$_['text_loading'] = 'Submitting...';
+$_['error_disabled'] = 'Review submission is disabled.';
+$_['error_product'] = 'Product not found.';
+$_['error_login'] = 'Please log in to write a review.';
+$_['error_method'] = 'Unable to submit the review.';
+$_['error_request'] = 'Could not contact the server. Please try again.';
+$_['error_name'] = 'Name must be between 3 and 25 characters.';
+$_['error_text'] = 'Review must be between %s and 1000 characters.';
+$_['error_rating'] = 'Select a rating from 1 to 5.';

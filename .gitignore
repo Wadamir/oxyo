@@ -695,3 +695,16 @@
 /catalog/view/theme/default/stylesheet/xd_flat_shipping.css
 
 !/system/xd_flat.ocmod.xml
+
+# XD Review module files
+!/admin/controller/extension/module/xd_review.php
+!/admin/language/en-gb/extension/module/xd_review.php
+!/admin/language/ru-ru/extension/module/xd_review.php
+!/admin/view/template/extension/module/xd_review.twig
+!/catalog/controller/extension/module/xd_review.php
+!/catalog/language/en-gb/extension/module/xd_review.php
+!/catalog/language/ru-ru/extension/module/xd_review.php
+!/catalog/model/extension/module/xd_review.php
+!/catalog/view/theme/default/stylesheet/xd_review.css
+!/catalog/view/theme/default/template/extension/module/xd_review.twig
+!/catalog/view/theme/default/template/extension/module/xd_review_list.twig
